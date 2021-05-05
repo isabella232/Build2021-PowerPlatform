@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<optionset Name="cat_voicerateplanrequirements" localizedName="VoiceRatePlanRequirements" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <OptionSetType>picklist</OptionSetType>
+  <IsGlobal>1</IsGlobal>
+  <IntroducedVersion>1.0.0.1</IntroducedVersion>
+  <IsCustomizable>1</IsCustomizable>
+  <displaynames>
+    <displayname description="VoiceRatePlanRequirements" languagecode="1033" />
+  </displaynames>
+  <Descriptions>
+    <Description description="" languagecode="1033" />
+  </Descriptions>
+  <options>
+    <option value="809060000">
+      <labels>
+        <label description="N/A" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060001">
+      <labels>
+        <label description="Magenta" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060002">
+      <labels>
+        <label description="Magenta Military" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060003">
+      <labels>
+        <label description="Magenta No Credit Check" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060004">
+      <labels>
+        <label description="Magenta Plus" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060005">
+      <labels>
+        <label description="Magenta Plus Military" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060006">
+      <labels>
+        <label description="Magenta Plus UNL 55+" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060007">
+      <labels>
+        <label description="Magenta UNL 55+" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060008">
+      <labels>
+        <label description="No Specific Plan Required" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060009">
+      <labels>
+        <label description="Prepaid" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060010">
+      <labels>
+        <label description="Business Unlimited" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060011">
+      <labels>
+        <label description="Simple Choice w/UNL High Speed" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060012">
+      <labels>
+        <label description="Business Unlimited Plus" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060013">
+      <labels>
+        <label description="Gov't Unlimited" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060014">
+      <labels>
+        <label description="TMO Essentials" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060015">
+      <labels>
+        <label description="TMO ONE (TI/TE)" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060016">
+      <labels>
+        <label description="TMO ONE Military" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060017">
+      <labels>
+        <label description="TMO ONE Military w/ONE+ Family" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060018">
+      <labels>
+        <label description="TMO ONE No Credit Check" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060019">
+      <labels>
+        <label description="TMO ONE UNL 55+" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060020">
+      <labels>
+        <label description="TMO ONE UNL 55+ w/ONE+Family" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060021">
+      <labels>
+        <label description="Magenta First Responder" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060022">
+      <labels>
+        <label description="Magenta Plus First Responder" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060023">
+      <labels>
+        <label description="Gov't Unlimited Plus" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560000">
+      <labels>
+        <label description="Magenta Wearable" languagecode="1033" />
+      </labels>
+    </option>
+  </options>
+</optionset>

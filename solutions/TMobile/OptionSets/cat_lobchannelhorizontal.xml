@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<optionset Name="cat_lobchannelhorizontal" localizedName="LOBChannelHorizontal" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <OptionSetType>picklist</OptionSetType>
+  <IsGlobal>1</IsGlobal>
+  <IntroducedVersion>1.0.0.24</IntroducedVersion>
+  <IsCustomizable>1</IsCustomizable>
+  <displaynames>
+    <displayname description="LOBChannelHorizontal" languagecode="1033" />
+  </displaynames>
+  <Descriptions>
+    <Description description="" languagecode="1033" />
+  </Descriptions>
+  <options>
+    <option value="809060000">
+      <labels>
+        <label description="Advertising &amp; Data" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060001">
+      <labels>
+        <label description="Back Office" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060002">
+      <labels>
+        <label description="Field Sales" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060003">
+      <labels>
+        <label description="Care" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060004">
+      <labels>
+        <label description="Commercial" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060005">
+      <labels>
+        <label description="Device &amp; Supply Chain" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060006">
+      <labels>
+        <label description="Digital" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060007">
+      <labels>
+        <label description="Home &amp; Entertainment" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060008">
+      <labels>
+        <label description="IMO" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060009">
+      <labels>
+        <label description="Consumer Markets Postpaid" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060010">
+      <labels>
+        <label description="Marketing" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060011">
+      <labels>
+        <label description="Consumer Markets Prepaid" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060012">
+      <labels>
+        <label description="MVNO" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060013">
+      <labels>
+        <label description="T-Mobile For Business" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060014">
+      <labels>
+        <label description="Wholesale IOT &amp; M2M" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060015">
+      <labels>
+        <label description="Enterprise" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060016">
+      <labels>
+        <label description="Engineering &amp; Operations" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060017">
+      <labels>
+        <label description="Finance" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060018">
+      <labels>
+        <label description="Product &amp; Technology" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060019">
+      <labels>
+        <label description="Wholesale/MVNO" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560001">
+      <labels>
+        <label description="Emerging Business" languagecode="1033" />
+      </labels>
+    </option>
+  </options>
+</optionset>

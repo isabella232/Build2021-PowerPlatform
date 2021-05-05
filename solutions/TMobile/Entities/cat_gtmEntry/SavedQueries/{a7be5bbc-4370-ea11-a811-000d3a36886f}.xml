@@ -1,0 +1,318 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedqueries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <savedquery>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>1</CanBeDeleted>
+    <isquickfindquery>0</isquickfindquery>
+    <isprivate>0</isprivate>
+    <isdefault>0</isdefault>
+    <savedqueryid>{a7be5bbc-4370-ea11-a811-000d3a36886f}</savedqueryid>
+    <layoutxml>
+      <grid name="resultset" preview="1" icon="1" select="1" jump="cat_initiativename">
+        <row id="cat_gtmentryid" name="result">
+          <cell name="cat_activeservicerequired" width="100" />
+          <cell name="cat_actuallaunchdate" width="100" />
+          <cell name="cat_addalinetypes" width="100" />
+          <cell name="cat_additionaleligibilityrequirements" width="100" />
+          <cell name="cat_annualgaliftestimate" width="100" />
+          <cell name="cat_anticipatedvolumetakeratesdaily" width="100" />
+          <cell name="cat_anticipatedvolumetakeratestotal" width="100" />
+          <cell name="cat_audiencespecificcommunications" width="100" />
+          <cell name="cat_beneficiarylob" width="100" />
+          <cell name="cat_beneficiarylobapprover" width="100" />
+          <cell name="cat_billname" width="100" />
+          <cell name="cat_brand" width="100" />
+          <cell name="cat_businessbenefit" width="100" />
+          <cell name="cat_businessowner" width="100" />
+          <cell name="cat_calendargrouping" width="100" />
+          <cell name="cat_carrierfreedom" width="100" />
+          <cell name="cat_category" width="100" />
+          <cell name="cat_channels" width="100" />
+          <cell name="cat_committedlaunchdate" width="100" />
+          <cell name="cat_contingency" width="100" />
+          <cell name="cat_costcorebatecode" width="100" />
+          <cell name="cat_originalcreatedbyuser" width="100" />
+          <cell name="cat_originalcreatedondate" width="100" />
+          <cell name="cat_customerexperience" width="100" />
+          <cell name="cat_customerimpacting" width="100" />
+          <cell name="cat_customersegment" width="100" />
+          <cell name="cat_darkstatus" width="100" />
+          <cell name="cat_day" width="100" />
+          <cell name="stageid" width="100" />
+          <cell name="traversedpath" width="100" />
+          <cell name="cat_description" width="100" />
+          <cell name="cat_desiredexecution" width="100" />
+          <cell name="cat_desiredexecutionexplanation" width="100" />
+          <cell name="cat_detailsstillopen" width="100" />
+          <cell name="cat_devicefulfillmentinscope" width="100" />
+          <cell name="cat_devicename" width="100" />
+          <cell name="cat_deviceoem" width="100" />
+          <cell name="cat_eligibilityandexclusions" width="100" />
+          <cell name="cat_eligibilitysummary" width="100" />
+          <cell name="cat_eligibledevices" width="100" />
+          <cell name="cat_employeediscount" width="100" />
+          <cell name="cat_employeeeligible" width="100" />
+          <cell name="cat_enddate" width="100" />
+          <cell name="cat_enterprisecapitalplanning" width="100" />
+          <cell name="cat_enterprisestackedranking" width="100" />
+          <cell name="cat_estimatedlaunchdate" width="100" />
+          <cell name="cat_expectedmarketingsupport" width="100" />
+          <cell name="cat_explainaudiencespecificcommunications" width="100" />
+          <cell name="cat_explainintegratedmarketing" width="100" />
+          <cell name="cat_explaintargetaudiencesegment" width="100" />
+          <cell name="cat_forecasteddate" width="100" />
+          <cell name="cat_galifttype" width="100" />
+          <cell name="cat_getoutofthered" width="100" />
+          <cell name="cat_goalkpi" width="100" />
+          <cell name="cat_goesoncalendar" width="100" />
+          <cell name="cat_legacygtmentryid" width="100" />
+          <cell name="cat_health" width="100" />
+          <cell name="cat_incrementalliftdaily" width="100" />
+          <cell name="cat_incrementallifttotal" width="100" />
+          <cell name="cat_initiativename" width="100" />
+          <cell name="cat_initiativesubmitdate" width="100" />
+          <cell name="cat_initiativetype" width="100" />
+          <cell name="cat_initiativetypegroup" width="100" />
+          <cell name="cat_integratedmarketing" width="100" />
+          <cell name="cat_integration" width="100" />
+          <cell name="cat_investmentfund" width="100" />
+          <cell name="cat_jumpeligible" width="100" />
+          <cell name="cat_keyassumptions" width="100" />
+          <cell name="cat_keyfeatures" width="100" />
+          <cell name="cat_keyinitiative" width="100" />
+          <cell name="cat_keylaunch" width="100" />
+          <cell name="cat_lastdatetocancel" width="100" />
+          <cell name="cat_limitedtimeoffer" width="100" />
+          <cell name="cat_lobchannelhorizontal" width="100" />
+          <cell name="cat_lobstackedranking" width="100" />
+          <cell name="cat_lobstackrank" width="100" />
+          <cell name="cat_localmarket" width="100" />
+          <cell name="cat_maprestricted" width="100" />
+          <cell name="cat_market" width="100" />
+          <cell name="cat_marketingsupportneeded" width="100" />
+          <cell name="cat_mobileinternetplanrequirements" width="100" />
+          <cell name="cat_monitoring" width="100" />
+          <cell name="cat_nameofexistingproduct" width="100" />
+          <cell name="cat_numberofaddalinerequired" width="100" />
+          <cell name="cat_numberofcustomerstargeted" width="100" />
+          <cell name="cat_offerlimits" width="100" />
+          <cell name="cat_offerlimitsconsumertfb" width="100" />
+          <cell name="cat_offerlimitstfbban" width="100" />
+          <cell name="cat_offerrevisiondescription" width="100" />
+          <cell name="cat_offertype" width="100" />
+          <cell name="cat_otherbusinessbenefit" width="100" />
+          <cell name="cat_otherlaunch" width="100" />
+          <cell name="cat_otherlimitationsandexclusions" width="100" />
+          <cell name="cat_otherpromotionsnotstackable" width="100" />
+          <cell name="cat_phase" width="100" />
+          <cell name="cat_pitch" width="100" />
+          <cell name="cat_planandfeaturerequirementsbuild" width="100" />
+          <cell name="cat_positioningmessaging" width="100" />
+          <cell name="cat_prcode" width="100" />
+          <cell name="cat_preorderdate" width="100" />
+          <cell name="cat_presaledate" width="100" />
+          <cell name="cat_priority" width="100" />
+          <cell name="cat_priorityquarter" width="100" />
+          <cell name="processid" width="100" />
+          <cell name="cat_productfunctionality" width="100" />
+          <cell name="cat_productnotes" width="100" />
+          <cell name="cat_productobjectives" width="100" />
+          <cell name="cat_promocode" width="100" />
+          <cell name="cat_promodetailslocked" width="100" />
+          <cell name="cat_promoeligibilitytool" width="100" />
+          <cell name="cat_ptloeswag" width="100" />
+          <cell name="cat_purchasetypefinancing" width="100" />
+          <cell name="cat_rateplanrequirements" width="100" />
+          <cell name="cat_reasontobelieve" width="100" />
+          <cell name="cat_replacinganexistingproduct" width="100" />
+          <cell name="cat_requestedlaunchdate" width="100" />
+          <cell name="cat_shortdescription" width="100" />
+          <cell name="cat_situation" width="100" />
+          <cell name="cat_sponsor" width="100" />
+          <cell name="cat_startdate" width="100" />
+          <cell name="cat_steeringmeetingresults" width="100" />
+          <cell name="cat_strategicpillar" width="100" />
+          <cell name="cat_submittedasdraft" width="100" />
+          <cell name="cat_subphase" width="100" />
+          <cell name="cat_supportplan" width="100" />
+          <cell name="cat_systemstack" width="100" />
+          <cell name="cat_target" width="100" />
+          <cell name="cat_targetaudiencesegment" width="100" />
+          <cell name="cat_tbd" width="100" />
+          <cell name="cat_teamroles" width="100" />
+          <cell name="cat_testing" width="100" />
+          <cell name="cat_threeyearnpv" width="100" />
+          <cell name="cat_tier" width="100" />
+          <cell name="cat_totalnetaddgoals" width="100" />
+          <cell name="cat_totalofferspend" width="100" />
+          <cell name="cat_triagenotes" width="100" />
+          <cell name="cat_type" width="100" />
+          <cell name="cat_validationcheck" width="100" />
+          <cell name="cat_valueproposition" width="100" />
+          <cell name="cat_voicerateplanrequirements" width="100" />
+          <cell name="cat_wearableplanrequirements" width="100" />
+          <cell name="cat_whatisitreplacing" width="100" />
+          <cell name="cat_designprinciples" width="100" />
+        </row>
+      </grid>
+    </layoutxml>
+    <querytype>0</querytype>
+    <fetchxml>
+      <fetch mapping="logical" output-format="xml-platform" version="1.0">
+        <entity name="cat_gtmentry">
+          <attribute name="cat_gtmentryid" />
+          <attribute name="cat_activeservicerequired" />
+          <attribute name="cat_actuallaunchdate" />
+          <attribute name="cat_addalinetypes" />
+          <attribute name="cat_additionaleligibilityrequirements" />
+          <attribute name="cat_annualgaliftestimate" />
+          <attribute name="cat_anticipatedvolumetakeratesdaily" />
+          <attribute name="cat_anticipatedvolumetakeratestotal" />
+          <attribute name="cat_audiencespecificcommunications" />
+          <attribute name="cat_beneficiarylob" />
+          <attribute name="cat_beneficiarylobapprover" />
+          <attribute name="cat_billname" />
+          <attribute name="cat_brand" />
+          <attribute name="cat_businessbenefit" />
+          <attribute name="cat_businessowner" />
+          <attribute name="cat_calendargrouping" />
+          <attribute name="cat_carrierfreedom" />
+          <attribute name="cat_category" />
+          <attribute name="cat_channels" />
+          <attribute name="cat_committedlaunchdate" />
+          <attribute name="cat_contingency" />
+          <attribute name="cat_costcorebatecode" />
+          <attribute name="cat_originalcreatedbyuser" />
+          <attribute name="cat_originalcreatedondate" />
+          <attribute name="cat_customerexperience" />
+          <attribute name="cat_customerimpacting" />
+          <attribute name="cat_customersegment" />
+          <attribute name="cat_darkstatus" />
+          <attribute name="cat_day" />
+          <attribute name="stageid" />
+          <attribute name="traversedpath" />
+          <attribute name="cat_description" />
+          <attribute name="cat_desiredexecution" />
+          <attribute name="cat_desiredexecutionexplanation" />
+          <attribute name="cat_detailsstillopen" />
+          <attribute name="cat_devicefulfillmentinscope" />
+          <attribute name="cat_devicename" />
+          <attribute name="cat_deviceoem" />
+          <attribute name="cat_eligibilityandexclusions" />
+          <attribute name="cat_eligibilitysummary" />
+          <attribute name="cat_eligibledevices" />
+          <attribute name="cat_employeediscount" />
+          <attribute name="cat_employeeeligible" />
+          <attribute name="cat_enddate" />
+          <attribute name="cat_enterprisecapitalplanning" />
+          <attribute name="cat_enterprisestackedranking" />
+          <attribute name="cat_estimatedlaunchdate" />
+          <attribute name="cat_expectedmarketingsupport" />
+          <attribute name="cat_explainaudiencespecificcommunications" />
+          <attribute name="cat_explainintegratedmarketing" />
+          <attribute name="cat_explaintargetaudiencesegment" />
+          <attribute name="cat_forecasteddate" />
+          <attribute name="cat_galifttype" />
+          <attribute name="cat_getoutofthered" />
+          <attribute name="cat_goalkpi" />
+          <attribute name="cat_goesoncalendar" />
+          <attribute name="cat_legacygtmentryid" />
+          <attribute name="cat_health" />
+          <attribute name="cat_incrementalliftdaily" />
+          <attribute name="cat_incrementallifttotal" />
+          <attribute name="cat_initiativename" />
+          <attribute name="cat_initiativesubmitdate" />
+          <attribute name="cat_initiativetype" />
+          <attribute name="cat_initiativetypegroup" />
+          <attribute name="cat_integratedmarketing" />
+          <attribute name="cat_integration" />
+          <attribute name="cat_investmentfund" />
+          <attribute name="cat_jumpeligible" />
+          <attribute name="cat_keyassumptions" />
+          <attribute name="cat_keyfeatures" />
+          <attribute name="cat_keyinitiative" />
+          <attribute name="cat_keylaunch" />
+          <attribute name="cat_lastdatetocancel" />
+          <attribute name="cat_limitedtimeoffer" />
+          <attribute name="cat_lobchannelhorizontal" />
+          <attribute name="cat_lobstackedranking" />
+          <attribute name="cat_lobstackrank" />
+          <attribute name="cat_localmarket" />
+          <attribute name="cat_maprestricted" />
+          <attribute name="cat_market" />
+          <attribute name="cat_marketingsupportneeded" />
+          <attribute name="cat_mobileinternetplanrequirements" />
+          <attribute name="cat_monitoring" />
+          <attribute name="cat_nameofexistingproduct" />
+          <attribute name="cat_numberofaddalinerequired" />
+          <attribute name="cat_numberofcustomerstargeted" />
+          <attribute name="cat_offerlimits" />
+          <attribute name="cat_offerlimitsconsumertfb" />
+          <attribute name="cat_offerlimitstfbban" />
+          <attribute name="cat_offerrevisiondescription" />
+          <attribute name="cat_offertype" />
+          <attribute name="cat_otherbusinessbenefit" />
+          <attribute name="cat_otherlaunch" />
+          <attribute name="cat_otherlimitationsandexclusions" />
+          <attribute name="cat_otherpromotionsnotstackable" />
+          <attribute name="cat_phase" />
+          <attribute name="cat_pitch" />
+          <attribute name="cat_planandfeaturerequirementsbuild" />
+          <attribute name="cat_positioningmessaging" />
+          <attribute name="cat_prcode" />
+          <attribute name="cat_preorderdate" />
+          <attribute name="cat_presaledate" />
+          <attribute name="cat_priority" />
+          <attribute name="cat_priorityquarter" />
+          <attribute name="processid" />
+          <attribute name="cat_productfunctionality" />
+          <attribute name="cat_productnotes" />
+          <attribute name="cat_productobjectives" />
+          <attribute name="cat_promocode" />
+          <attribute name="cat_promodetailslocked" />
+          <attribute name="cat_promoeligibilitytool" />
+          <attribute name="cat_ptloeswag" />
+          <attribute name="cat_purchasetypefinancing" />
+          <attribute name="cat_rateplanrequirements" />
+          <attribute name="cat_reasontobelieve" />
+          <attribute name="cat_replacinganexistingproduct" />
+          <attribute name="cat_requestedlaunchdate" />
+          <attribute name="cat_shortdescription" />
+          <attribute name="cat_situation" />
+          <attribute name="cat_sponsor" />
+          <attribute name="cat_startdate" />
+          <attribute name="cat_steeringmeetingresults" />
+          <attribute name="cat_strategicpillar" />
+          <attribute name="cat_submittedasdraft" />
+          <attribute name="cat_subphase" />
+          <attribute name="cat_supportplan" />
+          <attribute name="cat_systemstack" />
+          <attribute name="cat_target" />
+          <attribute name="cat_targetaudiencesegment" />
+          <attribute name="cat_tbd" />
+          <attribute name="cat_teamroles" />
+          <attribute name="cat_testing" />
+          <attribute name="cat_threeyearnpv" />
+          <attribute name="cat_tier" />
+          <attribute name="cat_totalnetaddgoals" />
+          <attribute name="cat_totalofferspend" />
+          <attribute name="cat_triagenotes" />
+          <attribute name="cat_type" />
+          <attribute name="cat_validationcheck" />
+          <attribute name="cat_valueproposition" />
+          <attribute name="cat_voicerateplanrequirements" />
+          <attribute name="cat_wearableplanrequirements" />
+          <attribute name="cat_whatisitreplacing" />
+          <attribute name="cat_designprinciples" />
+        </entity>
+      </fetch>
+    </fetchxml>
+    <IntroducedVersion>1.1.0.8</IntroducedVersion>
+    <LocalizedNames>
+      <LocalizedName description="PMR Report_View" languagecode="1033" />
+    </LocalizedNames>
+    <Descriptions>
+      <Description description="Listing all fields that are in CDS" languagecode="1033" />
+    </Descriptions>
+  </savedquery>
+</savedqueries>

@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<optionset Name="cat_planandfeaturerequirementsbuild" localizedName="PlanAndFeatureRequirementsBuild" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <OptionSetType>picklist</OptionSetType>
+  <IsGlobal>1</IsGlobal>
+  <IntroducedVersion>1.0.0.1</IntroducedVersion>
+  <IsCustomizable>1</IsCustomizable>
+  <displaynames>
+    <displayname description="PlanAndFeatureRequirementsBuild" languagecode="1033" />
+  </displaynames>
+  <Descriptions>
+    <Description description="" languagecode="1033" />
+  </Descriptions>
+  <options>
+    <option value="809060001">
+      <labels>
+        <label description="Add on Feature (yes-data)" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060002">
+      <labels>
+        <label description="Data Feature" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060003">
+      <labels>
+        <label description="DIGITS Plan" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060004">
+      <labels>
+        <label description="IOT Plan" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060005">
+      <labels>
+        <label description="Legacy (Pre March 2013)" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060006">
+      <labels>
+        <label description="No Credit Check" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060007">
+      <labels>
+        <label description="Postpaid Consumer" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060008">
+      <labels>
+        <label description="Prepaid Consumer" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060009">
+      <labels>
+        <label description="Promotional Variation" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060010">
+      <labels>
+        <label description="Simple Choice" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060011">
+      <labels>
+        <label description="Tax Exclusive" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060012">
+      <labels>
+        <label description="Tax Inclusive" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060013">
+      <labels>
+        <label description="TFB" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060014">
+      <labels>
+        <label description="TMO ONE" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060015">
+      <labels>
+        <label description="TMO ONE Military" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060016">
+      <labels>
+        <label description="Unlimited 55+" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060017">
+      <labels>
+        <label description="Voice Plan" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060018">
+      <labels>
+        <label description="Other" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060019">
+      <labels>
+        <label description="Tablet Plan" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060020">
+      <labels>
+        <label description="Wearable Plan" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060021">
+      <labels>
+        <label description="Add on Feature (non-data)" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060022">
+      <labels>
+        <label description="BTS" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060023">
+      <labels>
+        <label description="CXT-E2E" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060024">
+      <labels>
+        <label description="BHC/UCC" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060025">
+      <labels>
+        <label description="Magenta" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060026">
+      <labels>
+        <label description="Other" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060027">
+      <labels>
+        <label description="Business/Government Unlimited" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060028">
+      <labels>
+        <label description="Add on Feature" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060000">
+      <labels>
+        <label description="N/A" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060029">
+      <labels>
+        <label description="First Responder" languagecode="1033" />
+      </labels>
+    </option>
+  </options>
+</optionset>

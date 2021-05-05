@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedqueries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <savedquery>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>0</CanBeDeleted>
+    <isquickfindquery>0</isquickfindquery>
+    <isprivate>0</isprivate>
+    <isdefault>1</isdefault>
+    <savedqueryid>{818300c5-3313-44a2-9f76-6febc15d4732}</savedqueryid>
+    <layoutxml>
+      <grid name="resultset" jump="subject" select="1" icon="1" preview="1">
+        <row name="result" id="activityid">
+          <cell name="createdon" width="111" />
+          <cell name="actualend" width="100" />
+          <cell name="activitytypecode" width="98" />
+          <cell name="subject" width="300" />
+          <cell name="createdby" width="100" />
+          <cell name="cat_torecipients" width="100" />
+          <cell name="cat_ccrecipients" width="100" />
+          <cell name="cat_bccrecipients" width="100" />
+          <cell name="cat_gtmentry" width="100" />
+          <cell name="cat_messagebody" width="100" />
+          <cell name="statecode" width="100" />
+          <cell name="statuscode" width="100" />
+        </row>
+      </grid>
+    </layoutxml>
+    <querytype>0</querytype>
+    <fetchxml>
+      <fetch version="1.0" mapping="logical">
+        <entity name="cat_orbitemails">
+          <attribute name="activityid" />
+          <attribute name="subject" />
+          <attribute name="createdon" />
+          <filter type="and">
+            <condition attribute="statecode" operator="not-null" />
+          </filter>
+          <attribute name="activitytypecode" />
+          <attribute name="cat_ccrecipients" />
+          <attribute name="cat_gtmentry" />
+          <attribute name="cat_messagebody" />
+          <attribute name="cat_torecipients" />
+          <attribute name="createdby" />
+          <order attribute="createdon" descending="true" />
+          <attribute name="cat_bccrecipients" />
+          <attribute name="statecode" />
+          <attribute name="statuscode" />
+          <attribute name="actualend" />
+        </entity>
+      </fetch>
+    </fetchxml>
+    <IntroducedVersion>1.1.0.4</IntroducedVersion>
+    <LocalizedNames>
+      <LocalizedName description="All ORBITEmails" languagecode="1033" />
+    </LocalizedNames>
+  </savedquery>
+</savedqueries>

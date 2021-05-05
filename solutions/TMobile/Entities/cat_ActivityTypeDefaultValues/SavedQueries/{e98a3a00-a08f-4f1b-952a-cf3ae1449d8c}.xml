@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedqueries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <savedquery>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>0</CanBeDeleted>
+    <isquickfindquery>0</isquickfindquery>
+    <isprivate>0</isprivate>
+    <isdefault>1</isdefault>
+    <savedqueryid>{e98a3a00-a08f-4f1b-952a-cf3ae1449d8c}</savedqueryid>
+    <layoutxml>
+      <grid name="resultset" jump="cat_name" select="1" icon="1" preview="1">
+        <row name="result" id="cat_activitytypedefaultvaluesid">
+          <cell name="cat_activitytype" width="100" />
+          <cell name="cat_workstream" width="100" />
+          <cell name="cat_name" width="300" />
+        </row>
+      </grid>
+    </layoutxml>
+    <querytype>0</querytype>
+    <fetchxml>
+      <fetch version="1.0" mapping="logical">
+        <entity name="cat_activitytypedefaultvalues">
+          <attribute name="cat_activitytypedefaultvaluesid" />
+          <attribute name="cat_name" />
+          <filter type="and">
+            <condition attribute="statecode" operator="eq" value="0" />
+          </filter>
+          <attribute name="cat_activitytype" />
+          <attribute name="cat_workstream" />
+          <order attribute="cat_activitytype" descending="false" />
+          <order attribute="cat_workstream" descending="false" />
+          <order attribute="cat_name" descending="false" />
+        </entity>
+      </fetch>
+    </fetchxml>
+    <IntroducedVersion>1.1.0.9</IntroducedVersion>
+    <LocalizedNames>
+      <LocalizedName description="Active ActivityTypeDefaultValues" languagecode="1033" />
+    </LocalizedNames>
+  </savedquery>
+</savedqueries>

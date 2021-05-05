@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AppModule>
+  <UniqueName>crffc_ORBITModelDrivenApp</UniqueName>
+  <IntroducedVersion>1.0.0.0</IntroducedVersion>
+  <WebResourceId>953b9fac-1e5e-e611-80d6-00155ded156f</WebResourceId>
+  <OptimizedFor></OptimizedFor>
+  <statecode>0</statecode>
+  <statuscode>1</statuscode>
+  <FormFactor>1</FormFactor>
+  <ClientType>4</ClientType>
+  <NavigationType>0</NavigationType>
+  <AppModuleComponents>
+    <AppModuleComponent type="62" schemaName="crffc_ORBITModelDrivenApp" />
+    <AppModuleComponent type="29" id="{a48bcb1a-afb8-4da8-a05e-fdfde8a095b1}" />
+    <AppModuleComponent type="1" schemaName="cat_beneficiarylobapprovers" />
+    <AppModuleComponent type="1" schemaName="cat_changerequest" />
+    <AppModuleComponent type="26" id="{2ded9ea8-eaec-4e73-8703-094d046c62a5}" />
+    <AppModuleComponent type="1" schemaName="expiredprocess" />
+    <AppModuleComponent type="60" id="{9774341b-77d1-44b8-b7fa-2ad3aadefa62}" />
+    <AppModuleComponent type="1" schemaName="feedback" />
+    <AppModuleComponent type="1" schemaName="cat_gtmattachments" />
+    <AppModuleComponent type="1" schemaName="cat_gtmentry" />
+    <AppModuleComponent type="60" id="{af33f361-6c68-ea11-a811-000d3a36886f}" />
+    <AppModuleComponent type="26" id="{fca322bf-658a-ea11-a812-000d3a329613}" />
+    <AppModuleComponent type="26" id="{34690b70-0022-ea11-a810-000d3a36886f}" />
+    <AppModuleComponent type="26" id="{715efd1d-9cf6-4b5b-bc69-7e3f006c1394}" />
+    <AppModuleComponent type="26" id="{f4cf1592-209c-420e-a294-fe0585f9edff}" />
+    <AppModuleComponent type="26" id="{17d5fcab-e0ee-4e5f-959f-ec7f124e23fa}" />
+    <AppModuleComponent type="26" id="{a7be5bbc-4370-ea11-a811-000d3a36886f}" />
+    <AppModuleComponent type="26" id="{01ed9475-df25-ea11-a810-000d3a3682ac}" />
+    <AppModuleComponent type="26" id="{990fdf0a-7348-ea11-a812-000d3a36857d}" />
+    <AppModuleComponent type="26" id="{90ce6735-7148-ea11-a812-000d3a368be7}" />
+    <AppModuleComponent type="26" id="{055a83b6-7248-ea11-a812-000d3a36880e}" />
+    <AppModuleComponent type="26" id="{4f573a49-7248-ea11-a812-000d3a368be7}" />
+    <AppModuleComponent type="1" schemaName="knowledgearticle" />
+    <AppModuleComponent type="60" id="{e7ef555e-7f57-4164-b604-59fa4f0a7e2e}" />
+    <AppModuleComponent type="1" schemaName="knowledgearticleviews" />
+    <AppModuleComponent type="1" schemaName="new_orbit_initiative_approval_process" />
+    <AppModuleComponent type="60" id="{a8c2a78d-bbca-494b-ad53-d441b2936fe4}" />
+    <AppModuleComponent type="1" schemaName="cat_orbitaudithistory" />
+    <AppModuleComponent type="1" schemaName="cat_orbitemails" />
+    <AppModuleComponent type="1" schemaName="cat_projectteamroles" />
+    <AppModuleComponent type="60" id="{0abe47fd-04e7-46b7-bc5b-34d7135ec935}" />
+    <AppModuleComponent type="1" schemaName="cat_stageapprovalresponses" />
+    <AppModuleComponent type="60" id="{0be7fc64-0ceb-4572-bf7c-bb3cab16b4d2}" />
+    <AppModuleComponent type="1" schemaName="team" />
+    <AppModuleComponent type="1" schemaName="systemuser" />
+  </AppModuleComponents>
+  <AppModuleRoleMaps>
+    <Role id="{627090ff-40a3-4053-8790-584edc5be201}" />
+    <Role id="{119f245c-3cc8-4b62-b31c-d1a046ced15d}" />
+  </AppModuleRoleMaps>
+  <LocalizedNames>
+    <LocalizedName description="ORBIT Model Driven App" languagecode="1033" />
+  </LocalizedNames>
+</AppModule>

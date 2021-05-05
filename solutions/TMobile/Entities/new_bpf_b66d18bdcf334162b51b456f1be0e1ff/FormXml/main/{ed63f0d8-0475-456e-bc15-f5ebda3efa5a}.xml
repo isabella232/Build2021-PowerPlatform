@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <systemform>
+    <formid>{ed63f0d8-0475-456e-bc15-f5ebda3efa5a}</formid>
+    <IntroducedVersion>1.0</IntroducedVersion>
+    <FormPresentation>1</FormPresentation>
+    <FormActivationState>1</FormActivationState>
+    <form>
+      <tabs>
+        <tab verticallayout="true" id="{fbb72bce-a9f8-4690-968c-a3368ec37ecf}" name="StageStep3" locklevel="0" expanded="true" visible="false">
+          <labels>
+            <label description="" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="100%">
+              <sections>
+                <section showbar="false" columns="1" id="{fbb72bce-a9f8-4690-968c-a3368ec37ecf}" name="StageStep3_section1">
+                  <labels>
+                    <label description="" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{72f00a47-e2f5-4e9d-a46d-79405180b3e2}" showlabel="true" visible="true">
+                        <labels>
+                          <label description="" languagecode="1033" />
+                        </labels>
+                        <control id="bpf_cat_gtmentry_new_bpf_b66d18bdcf334162b51b456f1be0e1ff:cat_type" classid="{4273edbd-ac1d-40d3-9fb2-095c621b552d}" datafieldname="cat_type" relationship="bpf_cat_gtmentry_new_bpf_b66d18bdcf334162b51b456f1be0e1ff" disabled="false" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+        <tab verticallayout="true" id="{4978767a-e63d-4da9-badd-87f7b2d3e550}" name="StageStep7" locklevel="0" expanded="true" visible="false">
+          <labels>
+            <label description="" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="100%">
+              <sections>
+                <section showbar="false" columns="1" id="{4978767a-e63d-4da9-badd-87f7b2d3e550}" name="StageStep7_section1">
+                  <labels>
+                    <label description="" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{d8bf75bf-ae14-437d-a1f0-690886cd9d9b}" showlabel="true" visible="true">
+                        <labels>
+                          <label description="" languagecode="1033" />
+                        </labels>
+                        <control id="bpf_cat_gtmentry_new_bpf_b66d18bdcf334162b51b456f1be0e1ff:cat_phase" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="cat_phase" relationship="bpf_cat_gtmentry_new_bpf_b66d18bdcf334162b51b456f1be0e1ff" disabled="false" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+        <tab verticallayout="true" id="{18ff2cfa-1216-4f48-a6e1-96c647d68a47}" name="StageStep11" locklevel="0" expanded="true" visible="false">
+          <labels>
+            <label description="" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="100%">
+              <sections>
+                <section showbar="false" columns="1" id="{18ff2cfa-1216-4f48-a6e1-96c647d68a47}" name="StageStep11_section1">
+                  <labels>
+                    <label description="" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{437b3848-bfed-4f4e-9a6c-d73ad4225ad5}" showlabel="true" visible="true">
+                        <labels>
+                          <label description="" languagecode="1033" />
+                        </labels>
+                        <control id="bpf_cat_gtmentry_new_bpf_b66d18bdcf334162b51b456f1be0e1ff:cat_phase" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="cat_phase" relationship="bpf_cat_gtmentry_new_bpf_b66d18bdcf334162b51b456f1be0e1ff" disabled="false" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+        <tab verticallayout="true" id="{4c198f64-a8e6-4243-8c38-eb9c3ce831dc}" name="StageStep15" locklevel="0" expanded="true" visible="false">
+          <labels>
+            <label description="" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="100%">
+              <sections>
+                <section showbar="false" columns="1" id="{4c198f64-a8e6-4243-8c38-eb9c3ce831dc}" name="StageStep15_section1">
+                  <labels>
+                    <label description="" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{2839c86f-4ecb-44dd-98f0-8b792fc9c14a}" showlabel="true" visible="true">
+                        <labels>
+                          <label description="" languagecode="1033" />
+                        </labels>
+                        <control id="bpf_cat_gtmentry_new_bpf_b66d18bdcf334162b51b456f1be0e1ff:cat_phase" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="cat_phase" relationship="bpf_cat_gtmentry_new_bpf_b66d18bdcf334162b51b456f1be0e1ff" disabled="false" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+        <tab verticallayout="true" id="{f80dd470-69f9-438d-9b2a-27d8b3c517ba}" name="StageStep19" locklevel="0" expanded="true" visible="false">
+          <labels>
+            <label description="" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="100%">
+              <sections>
+                <section showbar="false" columns="1" id="{f80dd470-69f9-438d-9b2a-27d8b3c517ba}" name="StageStep19_section1">
+                  <labels>
+                    <label description="" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{3d0932a6-af9f-456a-b45f-63068aff2029}" showlabel="true" visible="true">
+                        <labels>
+                          <label description="" languagecode="1033" />
+                        </labels>
+                        <control id="bpf_cat_gtmentry_new_bpf_b66d18bdcf334162b51b456f1be0e1ff:cat_phase" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="cat_phase" relationship="bpf_cat_gtmentry_new_bpf_b66d18bdcf334162b51b456f1be0e1ff" disabled="false" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+        <tab verticallayout="true" id="{345b5fcd-d375-4314-b68c-ec768c4c9e62}" name="StageStep23" locklevel="0" expanded="true" visible="false">
+          <labels>
+            <label description="" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="100%">
+              <sections>
+                <section showbar="false" columns="1" id="{345b5fcd-d375-4314-b68c-ec768c4c9e62}" name="StageStep23_section1">
+                  <labels>
+                    <label description="" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{cefedf63-7dcf-4cb2-90f5-ca917893adc1}" showlabel="true" visible="true">
+                        <labels>
+                          <label description="" languagecode="1033" />
+                        </labels>
+                        <control id="bpf_cat_gtmentry_new_bpf_b66d18bdcf334162b51b456f1be0e1ff:cat_phase" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="cat_phase" relationship="bpf_cat_gtmentry_new_bpf_b66d18bdcf334162b51b456f1be0e1ff" disabled="false" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+      </tabs>
+    </form>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>1</CanBeDeleted>
+    <LocalizedNames>
+      <LocalizedName description="Information" languagecode="1033" />
+    </LocalizedNames>
+    <Descriptions>
+      <Description description="A form for this entity." languagecode="1033" />
+    </Descriptions>
+  </systemform>
+</forms>

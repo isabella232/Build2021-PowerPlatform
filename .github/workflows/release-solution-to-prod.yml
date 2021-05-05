@@ -1,0 +1,96 @@
+name: release-solution-to-prod
+# prepare for releasing to prod:
+#   convert solution to managed (using a build PowerPlatform environment for the conversion)
+#   upload the solution to the GitHub artifacts and deploy to the PROD environment
+
+on:
+  workflow_dispatch:
+  release:
+    types: [created]
+
+env:
+    PP_ENV_URL: https://org6d1b2125.crm.dynamics.com
+    PP_CLIENT_ID: 839f4ef5-623e-434d-add1-25849fd54c02
+    PP_TENANT_ID: fba980db-2369-4792-bceb-8b5212a2223a
+    PP_SOLUTION_NAME: TMobile
+    PP_SOLUTION_OUTPUT_FILE: out/exported/TMobile.zip
+    PP_SOLUTION_FOLDER: out/solutions/TMobile
+    PP_SOLUTION_FILE: out/solutions/TMobile.zip
+    PP_SOLUTION_SHIP_FILE: out/ship/TMobile.zip
+    PP_SOLUTION_TARGET_FOLDER: solutions/TMobile
+    PP_RELEASE_PATH: /out/release
+    PP_RELEASE_SOLUTION_FILE: /out/release/TMobile.zip
+    
+jobs:
+  convert-to-managed:
+    runs-on: windows-latest
+   
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        lfs: true
+
+    - name: Pack solution
+      uses: microsoft/powerplatform-actions/pack-solution@v0
+      with:
+        solution-folder: ${{ env.PP_SOLUTION_TARGET_FOLDER }}
+        solution-file: ${{ env.PP_SOLUTION_FILE }} 
+        solution-type: Unmanaged
+
+    - name: Import solution as unmanaged to build env
+      uses: microsoft/powerplatform-actions/import-solution@v0
+      with:
+        environment-url: ${{ env.PP_ENV_URL }}
+        app-id: ${{ env.PP_CLIENT_ID }}
+        client-secret: ${{ secrets.PP_GH_ACTIONS_SECRET }}
+        tenant-id: ${{ env.PP_TENANT_ID }}
+        solution-file: ${{ env.PP_SOLUTION_FILE }}
+        force-overwrite: true
+        publish-changes: true
+        run-asynchronously: true
+
+    - name: Export solution as managed
+      uses: microsoft/powerplatform-actions/export-solution@v0
+      with:
+        environment-url: ${{ env.PP_ENV_URL }}
+        app-id: ${{ env.PP_CLIENT_ID }}
+        client-secret: ${{ secrets.PP_GH_ACTIONS_SECRET }}
+        tenant-id: ${{ env.PP_TENANT_ID }}
+        solution-name: ${{ env.PP_SOLUTION_NAME }}
+        managed: false
+        solution-output-file: ${{ env.PP_SOLUTION_SHIP_FILE }} 
+
+    - name: Upload the ready to ship solution to GH artifact store
+      uses: actions/upload-artifact@v2
+      with:
+        name: managedSolutions
+        path: ${{ env.PP_SOLUTION_SHIP_FILE }}
+
+  release-to-staging:
+    needs: [ convert-to-managed ]
+    runs-on: windows-latest
+   
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        lfs: true
+
+    - name: Fetch the ready to ship solution from GH artifact store
+      uses: actions/download-artifact@v2
+      with:
+        name: managedSolutions
+        path: ${{ env.PP_RELEASE_PATH }}
+
+   
+
+    - name: Import solution to prod env
+      uses: microsoft/powerplatform-actions/import-solution@v0
+      with:
+        environment-url: ${{ env.PP_ENV_URL }}
+        app-id: ${{ env.PP_CLIENT_ID }}
+        client-secret: ${{ secrets.PP_GH_ACTIONS_SECRET }}
+        tenant-id: ${{ env.PP_TENANT_ID }}
+        solution-file: ${{ env.PP_RELEASE_SOLUTION_FILE }}
+        force-overwrite: true
+        publish-changes: true
+        run-asynchronously: true

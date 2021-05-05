@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedqueries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <savedquery>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>1</CanBeDeleted>
+    <isquickfindquery>0</isquickfindquery>
+    <isprivate>0</isprivate>
+    <isdefault>0</isdefault>
+    <savedqueryid>{a17992ee-3d3d-ea11-a812-000d3a368be7}</savedqueryid>
+    <layoutxml>
+      <grid name="resultset" jump="cat_name" select="1" icon="1" preview="1">
+        <row name="result" id="cat_stageapprovalresponsesid">
+          <cell name="cat_name" width="200" />
+          <cell name="cat_approvaluser" width="100" />
+          <cell name="cat_approvercomments" width="100" />
+          <cell name="crffc_crba4_stageapprovalusers" width="100" />
+          <cell name="cat_approvalstatus" width="100" />
+          <cell name="cat_gtmentry" width="100" />
+          <cell name="createdon" width="100" />
+        </row>
+      </grid>
+    </layoutxml>
+    <querytype>0</querytype>
+    <fetchxml>
+      <fetch version="1.0" output-format="xml-platform" mapping="logical">
+        <entity name="cat_stageapprovalresponses">
+          <attribute name="cat_name" />
+          <attribute name="cat_stageapprovalresponsesid" />
+          <attribute name="cat_approvaluser" />
+          <attribute name="cat_approvercomments" />
+          <attribute name="crffc_crba4_stageapprovalusers" />
+          <attribute name="cat_approvalstatus" />
+          <attribute name="cat_gtmentry" />
+          <attribute name="createdon" />
+          <order attribute="createdon" descending="true" />
+          <filter type="and">
+            <condition attribute="cat_approvaluser" operator="eq-userid" />
+            <condition attribute="cat_approvalstatus" operator="ne" value="809060003" />
+            <condition attribute="cat_approvalstatus" operator="ne" value="809060001" />
+            <condition attribute="cat_approvalstatus" operator="not-null" />
+            <condition attribute="statecode" operator="eq" value="0" />
+          </filter>
+        </entity>
+      </fetch>
+    </fetchxml>
+    <IntroducedVersion>1.1.0.3</IntroducedVersion>
+    <LocalizedNames>
+      <LocalizedName description="User Pending Approvals" languagecode="1033" />
+    </LocalizedNames>
+  </savedquery>
+</savedqueries>

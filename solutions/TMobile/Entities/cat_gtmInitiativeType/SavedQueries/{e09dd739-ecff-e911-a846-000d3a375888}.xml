@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedqueries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <savedquery>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>1</CanBeDeleted>
+    <isquickfindquery>0</isquickfindquery>
+    <isprivate>0</isprivate>
+    <isdefault>0</isdefault>
+    <savedqueryid>{e09dd739-ecff-e911-a846-000d3a375888}</savedqueryid>
+    <layoutxml>
+      <grid name="resultset" jump="cat_type" select="1" icon="1" preview="1">
+        <row name="result" id="cat_gtminitiativetypeid">
+          <cell name="cat_sortorder" width="100" />
+          <cell name="cat_group" width="100" />
+          <cell name="cat_type" width="200" />
+        </row>
+      </grid>
+    </layoutxml>
+    <querytype>0</querytype>
+    <fetchxml>
+      <fetch version="1.0" output-format="xml-platform" mapping="logical">
+        <entity name="cat_gtminitiativetype">
+          <attribute name="cat_type" />
+          <attribute name="cat_gtminitiativetypeid" />
+          <attribute name="cat_group" />
+          <attribute name="cat_sortorder" />
+          <order attribute="cat_sortorder" descending="false" />
+        </entity>
+      </fetch>
+    </fetchxml>
+    <IntroducedVersion>1.0.0.12</IntroducedVersion>
+    <LocalizedNames>
+      <LocalizedName description="DropDownView" languagecode="1033" />
+    </LocalizedNames>
+  </savedquery>
+</savedqueries>

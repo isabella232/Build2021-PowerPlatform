@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AppModuleSiteMap xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SiteMapUniqueName>crffc_ORBITModelDrivenApp</SiteMapUniqueName>
+  <SiteMap IntroducedVersion="7.0.0.0">
+    <Area Id="New_Area" ResourceId="SitemapDesigner.NewArea" DescriptionResourceId="SitemapDesigner.NewArea" ShowGroups="true" IntroducedVersion="7.0.0.0">
+      <Titles>
+        <Title LCID="1033" Title="ORBIT Admin Portal" />
+      </Titles>
+      <Group Id="New_Group" ResourceId="SitemapDesigner.NewGroup" DescriptionResourceId="SitemapDesigner.NewGroup" IntroducedVersion="7.0.0.0" IsProfile="false" ToolTipResourseId="SitemapDesigner.Unknown">
+        <Titles>
+          <Title LCID="1033" Title="Main" />
+        </Titles>
+        <SubArea Id="New_SubArea" Icon="/_imgs/imagestrips/transparent_spacer.gif" IntroducedVersion="7.0.0.0" Entity="cat_gtmentry" Client="All,Outlook,OutlookLaptopClient,OutlookWorkstationClient,Web" AvailableOffline="true" PassParams="false" Sku="All,OnPremise,Live,SPLA">
+          <Titles>
+            <Title LCID="1033" Title="Initiatives" />
+          </Titles>
+        </SubArea>
+      </Group>
+      <Group Id="NewGroup_b6fb2391" ResourceId="SitemapDesigner.NewGroup" IsProfile="false" ToolTipResourseId="SitemapDesigner.Unknown">
+        <Titles>
+          <Title LCID="1033" Title="Details" />
+        </Titles>
+        <SubArea Id="NewSubArea_6f916195" Icon="/_imgs/imagestrips/transparent_spacer.gif" Entity="cat_projectteamroles" Client="All,Outlook,OutlookLaptopClient,OutlookWorkstationClient,Web" AvailableOffline="true" PassParams="false" Sku="All,OnPremise,Live,SPLA">
+          <Titles>
+            <Title LCID="1033" Title="Team Members" />
+          </Titles>
+        </SubArea>
+        <SubArea Id="NewSubArea_addf7705" Icon="/_imgs/imagestrips/transparent_spacer.gif" Entity="cat_orbitaudithistory" Client="All,Outlook,OutlookLaptopClient,OutlookWorkstationClient,Web" AvailableOffline="true" PassParams="false" Sku="All,OnPremise,Live,SPLA">
+          <Titles>
+            <Title LCID="1033" Title="Audit Logs" />
+          </Titles>
+        </SubArea>
+        <SubArea Id="NewSubArea_d517f34" Icon="/_imgs/imagestrips/transparent_spacer.gif" Entity="cat_orbitemails" Client="All,Outlook,OutlookLaptopClient,OutlookWorkstationClient,Web" AvailableOffline="true" PassParams="false" Sku="All,OnPremise,Live,SPLA">
+          <Titles>
+            <Title LCID="1033" Title="Emails" />
+          </Titles>
+        </SubArea>
+        <SubArea Id="NewSubArea_5f6893e1" Icon="/_imgs/imagestrips/transparent_spacer.gif" Entity="cat_gtmattachments" Client="All,Outlook,OutlookLaptopClient,OutlookWorkstationClient,Web" AvailableOffline="true" PassParams="false" Sku="All,OnPremise,Live,SPLA">
+          <Titles>
+            <Title LCID="1033" Title="Attachments" />
+          </Titles>
+        </SubArea>
+      </Group>
+      <Group Id="NewGroup_3d56af6f" ResourceId="SitemapDesigner.NewGroup" IsProfile="false" ToolTipResourseId="SitemapDesigner.Unknown">
+        <Titles>
+          <Title LCID="1033" Title="Other" />
+        </Titles>
+        <SubArea Id="NewSubArea_5a76ee4f" Icon="/_imgs/imagestrips/transparent_spacer.gif" Entity="cat_beneficiarylobapprovers" Client="All,Outlook,OutlookLaptopClient,OutlookWorkstationClient,Web" AvailableOffline="true" PassParams="false" Sku="All,OnPremise,Live,SPLA">
+          <Titles>
+            <Title LCID="1033" Title="Beneficiary LOB Approvers" />
+          </Titles>
+        </SubArea>
+        <SubArea Id="NewSubArea_fe29e404" Icon="/_imgs/imagestrips/transparent_spacer.gif" Entity="cat_changerequest" Client="All,Outlook,OutlookLaptopClient,OutlookWorkstationClient,Web" AvailableOffline="true" PassParams="false" Sku="All,OnPremise,Live,SPLA">
+          <Titles>
+            <Title LCID="1033" Title="Change Requests" />
+          </Titles>
+        </SubArea>
+      </Group>
+    </Area>
+    <Area Id="NewArea_df205d42" ResourceId="SitemapDesigner.NewArea" ShowGroups="false">
+      <Group Id="NewGroup_84ee6f73" ResourceId="SitemapDesigner.NewGroup" IsProfile="false" ToolTipResourseId="SitemapDesigner.Unknown">
+        <SubArea Id="NewSubArea_b421acce" Icon="/_imgs/imagestrips/transparent_spacer.gif" Entity="cat_orbitaudithistory" Client="All,Outlook,OutlookLaptopClient,OutlookWorkstationClient,Web" AvailableOffline="true" PassParams="false" Sku="All,OnPremise,Live,SPLA" />
+      </Group>
+    </Area>
+  </SiteMap>
+  <LocalizedNames>
+    <LocalizedName description="ORBIT Model Driven App" languagecode="1033" />
+  </LocalizedNames>
+</AppModuleSiteMap>

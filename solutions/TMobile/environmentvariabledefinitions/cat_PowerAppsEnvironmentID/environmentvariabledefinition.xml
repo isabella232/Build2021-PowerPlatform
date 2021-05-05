@@ -1,0 +1,13 @@
+<environmentvariabledefinition schemaname="cat_PowerAppsEnvironmentID">
+  <defaultvalue>393daea0-7c4c-4a8f-b42f-314071759928</defaultvalue>
+  <description default="ID of PowerApps Environment">
+    <label description="ID of PowerApps Environment" languagecode="1033" />
+  </description>
+  <displayname default="PowerAppsEnvironmentID">
+    <label description="PowerAppsEnvironmentID" languagecode="1033" />
+  </displayname>
+  <introducedversion>1.1.0.30</introducedversion>
+  <iscustomizable>1</iscustomizable>
+  <isrequired>0</isrequired>
+  <type>100000000</type>
+</environmentvariabledefinition>

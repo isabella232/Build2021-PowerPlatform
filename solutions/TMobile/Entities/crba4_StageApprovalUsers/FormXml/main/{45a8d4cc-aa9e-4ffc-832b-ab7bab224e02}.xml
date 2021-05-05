@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <systemform>
+    <formid>{45a8d4cc-aa9e-4ffc-832b-ab7bab224e02}</formid>
+    <IntroducedVersion>1.0.0.0</IntroducedVersion>
+    <FormPresentation>1</FormPresentation>
+    <FormActivationState>1</FormActivationState>
+    <form headerdensity="HighWithControls">
+      <tabs>
+        <tab verticallayout="true" id="{d6366395-e0cb-45b8-804b-0701937d4424}" IsUserDefined="1">
+          <labels>
+            <label description="General" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="100%">
+              <sections>
+                <section showlabel="false" showbar="false" IsUserDefined="0" id="{322d1550-2d7d-4358-ac44-c014936069db}">
+                  <labels>
+                    <label description="General" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{4ad356d3-7594-4494-a771-ac80e3c9be49}">
+                        <labels>
+                          <label description="Name" languagecode="1033" />
+                        </labels>
+                        <control id="crba4_name" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="crba4_name" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{fefb116b-abfa-4aba-9c26-3f8b66d051ad}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="OrbitBPF" languagecode="1033" />
+                        </labels>
+                        <control id="Lookup_1" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="crba4_orbitbpf" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{76b0a80b-176f-4ce6-a13c-02035d109179}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="InstanceStageId" languagecode="1033" />
+                        </labels>
+                        <control id="Single-line_text_1" classid="{4273EDBD-AC1D-40D3-9FB2-095C621B552D}" datafieldname="crba4_instancestageid" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{19194db0-6592-4aad-bda3-1255598a6dd2}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Approval" languagecode="1033" />
+                        </labels>
+                        <control id="cat_msdyn_flow_approval" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="cat_msdyn_flow_approval" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{edae9530-d5a0-41c4-a42f-99f94307b6b0}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Approval" languagecode="1033" />
+                        </labels>
+                        <control id="crba4_approval" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="crba4_approval" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell showlabel="false" locklevel="0" id="{48416f2c-7f27-4567-9329-0740c1296a0f}" rowspan="1" colspan="1">
+                        <labels>
+                          <label description="New SG control 1572378926715" languagecode="1033" />
+                        </labels>
+                        <control id="Subgrid_1" classid="{E7A81278-8635-4D9E-8D4D-59480B391C5B}" indicationOfSubgrid="true">
+                          <parameters>
+                            <TargetEntityType>systemuser</TargetEntityType>
+                            <ViewId>{00000000-0000-0000-00AA-000010001019}</ViewId>
+                            <EnableViewPicker>true</EnableViewPicker>
+                            <RelationshipName>crba4_StageApprovalUsersSystemUsers</RelationshipName>
+                          </parameters>
+                        </control>
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{088d6346-1720-4531-bb37-182a7e76686b}">
+                        <labels>
+                          <label description="Owner" languagecode="1033" />
+                        </labels>
+                        <control id="ownerid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ownerid" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+      </tabs>
+      <header id="{92b73f0e-d051-4274-a3eb-a197b566774b}" celllabelposition="Top" columns="111" labelwidth="115" celllabelalignment="Left">
+        <rows>
+          <row>
+            <cell id="{3ed7c4e9-23fb-4c1a-8ba3-b5257f2ffc31}" showlabel="false">
+              <labels>
+                <label description="" languagecode="1033" />
+              </labels>
+            </cell>
+            <cell id="{3c358bc7-d3b1-4635-96a4-8e909d8b4541}" showlabel="false">
+              <labels>
+                <label description="" languagecode="1033" />
+              </labels>
+            </cell>
+            <cell id="{0e50e550-8983-401d-abf4-f8de89052861}" showlabel="false">
+              <labels>
+                <label description="" languagecode="1033" />
+              </labels>
+            </cell>
+          </row>
+        </rows>
+      </header>
+      <footer id="{0089a005-6521-47d1-94d5-4721038041dc}" celllabelposition="Top" columns="111" labelwidth="115" celllabelalignment="Left">
+        <rows>
+          <row>
+            <cell id="{f4693d9e-dbd1-4747-b4df-cfe2a03dc488}" showlabel="false">
+              <labels>
+                <label description="" languagecode="1033" />
+              </labels>
+            </cell>
+            <cell id="{e596bbc1-64d5-43bc-8230-1ba8509a90bd}" showlabel="false">
+              <labels>
+                <label description="" languagecode="1033" />
+              </labels>
+            </cell>
+            <cell id="{1c559f67-28c7-4a24-9052-26929fdf29e4}" showlabel="false">
+              <labels>
+                <label description="" languagecode="1033" />
+              </labels>
+            </cell>
+          </row>
+        </rows>
+      </footer>
+      <DisplayConditions Order="0" FallbackForm="true" />
+    </form>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>1</CanBeDeleted>
+    <LocalizedNames>
+      <LocalizedName description="Information" languagecode="1033" />
+    </LocalizedNames>
+    <Descriptions>
+      <Description description="A form for this entity." languagecode="1033" />
+    </Descriptions>
+  </systemform>
+</forms>

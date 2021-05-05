@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedqueries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <savedquery>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>0</CanBeDeleted>
+    <isquickfindquery>0</isquickfindquery>
+    <isprivate>0</isprivate>
+    <isdefault>1</isdefault>
+    <savedqueryid>{c0be28f2-d642-46bf-bf1e-1de845c056f5}</savedqueryid>
+    <layoutxml>
+      <grid name="resultset" jump="cat_name" select="1" icon="1" preview="1">
+        <row name="result" id="cat_approvalrequestrejectionsid">
+          <cell name="cat_name" width="300" />
+          <cell name="createdon" width="125" />
+          <cell name="cat_approval" width="100" />
+          <cell name="cat_gtmentry" width="100" />
+          <cell name="cat_comments" width="100" />
+          <cell name="crffc_processstageid" width="100" />
+        </row>
+      </grid>
+    </layoutxml>
+    <querytype>0</querytype>
+    <fetchxml>
+      <fetch version="1.0" mapping="logical">
+        <entity name="cat_approvalrequestrejections">
+          <attribute name="cat_approvalrequestrejectionsid" />
+          <attribute name="cat_name" />
+          <attribute name="createdon" />
+          <filter type="and">
+            <condition attribute="statecode" operator="eq" value="0" />
+          </filter>
+          <order attribute="createdon" descending="true" />
+          <attribute name="cat_approval" />
+          <attribute name="cat_gtmentry" />
+          <attribute name="cat_comments" />
+          <attribute name="crffc_processstageid" />
+        </entity>
+      </fetch>
+    </fetchxml>
+    <IntroducedVersion>1.0.0.48</IntroducedVersion>
+    <LocalizedNames>
+      <LocalizedName description="Active ApprovalRequestRejections" languagecode="1033" />
+    </LocalizedNames>
+  </savedquery>
+</savedqueries>
