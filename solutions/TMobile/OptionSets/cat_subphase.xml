@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<optionset Name="cat_subphase" localizedName="SubPhase" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <OptionSetType>picklist</OptionSetType>
+  <IsGlobal>1</IsGlobal>
+  <IntroducedVersion>1.0.0.1</IntroducedVersion>
+  <IsCustomizable>1</IsCustomizable>
+  <displaynames>
+    <displayname description="SubPhase" languagecode="1033" />
+  </displaynames>
+  <Descriptions>
+    <Description description="" languagecode="1033" />
+  </Descriptions>
+  <options>
+    <option value="809060000">
+      <labels>
+        <label description="Steering Re-Approval" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060001">
+      <labels>
+        <label description="On Hold" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060002">
+      <labels>
+        <label description="Impaired" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060003">
+      <labels>
+        <label description="Pipeline" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060004">
+      <labels>
+        <label description="Moved to P&amp;T" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060005">
+      <labels>
+        <label description="Pending Approval" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060006">
+      <labels>
+        <label description="In Flight" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060007">
+      <labels>
+        <label description="Priority" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060008">
+      <labels>
+        <label description="Canceled" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060009">
+      <labels>
+        <label description="Test" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060010">
+      <labels>
+        <label description="Plan Record Only" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060011">
+      <labels>
+        <label description="Capacity Hold" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060012">
+      <labels>
+        <label description="Project Closure" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060013">
+      <labels>
+        <label description="Capacity Backlog" languagecode="1033" />
+      </labels>
+    </option>
+  </options>
+</optionset>

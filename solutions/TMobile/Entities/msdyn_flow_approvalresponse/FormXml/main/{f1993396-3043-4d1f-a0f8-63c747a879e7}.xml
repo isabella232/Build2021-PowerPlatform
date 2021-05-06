@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <systemform>
+    <formid>{f1993396-3043-4d1f-a0f8-63c747a879e7}</formid>
+    <IntroducedVersion>2.0.0.0</IntroducedVersion>
+    <FormPresentation>1</FormPresentation>
+    <FormActivationState>1</FormActivationState>
+    <form>
+      <tabs>
+        <tab verticallayout="true" id="{9b801882-6999-4b7c-8ffb-5dfadab53676}" IsUserDefined="1" ordinalvalue="0">
+          <columns>
+            <column width="100%" id="0">
+              <sections>
+                <section showlabel="false" showbar="false" IsUserDefined="0" id="{7cd8e063-c0e4-40e5-b904-bf7d0cbf814c}" ordinalvalue="0">
+                  <rows>
+                    <row>
+                      <cell id="{30c02c8c-acac-45a3-bfbe-30f3db761efc}" ordinalvalue="10000">
+                        <labels>
+                          <label description="Name" languagecode="1033" solutionaction="Added" />
+                        </labels>
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{a5ad3a2c-d438-4935-a43a-259133c30312}" ordinalvalue="10001">
+                        <labels>
+                          <label description="Owner" languagecode="1033" solutionaction="Added" />
+                        </labels>
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+      </tabs>
+    </form>
+    <LocalizedNames>
+      <LocalizedName description="Information" languagecode="1033" />
+    </LocalizedNames>
+    <Descriptions>
+      <Description description="A form for this entity." languagecode="1033" />
+    </Descriptions>
+  </systemform>
+</forms>

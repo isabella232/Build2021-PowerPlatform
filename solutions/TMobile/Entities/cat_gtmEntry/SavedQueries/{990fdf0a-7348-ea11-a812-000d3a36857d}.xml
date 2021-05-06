@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedqueries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <savedquery>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>1</CanBeDeleted>
+    <isquickfindquery>0</isquickfindquery>
+    <isprivate>0</isprivate>
+    <isdefault>0</isdefault>
+    <savedqueryid>{990fdf0a-7348-ea11-a812-000d3a36857d}</savedqueryid>
+    <layoutxml>
+      <grid name="resultset" jump="cat_initiativename" select="1" icon="1" preview="1">
+        <row name="result" id="cat_gtmentryid">
+          <cell name="cat_phase" width="100" />
+          <cell name="cat_billname" width="100" />
+          <cell name="cat_description" width="100" />
+          <cell name="cat_offertype" width="100" />
+          <cell name="cat_totalofferspend" width="100" />
+          <cell name="cat_anticipatedvolumetakeratestotal" width="100" />
+          <cell name="cat_requestedlaunchdate" width="100" />
+          <cell name="cat_enddate" width="100" />
+          <cell name="cat_originalcreatedondate" width="100" />
+          <cell name="cat_businessowner" width="100" />
+        </row>
+      </grid>
+    </layoutxml>
+    <querytype>0</querytype>
+    <fetchxml>
+      <fetch version="1.0" output-format="xml-platform" mapping="logical">
+        <entity name="cat_gtmentry">
+          <attribute name="cat_gtmentryid" />
+          <attribute name="cat_phase" />
+          <attribute name="cat_description" />
+          <attribute name="cat_offertype" />
+          <attribute name="cat_totalofferspend" />
+          <attribute name="cat_anticipatedvolumetakeratestotal" />
+          <attribute name="cat_requestedlaunchdate" />
+          <attribute name="cat_enddate" />
+          <attribute name="cat_originalcreatedondate" />
+          <attribute name="cat_businessowner" />
+          <attribute name="cat_billname" />
+          <filter type="and">
+            <condition attribute="cat_initiativetype" operator="in">
+              <value>809060004</value>
+              <value>809060003</value>
+            </condition>
+          </filter>
+        </entity>
+      </fetch>
+    </fetchxml>
+    <IntroducedVersion>1.1.0.4</IntroducedVersion>
+    <LocalizedNames>
+      <LocalizedName description="Steering - Accounting View" languagecode="1033" />
+    </LocalizedNames>
+  </savedquery>
+</savedqueries>

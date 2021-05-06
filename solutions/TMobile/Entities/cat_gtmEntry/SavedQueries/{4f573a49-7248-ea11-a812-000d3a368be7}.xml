@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedqueries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <savedquery>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>1</CanBeDeleted>
+    <isquickfindquery>0</isquickfindquery>
+    <isprivate>0</isprivate>
+    <isdefault>0</isdefault>
+    <savedqueryid>{4f573a49-7248-ea11-a812-000d3a368be7}</savedqueryid>
+    <layoutxml>
+      <grid name="resultset" jump="cat_initiativename" select="1" icon="1" preview="1">
+        <row name="result" id="cat_gtmentryid">
+          <cell name="cat_initiativename" width="296" />
+          <cell name="cat_prcode" width="100" />
+          <cell name="cat_billname" width="100" />
+          <cell name="cat_offertype" width="300" />
+          <cell name="cat_requestedlaunchdate" width="100" />
+          <cell name="cat_phase" width="100" />
+          <cell name="cat_priority" width="100" />
+          <cell name="cat_businessowner" width="100" />
+          <cell name="cat_steeringmeetingresults" width="100" />
+        </row>
+      </grid>
+    </layoutxml>
+    <querytype>0</querytype>
+    <fetchxml>
+      <fetch version="1.0" output-format="xml-platform" mapping="logical">
+        <entity name="cat_gtmentry">
+          <attribute name="cat_gtmentryid" />
+          <attribute name="cat_prcode" />
+          <attribute name="cat_offertype" />
+          <attribute name="cat_requestedlaunchdate" />
+          <attribute name="cat_phase" />
+          <attribute name="cat_priority" />
+          <attribute name="cat_businessowner" />
+          <attribute name="cat_steeringmeetingresults" />
+          <attribute name="cat_billname" />
+          <attribute name="cat_initiativename" />
+          <filter type="and">
+            <condition attribute="cat_initiativetype" operator="in">
+              <value>809060003</value>
+              <value>809060004</value>
+            </condition>
+            <filter type="or">
+              <filter type="and">
+                <condition attribute="cat_phase" operator="eq" value="809060002" />
+                <condition attribute="cat_monitoring" operator="ne" value="1" />
+                <condition attribute="cat_offertype" operator="ne" value="809060006" />
+              </filter>
+              <filter type="and">
+                <condition attribute="cat_phase" operator="eq" value="809060004" />
+                <condition attribute="cat_monitoring" operator="ne" value="1" />
+                <condition attribute="cat_offertype" operator="ne" value="809060006" />
+              </filter>
+            </filter>
+          </filter>
+        </entity>
+      </fetch>
+    </fetchxml>
+    <IntroducedVersion>1.1.0.4</IntroducedVersion>
+    <LocalizedNames>
+      <LocalizedName description="Steering - Agenda - Previously Reviewed" languagecode="1033" />
+    </LocalizedNames>
+  </savedquery>
+</savedqueries>

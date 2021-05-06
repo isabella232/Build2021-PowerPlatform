@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <systemform>
+    <formid>{1449f916-6018-4e60-bfc9-1e667dc7366b}</formid>
+    <IntroducedVersion>1.1.0.3</IntroducedVersion>
+    <FormPresentation>1</FormPresentation>
+    <FormActivationState>1</FormActivationState>
+    <form>
+      <tabs>
+        <tab verticallayout="true" id="{ff7ecadb-e35e-49b4-98d6-6532bf06cfbd}" IsUserDefined="1">
+          <labels>
+            <label description="" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="100%">
+              <sections>
+                <section showlabel="false" showbar="false" IsUserDefined="0" id="{04316ae1-c997-40b2-8b58-58e65cb7f443}">
+                  <labels>
+                    <label description="GENERAL" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{5ce51f1d-ffe3-431f-b73a-3c17188b4fe6}">
+                        <labels>
+                          <label description="Name" languagecode="1033" />
+                        </labels>
+                        <control id="cat_name" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="cat_name" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{9510e1e6-6dac-4fcf-a56f-84d7c3769ef9}">
+                        <labels>
+                          <label description="Owner" languagecode="1033" />
+                        </labels>
+                        <control id="ownerid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ownerid" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{d7f390e1-8df7-41e2-989e-e7025bd17295}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="ApprovalUser" languagecode="1033" />
+                        </labels>
+                        <control id="cat_approvaluser" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="cat_approvaluser" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{442b01ee-3070-4a43-b765-5224d43c0c9c}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="ApproverComments" languagecode="1033" />
+                        </labels>
+                        <control id="cat_approvercomments" classid="{4273EDBD-AC1D-40D3-9FB2-095C621B552D}" datafieldname="cat_approvercomments" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{60f6ddc0-3922-4898-8e2d-159d8457e3bd}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="gtmEntry" languagecode="1033" />
+                        </labels>
+                        <control id="cat_gtmentry" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="cat_gtmentry" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{33496a28-afcf-4eb7-bf83-02e9e9c6e651}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="StageApprovalUsers" languagecode="1033" />
+                        </labels>
+                        <control id="crffc_crba4_stageapprovalusers" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="crffc_crba4_stageapprovalusers" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{a35de1e5-0f6a-4ea6-b3fb-ff7f7c2fef92}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Status Reason" languagecode="1033" />
+                        </labels>
+                        <control id="statuscode" classid="{3EF39988-22BB-4F0B-BBBE-64B5A3748AEE}" datafieldname="statuscode" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{21eac599-51d1-42f5-82bf-4ecb61d3c18e}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="ApprovalStatus" languagecode="1033" />
+                        </labels>
+                        <control id="cat_approvalstatus" classid="{3EF39988-22BB-4F0B-BBBE-64B5A3748AEE}" datafieldname="cat_approvalstatus" disabled="false" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+      </tabs>
+      <DisplayConditions Order="0" FallbackForm="true" />
+    </form>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>1</CanBeDeleted>
+    <LocalizedNames>
+      <LocalizedName description="Information" languagecode="1033" />
+    </LocalizedNames>
+  </systemform>
+</forms>

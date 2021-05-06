@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<optionset Name="crffc_portin" localizedName="PortIn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <OptionSetType>picklist</OptionSetType>
+  <IsGlobal>1</IsGlobal>
+  <IntroducedVersion>1.0.0.0</IntroducedVersion>
+  <IsCustomizable>1</IsCustomizable>
+  <displaynames>
+    <displayname description="PortIn" languagecode="1033" />
+  </displaynames>
+  <Descriptions>
+    <Description description="" languagecode="1033" />
+  </Descriptions>
+  <options>
+    <option value="358560000">
+      <labels>
+        <label description="G02" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560001">
+      <labels>
+        <label description="G03" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560002">
+      <labels>
+        <label description="NULL" languagecode="1033" />
+      </labels>
+    </option>
+  </options>
+</optionset>

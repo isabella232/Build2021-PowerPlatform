@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<optionset Name="cat_additionaleligibilityrequirements" localizedName="AdditionalEligibilityRequirements" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <OptionSetType>picklist</OptionSetType>
+  <IsGlobal>1</IsGlobal>
+  <IntroducedVersion>1.0.0.21</IntroducedVersion>
+  <IsCustomizable>1</IsCustomizable>
+  <displaynames>
+    <displayname description="AdditionalEligibilityRequirements" languagecode="1033" />
+  </displaynames>
+  <Descriptions>
+    <Description description="" languagecode="1033" />
+  </Descriptions>
+  <options>
+    <option value="809060000">
+      <labels>
+        <label description="Add-A-Line" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060001">
+      <labels>
+        <label description="Port-in (Excludes all MVNOs, Metro, Simply Prepaid)" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060002">
+      <labels>
+        <label description="Trade-In (must upload device SKU list as attachment, above)" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060003">
+      <labels>
+        <label description="N/A" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060004">
+      <labels>
+        <label description="New BAN" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060005">
+      <labels>
+        <label description="Other" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060006">
+      <labels>
+        <label description="Gift Card" languagecode="1033" />
+      </labels>
+    </option>
+  </options>
+</optionset>

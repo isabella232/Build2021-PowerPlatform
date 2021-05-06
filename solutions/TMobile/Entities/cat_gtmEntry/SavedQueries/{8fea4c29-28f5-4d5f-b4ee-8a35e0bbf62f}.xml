@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedqueries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <savedquery>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>0</CanBeDeleted>
+    <isquickfindquery>0</isquickfindquery>
+    <isprivate>0</isprivate>
+    <isdefault>0</isdefault>
+    <savedqueryid>{8fea4c29-28f5-4d5f-b4ee-8a35e0bbf62f}</savedqueryid>
+    <layoutxml>
+      <grid name="resultset" jump="cat_initiativename" select="1" icon="1" preview="1">
+        <row name="result" id="cat_gtmentryid">
+          <cell name="createdon" width="125" />
+          <cell name="cat_legacygtmentryid" width="100" />
+          <cell name="cat_initiativesubmitdate" width="100" />
+          <cell name="cat_initiativename" width="300" />
+          <cell name="cat_billname" width="100" />
+          <cell name="cat_initiativetypegroup" width="206" />
+          <cell name="cat_initiativetype" width="168" />
+          <cell name="cat_phase" width="100" />
+          <cell name="cat_subphase" width="100" />
+          <cell name="cat_requestedlaunchdate" width="100" />
+          <cell name="cat_enddate" width="100" />
+          <cell name="cat_businessowner" width="100" />
+          <cell name="cat_sponsor" width="100" />
+          <cell name="cat_description" width="100" />
+          <cell name="createdby" width="100" />
+          <cell name="cat_prcode" width="100" />
+          <cell name="cat_darkstatus" width="100" />
+          <cell name="cat_galifttype" width="100" />
+          <cell name="cat_integratedmarketing" width="100" />
+          <cell name="ownerid" width="100" />
+          <cell name="cat_beneficiarylobapprover" width="100" />
+          <cell name="cat_brand" width="100" />
+          <cell name="cat_forecasteddate" width="100" />
+          <cell name="modifiedon" width="100" />
+        </row>
+      </grid>
+    </layoutxml>
+    <querytype>0</querytype>
+    <fetchxml>
+      <fetch version="1.0" mapping="logical">
+        <entity name="cat_gtmentry">
+          <attribute name="cat_gtmentryid" />
+          <attribute name="cat_initiativename" />
+          <attribute name="createdon" />
+          <attribute name="cat_description" />
+          <attribute name="cat_enddate" />
+          <attribute name="cat_requestedlaunchdate" />
+          <attribute name="cat_sponsor" />
+          <attribute name="cat_phase" />
+          <attribute name="cat_subphase" />
+          <attribute name="cat_businessowner" />
+          <attribute name="createdby" />
+          <attribute name="cat_prcode" />
+          <attribute name="cat_darkstatus" />
+          <attribute name="cat_galifttype" />
+          <attribute name="cat_initiativetype" />
+          <attribute name="cat_initiativetypegroup" />
+          <attribute name="cat_integratedmarketing" />
+          <attribute name="ownerid" />
+          <attribute name="cat_billname" />
+          <attribute name="cat_beneficiarylobapprover" />
+          <attribute name="cat_brand" />
+          <attribute name="cat_initiativesubmitdate" />
+          <attribute name="cat_forecasteddate" />
+          <attribute name="cat_legacygtmentryid" />
+          <attribute name="modifiedon" />
+          <filter type="and">
+            <condition attribute="statecode" operator="eq" value="0" />
+            <condition attribute="modifiedon" operator="on-or-before" value="2020-04-27" />
+          </filter>
+          <order attribute="modifiedon" descending="true" />
+        </entity>
+      </fetch>
+    </fetchxml>
+    <IntroducedVersion>1.0.0.1</IntroducedVersion>
+    <LocalizedNames>
+      <LocalizedName description="Active gtmEntries - Old to New Modified" languagecode="1033" />
+    </LocalizedNames>
+  </savedquery>
+</savedqueries>

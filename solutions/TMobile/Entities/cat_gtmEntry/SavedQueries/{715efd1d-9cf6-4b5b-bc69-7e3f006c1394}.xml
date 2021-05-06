@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedqueries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <savedquery>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>0</CanBeDeleted>
+    <isquickfindquery>0</isquickfindquery>
+    <isprivate>0</isprivate>
+    <isdefault>1</isdefault>
+    <savedqueryid>{715efd1d-9cf6-4b5b-bc69-7e3f006c1394}</savedqueryid>
+    <layoutxml>
+      <grid name="resultset" jump="cat_initiativename" select="1" icon="1" preview="1">
+        <row name="result" id="cat_gtmentryid">
+          <cell name="createdon" width="125" />
+          <cell name="cat_initiativename" width="300" />
+          <cell name="cat_businessowner" width="100" />
+          <cell name="cat_sponsor" width="100" />
+          <cell name="createdby" width="100" />
+          <cell name="cat_lobchannelhorizontal" width="100" />
+          <cell name="cat_subphase" width="100" />
+          <cell name="cat_phase" width="100" />
+          <cell name="cat_enddate" width="100" />
+          <cell name="cat_forecasteddate" width="100" />
+          <cell name="cat_prcode" width="100" />
+        </row>
+      </grid>
+    </layoutxml>
+    <querytype>1</querytype>
+    <fetchxml>
+      <fetch version="1.0" mapping="logical">
+        <entity name="cat_gtmentry">
+          <attribute name="cat_gtmentryid" />
+          <attribute name="cat_initiativename" />
+          <attribute name="createdon" />
+          <attribute name="cat_businessowner" />
+          <attribute name="cat_sponsor" />
+          <attribute name="createdby" />
+          <order attribute="createdon" descending="true" />
+          <attribute name="cat_lobchannelhorizontal" />
+          <attribute name="cat_subphase" />
+          <attribute name="cat_phase" />
+          <attribute name="cat_enddate" />
+          <attribute name="cat_forecasteddate" />
+          <attribute name="cat_prcode" />
+        </entity>
+      </fetch>
+    </fetchxml>
+    <IntroducedVersion>1.0.0.1</IntroducedVersion>
+    <LocalizedNames>
+      <LocalizedName description="gtmEntry Advanced Find View" languagecode="1033" />
+    </LocalizedNames>
+  </savedquery>
+</savedqueries>

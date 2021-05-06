@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Connector xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <connectorid>6493a85f-aedf-46bd-9cc7-404b9c4ae2cd</connectorid>
+  <description></description>
+  <displayname>CDS API Connector</displayname>
+  <iconbrandcolor>#007ee5</iconbrandcolor>
+  <name>cat_5Fcds-20api-20connector</name>
+  <connectortype>1</connectortype>
+  <openapidefinition>/Connector/cat_5Fcds-20api-20connector_openapidefinition.json</openapidefinition>
+  <connectionparameters>/Connector/cat_5Fcds-20api-20connector_connectionparameters.json</connectionparameters>
+  <policytemplateinstances>/Connector/cat_5Fcds-20api-20connector_policytemplateinstances.json</policytemplateinstances>
+  <iconblob>/Connector/cat_5Fcds-20api-20connector_iconblob.Jpeg</iconblob>
+</Connector>

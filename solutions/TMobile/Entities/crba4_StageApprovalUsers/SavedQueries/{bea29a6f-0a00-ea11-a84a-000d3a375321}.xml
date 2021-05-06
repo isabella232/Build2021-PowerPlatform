@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedqueries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <savedquery>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>1</CanBeDeleted>
+    <isquickfindquery>0</isquickfindquery>
+    <isprivate>0</isprivate>
+    <isdefault>0</isdefault>
+    <savedqueryid>{bea29a6f-0a00-ea11-a84a-000d3a375321}</savedqueryid>
+    <layoutxml>
+      <grid name="resultset" jump="crba4_name" select="1" icon="1" preview="1">
+        <row name="result" id="crba4_stageapprovalusersid">
+          <cell name="crba4_name" width="200" />
+          <cell name="crba4_instancestageid" width="275" />
+          <cell name="crba4_approval" width="100" />
+          <cell name="crba4_orbitbpf" width="100" />
+          <cell name="createdon" width="100" />
+          <cell name="overriddencreatedon" width="100" />
+          <cell name="statecode" width="100" />
+          <cell name="ownerid" width="100" />
+          <cell name="modifiedby" width="100" />
+          <cell name="modifiedon" width="100" />
+        </row>
+      </grid>
+    </layoutxml>
+    <querytype>0</querytype>
+    <fetchxml>
+      <fetch version="1.0" output-format="xml-platform" mapping="logical">
+        <entity name="crba4_stageapprovalusers">
+          <attribute name="crba4_name" />
+          <attribute name="crba4_stageapprovalusersid" />
+          <attribute name="crba4_instancestageid" />
+          <attribute name="crba4_approval" />
+          <attribute name="crba4_orbitbpf" />
+          <attribute name="createdon" />
+          <attribute name="overriddencreatedon" />
+          <attribute name="statecode" />
+          <attribute name="ownerid" />
+          <attribute name="modifiedby" />
+          <attribute name="modifiedon" />
+          <order attribute="crba4_instancestageid" descending="false" />
+        </entity>
+      </fetch>
+    </fetchxml>
+    <IntroducedVersion>1.0.0.0</IntroducedVersion>
+    <LocalizedNames>
+      <LocalizedName description="InstanceStageIDSort" languagecode="1033" />
+    </LocalizedNames>
+  </savedquery>
+</savedqueries>

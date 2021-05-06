@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedqueries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <savedquery>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>1</CanBeDeleted>
+    <isquickfindquery>0</isquickfindquery>
+    <isprivate>0</isprivate>
+    <isdefault>0</isdefault>
+    <savedqueryid>{f026b4a1-0e17-ea11-a811-000d3a36857d}</savedqueryid>
+    <layoutxml>
+      <grid name="resultset" jump="cat_initiativename" select="1" icon="1" preview="1">
+        <row name="result" id="cat_gtmentryid">
+          <cell name="cat_initiativename" width="200" />
+          <cell name="cat_initiativetype" width="100" />
+          <cell name="cat_sponsor" width="100" />
+          <cell name="cat_businessowner" width="100" />
+        </row>
+      </grid>
+    </layoutxml>
+    <querytype>0</querytype>
+    <fetchxml>
+      <fetch version="1.0" output-format="xml-platform" mapping="logical">
+        <entity name="cat_gtmentry">
+          <attribute name="cat_initiativename" />
+          <attribute name="cat_gtmentryid" />
+          <link-entity name="cat_projectteamroles" alias="aa" link-type="inner" from="cat_gtmentry" to="cat_gtmentryid">
+            <filter type="and">
+              <condition attribute="cat_teammember" operator="eq-userid" />
+            </filter>
+          </link-entity>
+          <attribute name="cat_initiativetype" />
+          <attribute name="cat_sponsor" />
+          <attribute name="cat_businessowner" />
+        </entity>
+      </fetch>
+    </fetchxml>
+    <IntroducedVersion>1.0.0.48</IntroducedVersion>
+    <LocalizedNames>
+      <LocalizedName description="Non-Sponsor Role Initiatives" languagecode="1033" />
+    </LocalizedNames>
+  </savedquery>
+</savedqueries>

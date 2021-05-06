@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<optionset Name="cat_initiativetype" localizedName="InitiativeType" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <OptionSetType>picklist</OptionSetType>
+  <IsGlobal>1</IsGlobal>
+  <IntroducedVersion>1.0.0.21</IntroducedVersion>
+  <IsCustomizable>1</IsCustomizable>
+  <displaynames>
+    <displayname description="InitiativeType" languagecode="1033" />
+  </displaynames>
+  <Descriptions>
+    <Description description="" languagecode="1033" />
+  </Descriptions>
+  <options>
+    <option value="809060000">
+      <labels>
+        <label description="Please Select" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060001">
+      <labels>
+        <label description="Project" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060002">
+      <labels>
+        <label description="Other" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060003">
+      <labels>
+        <label description="Service Offer" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060004">
+      <labels>
+        <label description="Device Promotion" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060005">
+      <labels>
+        <label description="Device Launch" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060008">
+      <labels>
+        <label description="Lights On" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060009">
+      <labels>
+        <label description="Digital Transformation" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560000">
+      <labels>
+        <label description="Other - P&amp;T" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560001">
+      <labels>
+        <label description="Engineering" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560002">
+      <labels>
+        <label description="Operate and Run" languagecode="1033" />
+      </labels>
+    </option>
+  </options>
+</optionset>
