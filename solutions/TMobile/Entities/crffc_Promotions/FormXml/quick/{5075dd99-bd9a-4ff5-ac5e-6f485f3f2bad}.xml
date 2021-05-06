@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <systemform>
+    <formid>{5075dd99-bd9a-4ff5-ac5e-6f485f3f2bad}</formid>
+    <IntroducedVersion>1.0.0.0</IntroducedVersion>
+    <FormPresentation>1</FormPresentation>
+    <FormActivationState>1</FormActivationState>
+    <form>
+      <tabs>
+        <tab verticallayout="true" id="{1d9b164d-a941-43bd-ac24-b4452b3f1cbb}" IsUserDefined="1">
+          <labels>
+            <label description="" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="100%">
+              <sections>
+                <section showlabel="false" showbar="false" IsUserDefined="0" id="{0cfc9ae9-f84f-48e6-b1a9-018595ab4bac}">
+                  <labels>
+                    <label description="GENERAL" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{0b32b267-812f-42d1-b612-4f7fe7d6a1db}">
+                        <labels>
+                          <label description="Name" languagecode="1033" />
+                        </labels>
+                        <control id="crffc_name" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="crffc_name" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{c860944b-47be-46a7-892c-048f79167f4d}">
+                        <labels>
+                          <label description="Owner" languagecode="1033" />
+                        </labels>
+                        <control id="ownerid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ownerid" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{04ceb7bf-c913-4c80-b4f0-494288ae78b5}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="GTMEntry" languagecode="1033" />
+                        </labels>
+                        <control id="crffc_gtmentry" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="crffc_gtmentry" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{794e7964-4b74-483f-8c82-7fc26410d920}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Status Reason" languagecode="1033" />
+                        </labels>
+                        <control id="statuscode" classid="{3EF39988-22BB-4F0B-BBBE-64B5A3748AEE}" datafieldname="statuscode" disabled="false" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+      </tabs>
+      <DisplayConditions Order="0" FallbackForm="true">
+        <Everyone />
+      </DisplayConditions>
+    </form>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>1</CanBeDeleted>
+    <LocalizedNames>
+      <LocalizedName description="Information" languagecode="1033" />
+    </LocalizedNames>
+  </systemform>
+</forms>

@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <systemform>
+    <formid>{49dc1ed4-6f55-4ac8-b41a-4e7847604e4f}</formid>
+    <IntroducedVersion>1.1.0.4</IntroducedVersion>
+    <FormPresentation>1</FormPresentation>
+    <FormActivationState>1</FormActivationState>
+    <form headerdensity="HighWithControls">
+      <tabs>
+        <tab verticallayout="true" id="{3e3e21df-0c6d-4c72-bb7d-c5e33efab930}" IsUserDefined="1">
+          <labels>
+            <label description="General" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="33%">
+              <sections>
+                <section showlabel="false" showbar="false" IsUserDefined="0" id="{e4963093-6387-43f0-9e7b-45609589cbfe}">
+                  <labels>
+                    <label description="General" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{0286f7d6-1d09-47da-a354-085c26311249}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Date Created" languagecode="1033" />
+                        </labels>
+                        <control id="createdon" classid="{5B773807-9FB2-42DB-97C3-7A91EFF8ADFF}" datafieldname="createdon" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{0beb5644-61a8-4aab-840a-6f49233b7cf8}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Description" languagecode="1033" />
+                        </labels>
+                        <control id="description" classid="{E0DECE4B-6FC8-4A8F-A065-082708572369}" datafieldname="description" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{13090201-31a9-4a26-a19a-afed281bfb16}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="gtmEntry" languagecode="1033" />
+                        </labels>
+                        <control id="cat_gtmentry" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="cat_gtmentry" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{320afc50-ad81-4808-bc20-ef266de9f9a9}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="ToRecipients" languagecode="1033" />
+                        </labels>
+                        <control id="cat_torecipients" classid="{4273EDBD-AC1D-40D3-9FB2-095C621B552D}" datafieldname="cat_torecipients" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{f1ab2d1b-706d-4fe3-84b9-74c4d74ec98c}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="BCCRecipients" languagecode="1033" />
+                        </labels>
+                        <control id="cat_bccrecipients" classid="{4273EDBD-AC1D-40D3-9FB2-095C621B552D}" datafieldname="cat_bccrecipients" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{20fa4da1-b984-4744-9bfb-b7b0b177824e}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="CCRecipients" languagecode="1033" />
+                        </labels>
+                        <control id="cat_ccrecipients" classid="{4273EDBD-AC1D-40D3-9FB2-095C621B552D}" datafieldname="cat_ccrecipients" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{09a28689-a39e-45ee-9718-9a88e8521987}">
+                        <labels>
+                          <label description="Subject" languagecode="1033" />
+                        </labels>
+                        <control id="subject" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="subject" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{046fa8b3-d183-4d80-9516-36f7c0a890f0}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="MessageBody" languagecode="1033" />
+                        </labels>
+                        <control id="cat_messagebody" classid="{E0DECE4B-6FC8-4A8F-A065-082708572369}" datafieldname="cat_messagebody" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{d8a9120e-b8d1-42dc-97bd-aa51d51c71fe}">
+                        <labels>
+                          <label description="Owner" languagecode="1033" />
+                        </labels>
+                        <control id="ownerid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ownerid" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+            <column width="66%">
+              <sections>
+                <section showlabel="false" showbar="false" id="{9409d0b7-75b2-471b-9f88-59a6c8edb337}" IsUserDefined="0" height="auto">
+                  <labels>
+                    <label description="Notes" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell showlabel="false" rowspan="15" auto="false" id="{735f8b8f-ac59-4288-9539-5d0d9d1df016}">
+                        <labels>
+                          <label description="Note Text" languagecode="1033" />
+                        </labels>
+                        <control id="notescontrol" classid="{06375649-c143-495e-a496-c962e5b4488e}">
+                          <parameters>
+                            <DefaultTabId>NotesTab</DefaultTabId>
+                          </parameters>
+                        </control>
+                      </cell>
+                    </row>
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row height="auto" />
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+      </tabs>
+      <header id="{5df882c8-bd7f-46fe-bdd5-0e143aebfdd5}" celllabelposition="Top" columns="1111" labelwidth="115">
+        <rows>
+          <row>
+            <cell id="{50e80af5-40a9-439a-bf36-357d7b0d09fd}">
+              <labels>
+                <label description="Priority" languagecode="1033" />
+              </labels>
+              <control id="header_prioritycode" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="prioritycode" disabled="false" />
+            </cell>
+            <cell id="{6bea8af4-44b3-4d4f-9242-61618015e944}">
+              <labels>
+                <label description="Due Date" languagecode="1033" />
+              </labels>
+              <control id="header_scheduledend" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="scheduledend" disabled="false" />
+            </cell>
+            <cell id="{6de289d7-85e9-4cf7-bce7-3b3e51afceeb}">
+              <labels>
+                <label description="Activity Status" languagecode="1033" />
+              </labels>
+              <control id="header_statecode" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="statecode" disabled="false" />
+            </cell>
+            <cell id="{6903b06c-a9a8-4cba-8d47-a161b752be9a}">
+              <labels>
+                <label description="Owner" languagecode="1033" />
+              </labels>
+              <control id="header_ownerid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ownerid" disabled="false" />
+            </cell>
+          </row>
+        </rows>
+      </header>
+      <footer id="{17f77944-5104-4a22-ab6a-1881355c8b3d}" celllabelposition="Top" columns="111" labelwidth="115" celllabelalignment="Left">
+        <rows>
+          <row>
+            <cell id="{d2488799-9893-4a79-a8c4-15b1e0e2ddb1}" showlabel="false">
+              <labels>
+                <label description="" languagecode="1033" />
+              </labels>
+            </cell>
+            <cell id="{f49536ff-7bdd-4e61-873e-b3181e1f3c20}" showlabel="false">
+              <labels>
+                <label description="" languagecode="1033" />
+              </labels>
+            </cell>
+            <cell id="{5e384f27-dde6-4ea2-8aab-6b552aeadb2c}" showlabel="false">
+              <labels>
+                <label description="" languagecode="1033" />
+              </labels>
+            </cell>
+          </row>
+        </rows>
+      </footer>
+      <DisplayConditions Order="0" FallbackForm="true" />
+    </form>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>1</CanBeDeleted>
+    <LocalizedNames>
+      <LocalizedName description="Information" languagecode="1033" />
+    </LocalizedNames>
+    <Descriptions>
+      <Description description="A form for this entity." languagecode="1033" />
+    </Descriptions>
+  </systemform>
+</forms>

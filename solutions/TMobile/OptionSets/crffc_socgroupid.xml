@@ -1,0 +1,395 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<optionset Name="crffc_socgroupid" localizedName="SOCGroupID" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <OptionSetType>picklist</OptionSetType>
+  <IsGlobal>1</IsGlobal>
+  <IntroducedVersion>1.0.0.0</IntroducedVersion>
+  <IsCustomizable>1</IsCustomizable>
+  <displaynames>
+    <displayname description="SOCGroupID" languagecode="1033" />
+  </displaynames>
+  <Descriptions>
+    <Description description="" languagecode="1033" />
+  </Descriptions>
+  <options>
+    <option value="358560000">
+      <labels>
+        <label description="10B" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560001">
+      <labels>
+        <label description="10C" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560032">
+      <labels>
+        <label description="G19" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560033">
+      <labels>
+        <label description="G1A" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560002">
+      <labels>
+        <label description="17D" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560034">
+      <labels>
+        <label description="G1M" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560003">
+      <labels>
+        <label description="1AS" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560035">
+      <labels>
+        <label description="G20" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560004">
+      <labels>
+        <label description="1NM" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560036">
+      <labels>
+        <label description="G21" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560005">
+      <labels>
+        <label description="1NS" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560037">
+      <labels>
+        <label description="G22" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560006">
+      <labels>
+        <label description="2AS" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560038">
+      <labels>
+        <label description="G23" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560007">
+      <labels>
+        <label description="2NS" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560039">
+      <labels>
+        <label description="G24" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560008">
+      <labels>
+        <label description="2TS" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560040">
+      <labels>
+        <label description="G25" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560009">
+      <labels>
+        <label description="3B1" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560041">
+      <labels>
+        <label description="G26" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560010">
+      <labels>
+        <label description="3B2" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560042">
+      <labels>
+        <label description="G27" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560011">
+      <labels>
+        <label description="4T1" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560043">
+      <labels>
+        <label description="G28" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560012">
+      <labels>
+        <label description="4T2" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560044">
+      <labels>
+        <label description="G29" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560013">
+      <labels>
+        <label description="8A1" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560045">
+      <labels>
+        <label description="G2A" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560014">
+      <labels>
+        <label description="8A2" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560046">
+      <labels>
+        <label description="G2C" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560015">
+      <labels>
+        <label description="G00" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560047">
+      <labels>
+        <label description="G2M" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560016">
+      <labels>
+        <label description="G01" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560048">
+      <labels>
+        <label description="G30" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560017">
+      <labels>
+        <label description="G02" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560018">
+      <labels>
+        <label description="G04" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560019">
+      <labels>
+        <label description="G05" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560020">
+      <labels>
+        <label description="G06" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560021">
+      <labels>
+        <label description="G07" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560022">
+      <labels>
+        <label description="G09" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560023">
+      <labels>
+        <label description="G10" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560024">
+      <labels>
+        <label description="G11" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560025">
+      <labels>
+        <label description="G12" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560026">
+      <labels>
+        <label description="G13" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560027">
+      <labels>
+        <label description="G14" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560028">
+      <labels>
+        <label description="G15" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560029">
+      <labels>
+        <label description="G16" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560030">
+      <labels>
+        <label description="G17" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560031">
+      <labels>
+        <label description="G18" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560064">
+      <labels>
+        <label description="G47" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560065">
+      <labels>
+        <label description="G48" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560066">
+      <labels>
+        <label description="G7A" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560067">
+      <labels>
+        <label description="G8A" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560068">
+      <labels>
+        <label description="G9A" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560069">
+      <labels>
+        <label description="G49" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560070">
+      <labels>
+        <label description="G50" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560071">
+      <labels>
+        <label description="G51" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560072">
+      <labels>
+        <label description="G52" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560073">
+      <labels>
+        <label description="G53" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560074">
+      <labels>
+        <label description="G54" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560049">
+      <labels>
+        <label description="G31" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560050">
+      <labels>
+        <label description="G32" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560051">
+      <labels>
+        <label description="G33" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560052">
+      <labels>
+        <label description="G34" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560053">
+      <labels>
+        <label description="G36" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560054">
+      <labels>
+        <label description="G37" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560055">
+      <labels>
+        <label description="G38" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560056">
+      <labels>
+        <label description="G39" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560057">
+      <labels>
+        <label description="G40" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560058">
+      <labels>
+        <label description="G41" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560059">
+      <labels>
+        <label description="G42" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560060">
+      <labels>
+        <label description="G43" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560061">
+      <labels>
+        <label description="G44" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560062">
+      <labels>
+        <label description="G45" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560063">
+      <labels>
+        <label description="G46" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="358560075">
+      <labels>
+        <label description="NULL" languagecode="1033" />
+      </labels>
+    </option>
+  </options>
+</optionset>

@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Workflow WorkflowId="{a48bcb1a-afb8-4da8-a05e-fdfde8a095b1}" Name="ORBIT_Initiative_Approval_Process" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <XamlFileName>/Workflows/ORBIT_Initiative_Approval_Process-A48BCB1A-AFB8-4DA8-A05E-FDFDE8A095B1.xaml</XamlFileName>
+  <Type>1</Type>
+  <Subprocess>0</Subprocess>
+  <Category>4</Category>
+  <Mode>0</Mode>
+  <Scope>4</Scope>
+  <OnDemand>0</OnDemand>
+  <TriggerOnCreate>1</TriggerOnCreate>
+  <TriggerOnDelete>0</TriggerOnDelete>
+  <AsyncAutodelete>0</AsyncAutodelete>
+  <SyncWorkflowLogOnFailure>0</SyncWorkflowLogOnFailure>
+  <StateCode>1</StateCode>
+  <StatusCode>2</StatusCode>
+  <processorder>0</processorder>
+  <processroleassignment>&lt;DisplayConditions&gt;&lt;Role Id="{627090ff-40a3-4053-8790-584edc5be201}" /&gt;&lt;Role Id="{119f245c-3cc8-4b62-b31c-d1a046ced15d}" /&gt;&lt;/DisplayConditions&gt;</processroleassignment>
+  <RunAs>1</RunAs>
+  <UniqueName>new_orbit_initiative_approval_process</UniqueName>
+  <IsTransacted>1</IsTransacted>
+  <IntroducedVersion>1.0</IntroducedVersion>
+  <IsCustomizable>1</IsCustomizable>
+  <BusinessProcessType>0</BusinessProcessType>
+  <IsCustomProcessingStepAllowedForOtherPublishers>1</IsCustomProcessingStepAllowedForOtherPublishers>
+  <ProcessTriggerScope>1</ProcessTriggerScope>
+  <PrimaryEntity>cat_gtmEntry</PrimaryEntity>
+  <LocalizedNames>
+    <LocalizedName languagecode="1033" description="ORBIT_Initiative_Approval_Process" />
+  </LocalizedNames>
+  <labels>
+    <steplabels id="{ec8d8bee-7507-4a23-806d-3be697c03133}">
+      <label languagecode="1033" description="Draft" />
+    </steplabels>
+    <steplabels id="{e73fbd82-3e04-47d0-9216-86ce62998651}">
+      <label languagecode="1033" description="Type" />
+    </steplabels>
+    <steplabels id="{6aefc827-8dad-4b8e-b3e3-4dbdbab65e9a}">
+      <label languagecode="1033" description="New" />
+    </steplabels>
+    <steplabels id="{3715d86a-befe-461c-a66f-c72b4b448952}">
+      <label languagecode="1033" description="Phase" />
+    </steplabels>
+    <steplabels id="{1ad1159b-d3c7-42d8-a920-c466576b5ece}">
+      <label languagecode="1033" description="GTM Review - New Approved" />
+    </steplabels>
+    <steplabels id="{4a45157a-705e-4fac-9b7c-3385b97707bd}">
+      <label languagecode="1033" description="Phase" />
+    </steplabels>
+    <steplabels id="{e5ac1867-8c78-4368-af8e-cdcc072a3531}">
+      <label languagecode="1033" description="Concept" />
+    </steplabels>
+    <steplabels id="{86133476-57d9-4e32-be81-8bc11a7433f7}">
+      <label languagecode="1033" description="Phase" />
+    </steplabels>
+    <steplabels id="{dfe12376-5f75-4e14-8a9c-689b5102dd4f}">
+      <label languagecode="1033" description="Assessment" />
+    </steplabels>
+    <steplabels id="{15c56248-35c4-45f0-8b05-72c9745947f0}">
+      <label languagecode="1033" description="Phase" />
+    </steplabels>
+    <steplabels id="{48beb1d6-f76d-4236-be14-08e11749564e}">
+      <label languagecode="1033" description="Requirements" />
+    </steplabels>
+    <steplabels id="{0fff7299-76f7-403d-94f1-97b31300b76d}">
+      <label languagecode="1033" description="Phase" />
+    </steplabels>
+    <steplabels id="{ffeacc8d-f33f-4eda-b24d-1a73e5bbde36}">
+      <label languagecode="1033" description="Build" />
+    </steplabels>
+    <steplabels id="{ccd0abbd-c916-4496-a077-a4fd83a74f2b}">
+      <label languagecode="1033" description="Phase" />
+    </steplabels>
+    <steplabels id="{a297b470-d5d0-4ab8-9fef-a9161af4cdf6}">
+      <label languagecode="1033" description="Alignment" />
+    </steplabels>
+    <steplabels id="{81e70913-69f3-4f85-a1e6-ed3b9d311a30}">
+      <label languagecode="1033" description="InitiativeType" />
+    </steplabels>
+    <steplabels id="{fe10db86-196f-4ee2-bbf2-b9ae0f905efb}">
+      <label languagecode="1033" description="Build" />
+    </steplabels>
+    <steplabels id="{df9bbe77-c9bc-4475-a311-935e1e7d22f9}">
+      <label languagecode="1033" description="Phase" />
+    </steplabels>
+    <steplabels id="{b8586ed8-7e13-446a-b3f4-9b7ca0a94bf0}">
+      <label languagecode="1033" description="Approved" />
+    </steplabels>
+    <steplabels id="{7df27ef6-23b9-40c6-868e-335b9a957441}">
+      <label languagecode="1033" description="LastDateToCancel" />
+    </steplabels>
+  </labels>
+</Workflow>

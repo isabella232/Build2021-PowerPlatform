@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedqueries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <savedquery>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>0</CanBeDeleted>
+    <isquickfindquery>0</isquickfindquery>
+    <isprivate>0</isprivate>
+    <isdefault>1</isdefault>
+    <savedqueryid>{9cd4a50c-90b5-4ab6-94a2-916c3f5d4aa5}</savedqueryid>
+    <layoutxml>
+      <grid name="resultset" jump="cat_name" select="1" icon="1" preview="1">
+        <row name="result" id="cat_orbitapprovalshistoryid">
+          <cell name="cat_name" width="300" />
+          <cell name="createdon" width="125" />
+          <cell name="cat_approvalstatusresponse" width="100" />
+          <cell name="cat_approvaluser" width="100" />
+          <cell name="cat_approvercomments" width="100" />
+          <cell name="cat_gtmentry" width="100" />
+          <cell name="cat_stageapprovalresponses" width="100" />
+          <cell name="cat_stageapprovalusers" width="100" />
+          <cell name="createdby" width="100" />
+          <cell name="modifiedby" width="100" />
+        </row>
+      </grid>
+    </layoutxml>
+    <querytype>0</querytype>
+    <fetchxml>
+      <fetch version="1.0" mapping="logical">
+        <entity name="cat_orbitapprovalshistory">
+          <attribute name="cat_orbitapprovalshistoryid" />
+          <attribute name="cat_name" />
+          <attribute name="createdon" />
+          <filter type="and">
+            <condition attribute="statecode" operator="eq" value="0" />
+          </filter>
+          <attribute name="cat_approvalstatusresponse" />
+          <attribute name="cat_approvaluser" />
+          <attribute name="cat_approvercomments" />
+          <attribute name="cat_gtmentry" />
+          <attribute name="cat_stageapprovalresponses" />
+          <attribute name="cat_stageapprovalusers" />
+          <order attribute="createdon" descending="true" />
+          <attribute name="createdby" />
+          <attribute name="modifiedby" />
+        </entity>
+      </fetch>
+    </fetchxml>
+    <IntroducedVersion>1.1.0.8</IntroducedVersion>
+    <LocalizedNames>
+      <LocalizedName description="Active ORBITApprovalsHistories" languagecode="1033" />
+    </LocalizedNames>
+  </savedquery>
+</savedqueries>

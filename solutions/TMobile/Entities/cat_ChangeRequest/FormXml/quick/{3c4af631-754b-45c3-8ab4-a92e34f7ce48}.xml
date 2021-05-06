@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <systemform>
+    <formid>{3c4af631-754b-45c3-8ab4-a92e34f7ce48}</formid>
+    <IntroducedVersion>1.1.0.11</IntroducedVersion>
+    <FormPresentation>1</FormPresentation>
+    <FormActivationState>1</FormActivationState>
+    <form>
+      <tabs>
+        <tab verticallayout="true" id="{fad9549d-c2a3-4c87-acc9-00e6f596fae5}" IsUserDefined="1">
+          <labels>
+            <label description="" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="100%">
+              <sections>
+                <section showlabel="false" showbar="false" IsUserDefined="0" id="{afc29f73-8d2c-4e68-82e2-36f655e5a559}">
+                  <labels>
+                    <label description="GENERAL" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{3a1ed8b7-10d1-416f-962b-8a674bf57a0b}">
+                        <labels>
+                          <label description="FieldName" languagecode="1033" />
+                        </labels>
+                        <control id="cat_fieldname" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="cat_fieldname" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{7ece30a8-0818-4fb2-84ce-dc6d18987ff5}">
+                        <labels>
+                          <label description="Owner" languagecode="1033" />
+                        </labels>
+                        <control id="ownerid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ownerid" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{79bf5e10-d145-41cc-90ed-650f8112b2dc}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="CRApprovalStage" languagecode="1033" />
+                        </labels>
+                        <control id="cat_crapprovalstage" classid="{3EF39988-22BB-4F0B-BBBE-64B5A3748AEE}" datafieldname="cat_crapprovalstage" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{6d64ff4b-06bf-4668-ba93-7746455d6a4c}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="FieldChangeRecord" languagecode="1033" />
+                        </labels>
+                        <control id="cat_fieldchangerecord" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="cat_fieldchangerecord" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{2911a8f1-79f0-48d3-8786-155cf72173e8}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="FieldID" languagecode="1033" />
+                        </labels>
+                        <control id="cat_fieldid" classid="{4273EDBD-AC1D-40D3-9FB2-095C621B552D}" datafieldname="cat_fieldid" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{cfccc059-2614-4914-a850-07965dbff621}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="FieldNameOther" languagecode="1033" />
+                        </labels>
+                        <control id="cat_fieldnameother" classid="{4273EDBD-AC1D-40D3-9FB2-095C621B552D}" datafieldname="cat_fieldnameother" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{b6862669-3c1b-4c65-9fa4-9ab2bd168555}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="gtmEntry" languagecode="1033" />
+                        </labels>
+                        <control id="cat_gtmentry" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="cat_gtmentry" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{ed6da8c8-2847-46d5-b2ef-14bc6d5d9f6c}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="JustificationForChange" languagecode="1033" />
+                        </labels>
+                        <control id="cat_justificationforchange" classid="{4273EDBD-AC1D-40D3-9FB2-095C621B552D}" datafieldname="cat_justificationforchange" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{bf9b841e-10c9-4f4e-ba39-92f9b8f1f008}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="NewValue" languagecode="1033" />
+                        </labels>
+                        <control id="cat_newvalue" classid="{E0DECE4B-6FC8-4A8F-A065-082708572369}" datafieldname="cat_newvalue" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{2942ff28-8786-4955-8875-b6cf79dee4ed}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="OriginalValue" languagecode="1033" />
+                        </labels>
+                        <control id="cat_originalvalue" classid="{E0DECE4B-6FC8-4A8F-A065-082708572369}" datafieldname="cat_originalvalue" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{e69b483f-f00a-48f8-948f-d6293e9faac2}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Status Reason" languagecode="1033" />
+                        </labels>
+                        <control id="statuscode" classid="{3EF39988-22BB-4F0B-BBBE-64B5A3748AEE}" datafieldname="statuscode" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{d9e26558-c15b-4145-9d38-738dc3fbbb61}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="T1Reviewer" languagecode="1033" />
+                        </labels>
+                        <control id="cat_t1reviewer" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="cat_t1reviewer" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{57906091-9e24-4513-a4cc-936c06340877}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="T1ReviewerComments" languagecode="1033" />
+                        </labels>
+                        <control id="cat_t1reviewercomments" classid="{4273EDBD-AC1D-40D3-9FB2-095C621B552D}" datafieldname="cat_t1reviewercomments" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{d975ac28-3929-4627-a814-545dcdd45ce1}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="T1ReviewerStatus" languagecode="1033" />
+                        </labels>
+                        <control id="cat_t1reviewerstatus" classid="{3EF39988-22BB-4F0B-BBBE-64B5A3748AEE}" datafieldname="cat_t1reviewerstatus" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{494bebcb-8424-4a1a-9590-408aa3e5113b}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="T2Reviewer" languagecode="1033" />
+                        </labels>
+                        <control id="cat_t2reviewer" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="cat_t2reviewer" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{436614c6-24d8-41e7-82eb-4eb16f5d3734}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="T2ReviewerComments" languagecode="1033" />
+                        </labels>
+                        <control id="cat_t2reviewercomments" classid="{4273EDBD-AC1D-40D3-9FB2-095C621B552D}" datafieldname="cat_t2reviewercomments" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{8fa0cbfc-56b8-45f7-b040-c4cde13c0095}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="T2ReviewerStatus" languagecode="1033" />
+                        </labels>
+                        <control id="cat_t2reviewerstatus" classid="{3EF39988-22BB-4F0B-BBBE-64B5A3748AEE}" datafieldname="cat_t2reviewerstatus" disabled="false" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+      </tabs>
+      <DisplayConditions Order="0" FallbackForm="true">
+        <Everyone />
+      </DisplayConditions>
+    </form>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>1</CanBeDeleted>
+    <LocalizedNames>
+      <LocalizedName description="Information" languagecode="1033" />
+    </LocalizedNames>
+  </systemform>
+</forms>

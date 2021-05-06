@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<optionset Name="cat_rateplanrequirements" localizedName="RatePlanRequirements" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <OptionSetType>picklist</OptionSetType>
+  <IsGlobal>1</IsGlobal>
+  <IntroducedVersion>1.1.0.2</IntroducedVersion>
+  <IsCustomizable>1</IsCustomizable>
+  <displaynames>
+    <displayname description="RatePlanRequirements" languagecode="1033" />
+  </displaynames>
+  <Descriptions>
+    <Description description="" languagecode="1033" />
+  </Descriptions>
+  <options>
+    <option value="809060000">
+      <labels>
+        <label description="$50 Google One" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060001">
+      <labels>
+        <label description="$60 Amazon Prime" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060002">
+      <labels>
+        <label description="4 for $120 with Amazon Prime" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060003">
+      <labels>
+        <label description="2 for $80 with Amazon Prime" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060004">
+      <labels>
+        <label description="4 for $100 (defeatured)" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060005">
+      <labels>
+        <label description="No Rate Plan Requirements" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060006">
+      <labels>
+        <label description="Amazon Prime" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060007">
+      <labels>
+        <label description="Google One" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060008">
+      <labels>
+        <label description="Perks Plan" languagecode="1033" />
+      </labels>
+    </option>
+    <option value="809060009">
+      <labels>
+        <label description="Other" languagecode="1033" />
+      </labels>
+    </option>
+  </options>
+</optionset>

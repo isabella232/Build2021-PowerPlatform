@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedqueries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <savedquery>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>0</CanBeDeleted>
+    <isquickfindquery>0</isquickfindquery>
+    <isprivate>0</isprivate>
+    <isdefault>0</isdefault>
+    <savedqueryid>{40758087-dcf7-4394-b1dd-7de0aaee9a53}</savedqueryid>
+    <layoutxml>
+      <grid name="resultset" jump="cat_fieldname" select="1" icon="1" preview="1">
+        <row name="result" id="cat_changerequestid">
+          <cell name="cat_fieldname" width="300" />
+          <cell name="createdon" width="125" />
+        </row>
+      </grid>
+    </layoutxml>
+    <querytype>0</querytype>
+    <fetchxml>
+      <fetch version="1.0" mapping="logical">
+        <entity name="cat_changerequest">
+          <attribute name="cat_changerequestid" />
+          <attribute name="cat_fieldname" />
+          <attribute name="createdon" />
+          <order attribute="cat_fieldname" descending="false" />
+          <filter type="and">
+            <condition attribute="statecode" operator="eq" value="1" />
+          </filter>
+        </entity>
+      </fetch>
+    </fetchxml>
+    <IntroducedVersion>1.1.0.11</IntroducedVersion>
+    <LocalizedNames>
+      <LocalizedName description="Inactive ChangeRequests" languagecode="1033" />
+    </LocalizedNames>
+  </savedquery>
+</savedqueries>

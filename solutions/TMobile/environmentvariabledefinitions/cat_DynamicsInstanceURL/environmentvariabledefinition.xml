@@ -1,0 +1,13 @@
+<environmentvariabledefinition schemaname="cat_DynamicsInstanceURL">
+  <defaultvalue>https://org86cd876f.crm.dynamics.com</defaultvalue>
+  <description default="URL for Dynamics 365 Instance">
+    <label description="URL for Dynamics 365 Instance" languagecode="1033" />
+  </description>
+  <displayname default="DynamicsInstanceURL">
+    <label description="DynamicsInstanceURL" languagecode="1033" />
+  </displayname>
+  <introducedversion>1.1.0.30</introducedversion>
+  <iscustomizable>1</iscustomizable>
+  <isrequired>0</isrequired>
+  <type>100000000</type>
+</environmentvariabledefinition>

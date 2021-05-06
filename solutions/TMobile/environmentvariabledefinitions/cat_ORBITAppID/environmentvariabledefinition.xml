@@ -1,0 +1,13 @@
+<environmentvariabledefinition schemaname="cat_ORBITAppID">
+  <defaultvalue>89a3f4c6-c310-43eb-9ad4-ea52603482ac</defaultvalue>
+  <description default="APP ID for ORBIT Application">
+    <label description="APP ID for ORBIT Application" languagecode="1033" />
+  </description>
+  <displayname default="ORBITAppID">
+    <label description="ORBITAppID" languagecode="1033" />
+  </displayname>
+  <introducedversion>1.1.0.30</introducedversion>
+  <iscustomizable>1</iscustomizable>
+  <isrequired>0</isrequired>
+  <type>100000000</type>
+</environmentvariabledefinition>

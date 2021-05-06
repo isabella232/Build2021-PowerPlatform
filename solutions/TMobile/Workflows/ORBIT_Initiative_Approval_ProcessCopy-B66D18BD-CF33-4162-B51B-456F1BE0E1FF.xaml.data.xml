@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Workflow WorkflowId="{b66d18bd-cf33-4162-b51b-456f1be0e1ff}" Name="ORBIT_Initiative_Approval_Process (Copy)" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <XamlFileName>/Workflows/ORBIT_Initiative_Approval_ProcessCopy-B66D18BD-CF33-4162-B51B-456F1BE0E1FF.xaml</XamlFileName>
+  <Type>1</Type>
+  <Subprocess>0</Subprocess>
+  <Category>4</Category>
+  <Mode>0</Mode>
+  <Scope>4</Scope>
+  <OnDemand>0</OnDemand>
+  <TriggerOnCreate>0</TriggerOnCreate>
+  <TriggerOnDelete>0</TriggerOnDelete>
+  <AsyncAutodelete>0</AsyncAutodelete>
+  <SyncWorkflowLogOnFailure>0</SyncWorkflowLogOnFailure>
+  <StateCode>0</StateCode>
+  <StatusCode>1</StatusCode>
+  <processorder>1</processorder>
+  <processroleassignment>&lt;DisplayConditions&gt;&lt;Role Id="{627090ff-40a3-4053-8790-584edc5be201}" /&gt;&lt;Role Id="{119f245c-3cc8-4b62-b31c-d1a046ced15d}" /&gt;&lt;/DisplayConditions&gt;</processroleassignment>
+  <RunAs>1</RunAs>
+  <UniqueName>new_bpf_b66d18bdcf334162b51b456f1be0e1ff</UniqueName>
+  <IsTransacted>1</IsTransacted>
+  <IntroducedVersion>1.0</IntroducedVersion>
+  <IsCustomizable>1</IsCustomizable>
+  <BusinessProcessType>0</BusinessProcessType>
+  <IsCustomProcessingStepAllowedForOtherPublishers>1</IsCustomProcessingStepAllowedForOtherPublishers>
+  <ProcessTriggerScope>1</ProcessTriggerScope>
+  <PrimaryEntity>cat_gtmEntry</PrimaryEntity>
+  <LocalizedNames>
+    <LocalizedName languagecode="1033" description="ORBIT_Initiative_Approval_Process (Copy)" />
+  </LocalizedNames>
+  <labels>
+    <steplabels id="{fbb72bce-a9f8-4690-968c-a3368ec37ecf}">
+      <label languagecode="1033" description="New" />
+    </steplabels>
+    <steplabels id="{72f00a47-e2f5-4e9d-a46d-79405180b3e2}">
+      <label languagecode="1033" description="Type" />
+    </steplabels>
+    <steplabels id="{4978767a-e63d-4da9-badd-87f7b2d3e550}">
+      <label languagecode="1033" description="Concept" />
+    </steplabels>
+    <steplabels id="{d8bf75bf-ae14-437d-a1f0-690886cd9d9b}">
+      <label languagecode="1033" description="Phase" />
+    </steplabels>
+    <steplabels id="{18ff2cfa-1216-4f48-a6e1-96c647d68a47}">
+      <label languagecode="1033" description="Assessment" />
+    </steplabels>
+    <steplabels id="{437b3848-bfed-4f4e-9a6c-d73ad4225ad5}">
+      <label languagecode="1033" description="Phase" />
+    </steplabels>
+    <steplabels id="{4c198f64-a8e6-4243-8c38-eb9c3ce831dc}">
+      <label languagecode="1033" description="Requirements" />
+    </steplabels>
+    <steplabels id="{2839c86f-4ecb-44dd-98f0-8b792fc9c14a}">
+      <label languagecode="1033" description="Phase" />
+    </steplabels>
+    <steplabels id="{f80dd470-69f9-438d-9b2a-27d8b3c517ba}">
+      <label languagecode="1033" description="Build" />
+    </steplabels>
+    <steplabels id="{3d0932a6-af9f-456a-b45f-63068aff2029}">
+      <label languagecode="1033" description="Phase" />
+    </steplabels>
+    <steplabels id="{345b5fcd-d375-4314-b68c-ec768c4c9e62}">
+      <label languagecode="1033" description="Approved" />
+    </steplabels>
+    <steplabels id="{cefedf63-7dcf-4cb2-90f5-ca917893adc1}">
+      <label languagecode="1033" description="LastDateToCancel" />
+    </steplabels>
+  </labels>
+</Workflow>

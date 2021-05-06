@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedqueries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <savedquery>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>0</CanBeDeleted>
+    <isquickfindquery>1</isquickfindquery>
+    <isprivate>0</isprivate>
+    <isdefault>1</isdefault>
+    <savedqueryid>{ad8adc29-3429-4ca1-a926-c3440bbfc733}</savedqueryid>
+    <layoutxml>
+      <grid name="resultset" jump="crba4_name" select="1" icon="1" preview="1">
+        <row name="result" id="crba4_stageapprovalusersid">
+          <cell name="crba4_name" width="300" />
+          <cell name="crba4_approval" width="100" />
+          <cell name="crba4_instancestageid" width="100" />
+          <cell name="crba4_orbitbpf" width="100" />
+          <cell name="createdon" width="125" />
+        </row>
+      </grid>
+    </layoutxml>
+    <querytype>4</querytype>
+    <fetchxml>
+      <fetch version="1.0" mapping="logical">
+        <entity name="crba4_stageapprovalusers">
+          <attribute name="crba4_stageapprovalusersid" />
+          <attribute name="crba4_name" />
+          <attribute name="createdon" />
+          <filter type="and">
+            <condition attribute="statecode" operator="eq" value="0" />
+          </filter>
+          <filter type="or" isquickfindfields="1">
+            <condition attribute="crba4_name" operator="like" value="{0}" />
+          </filter>
+          <attribute name="crba4_approval" />
+          <attribute name="crba4_instancestageid" />
+          <attribute name="crba4_orbitbpf" />
+          <order attribute="crba4_instancestageid" descending="false" />
+        </entity>
+      </fetch>
+    </fetchxml>
+    <IntroducedVersion>1.0.0.0</IntroducedVersion>
+    <LocalizedNames>
+      <LocalizedName description="Quick Find Active StageApprovalUsers" languagecode="1033" />
+    </LocalizedNames>
+  </savedquery>
+</savedqueries>

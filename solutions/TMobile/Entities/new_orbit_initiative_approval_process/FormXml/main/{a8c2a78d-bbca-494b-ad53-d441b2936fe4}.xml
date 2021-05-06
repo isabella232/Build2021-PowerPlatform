@@ -1,0 +1,281 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <systemform>
+    <formid>{a8c2a78d-bbca-494b-ad53-d441b2936fe4}</formid>
+    <IntroducedVersion>1.0</IntroducedVersion>
+    <FormPresentation>1</FormPresentation>
+    <FormActivationState>1</FormActivationState>
+    <form>
+      <tabs>
+        <tab verticallayout="true" id="{ec8d8bee-7507-4a23-806d-3be697c03133}" name="StageStep3" locklevel="0" expanded="true" visible="false" labelid="{bdc4c3b1-7dbd-417d-bbad-de65204f8e81}">
+          <labels>
+            <label description="Draft" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="100%">
+              <sections>
+                <section showbar="false" columns="1" id="{e1460096-bac5-40d0-14c4-8579f5e94ab4}" name="StageStep3_section1" labelid="{868993c2-1acd-4516-a263-b8eeb12667ca}">
+                  <labels>
+                    <label description="Draft" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{e73fbd82-3e04-47d0-9216-86ce62998651}" showlabel="true" visible="true" labelid="{3d15d784-a383-4c93-bc1a-3bf1a9aa9643}">
+                        <labels>
+                          <label description="Type" languagecode="1033" />
+                        </labels>
+                        <control id="bpf_cat_gtmentry_new_orbit_initiative_approval_process:cat_initiativetype" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="cat_initiativetype" relationship="bpf_cat_gtmentry_new_orbit_initiative_approval_process" isrequired="false" disabled="false" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+        <tab verticallayout="true" id="{6aefc827-8dad-4b8e-b3e3-4dbdbab65e9a}" name="StageStep7" locklevel="0" expanded="true" visible="false" labelid="{fc582474-8ec4-4fae-8ef0-992dac3805ba}">
+          <labels>
+            <label description="New" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="100%">
+              <sections>
+                <section showbar="false" columns="1" id="{f9c291e0-3cdb-f77d-931c-770c3f0c3892}" name="StageStep7_section1" labelid="{1cc29c60-b48b-4a6f-951a-ffa9e7beebfe}">
+                  <labels>
+                    <label description="New" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{3715d86a-befe-461c-a66f-c72b4b448952}" showlabel="true" visible="true" labelid="{672e413f-182c-4b23-b646-73b2038977ee}">
+                        <labels>
+                          <label description="Phase" languagecode="1033" />
+                        </labels>
+                        <control id="bpf_cat_gtmentry_new_orbit_initiative_approval_process:cat_phase" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="cat_phase" relationship="bpf_cat_gtmentry_new_orbit_initiative_approval_process" isrequired="false" disabled="false" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+        <tab verticallayout="true" id="{1ad1159b-d3c7-42d8-a920-c466576b5ece}" name="StageStep11" locklevel="0" expanded="true" visible="false" labelid="{18d888fe-1302-47f1-9c08-286e98a4a767}">
+          <labels>
+            <label description="GTM Review - New Approved" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="100%">
+              <sections>
+                <section showbar="false" columns="1" id="{d2b124cb-e01e-92d7-a90d-2faebc9afc73}" name="StageStep11_section1" labelid="{4b128993-7793-4c56-95d3-81e628b5d0e8}">
+                  <labels>
+                    <label description="GTM Review - New Approved" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{4a45157a-705e-4fac-9b7c-3385b97707bd}" showlabel="true" visible="true" labelid="{0591fcbb-d7a1-48f8-afb4-f2a0de853eea}">
+                        <labels>
+                          <label description="Phase" languagecode="1033" />
+                        </labels>
+                        <control id="bpf_cat_gtmentry_new_orbit_initiative_approval_process:cat_initiativetype" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="cat_initiativetype" relationship="bpf_cat_gtmentry_new_orbit_initiative_approval_process" isrequired="false" disabled="false" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+        <tab verticallayout="true" id="{e5ac1867-8c78-4368-af8e-cdcc072a3531}" name="StageStep15" locklevel="0" expanded="true" visible="false" labelid="{699bb834-6ea0-4dbb-821d-0d9cd3c9b5ea}">
+          <labels>
+            <label description="Concept" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="100%">
+              <sections>
+                <section showbar="false" columns="1" id="{08e32f57-302d-ae40-ebe3-4077f6e249fa}" name="StageStep15_section1" labelid="{6939c393-2ace-4faf-8ddf-1a2e8a8e4271}">
+                  <labels>
+                    <label description="Concept" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{86133476-57d9-4e32-be81-8bc11a7433f7}" showlabel="true" visible="true" labelid="{093aebe5-d263-42a9-b355-03a8f2ee358e}">
+                        <labels>
+                          <label description="Phase" languagecode="1033" />
+                        </labels>
+                        <control id="bpf_cat_gtmentry_new_orbit_initiative_approval_process:cat_phase" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="cat_phase" relationship="bpf_cat_gtmentry_new_orbit_initiative_approval_process" isrequired="false" disabled="false" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+        <tab verticallayout="true" id="{dfe12376-5f75-4e14-8a9c-689b5102dd4f}" name="StageStep19" locklevel="0" expanded="true" visible="false" labelid="{2e448319-382f-489b-88af-830b3f8d24ce}">
+          <labels>
+            <label description="Assessment" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="100%">
+              <sections>
+                <section showbar="false" columns="1" id="{89823b94-92e4-e385-bc8f-b00a15ba0844}" name="StageStep19_section1" labelid="{5437d2d7-eade-4ae0-9695-1ca6171dbf75}">
+                  <labels>
+                    <label description="Assessment" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{15c56248-35c4-45f0-8b05-72c9745947f0}" showlabel="true" visible="true" labelid="{8f3b8ae7-73a8-4a14-91ce-193151500ae5}">
+                        <labels>
+                          <label description="Phase" languagecode="1033" />
+                        </labels>
+                        <control id="bpf_cat_gtmentry_new_orbit_initiative_approval_process:cat_phase" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="cat_phase" relationship="bpf_cat_gtmentry_new_orbit_initiative_approval_process" isrequired="false" disabled="false" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+        <tab verticallayout="true" id="{48beb1d6-f76d-4236-be14-08e11749564e}" name="StageStep23" locklevel="0" expanded="true" visible="false" labelid="{53ae4eb8-459e-4900-b4f9-3457b6515ce9}">
+          <labels>
+            <label description="Requirements" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="100%">
+              <sections>
+                <section showbar="false" columns="1" id="{1e0c786c-2c87-6c8b-21ae-ddf3571bdc0f}" name="StageStep23_section1" labelid="{44de3263-fb58-42e1-93a6-212db5bec1dc}">
+                  <labels>
+                    <label description="Requirements" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{0fff7299-76f7-403d-94f1-97b31300b76d}" showlabel="true" visible="true" labelid="{6bf21943-15a8-4c3e-9bf0-26cd4a140df5}">
+                        <labels>
+                          <label description="Phase" languagecode="1033" />
+                        </labels>
+                        <control id="bpf_cat_gtmentry_new_orbit_initiative_approval_process:cat_phase" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="cat_phase" relationship="bpf_cat_gtmentry_new_orbit_initiative_approval_process" isrequired="false" disabled="false" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+        <tab verticallayout="true" id="{ffeacc8d-f33f-4eda-b24d-1a73e5bbde36}" name="StageStep27" locklevel="0" expanded="true" visible="false" labelid="{47894769-354a-499c-94ac-87f7f7785084}">
+          <labels>
+            <label description="Build" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="100%">
+              <sections>
+                <section showbar="false" columns="1" id="{169376d9-3c81-4960-b41b-546a1d16e5b5}" name="StageStep27_section1" labelid="{6cd8f606-a0c7-402f-8a82-e36377965343}">
+                  <labels>
+                    <label description="Build" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{ccd0abbd-c916-4496-a077-a4fd83a74f2b}" showlabel="true" visible="true" labelid="{c47bf916-b0ee-47a9-9b55-ff6e03dccf66}">
+                        <labels>
+                          <label description="Phase" languagecode="1033" />
+                        </labels>
+                        <control id="bpf_cat_gtmentry_new_orbit_initiative_approval_process:cat_phase" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="cat_phase" relationship="bpf_cat_gtmentry_new_orbit_initiative_approval_process" isrequired="false" disabled="false" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+        <tab verticallayout="true" id="{a297b470-d5d0-4ab8-9fef-a9161af4cdf6}" name="StageStep31" locklevel="0" expanded="true" visible="false" labelid="{37c5358e-0bab-4fde-8fa6-b9e1e44a6a3a}">
+          <labels>
+            <label description="Alignment" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="100%">
+              <sections>
+                <section showbar="false" columns="1" id="{7670805e-dd6b-6141-fc40-cbd6f9ef65c6}" name="StageStep31_section1" labelid="{6867dd18-1150-455f-9edf-0888f24a5d96}">
+                  <labels>
+                    <label description="Alignment" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{81e70913-69f3-4f85-a1e6-ed3b9d311a30}" showlabel="true" visible="true" labelid="{8df0e8f1-7dcb-4d53-832d-cf7b2fde46d8}">
+                        <labels>
+                          <label description="InitiativeType" languagecode="1033" />
+                        </labels>
+                        <control id="bpf_cat_gtmentry_new_orbit_initiative_approval_process:cat_initiativetype" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="cat_initiativetype" relationship="bpf_cat_gtmentry_new_orbit_initiative_approval_process" isrequired="false" disabled="false" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+        <tab verticallayout="true" id="{fe10db86-196f-4ee2-bbf2-b9ae0f905efb}" name="StageStep35" locklevel="0" expanded="true" visible="false" labelid="{bb353061-baf1-4576-a461-98165c69f098}">
+          <labels>
+            <label description="Build" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="100%">
+              <sections>
+                <section showbar="false" columns="1" id="{5b5b8765-9786-998a-30f0-6b887213ffaa}" name="StageStep35_section1" labelid="{a01f8540-9b6a-4afc-aa54-358a5943af06}">
+                  <labels>
+                    <label description="Build" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{df9bbe77-c9bc-4475-a311-935e1e7d22f9}" showlabel="true" visible="true" labelid="{c0a2fdb3-c00a-4042-b356-a2bd09838c9f}">
+                        <labels>
+                          <label description="Phase" languagecode="1033" />
+                        </labels>
+                        <control id="bpf_cat_gtmentry_new_orbit_initiative_approval_process:cat_phase" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="cat_phase" relationship="bpf_cat_gtmentry_new_orbit_initiative_approval_process" isrequired="false" disabled="false" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+        <tab verticallayout="true" id="{b8586ed8-7e13-446a-b3f4-9b7ca0a94bf0}" name="StageStep39" locklevel="0" expanded="true" visible="false" labelid="{5c271b5b-926f-46f4-8a61-a42011515ea3}">
+          <labels>
+            <label description="Approved" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="100%">
+              <sections>
+                <section showbar="false" columns="1" id="{5d47fdf0-cb41-bcbd-4640-2cc3aa9de8be}" name="StageStep39_section1" labelid="{07ef7ae7-89a0-422f-834b-d5d823d64c8b}">
+                  <labels>
+                    <label description="Approved" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{7df27ef6-23b9-40c6-868e-335b9a957441}" showlabel="true" visible="true" labelid="{2da67cbf-d6a4-4d49-91aa-cfe62089f42f}">
+                        <labels>
+                          <label description="LastDateToCancel" languagecode="1033" />
+                        </labels>
+                        <control id="bpf_cat_gtmentry_new_orbit_initiative_approval_process:cat_phase" classid="{3ef39988-22bb-4f0b-bbbe-64b5a3748aee}" datafieldname="cat_phase" relationship="bpf_cat_gtmentry_new_orbit_initiative_approval_process" isrequired="false" disabled="false" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+      </tabs>
+    </form>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>1</CanBeDeleted>
+    <LocalizedNames>
+      <LocalizedName description="Information" languagecode="1033" />
+    </LocalizedNames>
+    <Descriptions>
+      <Description description="A form for this entity." languagecode="1033" />
+    </Descriptions>
+  </systemform>
+</forms>
