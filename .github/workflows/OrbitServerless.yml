@@ -1,8 +1,7 @@
 name: Build and deploy .NET Core application to Function App OrbitServerless with API Management Service OrbitServerlessapi-OrbitServerless
 on:
-  push:
-    branches:
-    - main
+  workflow_dispatch:
+      
 env:
   AZURE_FUNCTIONAPP_NAME: OrbitServerless
   AZURE_FUNCTIONAPP_PACKAGE_PATH: Orbit.Serverless/publish
