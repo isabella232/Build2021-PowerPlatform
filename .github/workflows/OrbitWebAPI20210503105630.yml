@@ -1,4 +1,4 @@
-name: Build and deploy .NET Core application to windows webapp OrbitWebAPI20210503105630 with API Management Service OrbitServerlessapi
+name: OrbitWebAPI20210503105630 with API Management Service OrbitServerlessapi
 on:
   workflow_dispatch:
 
