@@ -1,4 +1,4 @@
-name: Build and deploy .NET Core application to Function App OrbitServerless with API Management Service OrbitServerlessapi-OrbitServerless
+name:  OrbitServerless with API Management Service OrbitServerlessapi-OrbitServerless
 on:
   workflow_dispatch:
       
