@@ -1,0 +1,17 @@
+Analytics As screen:
+    Height: =Max(App.Height, App.DesignHeight)
+    LoadingSpinnerColor: =RGBA(105, 121, 126, 1)
+    Width: =Max(App.Width, App.DesignWidth)
+
+    com_NavTop_3 As com_NavTop:
+
+    com_NavLeft_2 As com_NavLeft:
+        Height: =App.Height - com_NavTop_3.Height
+        Items: |-
+            =Table(
+                {Label:"All Capital Portfolios",LaunchLink:"",Screen:Analytics,InitiativeType:"",IsVisible:true},
+                {Label:"Two",LaunchLink:"",Screen:App.ActiveScreen,InitiativeType:"",IsVisible:true}
+            )
+        Width: =varSideNavWidth
+        Y: =50
+

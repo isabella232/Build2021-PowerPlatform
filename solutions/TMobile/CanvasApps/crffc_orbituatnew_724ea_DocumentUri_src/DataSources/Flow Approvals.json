@@ -1,0 +1,147 @@
+[
+  {
+    "CdsFCBContext": "{\"FileType\":true,\"ImageExternalStorage\":true}",
+    "EntitySetName": "msdyn_flow_flowapprovals",
+    "IsHidden": false,
+    "IsSampleData": false,
+    "IsWritable": true,
+    "LogicalName": "msdyn_flow_flowapproval",
+    "MaxGetRowsCount": 2000,
+    "Name": "Flow Approvals",
+    "NativeCDSDataSourceInfoNameMapping": {
+      "_ownerid_value": "Owner",
+      "createdby": "Created By",
+      "createdon": "Created On",
+      "createdonbehalfby": "Created By (Delegate)",
+      "importsequencenumber": "Import Sequence Number",
+      "modifiedby": "Modified By",
+      "modifiedon": "Modified On",
+      "modifiedonbehalfby": "Modified By (Delegate)",
+      "msdyn_flow_flowapproval_approval": "Approval",
+      "msdyn_flow_flowapproval_AsyncOperations": "System Jobs",
+      "msdyn_flow_flowapproval_BulkDeleteFailures": "Bulk Delete Failures",
+      "msdyn_flow_flowapproval_DuplicateBaseRecord": "Duplicate Records (msdyn_flow_flowapproval_DuplicateBaseRecord)",
+      "msdyn_flow_flowapproval_DuplicateMatchingRecord": "Duplicate Records (msdyn_flow_flowapproval_DuplicateMatchingRecord)",
+      "msdyn_flow_flowapproval_flowculture": "Flow Localization Culture Name",
+      "msdyn_flow_flowapproval_flowid": "Flow Id",
+      "msdyn_flow_flowapproval_flowname": "Flow Name",
+      "msdyn_flow_flowapproval_flownotificationuri": "Flow Notification URI",
+      "msdyn_flow_flowapproval_flowrunsequenceid": "Flow Run Sequence Id",
+      "msdyn_flow_flowapproval_MailboxTrackingFolders": "Mailbox Auto Tracking Folders",
+      "msdyn_flow_flowapproval_name": "Name",
+      "msdyn_flow_flowapproval_PrincipalObjectAttributeAccesses": "Field Sharing",
+      "msdyn_flow_flowapproval_ProcessSession": "Process Sessions",
+      "msdyn_flow_flowapproval_sendflowemail": "Send Flow Email Notification",
+      "msdyn_flow_flowapproval_sendflowpush": "Send Flow Push Notification",
+      "msdyn_flow_flowapproval_SyncErrors": "Sync Errors",
+      "msdyn_flow_flowapprovalid": "Flow Approval",
+      "overriddencreatedon": "Record Created On",
+      "owningbusinessunit": "Owning Business Unit",
+      "owningteam": "Owning Team",
+      "owninguser": "Owning User",
+      "statecode": "Status",
+      "statuscode": "Status Reason",
+      "timezoneruleversionnumber": "Time Zone Rule Version Number",
+      "utcconversiontimezonecode": "UTC Conversion Time Zone Code",
+      "versionnumber": "Version Number"
+    },
+    "PreferredName": "Flow Approvals",
+    "Type": "NativeCDSDataSourceInfo"
+  },
+  {
+    "DisplayName": "Flow Approvals (Views)",
+    "Name": "_msdyn_flow_flowapproval_views",
+    "RelatedEntityName": "Flow Approvals",
+    "TrimmedViewName": true,
+    "Type": "ViewInfo",
+    "ViewInfoNameMapping": {
+      "57defd2e-d1f7-4a6c-bd52-071dfe77fc81": "Flow Approval Advanced Find View",
+      "627f507e-b2e7-4d02-998e-489d510314ad": "Flow Approval Associated View",
+      "819afeaa-2c4d-4b4d-a993-39619148df4d": "Flow Approval Lookup View",
+      "d1998280-1f1d-4629-bd08-13994e6e595d": "Inactive Flow Approvals",
+      "e4de74f5-aaf4-40a6-8b65-ffc2ec42ca52": "Active Flow Approvals"
+    }
+  },
+  {
+    "DisplayName": "Send Flow Email Notification (Flow Approvals)",
+    "Name": "msdyn_flow_flowapproval_msdyn_flow_flowapproval_sendflowemail",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "msdyn_flow_flowapproval_sendflowemail",
+        "OptionSetReferenceEntityName": "Flow Approvals"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "msdyn_flow_flowapproval_sendflowemail",
+    "RelatedEntityName": "Flow Approvals",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Send Flow Push Notification (Flow Approvals)",
+    "Name": "msdyn_flow_flowapproval_msdyn_flow_flowapproval_sendflowpush",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "msdyn_flow_flowapproval_sendflowpush",
+        "OptionSetReferenceEntityName": "Flow Approvals"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "msdyn_flow_flowapproval_sendflowpush",
+    "RelatedEntityName": "Flow Approvals",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status (Flow Approvals)",
+    "Name": "msdyn_flow_flowapproval_statecode",
+    "OptionSetInfoNameMapping": {
+      "0": "Active",
+      "1": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statecode",
+        "OptionSetReferenceEntityName": "Flow Approvals"
+      }
+    },
+    "OptionSetTypeKey": "StateType",
+    "RelatedColumnInvariantName": "statecode",
+    "RelatedEntityName": "Flow Approvals",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status Reason (Flow Approvals)",
+    "Name": "msdyn_flow_flowapproval_statuscode",
+    "OptionSetInfoNameMapping": {
+      "192350000": "Created",
+      "192350001": "WaitingForApproval",
+      "192350002": "NotifyingFlow",
+      "192350003": "Completed"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statuscode",
+        "OptionSetReferenceEntityName": "Flow Approvals"
+      }
+    },
+    "OptionSetTypeKey": "StatusType",
+    "RelatedColumnInvariantName": "statuscode",
+    "RelatedEntityName": "Flow Approvals",
+    "Type": "OptionSetInfo"
+  }
+]

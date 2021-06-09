@@ -1,0 +1,605 @@
+Access_Denied_Screen As screen:
+    Height: =Max(App.Height, App.DesignHeight)
+    LoadingSpinnerColor: =RGBA(105, 121, 126, 1)
+    OnVisible: |+
+        =Set(vartest123, First(colProjectTeamRoles).TeamMember); // This needs to be here to make the AddColumns run properly.
+                    Set(vartest234234, First(varCurrentRecord.ProjectTeamRoles).Name);
+                    //ClearCollect(colTeamRoles, Filter(Choices(RoleType), !(Value = RoleType.Other)));
+                    ClearCollect(colTeamRoles, Choices(RoleType));
+                    ClearCollect(colProjectTeamRoles, varCurrentRecord.ProjectTeamRoles);
+                    
+                    
+                    ClearCollect(colCurrentProjectTeamRoles, 
+                        AddColumns(colTeamRoles, 
+                            "userName", If(!IsBlank(LookUp(colProjectTeamRoles, RoleType = colTeamRoles[@Value]).TeamMember.'Last Name'),
+                                Concatenate(LookUp(colProjectTeamRoles, RoleType = colTeamRoles[@Value]).TeamMember.'Last Name', ", ", 
+                                LookUp(colProjectTeamRoles, RoleType = colTeamRoles[@Value]).TeamMember.'First Name')),
+                            "userJobTitle", LookUp(colProjectTeamRoles, RoleType = colTeamRoles[@Value]).TeamMember.Title, 
+                            "userID", LookUp(colProjectTeamRoles, RoleType = colTeamRoles[@Value]).TeamMember.User,
+                            "roleName", LookUp(colProjectTeamRoles, RoleType = colTeamRoles[@Value]).Name,
+                            "recordID", LookUp(colProjectTeamRoles, RoleType = colTeamRoles[@Value]).ProjectTeamRoles
+                        )
+                    );
+        
+        UpdateContext({varGTMLeadUserID: LookUp([@colCurrentProjectTeamRoles], Value = [@RoleType].'GTM Lead').userID});
+        UpdateContext({varGTMLeadEmail: LookUp(Users, User = varGTMLeadUserID).'Primary Email'});
+        
+        
+        ClearCollect(colActiveRecordEmailFields, 
+        	{i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_initiativename""><xsl:value-of select=""cat_gtmentry/cat_initiativename"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: varCurrentRecord.InitiativeName},
+            {i: "]]>", 
+                value: ""},
+            {i: "<![CDATA[", 
+                value: ""},
+            {i: "<xsl:choose><xsl:when test=""systemuser/fullname""><xsl:value-of select=""systemuser/fullname"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: varCurrentUserNameFL},
+            {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_prcode""><xsl:value-of select=""cat_gtmentry/cat_prcode"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: Coalesce(varCurrentRecord.PRCode, "Not Assigned")},
+            
+        	{i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_sponsor/@firstname""><xsl:value-of select=""cat_gtmentry/cat_sponsor/@firstname"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: Right(varCurrentRecord.'Sponsoring VP'.Nickname, (Len(varCurrentRecord.'Sponsoring VP'.Nickname) - Find(",", varCurrentRecord.'Sponsoring VP'.Nickname, 1)) - 1)},
+            {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_sponsor/@fullname""><xsl:value-of select=""cat_gtmentry/cat_sponsor/@fullname"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: Concatenate(Right(varCurrentRecord.'Sponsoring VP'.Nickname, (Len(varCurrentRecord.'Sponsoring VP'.Nickname) - Find(",", varCurrentRecord.'Sponsoring VP'.Nickname, 1)) - 1), " ", Left(varCurrentRecord.'Sponsoring VP'.Nickname, Find(",", varCurrentRecord.'Sponsoring VP'.Nickname, 1) - 1))},
+            {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_sponsor/@'Last Name'""><xsl:value-of select=""cat_gtmentry/cat_sponsor/@'Last Name'"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+            value: Left(varCurrentRecord.'Sponsoring VP'.Nickname, Find(",", varCurrentRecord.'Sponsoring VP'.Nickname, 1) - 1)},
+        	{i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_sponsor/@lastname""><xsl:value-of select=""cat_gtmentry/cat_sponsor/@lastname"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: Left(varCurrentRecord.'Sponsoring VP'.Nickname, Find(",", varCurrentRecord.'Sponsoring VP'.Nickname, 1) - 1)},
+        	
+        	{i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_businessowner/@'Last Name'""><xsl:value-of select=""cat_gtmentry/cat_businessowner/@'Last Name'"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: Left(varCurrentRecord.'Sponsoring VP'.Nickname, Find(",", varCurrentRecord.'Sponsoring VP'.Nickname, 1) - 1)},
+            {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_businessowner/@'First Name'""><xsl:value-of select=""cat_gtmentry/cat_businessowner/@'First Name'"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: Right(varCurrentRecord.'Business Owner'.Nickname, (Len(varCurrentRecord.'Business Owner'.Nickname) - Find(",", varCurrentRecord.'Business Owner'.Nickname, 1)) - 1)},
+            {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_businessowner/@fullname""><xsl:value-of select=""cat_gtmentry/cat_businessowner/@fullname"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: Concatenate(Right(varCurrentRecord.'Business Owner'.Nickname, (Len(varCurrentRecord.'Business Owner'.Nickname) - Find(",", varCurrentRecord.'Business Owner'.Nickname, 1)) - 1), " ", Left(varCurrentRecord.'Business Owner'.Nickname, Find(",", varCurrentRecord.'Business Owner'.Nickname, 1) - 1))},
+            {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_businessowner/@lastname""><xsl:value-of select=""cat_gtmentry/cat_businessowner/@lastname"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: Left(varCurrentRecord.'Business Owner'.Nickname, Find(",", varCurrentRecord.'Business Owner'.Nickname, 1) - 1)},
+            
+            {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_lobchannelhorizontal/@name""><xsl:value-of select=""cat_gtmentry/cat_lobchannelhorizontal/@name"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: Text(varCurrentRecord.LOBChannelHorizontal)},
+        
+            {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_description""><xsl:value-of select=""cat_gtmentry/cat_description"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: Coalesce(varCurrentRecord.Description, "Not Assigned")},
+            {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_requestedlaunchdate""><xsl:value-of select=""cat_gtmentry/cat_requestedlaunchdate"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: Coalesce(Text(varCurrentRecord.RequestedLaunchDate, DateTimeFormat.ShortDate), "Not Assigned")},
+            {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_enddate""><xsl:value-of select=""cat_gtmentry/cat_enddate"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: Coalesce(Text(varCurrentRecord.EndDate, ShortDate), "Not Assigned")},
+            {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_goalkpi""><xsl:value-of select=""cat_gtmentry/cat_goalkpi"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: Coalesce(varCurrentRecord.GoalKPI, "Not Assigned")},
+            {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_situation""><xsl:value-of select=""cat_gtmentry/cat_situation"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: Coalesce(varCurrentRecord.Situation, "Not Assigned")},
+            {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_eligibilitysummary""><xsl:value-of select=""cat_gtmentry/cat_eligibilitysummary"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: Coalesce(varCurrentRecord.EligibilitySummary, "Not Assigned")},
+            {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_eligibledevices""><xsl:value-of select=""cat_gtmentry/cat_eligibledevices"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: Coalesce(varCurrentRecord.EligibleDevices, "Not Assigned")},
+        
+            {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_initiativetype/@name""><xsl:value-of select=""cat_gtmentry/cat_initiativetype/@name"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: Text(varCurrentRecord.InitiativeType)},
+            {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_initiativetypegroup/@name""><xsl:value-of select=""cat_gtmentry/cat_initiativetypegroup/@name"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: Text(varCurrentRecord.InitiativeTypeGroup)},
+            {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_legacygtmentryid""><xsl:value-of select=""cat_gtmentry/cat_legacygtmentryid"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: Text(varCurrApprovalsDeepLinkURL)},
+            {i: "&lt;SolutionCaptain.FullName&gt;",
+                value: Coalesce(LookUp([@colCurrentProjectTeamRoles], Value = [@RoleType].'Solution Captain').userName, "Not Assigned")},
+            {i: "&lt;Approver(s)&gt;",
+                value: Concat(colEmailToRecipients, 'First Name' & " " & 'Last Name' & ", ")},
+            {i: "&lt;ApprovalsDeepLink&gt;",
+                value: Text(varCurrApprovalsDeepLinkURL)},
+            {i: "&lt;CurrentUserName&gt;",
+                value: varCurrentUserNameFL}
+            );
+        
+        ClearCollect(varSelectedEmailTemplateBody, 
+        	{ID: 1, value: Dropdown2_3.Selected.Body});
+        
+        ClearCollect(varSelectedEmailTemplateSubject, 
+        	{ID: 1, value: Dropdown2_3.Selected.Subject});
+        
+        ForAll(colActiveRecordEmailFields, 
+        	Patch(varSelectedEmailTemplateBody,LookUp(varSelectedEmailTemplateBody, ID = 1),	
+                {value: Substitute(
+                    LookUp(varSelectedEmailTemplateBody, ID = 1).value, 
+                colActiveRecordEmailFields[@i], 
+                colActiveRecordEmailFields[@value])}));
+                
+        ForAll(colActiveRecordEmailFields, 
+        	Patch(varSelectedEmailTemplateSubject,LookUp(varSelectedEmailTemplateSubject, ID = 1),	
+                {value: Substitute(
+                    LookUp(varSelectedEmailTemplateSubject, ID = 1).value, 
+                colActiveRecordEmailFields[@i], 
+                colActiveRecordEmailFields[@value])}));
+        
+    Orientation: =If(Access_Denied_Screen.Width < Access_Denied_Screen.Height, Layout.Vertical, Layout.Horizontal)
+    Size: =1 + CountRows(App.SizeBreakpoints) - CountIf(App.SizeBreakpoints, Value >= Access_Denied_Screen.Width)
+    Width: =Max(App.Width, App.DesignWidth)
+
+    Label3_1 As label:
+        Align: =Align.Center
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Color: =RGBA(51, 51, 51, 1)
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =Label3_1.BorderColor
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Bold
+        Height: =148
+        HoverBorderColor: =Label3_1.BorderColor
+        HoverColor: =Label3_1.Color
+        HoverFill: =Label3_1.Fill
+        PressedBorderColor: =Label3_1.BorderColor
+        PressedColor: =Label3_1.Color
+        PressedFill: =Label3_1.Fill
+        Size: =25
+        Text: |-
+            ="You do not have permission to view this initiative.
+            "
+        Width: =1920
+        Y: =562
+        ZIndex: =1
+
+    Image2_1 As image:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledFill: =RGBA(0, 0, 0, 0)
+        FocusedBorderColor: =Image2_1.BorderColor
+        FocusedBorderThickness: =4
+        Height: =66
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverFill: =RGBA(0, 0, 0, 0)
+        Image: ='T-Mobile_New_Logo_Primary_RGB_M-on-W_Transparent'
+        PressedBorderColor: =RGBA(0, 0, 0, 0)
+        PressedFill: =RGBA(0, 0, 0, 0)
+        Width: =1920
+        Y: =239
+        ZIndex: =2
+
+    Image3_3 As image:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledFill: =RGBA(0, 0, 0, 0)
+        FocusedBorderColor: =Image3_3.BorderColor
+        FocusedBorderThickness: =4
+        Height: =181
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverFill: =RGBA(0, 0, 0, 0)
+        Image: =Orbit_Lockup_RGB
+        PressedBorderColor: =RGBA(0, 0, 0, 0)
+        PressedFill: =RGBA(0, 0, 0, 0)
+        Width: =1920
+        Y: =312
+        ZIndex: =3
+
+    AV_Add_1 As button:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =1
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        DisabledFill: =RGBA(244, 244, 244, 1)
+        Fill: =Magenta
+        FocusedBorderColor: =AV_Add_1.BorderColor
+        FocusedBorderThickness: =1
+        Font: =FontStyle
+        FontWeight: =FontWeight.Semibold
+        Height: =71
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverColor: =RGBA(255, 255, 255, 1)
+        HoverFill: =ColorFade(Magenta, -20%)
+        OnSelect: |-
+            =UpdateContext({varEmailDialogueVis: true});
+            
+            
+            /*
+            UpdateContext({varTemp1: Substitute(varCurrentRecord.InitiativeName," "," ")});
+            UpdateContext({varTemp: Concatenate("ORBIT - Input Request - ",varTemp1)});
+            Launch(
+                Concatenate("MailTo:"&If(IsBlank(varGTMLeadEmail),"EnterpriseGTM@t-mobile.com",varGTMLeadEmail)&"?subject="&varTemp&"&body=I would like to gain access to this initiative.", "%0A%0A"&Char(13)));
+            */
+        PressedBorderColor: =Magenta
+        PressedColor: =RGBA(255, 255, 255, 1)
+        PressedFill: =AV_Add_1.Fill
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =24
+        Text: ="Request Access"
+        Width: =309
+        X: =613
+        Y: =807
+        ZIndex: =4
+
+    AV_Add_2 As button:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =1
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        DisabledFill: =RGBA(244, 244, 244, 1)
+        Fill: =Magenta
+        FocusedBorderColor: =AV_Add_2.BorderColor
+        FocusedBorderThickness: =1
+        Font: =FontStyle
+        FontWeight: =FontWeight.Semibold
+        Height: =71
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverColor: =RGBA(255, 255, 255, 1)
+        HoverFill: =ColorFade(Magenta, -20%)
+        OnSelect: =Navigate(Project_Picker_Screen,None)
+        PressedBorderColor: =Magenta
+        PressedColor: =RGBA(255, 255, 255, 1)
+        PressedFill: =AV_Add_2.Fill
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =24
+        Text: ="Go To List View"
+        Width: =309
+        X: =1007
+        Y: =807
+        ZIndex: =5
+
+    com_NavTop_14 As com_NavTop:
+        AdminScreen: =Permissions_Team_Roles_Screen
+        IsGTM: =varCurrentUserSecurityRole = "Administrator" Or varCurrentUserSecurityRole = "GTM"
+        Items: =colTopNavGalleryItems
+        UserFullName: =varCurrentUserNameFL
+        Width: =App.Width
+        ZIndex: =6
+
+    Component1_1 As com_SendEmail:
+        AppID: =varCurrentAppID
+        CurrentRecord: =varCurrentRecord
+        CurrentUserFL: =varCurrentUserNameFL
+        DefaultEmailTemplateSelection: =LookUp('Email Templates', Title = "ORBIT | Access Request")
+        EmailTemplateEntity: ='Email Templates'
+        OnReset: |-
+            =Set(varEditEmailRecipients, Blank());Reset(Dropdown2_2);
+            Set(varCurrApprovalsDeepLinkURL, Concatenate("<a href=""https://web.powerapps.com/webplayer/iframeapp?source=iframe&tenantId=be0f980b-dd99-4b19-bd7b-bc71a09b026c&RecordID=", Text(Component1_1.CurrentRecord.cat_gtmentryid), "&NavScreen=UserApprovals&appId=/providers/Microsoft.PowerApps/apps/", Component1_1.AppID, """>Click Here for Approval Dashboard</a>"));
+            /*
+            ClearCollect(colEmailToRecipients,
+                ForAll( gal_ApprovalUsersList.AllItems, ApprovalUser
+                )
+            );
+            */
+            
+            //ClearCollect(colEmailCCRecipients, com_SendEmail.CurrentRecord._cat_businessowner_value);
+            //Set(varEmailDialogueVis, true);
+            
+            ClearCollect(colActiveRecordEmailFields, 
+            	{i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_initiativename""><xsl:value-of select=""cat_gtmentry/cat_initiativename"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: Component1_1.CurrentRecord.cat_initiativename},
+                {i: "]]>", 
+                    value: ""},
+                {i: "<![CDATA[", 
+                    value: ""},
+                {i: "<xsl:choose><xsl:when test=""systemuser/fullname""><xsl:value-of select=""systemuser/fullname"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: Component1_1.CurrentUserFL},
+                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_prcode""><xsl:value-of select=""cat_gtmentry/cat_prcode"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: Coalesce(Component1_1.CurrentRecord.cat_prcode, "Not Assigned")},
+                
+            	{i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_sponsor/@firstname""><xsl:value-of select=""cat_gtmentry/cat_sponsor/@firstname"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: Right(Component1_1.CurrentRecord.cat_Sponsor.Nickname, (Len(Component1_1.CurrentRecord.cat_Sponsor.Nickname) - Find(",", Component1_1.CurrentRecord.cat_Sponsor.Nickname, 1)) - 1)},
+                    
+                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_sponsor/@fullname""><xsl:value-of select=""cat_gtmentry/cat_sponsor/@fullname"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: Concatenate(Right(Component1_1.CurrentRecord.cat_Sponsor.Nickname, (Len(Component1_1.CurrentRecord.cat_Sponsor.Nickname) - Find(",", Component1_1.CurrentRecord.cat_Sponsor.Nickname, 1)) - 1), " ", Left(Component1_1.CurrentRecord.cat_Sponsor.Nickname, Find(",", Component1_1.CurrentRecord.cat_Sponsor.Nickname, 1) - 1))},
+                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_sponsor/@'Last Name'""><xsl:value-of select=""cat_gtmentry/cat_sponsor/@'Last Name'"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: Left(Component1_1.CurrentRecord.cat_Sponsor.Nickname, Find(",", Component1_1.CurrentRecord.cat_Sponsor.Nickname, 1) - 1)},
+            	{i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_sponsor/@lastname""><xsl:value-of select=""cat_gtmentry/cat_sponsor/@lastname"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: Left(Component1_1.CurrentRecord.cat_Sponsor.Nickname, Find(",", Component1_1.CurrentRecord.cat_Sponsor.Nickname, 1) - 1)},
+            	
+            	{i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_businessowner/@'Last Name'""><xsl:value-of select=""cat_gtmentry/cat_businessowner/@'Last Name'"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: Left(Component1_1.CurrentRecord.cat_Sponsor.Nickname, Find(",", Component1_1.CurrentRecord.cat_Sponsor.Nickname, 1) - 1)},
+                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_businessowner/@'First Name'""><xsl:value-of select=""cat_gtmentry/cat_businessowner/@'First Name'"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: Right(Component1_1.CurrentRecord.cat_BusinessOwner.Nickname, (Len(Component1_1.CurrentRecord.cat_BusinessOwner.Nickname) - Find(",", Component1_1.CurrentRecord.cat_BusinessOwner.Nickname, 1)) - 1)},
+                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_businessowner/@fullname""><xsl:value-of select=""cat_gtmentry/cat_businessowner/@fullname"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: Concatenate(Right(Component1_1.CurrentRecord.cat_BusinessOwner.Nickname, (Len(Component1_1.CurrentRecord.cat_BusinessOwner.Nickname) - Find(",", Component1_1.CurrentRecord.cat_BusinessOwner.Nickname, 1)) - 1), " ", Left(Component1_1.CurrentRecord.cat_BusinessOwner.Nickname, Find(",", Component1_1.CurrentRecord.cat_BusinessOwner.Nickname, 1) - 1))},
+                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_businessowner/@lastname""><xsl:value-of select=""cat_gtmentry/cat_businessowner/@lastname"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: Left(Component1_1.CurrentRecord.cat_BusinessOwner.Nickname, Find(",", Component1_1.CurrentRecord.cat_BusinessOwner.Nickname, 1) - 1)},
+                
+                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_lobchannelhorizontal/@name""><xsl:value-of select=""cat_gtmentry/cat_lobchannelhorizontal/@name"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: Text(Component1_1.CurrentRecord.cat_lobchannelhorizontal)},
+            
+                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_description""><xsl:value-of select=""cat_gtmentry/cat_description"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: Coalesce(Component1_1.CurrentRecord.cat_description, "Not Assigned")},
+                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_requestedlaunchdate""><xsl:value-of select=""cat_gtmentry/cat_requestedlaunchdate"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: Coalesce(Text(Component1_1.CurrentRecord.cat_requestedlaunchdate, DateTimeFormat.ShortDate), "Not Assigned")},
+                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_enddate""><xsl:value-of select=""cat_gtmentry/cat_enddate"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: Coalesce(Text(Component1_1.CurrentRecord.cat_enddate, ShortDate), "Not Assigned")},
+                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_goalkpi""><xsl:value-of select=""cat_gtmentry/cat_goalkpi"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: Coalesce(Component1_1.CurrentRecord.cat_goalkpi, "Not Assigned")},
+                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_situation""><xsl:value-of select=""cat_gtmentry/cat_situation"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: Coalesce(Component1_1.CurrentRecord.cat_situation, "Not Assigned")},
+                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_eligibilitysummary""><xsl:value-of select=""cat_gtmentry/cat_eligibilitysummary"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: Coalesce(Component1_1.CurrentRecord.cat_eligibilitysummary, "Not Assigned")},
+                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_eligibledevices""><xsl:value-of select=""cat_gtmentry/cat_eligibledevices"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: Coalesce(Component1_1.CurrentRecord.cat_eligibledevices, "Not Assigned")},
+            
+                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_initiativetype/@name""><xsl:value-of select=""cat_gtmentry/cat_initiativetype/@name"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: Text(Component1_1.CurrentRecord.cat_initiativetype)},
+                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_initiativetypegroup/@name""><xsl:value-of select=""cat_gtmentry/cat_initiativetypegroup/@name"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: Text(Component1_1.CurrentRecord.cat_initiativetypegroup)},
+                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_legacygtmentryid""><xsl:value-of select=""cat_gtmentry/cat_legacygtmentryid"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: Text(varCurrApprovalsDeepLinkURL)},
+            //    {i: "&lt;SolutionCaptain.FullName&gt;",
+            //        value: Coalesce(LookUp([@colCurrentProjectTeamRoles], Value = [@RoleType].'Solution Captain').userName, "Not Assigned")},
+                {i: "&lt;Approver(s)&gt;",
+                    value: Concat(colEmailToRecipients, 'First Name' & " " & 'Last Name' & ", ")},
+            
+                {i: "&lt;ApprovalsDeepLink&gt;",
+                    value: Text(varCurrApprovalsDeepLinkURL)}
+                
+                );
+            
+            ClearCollect(varSelectedEmailTemplateBody, 
+            	{ID: 1, value: Dropdown2_2.Selected.body});
+            
+            ClearCollect(varSelectedEmailTemplateSubject, 
+            	{ID: 1, value: Dropdown2_2.Selected.subject});
+            
+            ForAll(colActiveRecordEmailFields, 
+            	Patch(varSelectedEmailTemplateBody,LookUp(varSelectedEmailTemplateBody, ID = 1),	
+                    {value: Substitute(
+                        LookUp(varSelectedEmailTemplateBody, ID = 1).value, 
+                    colActiveRecordEmailFields[@i], 
+                    colActiveRecordEmailFields[@value])}));
+                    
+            ForAll(colActiveRecordEmailFields, 
+            	Patch(varSelectedEmailTemplateSubject,LookUp(varSelectedEmailTemplateSubject, ID = 1),	
+                    {value: Substitute(
+                        LookUp(varSelectedEmailTemplateSubject, ID = 1).value, 
+                    colActiveRecordEmailFields[@i], 
+                    colActiveRecordEmailFields[@value])}));
+        ShowTemplateSelector: =false
+        Visible: =varEmailDialogueVis
+        ZIndex: =7
+
+    Button10 As button:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        DisabledFill: =RGBA(244, 244, 244, 1)
+        Fill: =RGBA(105, 121, 126, 1)
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverColor: =RGBA(255, 255, 255, 1)
+        HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+        OnSelect: =ClearCollect(colEmailTemplates, 'Email Templates')
+        PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+        PressedColor: =RGBA(255, 255, 255, 1)
+        PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =10
+        Text: ="CC Email Templates"
+        Visible: =varDevMode
+        Y: =900
+        ZIndex: =8
+
+    Dropdown2_3 As dropdown:
+        BorderColor: =RGBA(166, 166, 166, 1)
+        ChevronBackground: =RGBA(255, 255, 255, 1)
+        ChevronDisabledBackground: =RGBA(244, 244, 244, 1)
+        ChevronDisabledFill: =RGBA(166, 166, 166, 1)
+        ChevronFill: =RGBA(33, 33, 33, 1)
+        ChevronHoverBackground: =RGBA(212, 212, 212, 1)
+        ChevronHoverFill: =RGBA(33, 33, 33, 1)
+        Color: =RGBA(51, 51, 51, 1)
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        DisabledFill: =RGBA(244, 244, 244, 1)
+        FocusedBorderColor: =Dropdown2_3.BorderColor
+        Font: =Font.'Segoe UI'
+        HoverBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+        HoverColor: =RGBA(51, 51, 51, 1)
+        HoverFill: =RGBA(212, 212, 212, 1)
+        Items: =Filter('Email Templates', Title = "ORBIT | Access Request")
+        OnChange: |-
+            =ClearCollect(colActiveRecordEmailFields, 
+            	{i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_initiativename""><xsl:value-of select=""cat_gtmentry/cat_initiativename"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: varCurrentRecord.InitiativeName},
+                {i: "]]>", 
+                    value: ""},
+                {i: "<![CDATA[", 
+                    value: ""},
+                {i: "<xsl:choose><xsl:when test=""systemuser/fullname""><xsl:value-of select=""systemuser/fullname"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: varCurrentUserNameFL},
+                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_prcode""><xsl:value-of select=""cat_gtmentry/cat_prcode"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: Coalesce(varCurrentRecord.PRCode, "Not Assigned")},
+                
+            	{i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_sponsor/@firstname""><xsl:value-of select=""cat_gtmentry/cat_sponsor/@firstname"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: Right(varCurrentRecord.'Sponsoring VP'.Nickname, (Len(varCurrentRecord.'Sponsoring VP'.Nickname) - Find(",", varCurrentRecord.'Sponsoring VP'.Nickname, 1)) - 1)},
+                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_sponsor/@fullname""><xsl:value-of select=""cat_gtmentry/cat_sponsor/@fullname"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: Concatenate(Right(varCurrentRecord.'Sponsoring VP'.Nickname, (Len(varCurrentRecord.'Sponsoring VP'.Nickname) - Find(",", varCurrentRecord.'Sponsoring VP'.Nickname, 1)) - 1), " ", Left(varCurrentRecord.'Sponsoring VP'.Nickname, Find(",", varCurrentRecord.'Sponsoring VP'.Nickname, 1) - 1))},
+                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_sponsor/@'Last Name'""><xsl:value-of select=""cat_gtmentry/cat_sponsor/@'Last Name'"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: Left(varCurrentRecord.'Sponsoring VP'.Nickname, Find(",", varCurrentRecord.'Sponsoring VP'.Nickname, 1) - 1)},
+            	{i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_sponsor/@lastname""><xsl:value-of select=""cat_gtmentry/cat_sponsor/@lastname"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: Left(varCurrentRecord.'Sponsoring VP'.Nickname, Find(",", varCurrentRecord.'Sponsoring VP'.Nickname, 1) - 1)},
+            	
+            	{i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_businessowner/@'Last Name'""><xsl:value-of select=""cat_gtmentry/cat_businessowner/@'Last Name'"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: Left(varCurrentRecord.'Sponsoring VP'.Nickname, Find(",", varCurrentRecord.'Sponsoring VP'.Nickname, 1) - 1)},
+                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_businessowner/@'First Name'""><xsl:value-of select=""cat_gtmentry/cat_businessowner/@'First Name'"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: Right(varCurrentRecord.'Business Owner'.Nickname, (Len(varCurrentRecord.'Business Owner'.Nickname) - Find(",", varCurrentRecord.'Business Owner'.Nickname, 1)) - 1)},
+                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_businessowner/@fullname""><xsl:value-of select=""cat_gtmentry/cat_businessowner/@fullname"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: Concatenate(Right(varCurrentRecord.'Business Owner'.Nickname, (Len(varCurrentRecord.'Business Owner'.Nickname) - Find(",", varCurrentRecord.'Business Owner'.Nickname, 1)) - 1), " ", Left(varCurrentRecord.'Business Owner'.Nickname, Find(",", varCurrentRecord.'Business Owner'.Nickname, 1) - 1))},
+                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_businessowner/@lastname""><xsl:value-of select=""cat_gtmentry/cat_businessowner/@lastname"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: Left(varCurrentRecord.'Business Owner'.Nickname, Find(",", varCurrentRecord.'Business Owner'.Nickname, 1) - 1)},
+                
+                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_lobchannelhorizontal/@name""><xsl:value-of select=""cat_gtmentry/cat_lobchannelhorizontal/@name"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: Text(varCurrentRecord.LOBChannelHorizontal)},
+            
+                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_description""><xsl:value-of select=""cat_gtmentry/cat_description"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: Coalesce(varCurrentRecord.Description, "Not Assigned")},
+                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_requestedlaunchdate""><xsl:value-of select=""cat_gtmentry/cat_requestedlaunchdate"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: Coalesce(Text(varCurrentRecord.RequestedLaunchDate, DateTimeFormat.ShortDate), "Not Assigned")},
+                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_enddate""><xsl:value-of select=""cat_gtmentry/cat_enddate"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: Coalesce(Text(varCurrentRecord.EndDate, ShortDate), "Not Assigned")},
+                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_goalkpi""><xsl:value-of select=""cat_gtmentry/cat_goalkpi"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: Coalesce(varCurrentRecord.GoalKPI, "Not Assigned")},
+                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_situation""><xsl:value-of select=""cat_gtmentry/cat_situation"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: Coalesce(varCurrentRecord.Situation, "Not Assigned")},
+                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_eligibilitysummary""><xsl:value-of select=""cat_gtmentry/cat_eligibilitysummary"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: Coalesce(varCurrentRecord.EligibilitySummary, "Not Assigned")},
+                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_eligibledevices""><xsl:value-of select=""cat_gtmentry/cat_eligibledevices"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: Coalesce(varCurrentRecord.EligibleDevices, "Not Assigned")},
+            
+                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_initiativetype/@name""><xsl:value-of select=""cat_gtmentry/cat_initiativetype/@name"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: Text(varCurrentRecord.InitiativeType)},
+                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_initiativetypegroup/@name""><xsl:value-of select=""cat_gtmentry/cat_initiativetypegroup/@name"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: Text(varCurrentRecord.InitiativeTypeGroup)},
+                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_legacygtmentryid""><xsl:value-of select=""cat_gtmentry/cat_legacygtmentryid"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: Text(varCurrApprovalsDeepLinkURL)},
+                {i: "&lt;SolutionCaptain.FullName&gt;",
+                    value: Coalesce(LookUp([@colCurrentProjectTeamRoles], Value = [@RoleType].'Solution Captain').userName, "Not Assigned")},
+                {i: "&lt;Approver(s)&gt;",
+                    value: Concat(colEmailToRecipients, 'First Name' & " " & 'Last Name' & ", ")},
+                {i: "&lt;ApprovalsDeepLink&gt;",
+                    value: Text(varCurrApprovalsDeepLinkURL)},
+                {i: "&lt;CurrentUserName&gt;",
+                    value: varCurrentUserNameFL}
+                );
+            
+            ClearCollect(varSelectedEmailTemplateBody, 
+            	{ID: 1, value: Dropdown2_3.Selected.Body});
+            
+            ClearCollect(varSelectedEmailTemplateSubject, 
+            	{ID: 1, value: Dropdown2_3.Selected.Subject});
+            
+            ForAll(colActiveRecordEmailFields, 
+            	Patch(varSelectedEmailTemplateBody,LookUp(varSelectedEmailTemplateBody, ID = 1),	
+                    {value: Substitute(
+                        LookUp(varSelectedEmailTemplateBody, ID = 1).value, 
+                    colActiveRecordEmailFields[@i], 
+                    colActiveRecordEmailFields[@value])}));
+                    
+            ForAll(colActiveRecordEmailFields, 
+            	Patch(varSelectedEmailTemplateSubject,LookUp(varSelectedEmailTemplateSubject, ID = 1),	
+                    {value: Substitute(
+                        LookUp(varSelectedEmailTemplateSubject, ID = 1).value, 
+                    colActiveRecordEmailFields[@i], 
+                    colActiveRecordEmailFields[@value])}));
+        PaddingBottom: =5
+        PaddingLeft: =12
+        PaddingRight: =5
+        PaddingTop: =5
+        PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+        PressedColor: =RGBA(255, 255, 255, 1)
+        PressedFill: =RGBA(105, 121, 126, 1)
+        SelectionFill: =RGBA(105, 121, 126, 1)
+        Size: =13
+        Visible: =varEmailDialogueVis And Component1_1.ShowTemplateSelector
+        Width: =537
+        X: =Component1_1.ComponentControlXValue
+        Y: =txt_EmailToRecipients_1.Y - Dropdown2_3.Height - 20
+        ZIndex: =10
+
+    btn_AD_EN_Submit_3 As button:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(255, 255, 255, 1)
+        DisabledFill: =RGBA(244, 244, 244, 1)
+        Fill: =ColorValue(LookUp(StyleGuide, Key = "Magenta").Value)
+        FocusedBorderColor: =btn_AD_EN_Submit_3.BorderColor
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =35
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverColor: =RGBA(255, 255, 255, 1)
+        HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+        OnSelect: |
+            =Patch(ORBITEmails, Defaults(ORBITEmails), {
+                MessageBody: Component1_1.MessageBody, 
+                Subject: Component1_1.MessageSubject, 
+                ToRecipients: Component1_1.ToRecipients,
+                CCRecipients: Component1_1.CCRecipients,
+                RecordID: Param("RecordID"),
+                Description: "Approval Dashboard Email"
+                });
+            
+            UpdateContext({varEmailDialogueVis: false});
+        PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+        PressedColor: =RGBA(255, 255, 255, 1)
+        PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =15
+        Text: ="Send"
+        Visible: =varEmailDialogueVis
+        Width: =130
+        X: =Component1_1.ComponentControlXValue + 150
+        Y: =Button5_1.Y + Button5_1.Height - 60
+        ZIndex: =11
+
+    btn_AD_EN_Cancel_9 As button:
+        BorderColor: =ColorValue(LookUp(StyleGuide, Key = "Grey").Value)
+        BorderStyle: =BorderStyle.None
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        DisabledFill: =RGBA(244, 244, 244, 1)
+        Fill: =RGBA(105, 121, 126, 1)
+        FocusedBorderColor: =btn_AD_EN_Cancel_9.BorderColor
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =35
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverColor: =ColorValue(LookUp(StyleGuide, Key = "Magenta").Value)
+        HoverFill: =ColorValue(LookUp(StyleGuide, Key = "White").Value)
+        OnSelect: |-
+            =UpdateContext({varEmailDialogueVis: false});
+        PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+        PressedColor: =RGBA(255, 255, 255, 1)
+        PressedFill: =ColorValue(LookUp(StyleGuide, Key = "Magenta").Value)
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =15
+        Text: ="Cancel"
+        Visible: =varEmailDialogueVis
+        Width: =130
+        X: =Component1_1.ComponentControlXValue - 50
+        Y: =Button5_1.Y + Button5_1.Height - 60
+        ZIndex: =12
+
+    lbl_AD_EN_To_6 As label:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Color: =RGBA(128, 128, 128, 1)
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =lbl_AD_EN_To_6.BorderColor
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        Height: =30
+        HoverBorderColor: =lbl_AD_EN_To_6.BorderColor
+        HoverColor: =lbl_AD_EN_To_6.Color
+        HoverFill: =lbl_AD_EN_To_6.Fill
+        PaddingLeft: =0
+        PressedBorderColor: =lbl_AD_EN_To_6.BorderColor
+        PressedColor: =lbl_AD_EN_To_6.Color
+        PressedFill: =lbl_AD_EN_To_6.Fill
+        Size: =13
+        Text: |-
+            ="Email Template:"
+        Visible: =varEmailDialogueVis And Component1_1.ShowTemplateSelector
+        Width: =160
+        X: =Component1_1.ComponentControlXValue
+        Y: =Dropdown2_1.Y - lbl_AD_EN_To_6.Height
+        ZIndex: =13
+

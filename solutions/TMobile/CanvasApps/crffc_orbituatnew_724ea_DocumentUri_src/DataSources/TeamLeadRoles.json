@@ -1,0 +1,101 @@
+[
+  {
+    "CdsFCBContext": "{\"FileType\":true,\"ImageExternalStorage\":true}",
+    "EntitySetName": "cat_teamleadroleses",
+    "IsHidden": false,
+    "IsSampleData": false,
+    "IsWritable": true,
+    "LogicalName": "cat_teamleadroles",
+    "MaxGetRowsCount": 2000,
+    "Name": "TeamLeadRoles",
+    "NativeCDSDataSourceInfoNameMapping": {
+      "_ownerid_value": "Owner",
+      "cat_name": "Name",
+      "cat_sortorder": "SortOrder",
+      "cat_teamleaderroles": "TeamLeaderRoles",
+      "cat_teamleadroles_AsyncOperations": "System Jobs",
+      "cat_teamleadroles_BulkDeleteFailures": "Bulk Delete Failures",
+      "cat_teamleadroles_DuplicateBaseRecord": "Duplicate Records (cat_teamleadroles_DuplicateBaseRecord)",
+      "cat_teamleadroles_DuplicateMatchingRecord": "Duplicate Records (cat_teamleadroles_DuplicateMatchingRecord)",
+      "cat_teamleadroles_MailboxTrackingFolders": "Mailbox Auto Tracking Folders",
+      "cat_teamleadroles_PrincipalObjectAttributeAccesses": "Field Sharing",
+      "cat_teamleadroles_ProcessSession": "Process Sessions",
+      "cat_teamleadroles_SyncErrors": "Sync Errors",
+      "cat_TeamLeadRoles_SystemUser_SystemUser": "Users",
+      "cat_teamleadrolesid": "TeamLeadRoles",
+      "crba4_cat_gtmEntry": "gtmEntry",
+      "createdby": "Created By",
+      "createdon": "Created On",
+      "createdonbehalfby": "Created By (Delegate)",
+      "importsequencenumber": "Import Sequence Number",
+      "modifiedby": "Modified By",
+      "modifiedon": "Modified On",
+      "modifiedonbehalfby": "Modified By (Delegate)",
+      "overriddencreatedon": "Record Created On",
+      "owningbusinessunit": "Owning Business Unit",
+      "owningteam": "Owning Team",
+      "owninguser": "Owning User",
+      "statecode": "Status",
+      "statuscode": "Status Reason",
+      "timezoneruleversionnumber": "Time Zone Rule Version Number",
+      "utcconversiontimezonecode": "UTC Conversion Time Zone Code",
+      "versionnumber": "Version Number"
+    },
+    "PreferredName": "TeamLeadRoles",
+    "Type": "NativeCDSDataSourceInfo"
+  },
+  {
+    "DisplayName": "TeamLeadRoles (Views)",
+    "Name": "_cat_teamleadroles_views",
+    "RelatedEntityName": "TeamLeadRoles",
+    "TrimmedViewName": true,
+    "Type": "ViewInfo",
+    "ViewInfoNameMapping": {
+      "3293cbb3-1375-4f9e-b6fd-06873e8b8dd4": "TeamLeadRoles Advanced Find View",
+      "9cff0492-1c1c-4047-a185-3be5884c50f8": "TeamLeadRoles Associated View",
+      "c8394e05-8fed-418e-9c0a-866c0da58a0a": "Inactive TeamLeadRoles",
+      "cc7c6d5a-46cd-4d44-b425-9be4092202b2": "TeamLeadRoles Lookup View",
+      "fe323798-e2de-4ab0-954b-0f79122233fb": "Active TeamLeadRoles"
+    }
+  },
+  {
+    "DisplayName": "Status (TeamLeadRoles)",
+    "Name": "cat_teamleadroles_statecode",
+    "OptionSetInfoNameMapping": {
+      "0": "Active",
+      "1": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statecode",
+        "OptionSetReferenceEntityName": "TeamLeadRoles"
+      }
+    },
+    "OptionSetTypeKey": "StateType",
+    "RelatedColumnInvariantName": "statecode",
+    "RelatedEntityName": "TeamLeadRoles",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status Reason (TeamLeadRoles)",
+    "Name": "cat_teamleadroles_statuscode",
+    "OptionSetInfoNameMapping": {
+      "1": "Active",
+      "2": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statuscode",
+        "OptionSetReferenceEntityName": "TeamLeadRoles"
+      }
+    },
+    "OptionSetTypeKey": "StatusType",
+    "RelatedColumnInvariantName": "statuscode",
+    "RelatedEntityName": "TeamLeadRoles",
+    "Type": "OptionSetInfo"
+  }
+]

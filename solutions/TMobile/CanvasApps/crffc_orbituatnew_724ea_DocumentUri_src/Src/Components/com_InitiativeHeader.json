@@ -1,0 +1,164 @@
+{
+  "ComponentAllowCustomization": true,
+  "ComponentChangedSinceFileImport": true,
+  "ComponentManifest": {
+    "AllowAccessToGlobals": false,
+    "AllowCustomization": true,
+    "Description": "",
+    "Name": "com_InitiativeHeader",
+    "TemplateGuid": "2a9a1a14a37c431b8fc0d434f6027e6c"
+  },
+  "ComponentType": "CanvasComponent",
+  "CustomGroupControlTemplateName": "",
+  "CustomProperties": [
+    {
+      "Category": 0,
+      "DisplayName": "varInitiativeName",
+      "Hidden": false,
+      "IsResettable": true,
+      "Name": "varInitiativeName",
+      "PropertyDataTypeKey": "String",
+      "Tooltip": "varInitiativeName",
+      "Type": "{\"Version\":\"1.309\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"String\",\"EnumString\":\"\",\"Type\":[]}}"
+    },
+    {
+      "Category": 0,
+      "DisplayName": "varInitiativeType",
+      "Hidden": false,
+      "IsResettable": true,
+      "Name": "varInitiativeType",
+      "PropertyDataTypeKey": "String",
+      "Tooltip": "varInitiativeType",
+      "Type": "{\"Version\":\"1.309\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"String\",\"EnumString\":\"\",\"Type\":[]}}"
+    },
+    {
+      "Category": 0,
+      "DisplayName": "varRequestType",
+      "Hidden": false,
+      "IsResettable": true,
+      "Name": "varRequestType",
+      "PropertyDataTypeKey": "String",
+      "Tooltip": "varRequestType",
+      "Type": "{\"Version\":\"1.309\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"String\",\"EnumString\":\"\",\"Type\":[]}}"
+    },
+    {
+      "Category": 0,
+      "DisplayName": "varReqFieldsRemaining",
+      "Hidden": false,
+      "Name": "varReqFieldsRemaining",
+      "PropertyDataTypeKey": "Number",
+      "Tooltip": "varReqFieldsRemaining",
+      "Type": "{\"Version\":\"1.309\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"Number\",\"EnumString\":\"\",\"Type\":[]}}"
+    },
+    {
+      "Category": 0,
+      "DisplayName": "varFormValues",
+      "Hidden": false,
+      "Name": "varFormValues",
+      "PropertyDataTypeKey": "Table",
+      "Tooltip": "varFormValues",
+      "Type": "{\"Version\":\"1.309\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"Table\",\"EnumString\":\"\",\"Type\":[{\"Name\":\"SampleBooleanField\",\"Kind\":\"_MinPrimitive\",\"EnumString\":\"\",\"Type\":[]},{\"Name\":\"SampleNumberField\",\"Kind\":\"Number\",\"EnumString\":\"\",\"Type\":[]},{\"Name\":\"SampleStringField\",\"Kind\":\"String\",\"EnumString\":\"\",\"Type\":[]}]}}"
+    },
+    {
+      "Category": 0,
+      "DisplayName": "CheckReqFieldsOutput",
+      "Hidden": true,
+      "Name": "CheckReqFieldsOutput",
+      "PropertyDataTypeKey": "Boolean",
+      "Tooltip": "CheckReqFieldsOutput",
+      "Type": "{\"Version\":\"1.309\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"_MinPrimitive\",\"EnumString\":\"\",\"Type\":[]}}"
+    },
+    {
+      "Category": 0,
+      "DisplayName": "showButtons",
+      "Hidden": false,
+      "Name": "showButtons",
+      "PropertyDataTypeKey": "Boolean",
+      "Tooltip": "showButtons",
+      "Type": "{\"Version\":\"1.309\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"_MinPrimitive\",\"EnumString\":\"\",\"Type\":[]}}"
+    },
+    {
+      "Category": 0,
+      "DisplayName": "resetComponent",
+      "Hidden": false,
+      "IsResettable": true,
+      "Name": "resetComponent",
+      "PropertyDataTypeKey": "Boolean",
+      "Tooltip": "resetComponent",
+      "Type": "{\"Version\":\"1.309\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"_MinPrimitive\",\"EnumString\":\"\",\"Type\":[]}}"
+    },
+    {
+      "Category": 0,
+      "DisplayName": "isNewInitiative",
+      "Hidden": false,
+      "Name": "isNewInitiative",
+      "PropertyDataTypeKey": "Boolean",
+      "Tooltip": "isNewInitiative",
+      "Type": "{\"Version\":\"1.309\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"_MinPrimitive\",\"EnumString\":\"\",\"Type\":[]}}"
+    },
+    {
+      "Category": 0,
+      "DisplayName": "CurrentRecord",
+      "Hidden": false,
+      "Name": "CurrentRecord",
+      "PropertyDataTypeKey": "Record",
+      "Tooltip": "CurrentRecord",
+      "Type": "{\"Version\":\"1.309\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"Record\",\"EnumString\":\"\",\"Type\":[{\"Name\":\"SampleBooleanField\",\"Kind\":\"_MinPrimitive\",\"EnumString\":\"\",\"Type\":[]},{\"Name\":\"SampleNumberField\",\"Kind\":\"Number\",\"EnumString\":\"\",\"Type\":[]},{\"Name\":\"SampleStringField\",\"Kind\":\"String\",\"EnumString\":\"\",\"Type\":[]}]}}"
+    },
+    {
+      "Category": 0,
+      "DisplayName": "AppID",
+      "Hidden": false,
+      "Name": "AppID",
+      "PropertyDataTypeKey": "String",
+      "Tooltip": "AppID",
+      "Type": "{\"Version\":\"1.309\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"String\",\"EnumString\":\"\",\"Type\":[]}}"
+    },
+    {
+      "Category": 0,
+      "DisplayName": "BOEmailAddress",
+      "Hidden": false,
+      "Name": "BOEmailAddress",
+      "PropertyDataTypeKey": "String",
+      "Tooltip": "BOEmailAddress",
+      "Type": "{\"Version\":\"1.309\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"String\",\"EnumString\":\"\",\"Type\":[]}}"
+    },
+    {
+      "Category": 0,
+      "DisplayName": "GTMEntryID",
+      "Hidden": false,
+      "Name": "GTMEntryID",
+      "PropertyDataTypeKey": "String",
+      "Tooltip": "GTMEntryID",
+      "Type": "{\"Version\":\"1.309\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"String\",\"EnumString\":\"\",\"Type\":[]}}"
+    },
+    {
+      "Category": 0,
+      "DisplayName": "FormValuesChanged",
+      "Hidden": false,
+      "Name": "FormValuesChanged",
+      "PropertyDataTypeKey": "Boolean",
+      "Tooltip": "FormValuesChanged",
+      "Type": "{\"Version\":\"1.309\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"_MinPrimitive\",\"EnumString\":\"\",\"Type\":[]}}"
+    },
+    {
+      "Category": 0,
+      "DisplayName": "LegacyGTMEntryID",
+      "Hidden": false,
+      "Name": "LegacyGTMEntryID",
+      "PropertyDataTypeKey": "String",
+      "Tooltip": "A custom property",
+      "Type": "{\"Version\":\"1.309\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"String\",\"EnumString\":\"\",\"Type\":[]}}"
+    }
+  ],
+  "FirstParty": true,
+  "Id": "http://microsoft.com/appmagic/Component",
+  "IsComponentLocked": false,
+  "IsComponentTemplate": true,
+  "IsCustomGroupControlTemplate": false,
+  "IsPremiumPcfControl": false,
+  "LastModifiedTimestamp": "637556503002971824",
+  "Name": "2a9a1a14a37c431b8fc0d434f6027e6c",
+  "OverridableProperties": {},
+  "Version": "637556506220936677"
+}

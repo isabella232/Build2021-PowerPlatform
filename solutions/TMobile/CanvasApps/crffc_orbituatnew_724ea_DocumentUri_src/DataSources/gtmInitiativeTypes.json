@@ -1,0 +1,124 @@
+[
+  {
+    "DisplayName": "gtmInitiativeTypes (Views)",
+    "Name": "_cat_gtminitiativetype_views",
+    "RelatedEntityName": "gtmInitiativeTypes",
+    "TrimmedViewName": true,
+    "Type": "ViewInfo",
+    "ViewInfoNameMapping": {
+      "1be53e35-f2e2-4834-be5a-613c6e401e9e": "gtmInitiativeType Associated View",
+      "5ff77fc5-b5db-4585-a091-a90ffa218d9d": "Inactive gtmInitiativeTypes",
+      "7601f02f-79e7-4a71-91bf-f652635eccd0": "gtmInitiativeType Advanced Find View",
+      "8cb91daa-2806-455d-ae7e-6c5e302c934c": "Active gtmInitiativeTypes",
+      "dfb31687-bd44-4195-bb88-dc41473c5ba7": "gtmInitiativeType Lookup View",
+      "e09dd739-ecff-e911-a846-000d3a375888": "DropDownView"
+    }
+  },
+  {
+    "DisplayName": "Status (gtmInitiativeTypes)",
+    "Name": "cat_gtminitiativetype_statecode",
+    "OptionSetInfoNameMapping": {
+      "0": "Active",
+      "1": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statecode",
+        "OptionSetReferenceEntityName": "gtmInitiativeTypes"
+      }
+    },
+    "OptionSetTypeKey": "StateType",
+    "RelatedColumnInvariantName": "statecode",
+    "RelatedEntityName": "gtmInitiativeTypes",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status Reason (gtmInitiativeTypes)",
+    "Name": "cat_gtminitiativetype_statuscode",
+    "OptionSetInfoNameMapping": {
+      "1": "Active",
+      "2": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statuscode",
+        "OptionSetReferenceEntityName": "gtmInitiativeTypes"
+      }
+    },
+    "OptionSetTypeKey": "StatusType",
+    "RelatedColumnInvariantName": "statuscode",
+    "RelatedEntityName": "gtmInitiativeTypes",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "InitiativeTypeGroup1",
+    "Name": "crba4_initiativetypegroup",
+    "OptionSetInfoNameMapping": {
+      "653270000": "Business",
+      "653270001": "P&T",
+      "809060000": "Please Select"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "crba4_initiativegrouptype",
+        "OptionSetReferenceEntityName": "gtmInitiativeTypes"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "crba4_initiativegrouptype",
+    "RelatedEntityName": "gtmInitiativeTypes",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "CdsFCBContext": "{\"FileType\":true,\"ImageExternalStorage\":true}",
+    "EntitySetName": "cat_gtminitiativetypes",
+    "IsHidden": false,
+    "IsSampleData": false,
+    "IsWritable": true,
+    "LogicalName": "cat_gtminitiativetype",
+    "MaxGetRowsCount": 2000,
+    "Name": "gtmInitiativeTypes",
+    "NativeCDSDataSourceInfoNameMapping": {
+      "_ownerid_value": "Owner",
+      "cat_group": "Group",
+      "cat_gtminitiativetype_AsyncOperations": "System Jobs",
+      "cat_gtminitiativetype_BulkDeleteFailures": "Bulk Delete Failures",
+      "cat_gtminitiativetype_DuplicateBaseRecord": "Duplicate Records (cat_gtminitiativetype_DuplicateBaseRecord)",
+      "cat_gtminitiativetype_DuplicateMatchingRecord": "Duplicate Records (cat_gtminitiativetype_DuplicateMatchingRecord)",
+      "cat_gtminitiativetype_MailboxTrackingFolders": "Mailbox Auto Tracking Folders",
+      "cat_gtminitiativetype_PrincipalObjectAttributeAccesses": "Field Sharing",
+      "cat_gtminitiativetype_ProcessSession": "Process Sessions",
+      "cat_gtminitiativetype_SyncErrors": "Sync Errors",
+      "cat_gtminitiativetypeid": "gtmInitiativeType",
+      "cat_gtmOfferType_InitiativeType_cat_gtmIn": "gtmOfferTypes",
+      "cat_LineOfBusinessOptions_Type_cat_gtmIni": "LineOfBusinessOptions",
+      "cat_sortorder": "Sort Order",
+      "cat_type": "Type",
+      "crba4_initiativegrouptype": "Initiative Group Type",
+      "createdby": "Created By",
+      "createdon": "Created On",
+      "createdonbehalfby": "Created By (Delegate)",
+      "importsequencenumber": "Import Sequence Number",
+      "modifiedby": "Modified By",
+      "modifiedon": "Modified On",
+      "modifiedonbehalfby": "Modified By (Delegate)",
+      "overriddencreatedon": "Record Created On",
+      "owningbusinessunit": "Owning Business Unit",
+      "owningteam": "Owning Team",
+      "owninguser": "Owning User",
+      "statecode": "Status",
+      "statuscode": "Status Reason",
+      "timezoneruleversionnumber": "Time Zone Rule Version Number",
+      "utcconversiontimezonecode": "UTC Conversion Time Zone Code",
+      "versionnumber": "Version Number"
+    },
+    "PreferredName": "gtmInitiativeTypes",
+    "Type": "NativeCDSDataSourceInfo"
+  }
+]

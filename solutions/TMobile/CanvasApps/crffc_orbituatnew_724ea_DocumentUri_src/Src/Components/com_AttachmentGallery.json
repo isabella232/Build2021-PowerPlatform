@@ -1,0 +1,152 @@
+{
+  "ComponentAllowCustomization": true,
+  "ComponentChangedSinceFileImport": true,
+  "ComponentManifest": {
+    "AllowAccessToGlobals": false,
+    "AllowCustomization": true,
+    "Description": "",
+    "Name": "com_AttachmentGallery",
+    "TemplateGuid": "f0154fd017f745e0b62b4cf4849c59a9"
+  },
+  "ComponentType": "CanvasComponent",
+  "CustomGroupControlTemplateName": "",
+  "CustomProperties": [
+    {
+      "Category": 0,
+      "DisplayName": "gtmAttachments",
+      "Hidden": false,
+      "Name": "gtmAttachments",
+      "PropertyDataTypeKey": "Table",
+      "Tooltip": "gtmAttachments",
+      "Type": "{\"Version\":\"1.309\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"Table\",\"EnumString\":\"\",\"Type\":[]}}"
+    },
+    {
+      "Category": 0,
+      "DisplayName": "attachmentTypes",
+      "Hidden": false,
+      "Name": "attachmentTypes",
+      "PropertyDataTypeKey": "Table",
+      "Tooltip": "attachmentTypes",
+      "Type": "{\"Version\":\"1.309\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"Table\",\"EnumString\":\"\",\"Type\":[{\"Name\":\"Name\",\"Kind\":\"String\",\"EnumString\":\"\",\"Type\":[]},{\"Name\":\"Type\",\"Kind\":\"String\",\"EnumString\":\"\",\"Type\":[]}]}}"
+    },
+    {
+      "Category": 0,
+      "DisplayName": "Title",
+      "Hidden": false,
+      "Name": "Title",
+      "PropertyDataTypeKey": "String",
+      "Tooltip": "Title",
+      "Type": "{\"Version\":\"1.309\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"String\",\"EnumString\":\"\",\"Type\":[]}}"
+    },
+    {
+      "Category": 0,
+      "DisplayName": "componentWidth",
+      "Hidden": false,
+      "Name": "componentWidth",
+      "PropertyDataTypeKey": "Number",
+      "Tooltip": "componentWidth",
+      "Type": "{\"Version\":\"1.309\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"Number\",\"EnumString\":\"\",\"Type\":[]}}"
+    },
+    {
+      "Category": 0,
+      "DisplayName": "componentHeight",
+      "Hidden": false,
+      "Name": "componentHeight",
+      "PropertyDataTypeKey": "Number",
+      "Tooltip": "componentHeight",
+      "Type": "{\"Version\":\"1.309\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"Number\",\"EnumString\":\"\",\"Type\":[]}}"
+    },
+    {
+      "Category": 0,
+      "DisplayName": "selectedRecord",
+      "Hidden": true,
+      "Name": "selectedRecord",
+      "PropertyDataTypeKey": "Record",
+      "Tooltip": "selectedRecord",
+      "Type": "{\"Version\":\"1.309\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"Error\",\"EnumString\":\"\",\"Type\":[]}}"
+    },
+    {
+      "Category": 0,
+      "DisplayName": "selectedRecordID",
+      "Hidden": true,
+      "Name": "selectedRecordID",
+      "PropertyDataTypeKey": "String",
+      "Tooltip": "selectedRecordID",
+      "Type": "{\"Version\":\"1.309\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"String\",\"EnumString\":\"\",\"Type\":[]}}"
+    },
+    {
+      "Category": 0,
+      "DisplayName": "selectedRecordValueURI",
+      "Hidden": true,
+      "Name": "selectedRecordValueURI",
+      "PropertyDataTypeKey": "String",
+      "Tooltip": "selectedRecordValueURI",
+      "Type": "{\"Version\":\"1.309\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"String\",\"EnumString\":\"\",\"Type\":[]}}"
+    },
+    {
+      "Category": 0,
+      "DisplayName": "downloadIsVisibleReset",
+      "Hidden": false,
+      "IsResettable": true,
+      "Name": "downloadIsVisibleReset",
+      "PropertyDataTypeKey": "Boolean",
+      "Tooltip": "downloadIsVisibleReset",
+      "Type": "{\"Version\":\"1.309\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"_MinPrimitive\",\"EnumString\":\"\",\"Type\":[]}}"
+    },
+    {
+      "Category": 0,
+      "DisplayName": "downloadIsVisible",
+      "Hidden": true,
+      "Name": "downloadIsVisible",
+      "PropertyDataTypeKey": "Boolean",
+      "Tooltip": "downloadIsVisible",
+      "Type": "{\"Version\":\"1.309\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"_MinPrimitive\",\"EnumString\":\"\",\"Type\":[]}}"
+    },
+    {
+      "Category": 0,
+      "DisplayName": "deleteIsVisible",
+      "Hidden": true,
+      "Name": "deleteIsVisbile",
+      "PropertyDataTypeKey": "Boolean",
+      "Tooltip": "deleteIsVisible",
+      "Type": "{\"Version\":\"1.309\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"_MinPrimitive\",\"EnumString\":\"\",\"Type\":[]}}"
+    },
+    {
+      "Category": 0,
+      "DisplayName": "isOtherTypeDocuments",
+      "Hidden": false,
+      "Name": "isOtherTypeDocuments",
+      "PropertyDataTypeKey": "Boolean",
+      "Tooltip": "isOtherTypeDocuments",
+      "Type": "{\"Version\":\"1.309\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"_MinPrimitive\",\"EnumString\":\"\",\"Type\":[]}}"
+    },
+    {
+      "Category": 0,
+      "DisplayName": "HideHeader",
+      "Hidden": false,
+      "Name": "HideHeader",
+      "PropertyDataTypeKey": "Boolean",
+      "Tooltip": "HideHeader",
+      "Type": "{\"Version\":\"1.309\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"_MinPrimitive\",\"EnumString\":\"\",\"Type\":[]}}"
+    },
+    {
+      "Category": 0,
+      "DisplayName": "DeleteIconIsVisible",
+      "Hidden": false,
+      "Name": "DeleteIconIsVisible",
+      "PropertyDataTypeKey": "Boolean",
+      "Tooltip": "DeleteIconIsVisible",
+      "Type": "{\"Version\":\"1.309\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"_MinPrimitive\",\"EnumString\":\"\",\"Type\":[]}}"
+    }
+  ],
+  "FirstParty": true,
+  "Id": "http://microsoft.com/appmagic/Component",
+  "IsComponentLocked": false,
+  "IsComponentTemplate": true,
+  "IsCustomGroupControlTemplate": false,
+  "IsPremiumPcfControl": false,
+  "LastModifiedTimestamp": "637556503003243911",
+  "Name": "f0154fd017f745e0b62b4cf4849c59a9",
+  "OverridableProperties": {},
+  "Version": "637556506221160146"
+}

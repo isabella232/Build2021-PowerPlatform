@@ -1,0 +1,303 @@
+{
+  "Resources": [
+    {
+      "Content": "Image",
+      "FileName": "/ctrllib/image/images/SampleImage.svg",
+      "IsSampleData": true,
+      "IsWritable": false,
+      "Name": "SampleImage",
+      "Path": "/ctrllib/image/images/SampleImage.svg",
+      "ResourceKind": "Uri",
+      "RootPath": "ms-appx:///ctrllib/image/images/SampleImage.svg",
+      "Schema": "i",
+      "Type": "ResourceInfo"
+    },
+    {
+      "Content": "Image",
+      "FileName": "0001.png",
+      "IsSampleData": false,
+      "IsWritable": false,
+      "Name": "Orbit_Lockup_RGB",
+      "Path": "Assets\\Images\\0001.png",
+      "ResourceKind": "LocalFile",
+      "Schema": "i",
+      "Type": "ResourceInfo"
+    },
+    {
+      "Content": "Image",
+      "FileName": "0002.gif",
+      "IsSampleData": false,
+      "IsWritable": false,
+      "Name": "lazyload",
+      "Path": "Assets\\Images\\0002.gif",
+      "ResourceKind": "LocalFile",
+      "Schema": "i",
+      "Type": "ResourceInfo"
+    },
+    {
+      "Content": "Image",
+      "FileName": "0004.png",
+      "IsSampleData": false,
+      "IsWritable": false,
+      "Name": "ShareGray2",
+      "Path": "Assets\\Images\\0004.png",
+      "ResourceKind": "LocalFile",
+      "Schema": "i",
+      "Type": "ResourceInfo"
+    },
+    {
+      "Content": "Image",
+      "FileName": "0005.jpg",
+      "IsSampleData": false,
+      "IsWritable": false,
+      "Name": "TMO_Logo_RGB_M-on-W",
+      "Path": "Assets\\Images\\0005.jpg",
+      "ResourceKind": "LocalFile",
+      "Schema": "i",
+      "Type": "ResourceInfo"
+    },
+    {
+      "Content": "Image",
+      "FileName": "0006.png",
+      "IsSampleData": false,
+      "IsWritable": false,
+      "Name": "T_Logo_3c_p",
+      "Path": "Assets\\Images\\0006.png",
+      "ResourceKind": "LocalFile",
+      "Schema": "i",
+      "Type": "ResourceInfo"
+    },
+    {
+      "Content": "Image",
+      "FileName": "0007.png",
+      "IsSampleData": false,
+      "IsWritable": false,
+      "Name": "TMO Logo",
+      "Path": "Assets\\Images\\0007.png",
+      "ResourceKind": "LocalFile",
+      "Schema": "i",
+      "Type": "ResourceInfo"
+    },
+    {
+      "Content": "Pdf",
+      "FileName": "/ctrllib/pdfViewer/data/SamplePdf.pdf",
+      "IsSampleData": true,
+      "IsWritable": false,
+      "Name": "SamplePdf",
+      "Path": "/ctrllib/pdfViewer/data/SamplePdf.pdf",
+      "ResourceKind": "Uri",
+      "RootPath": "ms-appx:///ctrllib/pdfViewer/data/SamplePdf.pdf",
+      "Schema": "o",
+      "Type": "ResourceInfo"
+    },
+    {
+      "Content": "Image",
+      "FileName": "0079.png",
+      "IsSampleData": false,
+      "IsWritable": false,
+      "Name": "ComboBoxIcon",
+      "Path": "Assets\\Images\\0079.png",
+      "ResourceKind": "LocalFile",
+      "Schema": "i",
+      "Type": "ResourceInfo"
+    },
+    {
+      "Content": "Image",
+      "FileName": "0010.png",
+      "IsSampleData": false,
+      "IsWritable": false,
+      "Name": "Orbit_Lockup_White",
+      "Path": "Assets\\Images\\0010.png",
+      "ResourceKind": "LocalFile",
+      "Schema": "i",
+      "Type": "ResourceInfo"
+    },
+    {
+      "Content": "Image",
+      "FileName": "0011.png",
+      "IsSampleData": false,
+      "IsWritable": false,
+      "Name": "TMO-White",
+      "Path": "Assets\\Images\\0011.png",
+      "ResourceKind": "LocalFile",
+      "Schema": "i",
+      "Type": "ResourceInfo"
+    },
+    {
+      "Content": "Image",
+      "FileName": "0012.png",
+      "IsSampleData": false,
+      "IsWritable": false,
+      "Name": "ShareIcon",
+      "Path": "Assets\\Images\\0012.png",
+      "ResourceKind": "LocalFile",
+      "Schema": "i",
+      "Type": "ResourceInfo"
+    },
+    {
+      "Content": "Image",
+      "FileName": "0048.gif",
+      "IsSampleData": false,
+      "IsWritable": false,
+      "Name": "801 (1)",
+      "Path": "Assets\\Images\\0048.gif",
+      "ResourceKind": "LocalFile",
+      "Schema": "i",
+      "Type": "ResourceInfo"
+    },
+    {
+      "Content": "Image",
+      "FileName": "0049.png",
+      "IsSampleData": false,
+      "IsWritable": false,
+      "Name": "LogoMakr_9O7x3H",
+      "Path": "Assets\\Images\\0049.png",
+      "ResourceKind": "LocalFile",
+      "Schema": "i",
+      "Type": "ResourceInfo"
+    },
+    {
+      "Content": "Image",
+      "FileName": "0052.gif",
+      "IsSampleData": false,
+      "IsWritable": false,
+      "Name": "ApprovalLoader",
+      "Path": "Assets\\Images\\0052.gif",
+      "ResourceKind": "LocalFile",
+      "Schema": "i",
+      "Type": "ResourceInfo"
+    },
+    {
+      "Content": "Image",
+      "FileName": "0070.png",
+      "IsSampleData": false,
+      "IsWritable": false,
+      "Name": "Spinner",
+      "Path": "Assets\\Images\\0070.png",
+      "ResourceKind": "LocalFile",
+      "Schema": "i",
+      "Type": "ResourceInfo"
+    },
+    {
+      "Content": "Image",
+      "FileName": "0072.png",
+      "IsSampleData": false,
+      "IsWritable": false,
+      "Name": "SpinnerGrey",
+      "Path": "Assets\\Images\\0072.png",
+      "ResourceKind": "LocalFile",
+      "Schema": "i",
+      "Type": "ResourceInfo"
+    },
+    {
+      "Content": "Image",
+      "FileName": "0073.png",
+      "IsSampleData": false,
+      "IsWritable": false,
+      "Name": "T-Mobile_New_Logo_Primary_RGB_M-on-W_Transparent",
+      "Path": "Assets\\Images\\0073.png",
+      "ResourceKind": "LocalFile",
+      "Schema": "i",
+      "Type": "ResourceInfo"
+    },
+    {
+      "Content": "Image",
+      "FileName": "0075.svg",
+      "IsSampleData": false,
+      "IsWritable": false,
+      "Name": "294 (1)",
+      "Path": "Assets\\Images\\0075.svg",
+      "ResourceKind": "LocalFile",
+      "Schema": "i",
+      "Type": "ResourceInfo"
+    },
+    {
+      "Content": "Image",
+      "FileName": "0076.png",
+      "IsSampleData": false,
+      "IsWritable": false,
+      "Name": "LogoMakr_6CRU07",
+      "Path": "Assets\\Images\\0076.png",
+      "ResourceKind": "LocalFile",
+      "Schema": "i",
+      "Type": "ResourceInfo"
+    },
+    {
+      "Content": "Image",
+      "FileName": "0078.png",
+      "IsSampleData": false,
+      "IsWritable": false,
+      "Name": "TMO_Single-T_RGB_M-on-W",
+      "Path": "Assets\\Images\\0078.png",
+      "ResourceKind": "LocalFile",
+      "Schema": "i",
+      "Type": "ResourceInfo"
+    },
+    {
+      "Content": "Image",
+      "FileName": "0081.png",
+      "IsSampleData": false,
+      "IsWritable": false,
+      "Name": "WFLogo",
+      "Path": "Assets\\Images\\0081.png",
+      "ResourceKind": "LocalFile",
+      "Schema": "i",
+      "Type": "ResourceInfo"
+    },
+    {
+      "Content": "Image",
+      "FileName": "0084.gif",
+      "IsSampleData": false,
+      "IsWritable": false,
+      "Name": "358",
+      "Path": "Assets\\Images\\0084.gif",
+      "ResourceKind": "LocalFile",
+      "Schema": "i",
+      "Type": "ResourceInfo"
+    },
+    {
+      "Content": "Image",
+      "FileName": "0085.png",
+      "IsSampleData": false,
+      "IsWritable": false,
+      "Name": "PowerBINoMargin",
+      "Path": "Assets\\Images\\0085.png",
+      "ResourceKind": "LocalFile",
+      "Schema": "i",
+      "Type": "ResourceInfo"
+    },
+    {
+      "Content": "Image",
+      "FileName": "0086.png",
+      "IsSampleData": false,
+      "IsWritable": false,
+      "Name": "LogoMakr_1DrQwc",
+      "Path": "Assets\\Images\\0086.png",
+      "ResourceKind": "LocalFile",
+      "Schema": "i",
+      "Type": "ResourceInfo"
+    },
+    {
+      "Content": "Image",
+      "FileName": "0087.png",
+      "IsSampleData": false,
+      "IsWritable": false,
+      "Name": "LogoMakr_15jaO5",
+      "Path": "Assets\\Images\\0087.png",
+      "ResourceKind": "LocalFile",
+      "Schema": "i",
+      "Type": "ResourceInfo"
+    },
+    {
+      "Content": "Image",
+      "FileName": "0088.png",
+      "IsSampleData": false,
+      "IsWritable": false,
+      "Name": "LogoMakr_8U5Vd5",
+      "Path": "Assets\\Images\\0088.png",
+      "ResourceKind": "LocalFile",
+      "Schema": "i",
+      "Type": "ResourceInfo"
+    }
+  ]
+}

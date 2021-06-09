@@ -1,0 +1,101 @@
+ShareDeepLinks As CanvasComponent:
+    Fill: =RGBA(0, 0, 0, 0)
+    Height: =1080
+    varDeepLink: ="Text"
+    varGTMEntryID: =100
+    varHideShareComp: =false
+    varRecipEmail: ="Text"
+    Width: =1920
+    X: =0
+    Y: =0
+    ZIndex: =2
+
+    SBDL_Share_DeepLinks_1 As groupContainer:
+        DisplayMode: =DisplayMode.Edit
+        Height: =1080
+        Visible: =varShareVis
+        Width: =1920
+        ZIndex: =1
+
+        SBDL_DeepLinks_Back_2 As rectangle:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            DisabledFill: =SBDL_DeepLinks_Back_2.Fill
+            Fill: =RGBA(255, 255, 255, .9)
+            FocusedBorderColor: =SBDL_DeepLinks_Back_2.BorderColor
+            Height: =1080
+            HoverFill: =SBDL_DeepLinks_Back_2.Fill
+            PressedFill: =SBDL_DeepLinks_Back_2.Fill
+            Width: =1920
+            ZIndex: =1
+
+        SBDL_Share_DeepLinks_Link_Text_2 As htmlViewer:
+            BorderColor: =DarkGray
+            BorderStyle: =BorderStyle.Solid
+            BorderThickness: =4
+            Fill: =LightGray
+            Height: =429
+            HoverBorderColor: =SBDL_Share_DeepLinks_Link_Text_2.BorderColor
+            HtmlText: |-
+                ="<strong><big>Summary URL - </big></strong><br>"&Concatenate(ShareDeepLinks.varDeepLink&"?GTMID=",Text(ShareDeepLinks.varGTMEntryID),"&DeepLink=Summary")&"<br><br>"&
+                "<strong><big>Details URL - </big></strong><br>"&Concatenate(ShareDeepLinks.varDeepLink&"?GTMID=",Text(ShareDeepLinks.varGTMEntryID),"&DeepLink=Details")&"<br><br>"&
+                "<strong><big>Attachments URL -</big></strong><br>"&Concatenate(ShareDeepLinks.varDeepLink&"?GTMID=",Text(ShareDeepLinks.varGTMEntryID),"&DeepLink=Attachments")
+            PaddingLeft: =25
+            PaddingTop: =25
+            PressedBorderColor: =SBDL_Share_DeepLinks_Link_Text_2.BorderColor
+            Size: =18
+            Width: =1367
+            X: =305
+            Y: =333
+            ZIndex: =2
+
+        SBDL_Share_DeepLinks_OK_2 As button:
+            BorderColor: =ColorFade(SBDL_Share_DeepLinks_OK_2.Fill, -15%)
+            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            Fill: =Magenta
+            FocusedBorderColor: =SBDL_Share_DeepLinks_OK_2.BorderColor
+            FontWeight: =FontWeight.Semibold
+            HoverBorderColor: =ColorFade(SBDL_Share_DeepLinks_OK_2.BorderColor, 20%)
+            HoverColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            OnSelect: =Set(varShareVis, false);
+            PressedBorderColor: =SBDL_Share_DeepLinks_OK_2.Fill
+            PressedColor: =SBDL_Share_DeepLinks_OK_2.Fill
+            PressedFill: =SBDL_Share_DeepLinks_OK_2.Color
+            Size: =15
+            Text: ="OK"
+            X: =920
+            Y: =680
+            ZIndex: =3
+
+        SBDL_Share_Email_Icon_2 As image:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            FocusedBorderColor: =SBDL_Share_Email_Icon_2.BorderColor
+            HoverBorderColor: =ColorFade(SBDL_Share_Email_Icon_2.BorderColor, 20%)
+            HoverFill: =ColorFade(SBDL_Share_Email_Icon_2.Fill, 20%)
+            Image: =ShareGray2
+            OnSelect: |-
+                =Launch("MailTo:"&ShareDeepLinks.varRecipEmail&"?subject=ORBIT - Input Request&body="&
+                Char(13)&
+                Char(13)&"-----------------------------------------------------------------------------------------------------------------------------"&
+                Char(13)&
+                "Links:"&
+                Char(13)&
+                "Summary - "& 
+                EncodeUrl(ShareDeepLinks.varDeepLink&"?GTMID="&Text(ShareDeepLinks.varGTMEntryID)&"&DeepLink=Summary")&
+                Char(13)&
+                "Details - "&
+                EncodeUrl(ShareDeepLinks.varDeepLink&"?GTMID="&Text(ShareDeepLinks.varGTMEntryID)&"&DeepLink=Details")&
+                Char(13)&
+                "Attachments - "&
+                EncodeUrl(ShareDeepLinks.varDeepLink&"?GTMID="&Text(ShareDeepLinks.varGTMEntryID)&"&DeepLink=Attachments")&
+                "%0A%0A");
+            PressedBorderColor: =ColorFade(SBDL_Share_Email_Icon_2.BorderColor, -20%)
+            PressedFill: =ColorFade(SBDL_Share_Email_Icon_2.Fill, -20%)
+            X: =1555
+            Y: =662
+            ZIndex: =4
+

@@ -1,0 +1,267 @@
+[
+  {
+    "CdsFCBContext": "{\"FileType\":true,\"ImageExternalStorage\":true}",
+    "EntitySetName": "adx_inviteredemptions",
+    "IsHidden": false,
+    "IsSampleData": false,
+    "IsWritable": true,
+    "LogicalName": "adx_inviteredemption",
+    "MaxGetRowsCount": 2000,
+    "Name": "Invite Redemptions",
+    "NativeCDSDataSourceInfoNameMapping": {
+      "_ownerid_value": "Owner",
+      "_regardingobjectid_value": "Regarding",
+      "{Attachments}": "Attachments",
+      "activityadditionalparams": "Activity Additional Parameters",
+      "activityid": "Activity",
+      "activitytypecode": "Activity Type",
+      "actualdurationminutes": "Actual Duration",
+      "actualend": "Actual End",
+      "actualstart": "Actual Start",
+      "adx_inviteredemption_ActionCards": "Action Cards",
+      "adx_inviteredemption_Annotations": "Notes",
+      "adx_inviteredemption_AsyncOperations": "System Jobs",
+      "adx_inviteredemption_BulkDeleteFailures": "Bulk Delete Failures",
+      "adx_inviteredemption_connections1": "Connections (adx_inviteredemption_connections1)",
+      "adx_inviteredemption_connections2": "Connections (adx_inviteredemption_connections2)",
+      "adx_inviteredemption_DuplicateBaseRecord": "Duplicate Records (adx_inviteredemption_DuplicateBaseRecord)",
+      "adx_inviteredemption_DuplicateMatchingRecord": "Duplicate Records (adx_inviteredemption_DuplicateMatchingRecord)",
+      "adx_inviteredemption_MailboxTrackingFolders": "Mailbox Auto Tracking Folders",
+      "adx_inviteredemption_PrincipalObjectAttributeAccesses": "Field Sharing",
+      "adx_inviteredemption_ProcessSession": "Process Sessions",
+      "adx_inviteredemption_QueueItems": "Queue Items",
+      "adx_inviteredemption_SyncErrors": "Sync Errors",
+      "adx_ipaddress": "IP Address",
+      "community": "Social Channel",
+      "createdby_adx_inviteredemption": "Created By",
+      "createdon": "Date Created",
+      "createdonbehalfby_adx_inviteredemption": "Created By (Delegate)",
+      "deliverylastattemptedon": "Date Delivery Last Attempted",
+      "deliveryprioritycode": "Delivery Priority",
+      "description": "Description",
+      "exchangeitemid": "Exchange Item ID",
+      "exchangerate": "Exchange Rate",
+      "exchangeweblink": "Exchange WebLink",
+      "importsequencenumber": "Import Sequence Number",
+      "instancetypecode": "Recurring Instance Type",
+      "isbilled": "Is Billed",
+      "ismapiprivate": "Is Private",
+      "isregularactivity": "Is Regular Activity",
+      "isworkflowcreated": "Is Workflow Created",
+      "lastonholdtime": "Last On Hold Time",
+      "leftvoicemail": "Left Voice Mail",
+      "modifiedby_adx_inviteredemption": "Modified By",
+      "modifiedon": "Last Updated",
+      "modifiedonbehalfby_adx_inviteredemption": "Modified By (Delegate)",
+      "onholdtime": "On Hold Time (Minutes)",
+      "overriddencreatedon": "Record Created On",
+      "owningbusinessunit_adx_inviteredemption": "Owning Business Unit",
+      "owningteam_adx_inviteredemption": "Owning Team",
+      "owninguser_adx_inviteredemption": "Owning User",
+      "postponeactivityprocessinguntil": "Delay activity processing until",
+      "prioritycode": "Priority",
+      "processid": "Process",
+      "scheduleddurationminutes": "Scheduled Duration",
+      "scheduledend": "Due Date",
+      "scheduledstart": "Start Date",
+      "sendermailboxid_adx_inviteredemption": "Sender's Mailbox",
+      "senton": "Date Sent",
+      "seriesid": "Series ID",
+      "sortdate": "Sort Date",
+      "stageid": "Process Stage",
+      "statecode": "Activity Status",
+      "statuscode": "Status Reason",
+      "subject": "Subject",
+      "timezoneruleversionnumber": "Time Zone Rule Version Number",
+      "transactioncurrencyid_adx_inviteredemption": "Currency",
+      "traversedpath": "Traversed Path",
+      "utcconversiontimezonecode": "UTC Conversion Time Zone Code",
+      "versionnumber": "Version Number"
+    },
+    "PreferredName": "Invite Redemptions",
+    "Type": "NativeCDSDataSourceInfo"
+  },
+  {
+    "DisplayName": "Invite Redemptions (Views)",
+    "Name": "_adx_inviteredemption_views",
+    "RelatedEntityName": "Invite Redemptions",
+    "TrimmedViewName": true,
+    "Type": "ViewInfo",
+    "ViewInfoNameMapping": {
+      "03d150e6-372a-43f1-8142-9f1d9928515e": "Closed Invite Redemptions",
+      "234fe49a-46e9-42f3-baac-63a4579ef43d": "My Open Invite Redemptions",
+      "40e3b317-2059-4154-84fa-32dcb2f54532": "All Invite Redemptions",
+      "6b25c844-aa64-4a07-a2b4-9493339528a8": "Invite Redemption Lookup View",
+      "8454c46f-cfbc-44a3-8146-f6e0d78c60c2": "Invite Redemption Advanced Find View",
+      "e335749f-1773-4ad3-a056-349854d3da42": "Invite Redemption Associated View"
+    }
+  },
+  {
+    "DisplayName": "Recurring Instance Type (Invite Redemptions)",
+    "Name": "adx_inviteredemption_instancetypecode",
+    "OptionSetInfoNameMapping": {
+      "0": "Not Recurring",
+      "1": "Recurring Master",
+      "2": "Recurring Instance",
+      "3": "Recurring Exception",
+      "4": "Recurring Future Exception"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "instancetypecode",
+        "OptionSetReferenceEntityName": "Invite Redemptions"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "instancetypecode",
+    "RelatedEntityName": "Invite Redemptions",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Is Billed (Invite Redemptions)",
+    "Name": "adx_inviteredemption_isbilled",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "isbilled",
+        "OptionSetReferenceEntityName": "Invite Redemptions"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "isbilled",
+    "RelatedEntityName": "Invite Redemptions",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Is Private (Invite Redemptions)",
+    "Name": "adx_inviteredemption_ismapiprivate",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "ismapiprivate",
+        "OptionSetReferenceEntityName": "Invite Redemptions"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "ismapiprivate",
+    "RelatedEntityName": "Invite Redemptions",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Is Workflow Created (Invite Redemptions)",
+    "Name": "adx_inviteredemption_isworkflowcreated",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "isworkflowcreated",
+        "OptionSetReferenceEntityName": "Invite Redemptions"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "isworkflowcreated",
+    "RelatedEntityName": "Invite Redemptions",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Left Voice Mail (Invite Redemptions)",
+    "Name": "adx_inviteredemption_leftvoicemail",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "leftvoicemail",
+        "OptionSetReferenceEntityName": "Invite Redemptions"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "leftvoicemail",
+    "RelatedEntityName": "Invite Redemptions",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Priority (Invite Redemptions)",
+    "Name": "adx_inviteredemption_prioritycode",
+    "OptionSetInfoNameMapping": {
+      "0": "Low",
+      "1": "Normal",
+      "2": "High"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "prioritycode",
+        "OptionSetReferenceEntityName": "Invite Redemptions"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "prioritycode",
+    "RelatedEntityName": "Invite Redemptions",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Activity Status (Invite Redemptions)",
+    "Name": "adx_inviteredemption_statecode",
+    "OptionSetInfoNameMapping": {
+      "0": "Open",
+      "1": "Completed",
+      "2": "Canceled",
+      "3": "Scheduled"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statecode",
+        "OptionSetReferenceEntityName": "Invite Redemptions"
+      }
+    },
+    "OptionSetTypeKey": "StateType",
+    "RelatedColumnInvariantName": "statecode",
+    "RelatedEntityName": "Invite Redemptions",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status Reason (Invite Redemptions)",
+    "Name": "adx_inviteredemption_statuscode",
+    "OptionSetInfoNameMapping": {
+      "1": "Open",
+      "2": "Completed",
+      "3": "Canceled",
+      "4": "Scheduled"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statuscode",
+        "OptionSetReferenceEntityName": "Invite Redemptions"
+      }
+    },
+    "OptionSetTypeKey": "StatusType",
+    "RelatedColumnInvariantName": "statuscode",
+    "RelatedEntityName": "Invite Redemptions",
+    "Type": "OptionSetInfo"
+  }
+]

@@ -1,0 +1,8 @@
+[
+  {
+    "IsSampleData": false,
+    "IsWritable": true,
+    "Name": "colDeviceFulfillmentInScope",
+    "Type": "CollectionDataSourceInfo"
+  }
+]

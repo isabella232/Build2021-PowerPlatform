@@ -1,0 +1,104 @@
+[
+  {
+    "CdsFCBContext": "{\"FileType\":true,\"ImageExternalStorage\":true}",
+    "EntitySetName": "crba4_stageapprovaluserses",
+    "IsHidden": false,
+    "IsSampleData": false,
+    "IsWritable": true,
+    "LogicalName": "crba4_stageapprovalusers",
+    "MaxGetRowsCount": 2000,
+    "Name": "StageApprovalUsers",
+    "NativeCDSDataSourceInfoNameMapping": {
+      "_ownerid_value": "Owner",
+      "cat_msdyn_flow_approval": "Approval",
+      "cat_ORBITApprovalsHistory_StageApprovalUs": "ORBITApprovalsHistories",
+      "crba4_instancestageid": "InstanceStageId",
+      "crba4_name": "Name",
+      "crba4_OrbitBPF": "OrbitBPF",
+      "crba4_stageapprovalusers_AsyncOperations": "System Jobs",
+      "crba4_stageapprovalusers_BulkDeleteFailures": "Bulk Delete Failures",
+      "crba4_stageapprovalusers_DuplicateBaseRecord": "Duplicate Records (crba4_stageapprovalusers_DuplicateBaseRecord)",
+      "crba4_stageapprovalusers_DuplicateMatchingRecord": "Duplicate Records (crba4_stageapprovalusers_DuplicateMatchingRecord)",
+      "crba4_stageapprovalusers_MailboxTrackingFolders": "Mailbox Auto Tracking Folders",
+      "crba4_stageapprovalusers_PrincipalObjectAttributeAccesses": "Field Sharing",
+      "crba4_stageapprovalusers_ProcessSession": "Process Sessions",
+      "crba4_stageapprovalusers_SyncErrors": "Sync Errors",
+      "crba4_stageapprovalusersid": "StageApprovalUsers",
+      "crba4_StageApprovalUsersSystemUsers": "Users",
+      "createdby": "Created By",
+      "createdon": "Created On",
+      "createdonbehalfby": "Created By (Delegate)",
+      "crffc_crba4_StageApprovalUsers_crba4_StageAppro": "StageApprovalResponses",
+      "importsequencenumber": "Import Sequence Number",
+      "modifiedby": "Modified By",
+      "modifiedon": "Modified On",
+      "modifiedonbehalfby": "Modified By (Delegate)",
+      "overriddencreatedon": "Record Created On",
+      "owningbusinessunit": "Owning Business Unit",
+      "owningteam": "Owning Team",
+      "owninguser": "Owning User",
+      "statecode": "Status",
+      "statuscode": "Status Reason",
+      "timezoneruleversionnumber": "Time Zone Rule Version Number",
+      "utcconversiontimezonecode": "UTC Conversion Time Zone Code",
+      "versionnumber": "Version Number"
+    },
+    "PreferredName": "StageApprovalUsers",
+    "Type": "NativeCDSDataSourceInfo"
+  },
+  {
+    "DisplayName": "StageApprovalUsers (Views)",
+    "Name": "_crba4_stageapprovalusers_views",
+    "RelatedEntityName": "StageApprovalUsers",
+    "TrimmedViewName": true,
+    "Type": "ViewInfo",
+    "ViewInfoNameMapping": {
+      "47131532-8153-4b91-87e7-1b54f7ca138c": "StageApprovalUsers Associated View",
+      "67d6ba11-5d0c-471b-9dad-5b78026a00ba": "StageApprovalUsers Lookup View",
+      "96d4c9f6-e7ab-4d05-a074-6823cb75f920": "Active StageApprovalUsers",
+      "bea29a6f-0a00-ea11-a84a-000d3a375321": "InstanceStageIDSort",
+      "bee29b42-31c4-4e1b-9788-f0ec6f4e1e41": "StageApprovalUsers Advanced Find View",
+      "d60712c8-f395-4f96-a8a6-6be0debd13e9": "Inactive StageApprovalUsers"
+    }
+  },
+  {
+    "DisplayName": "Status (StageApprovalUsers)",
+    "Name": "crba4_stageapprovalusers_statecode",
+    "OptionSetInfoNameMapping": {
+      "0": "Active",
+      "1": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statecode",
+        "OptionSetReferenceEntityName": "StageApprovalUsers"
+      }
+    },
+    "OptionSetTypeKey": "StateType",
+    "RelatedColumnInvariantName": "statecode",
+    "RelatedEntityName": "StageApprovalUsers",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status Reason (StageApprovalUsers)",
+    "Name": "crba4_stageapprovalusers_statuscode",
+    "OptionSetInfoNameMapping": {
+      "1": "Active",
+      "2": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statuscode",
+        "OptionSetReferenceEntityName": "StageApprovalUsers"
+      }
+    },
+    "OptionSetTypeKey": "StatusType",
+    "RelatedColumnInvariantName": "statuscode",
+    "RelatedEntityName": "StageApprovalUsers",
+    "Type": "OptionSetInfo"
+  }
+]

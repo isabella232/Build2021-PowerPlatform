@@ -1,0 +1,61 @@
+{
+  "ComponentAllowCustomization": true,
+  "ComponentChangedSinceFileImport": true,
+  "ComponentManifest": {
+    "AllowAccessToGlobals": false,
+    "AllowCustomization": true,
+    "Description": "",
+    "Name": "ShareDeepLinks",
+    "TemplateGuid": "0279942289c6484abae076d64181ba9d"
+  },
+  "ComponentType": "CanvasComponent",
+  "CustomGroupControlTemplateName": "",
+  "CustomProperties": [
+    {
+      "Category": 0,
+      "DisplayName": "varDeepLink",
+      "Hidden": false,
+      "Name": "varDeepLink",
+      "PropertyDataTypeKey": "String",
+      "Tooltip": "varDeepLink",
+      "Type": "{\"Version\":\"1.309\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"String\",\"EnumString\":\"\",\"Type\":[]}}"
+    },
+    {
+      "Category": 0,
+      "DisplayName": "varRecipEmail",
+      "Hidden": false,
+      "Name": "varRecipEmail",
+      "PropertyDataTypeKey": "String",
+      "Tooltip": "varRecipEmail",
+      "Type": "{\"Version\":\"1.309\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"String\",\"EnumString\":\"\",\"Type\":[]}}"
+    },
+    {
+      "Category": 0,
+      "DisplayName": "varGTMEntryID",
+      "Hidden": false,
+      "Name": "varGTMEntryID",
+      "PropertyDataTypeKey": "Number",
+      "Tooltip": "varGTMEntryID",
+      "Type": "{\"Version\":\"1.309\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"Number\",\"EnumString\":\"\",\"Type\":[]}}"
+    },
+    {
+      "Category": 0,
+      "DisplayName": "varHideShareComp",
+      "Hidden": true,
+      "Name": "varHideShareComp",
+      "PropertyDataTypeKey": "Boolean",
+      "Tooltip": "varHideShareComp",
+      "Type": "{\"Version\":\"1.309\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"_MinPrimitive\",\"EnumString\":\"\",\"Type\":[]}}"
+    }
+  ],
+  "FirstParty": true,
+  "Id": "http://microsoft.com/appmagic/Component",
+  "IsComponentLocked": false,
+  "IsComponentTemplate": true,
+  "IsCustomGroupControlTemplate": false,
+  "IsPremiumPcfControl": false,
+  "LastModifiedTimestamp": "637556503002759863",
+  "Name": "0279942289c6484abae076d64181ba9d",
+  "OverridableProperties": {},
+  "Version": "637556506220919119"
+}

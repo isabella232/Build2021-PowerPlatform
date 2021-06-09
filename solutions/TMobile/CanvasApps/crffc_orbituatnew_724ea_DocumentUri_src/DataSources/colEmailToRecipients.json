@@ -1,0 +1,8 @@
+[
+  {
+    "IsSampleData": false,
+    "IsWritable": true,
+    "Name": "colEmailToRecipients",
+    "Type": "CollectionDataSourceInfo"
+  }
+]

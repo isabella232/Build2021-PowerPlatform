@@ -1,0 +1,2678 @@
+Attachments_Screen As screen:
+    Height: =Max(App.Height, App.DesignHeight)
+    LoadingSpinner: =LoadingSpinner.Controls
+    LoadingSpinnerColor: =RGBA(105, 121, 126, 1)
+    OnHidden: =Set(varIsNewInitiative, false);Set(NavScreenParam, Blank());
+    OnVisible: |-
+        =UpdateContext({showLoader:false});
+        UpdateContext({varLoadingDataMessage: Concatenate("Loading Attachments for ", varCurrentRecord.InitiativeName)});
+        UpdateContext({varStartAttachmentTimer: false});
+        UpdateContext({varStartAttachmentTimer2: false});
+        UpdateContext({varShowAttachmentLoader: false});
+        
+        
+        Set(varAttachmentDialogueVisible, false);
+        UpdateContext({isNewAttachFormVis: false});
+        If(Text(varCurrentRecord.Phase) = "New" And varIsDraftInitiative, Set(varInitiaitveUpdated, true); Set(varIsDraftInitiative, false)); // Requery data if newly submitted draft initiative
+        If(!(varCurrentRecord.gtmEntry = varCurrentRecordIDDetails) Or varInitiaitveUpdated Or IsEmpty(collFormValues) Or IsEmpty(colAttachmentTypes), // run if new initiative selected from project picker or was updated in summary
+        
+            If(varInitiaitveUpdated Or varIsDraftInitiative, 
+            Set(varInitiaitveUpdated, false);  // reset identifier for update record
+            If(!varIsDraftInitiative, 
+                Set(varCurrentRecordIDDetails, varCurrentRecord.gtmEntry);
+        
+                //ClearCollect(collFormValues, Filter(ComponentFieldDetails, formID = Text(varCurrentRecord.InitiativeType)));
+        
+                
+                // get user edit permissions on record
+                Set(varRecordPermissions, GetRecordPermisionsforCurrentUser.Run(varCurrentUserRecord.User, varCurrentRecord.gtmEntry).recordpermissions);
+                Set(varRecordEditPermissions, !IsBlank(Find("WriteAccess", varRecordPermissions)));
+        
+                Set(varGTMEntryID, Concatenate("cat_gtmentries(",varCurrentRecord.gtmEntry,")")); // used on people pickers for gtmEntryID value to patch over API
+                
+                If(Text(varCurrentRecord.gtmEntry) <> varCurrentRecordIDSummary, //check if these values are already queried
+                    
+                    
+        ForAll(gal_CurrentAttachments.AllItems, 
+                        Collect(selectedGtmEntryAttachmentTypes, 
+                            { AttachmentTypeName: Title4_1.Text}));
+                        //UpdateContext({SelectedGTMEntry: gal_ProjectPicker.Selected});
+                        //ClearCollect(colCurrentInitiativeAttachments, Filter(varCurrentRecord.gtmAttachments, Status = 'Status (gtmAttachments)'.Active));
+                        ClearCollect(colCurrentInitiativeAttachments, varCurrentRecord.gtmAttachments);
+        
+                        ClearCollect(colAttachmentTypes,
+                        Switch(Text(varCurrentRecord.InitiativeType),
+                        "Project", Filter(AttachmentTypeReferences, Name <> "Final Legal" And Name <> "C2 Content"),
+        
+                        "Other", Filter(AttachmentTypeReferences, 
+                            Name = "Please Select" Or
+                            Name = "Other"),
+        
+                        "Service Offer", Filter(AttachmentTypeReferences, 
+                            Name = "Please Select" Or 
+                            Name = "Final Legal" Or 
+                            Name = "C2 Content" Or 
+                            Name = "Media Plan" Or 
+                            Name = "Integrated Marketing Plan" Or
+                            Name = "Business Case" Or 
+                            Name = "FAQs" Or  
+                            Name = "Other"),
+        
+                        "Device Promotion", Filter(AttachmentTypeReferences, 
+                            Name = "Please Select" Or
+                            Name = "Final Legal" Or 
+                            Name = "C2 Content" Or 
+                            Name = "Media Plan" Or 
+                            Name = "Integrated Marketing Plan" Or
+                            Name = "Business Case" Or 
+                            Name = "FAQs" Or 
+                            Name = "Other"),
+        
+                        "Device Launch", Filter(AttachmentTypeReferences, 
+                            
+                            Name = "Please Select" Or
+                            Name = "Concept Brief" Or 
+                            Name = "Sales Launch Readiness/Plans/Calendars" Or 
+                            Name = "Sales Leadership and Training Call Decks" Or
+                            Name = "Sales Training" Or
+                            Name = "See Say Do" Or
+                            Name = "Brand Guidelines (if created)" Or
+                            Name = "Media Plan" Or
+                            Name = "Care Launch Readiness/Plans/Calendars" Or
+                            Name = "Care Leadership and Training Call Decks" Or
+                            Name = "Care Training" Or
+                            Name = "Integrated Marketing Plan" Or
+                            Name = "CustomerExperience Flow" Or  
+                            Name = "FAQs" Or 
+                            //cat_name = "Post Mortem" Or 
+                            Name = "Risks/Mitigations (Customer Use Cases/Escalation Scenario)" Or 
+                            Name = "Run of Show" Or 
+                            Name = "Workback Schedule" Or 
+                            Name = "Other"),
+        
+                        AttachmentTypeReferences)
+                        );
+                    
+                    UpdateContext({showLoader:true});
+                    
+                    Set(varEditAccessTeamID, Concatenate(varCurrentRecord.gtmEntry, "+", varEditTeamTemplateID));
+                    ClearCollect(colSponsorTeam, ["Sponsoring VP", "Business Owner", "Submitter"]);
+        
+                    //Set(varTemp, First(varCurrentRecord.cat_gtmentry_Teams).Users);
+                    //ClearCollect(colAccessTeams, varCurrentRecord.cat_gtmentry_Teams);
+                    //ClearCollect(colEditAccessTeam, Filter(colAccessTeams, 'Team Name' = varEditAccessTeamID));
+                    ////ClearCollect(colViewAccessTeam, Filter(colAccessTeams, associatedteamtemplateid.teamtemplatename = "ORBIT - Read Only"));
+                    //UpdateContext({varEditTeamIDLocal: First(colEditAccessTeam).Team});
+                    //Set(varEditAccessTeamRecord, LookUp(Teams, Team = varEditTeamIDLocal));
+                    ////Set(varEditAccessTeamRecord, LookUp(Teams, Team = First(colEditAccessTeam).Team));
+                    //If(IsEmpty(colEditAccessTeam), Clear(colEditAccessTeamMembers), ClearCollect(colEditAccessTeamMembers, varEditAccessTeamRecord.Users));
+        
+        
+                    Set(vartest123, First(colProjectTeamRoles).TeamMember); // This needs to be here to make the AddColumns run properly. 
+                    //ClearCollect(colTeamRoles, Filter(Choices(RoleType), !(Value = RoleType.Other)));
+                    ClearCollect(colTeamRoles, Choices(RoleType));
+                    ClearCollect(colProjectTeamRoles, varCurrentRecord.ProjectTeamRoles);
+        ClearCollect(colCurrentProjectTeamRoles, 
+                            AddColumns(colTeamRoles, 
+                                "userName", //If(!IsBlank(LookUp(colProjectTeamRoles, RoleType = colTeamRoles[@Value]).TeamMember.'Last Name'),
+                                    LookUp(colProjectTeamRoles, RoleType = colTeamRoles[@Value]).TeamMember.Nickname,
+                                "userJobTitle", LookUp(colProjectTeamRoles, RoleType = colTeamRoles[@Value]).TeamMember.Title, 
+                                "userID", LookUp(colProjectTeamRoles, RoleType = colTeamRoles[@Value]).TeamMember.User,
+                                "roleName", LookUp(colProjectTeamRoles, RoleType = colTeamRoles[@Value]).Name,
+                                "recordID", LookUp(colProjectTeamRoles, RoleType = colTeamRoles[@Value]).ProjectTeamRoles
+                                )
+                            );
+        
+                    UpdateContext({showLoader2: true});
+        
+                    ClearCollect(colCurrentProjectTeamRolesOther, Filter(colProjectTeamRoles, !IsBlank(Name)));
+                    ClearCollect(colCurrentProjectTeamRolesGeneral, Filter(colProjectTeamRoles, Text(RoleType) = "Project Team"));
+        
+                    Set(varRecordEditTrue, varRecordEditPermissions Or varCurrentUserSecurityRole = "GTM" Or varCurrentUserSecurityRole = "Administrator");
+        
+                    ClearCollect(colBeneficiaryLOB, Filter(BeneficiaryLOBApprovers, Status = 'Status (BeneficiaryLOBApprovers)'.Active));
+        
+                        UpdateContext({showLoader:true});
+                        );
+                );
+        
+                ClearCollect(collFormValues, If(varCurrentRecord.Brand = Brand.Metro And varCurrentRecord.InitiativeType = InitiativeType.'Device Promotion' Or varCurrentRecord.Brand = Brand.Metro And varCurrentRecord.InitiativeType = InitiativeType.'Service Offer', Filter(ComponentFieldDetails, formID = Concatenate(Text(varCurrentRecord.InitiativeType), " - Metro")), Filter(ComponentFieldDetails, formID = Text(varCurrentRecord.InitiativeType))));
+        
+                Patch(collFormValues, LookUp(collFormValues, fieldID = "GALiftType"),{fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).GALiftType, Value & "*")});
+                Patch(collFormValues, LookUp(collFormValues, fieldID = "Testing"), {fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).Testing, Value & "*")});
+                Patch(collFormValues, LookUp(collFormValues, fieldID = "AdditionalEligibilityRequirements"), {fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).AdditionalEligibilityRequirements, Value & "*")});
+                Patch(collFormValues, LookUp(collFormValues, fieldID = "Channels"),{fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).Channels, Value & "*")});
+                Patch(collFormValues, LookUp(collFormValues, fieldID = "CustomerSegment"),{fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).CustomerSegment, Value & "*")});
+                Patch(collFormValues, LookUp(collFormValues, fieldID = "DeviceFulfillmentInScope"),{fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).DeviceFulfillmentInScope, Value & "*")});
+                Patch(collFormValues, LookUp(collFormValues, fieldID = "MobileInternetPlanRequirements"),{fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).MobileInternetPlanRequirements, Value & "*")});
+                Patch(collFormValues, LookUp(collFormValues, fieldID = "PlanAndFeatureRequirementsBuild"),{fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).PlanAndFeatureRequirementsBuild, Value & "*")});
+                Patch(collFormValues, LookUp(collFormValues, fieldID = "PurchaseTypeFinancing"),{fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).PurchaseTypeFinancing, Value & "*")});
+                Patch(collFormValues, LookUp(collFormValues, fieldID = "VoiceRatePlanRequirements"),{fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).VoiceRatePlanRequirements, Value & "*")});
+                Patch(collFormValues, LookUp(collFormValues, fieldID = "WearablePlanRequirements"),{fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).WearablePlanRequirements, Value & "*")});
+                Patch(collFormValues, LookUp(collFormValues, fieldID = "RatePlanRequirements"),{fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).RatePlanRequirements, Value & "*")});
+                Patch(collFormValues, LookUp(collFormValues, fieldID = "AddALineTypes"),{fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).AddALineTypes, Value & "*")});
+        ,
+        Patch(collFormValues, LookUp(collFormValues, fieldID = "GALiftType"),{fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).GALiftType, Value & "*")});
+                Patch(collFormValues, LookUp(collFormValues, fieldID = "Testing"), {fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).Testing, Value & "*")});
+                Patch(collFormValues, LookUp(collFormValues, fieldID = "AdditionalEligibilityRequirements"), {fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).AdditionalEligibilityRequirements, Value & "*")});
+                Patch(collFormValues, LookUp(collFormValues, fieldID = "Channels"),{fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).Channels, Value & "*")});
+                Patch(collFormValues, LookUp(collFormValues, fieldID = "CustomerSegment"),{fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).CustomerSegment, Value & "*")});
+                Patch(collFormValues, LookUp(collFormValues, fieldID = "DeviceFulfillmentInScope"),{fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).DeviceFulfillmentInScope, Value & "*")});
+                Patch(collFormValues, LookUp(collFormValues, fieldID = "MobileInternetPlanRequirements"),{fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).MobileInternetPlanRequirements, Value & "*")});
+                Patch(collFormValues, LookUp(collFormValues, fieldID = "PlanAndFeatureRequirementsBuild"),{fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).PlanAndFeatureRequirementsBuild, Value & "*")});
+                Patch(collFormValues, LookUp(collFormValues, fieldID = "PurchaseTypeFinancing"),{fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).PurchaseTypeFinancing, Value & "*")});
+                Patch(collFormValues, LookUp(collFormValues, fieldID = "VoiceRatePlanRequirements"),{fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).VoiceRatePlanRequirements, Value & "*")});
+                Patch(collFormValues, LookUp(collFormValues, fieldID = "WearablePlanRequirements"),{fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).WearablePlanRequirements, Value & "*")});
+                Patch(collFormValues, LookUp(collFormValues, fieldID = "RatePlanRequirements"),{fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).RatePlanRequirements, Value & "*")});
+                Patch(collFormValues, LookUp(collFormValues, fieldID = "AddALineTypes"),{fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).AddALineTypes, Value & "*")});
+            );
+            );
+        
+        
+        If(IsBlank(varRecordPermissions),
+                // get user edit permissions on record
+                Set(varRecordPermissions, GetRecordPermisionsforCurrentUser.Run(varCurrentUserRecord.User, varCurrentRecord.gtmEntry).recordpermissions);
+                Set(varRecordEditPermissions, !IsBlank(Find("WriteAccess", varRecordPermissions))));
+        
+        UpdateContext({showLoader:true});
+        UpdateContext({varLoadingDataMessage: Concatenate("Loading Data for ", varCurrentRecord.InitiativeName)});
+        Reset(com_Attachment_Left_Nav);
+    Orientation: =If(Attachments_Screen.Width < Attachments_Screen.Height, Layout.Vertical, Layout.Horizontal)
+    Size: =1 + CountRows(App.SizeBreakpoints) - CountIf(App.SizeBreakpoints, Value >= Attachments_Screen.Width)
+    Width: =Max(App.Width, App.DesignWidth)
+
+    tmr_RefreshForDuplicateRecords As timer:
+        BorderColor: =RGBA(105, 121, 126, 1)
+        BorderStyle: =BorderStyle.None
+        DisabledBorderColor: =RGBA(244, 244, 244, 1)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        DisabledFill: =RGBA(244, 244, 244, 1)
+        Duration: =5000
+        Fill: =RGBA(105, 121, 126, 1)
+        FocusedBorderColor: =tmr_RefreshForDuplicateRecords.BorderColor
+        Font: =Font.'Segoe UI'
+        Height: =28
+        HoverBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+        HoverColor: =RGBA(255, 255, 255, 1)
+        HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+        OnTimerEnd: |-
+            =//To run when an attachment is replaced. This should be fixed
+            
+            //UpdateContext({SelectedGTMEntry:LookUp(gtmEntries, gtmEntry = SelectedGTMEntry.gtmEntry)});
+            Clear(selectedGtmEntryAttachmentTypes);
+                ForAll(gal_CurrentAttachments.AllItems, 
+                    Collect(selectedGtmEntryAttachmentTypes, 
+                        { AttachmentTypeName: Title4_1.Text}));
+                UpdateContext({varSelectedGTMEntry: varCurrentRecord});
+                ClearCollect(colCurrentInitiativeAttachments, Filter(varCurrentRecord.gtmAttachments, Status = 'Status (gtmAttachments)'.Active));
+            //ClearCollect(colCurrentInitiativeAttachments, Filter(varCurrentRecord.gtmAttachments, Status = 'Status (gtmAttachments)'.Active));
+            
+            UpdateContext({varStartAttachmentTimer2:false});
+            UpdateContext({varShowAttachmentLoader: false});
+            UpdateContext({varLoadingDataMessage: ""});
+        PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+        PressedColor: =RGBA(255, 255, 255, 1)
+        PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+        Repeat: =true
+        Reset: =!varStartAttachmentTimer2
+        Start: =varStartAttachmentTimer2
+        Text: |-
+            =Text(Time(0, 0, tmr_RefreshForDuplicateRecords.Value/1000), "hh:mm:ss")
+        X: =1391
+        Y: =10
+        ZIndex: =1
+
+    tmr_RefreshForNewRecords As timer:
+        BorderColor: =RGBA(105, 121, 126, 1)
+        BorderStyle: =BorderStyle.None
+        DisabledBorderColor: =RGBA(244, 244, 244, 1)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        DisabledFill: =RGBA(244, 244, 244, 1)
+        Duration: =3000
+        Fill: =RGBA(105, 121, 126, 1)
+        FocusedBorderColor: =tmr_RefreshForNewRecords.BorderColor
+        Font: =Font.'Segoe UI'
+        Height: =30
+        HoverBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+        HoverColor: =RGBA(255, 255, 255, 1)
+        HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+        OnSelect: =Set(varStartAttachmentTimer, true)
+        OnTimerEnd: |-
+            =UpdateContext({varSelectedGTMEntry: LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry)});
+            //ClearCollect(colCurrentInitiativeAttachments, Filter(varCurrentRecord.gtmAttachments, Status = 'Status (gtmAttachments)'.Active));
+            
+            Clear(selectedGtmEntryAttachmentTypes);
+                ForAll(gal_CurrentAttachments.AllItems, 
+                    Collect(selectedGtmEntryAttachmentTypes, 
+                        { AttachmentTypeName: Title4_1.Text}));
+                UpdateContext({varSelectedGTMEntry: varCurrentRecord});
+                ClearCollect(colCurrentInitiativeAttachments, Filter(varCurrentRecord.gtmAttachments, Status = 'Status (gtmAttachments)'.Active));
+            
+            If(CountRows(colCurrentInitiativeAttachments) > varAttachmentCount, 
+                UpdateContext({varStartAttachmentTimer: false});
+                Set(varLoadingAttachment, false);
+                UpdateContext({varShowAttachmentLoader: false});
+                UpdateContext({varLoadingDataMessage: ""})
+            );
+        PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+        PressedColor: =RGBA(255, 255, 255, 1)
+        PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+        Repeat: =true
+        Reset: =!varStartAttachmentTimer
+        Start: =varStartAttachmentTimer
+        Text: |-
+            =Text(Time(0, 0, tmr_RefreshForNewRecords.Value/1000), "hh:mm:ss")
+        X: =1043
+        Y: =10
+        ZIndex: =2
+
+    imgBackgroundImage As image:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledFill: =RGBA(0, 0, 0, 0)
+        FocusedBorderColor: =imgBackgroundImage.BorderColor
+        FocusedBorderThickness: =4
+        Height: =715
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverFill: =RGBA(0, 0, 0, 0)
+        Image: =T_Logo_3c_p
+        PressedBorderColor: =RGBA(0, 0, 0, 0)
+        PressedFill: =RGBA(0, 0, 0, 0)
+        Transparency: =0.95
+        Visible: =varCurrentUserSecurityRole = "Administrator"
+        Width: =1749
+        X: =150
+        Y: =265
+        ZIndex: =3
+
+    com_Initiative_Docs_Gallery As com_AttachmentGallery:
+        attachmentTypes: =Filter(colAttachmentTypes,Group=[@AttachmentGroup].Initiative And !(Name = "Other") And !(Name = "Please Select"))
+        componentHeight: =com_Initiative_Docs_Gallery.Height
+        componentWidth: =com_Initiative_Docs_Gallery.Width
+        DeleteIconIsVisible: =varCurrentUserSecurityRole = "GTM" Or varCurrentUserSecurityRole = "Administrator"
+        downloadIsVisibleReset: =varAttachmentDialogueVisible
+        gtmAttachments: |-
+            =Filter(colCurrentInitiativeAttachments,Group = AttachmentGroup.Initiative And Not(Name in gal_AttachmentTypeOther.AllItems.Name))
+            //colCurrentInitiativeAttachments
+        Height: =If(Text(varCurrentRecord.InitiativeType) = "Other", 0, 540)
+        HideHeader: =false
+        Title: ="Key Initiative Documents"
+        Width: =((App.Width - com_Attachment_Left_Nav.Width) - 130) / 4
+        X: =com_Attachment_Left_Nav.Width + 40
+        Y: =com_Attachment_Initiative_Header.Y + com_Attachment_Initiative_Header.Height
+        ZIndex: =4
+
+    com_Attachment_Initiative_Header As com_InitiativeHeader:
+        AppID: =varCurrentAppID
+        BOEmailAddress: =varCurrentRecord.'Business Owner'.'Primary Email'
+        GTMEntryID: =varCurrentRecord.gtmEntry
+        isNewInitiative: =false
+        LegacyGTMEntryID: =varCurrentRecord.legacyGTMEntryID
+        showButtons: =false
+        varInitiativeName: =Coalesce(LookUp(collFormValues, fieldID = "InitiativeName").fieldValue, varCurrentRecord.InitiativeName)
+        varInitiativeType: =varCurrentRecord.InitiativeType
+        varRequestType: =varCurrentRecord.InitiativeTypeGroup
+        Width: =App.Width - com_Attachment_Left_Nav.Width
+        X: =com_Attachment_Left_Nav.Width
+        Y: =com_Attachment_Top_Nav.Height
+        ZIndex: =5
+
+    com_Attachment_Left_Nav As com_NavLeft:
+        Height: =App.Height - com_Attachment_Top_Nav.Height
+        Items: =colLeftNavGalleryItems
+        Width: =If(varIsNewInitiative Or varIsDraftInitiative, varSideNavWidth, varSideNavWidth)
+        Y: =com_Attachment_Top_Nav.Height
+        ZIndex: =6
+
+    com_Attachment_Top_Nav As com_NavTop:
+        IsGTM: =varCurrentUserSecurityRole = "Administrator" Or varCurrentUserSecurityRole = "GTM"
+        Items: =colTopNavGalleryItems
+        UserFullName: =varCurrentUserNameFL
+        Width: =App.Width
+        ZIndex: =7
+
+    com_Sales_Docs_Gallery As com_AttachmentGallery:
+        attachmentTypes: =Filter(colAttachmentTypes,Group=[@AttachmentGroup].Sales And !(Name = "Other") And !(Name = "Please Select"))
+        componentHeight: =com_Sales_Docs_Gallery.Height
+        componentWidth: =com_Sales_Docs_Gallery.Width
+        DeleteIconIsVisible: =varCurrentUserSecurityRole = "GTM" Or varCurrentUserSecurityRole = "Administrator"
+        downloadIsVisibleReset: =varAttachmentDialogueVisible
+        gtmAttachments: =Filter(colCurrentInitiativeAttachments,Group = AttachmentGroup.Sales And Not(Name in gal_AttachmentTypeOther.AllItems.Name))
+        Height: =If(Text(varCurrentRecord.InitiativeType) = "Other", 0, 540)
+        HideHeader: =false
+        Title: ="Key Sales Documents"
+        Width: =com_Initiative_Docs_Gallery.Width
+        X: =com_Initiative_Docs_Gallery.X + com_Initiative_Docs_Gallery.Width + 20
+        Y: =com_Attachment_Initiative_Header.Y + com_Attachment_Initiative_Header.Height
+        ZIndex: =8
+
+    com_Marketing_Docs_Gallery As com_AttachmentGallery:
+        attachmentTypes: =Filter(colAttachmentTypes,Group=[@AttachmentGroup].Marketing And !(Name = "Other") And !(Name = "Please Select"))
+        componentHeight: =com_Marketing_Docs_Gallery.Height
+        componentWidth: =com_Marketing_Docs_Gallery.Width
+        DeleteIconIsVisible: =varCurrentUserSecurityRole = "GTM" Or varCurrentUserSecurityRole = "Administrator"
+        downloadIsVisibleReset: =varAttachmentDialogueVisible
+        gtmAttachments: =Filter(colCurrentInitiativeAttachments,Group = AttachmentGroup.Marketing And Not(Name in gal_AttachmentTypeOther.AllItems.Name))
+        Height: =If(Text(varCurrentRecord.InitiativeType) = "Other", 0, 540)
+        HideHeader: =false
+        Title: ="Key Marketing Documents"
+        Width: =com_Initiative_Docs_Gallery.Width
+        X: =com_Sales_Docs_Gallery.X + com_Initiative_Docs_Gallery.Width + 20
+        Y: =com_Attachment_Initiative_Header.Y + com_Attachment_Initiative_Header.Height
+        ZIndex: =9
+
+    com_Care_Docs_Gallery As com_AttachmentGallery:
+        attachmentTypes: =Filter(colAttachmentTypes,Group=[@AttachmentGroup].Care And !(Name = "Other") And !(Name = "Please Select"))
+        componentHeight: =com_Care_Docs_Gallery.Height
+        componentWidth: =com_Care_Docs_Gallery.Width
+        DeleteIconIsVisible: =varCurrentUserSecurityRole = "GTM" Or varCurrentUserSecurityRole = "Administrator"
+        downloadIsVisibleReset: =varAttachmentDialogueVisible
+        gtmAttachments: =Filter(colCurrentInitiativeAttachments,Group = AttachmentGroup.Care And Not(Name in gal_AttachmentTypeOther.AllItems.Name))
+        Height: =If(Text(varCurrentRecord.InitiativeType) = "Other", 0, 540)
+        HideHeader: =false
+        Title: ="Key Care Documents"
+        Width: =com_Initiative_Docs_Gallery.Width
+        X: =com_Marketing_Docs_Gallery.X + com_Initiative_Docs_Gallery.Width + 20
+        Y: =com_Attachment_Initiative_Header.Y + com_Attachment_Initiative_Header.Height
+        ZIndex: =10
+
+    com_Initiative_Other_Gallery As com_AttachmentGallery:
+        attachmentTypes: =
+        componentHeight: =com_Initiative_Other_Gallery.Height
+        componentWidth: =com_Initiative_Other_Gallery.Width
+        DeleteIconIsVisible: =varCurrentUserSecurityRole = "GTM" Or varCurrentUserSecurityRole = "Administrator"
+        downloadIsVisibleReset: =varAttachmentDialogueVisible
+        gtmAttachments: =Filter(gal_AttachmentTypeOther.AllItems,Group = AttachmentGroup.Initiative)
+        Height: =If(Text(varCurrentRecord.InitiativeType) = "Other", 600, 323)
+        HideHeader: =false
+        Title: ="Other Initiative Documents"
+        Width: =com_Initiative_Docs_Gallery.Width
+        X: =com_Initiative_Docs_Gallery.X
+        Y: =com_Initiative_Docs_Gallery.Y + com_Initiative_Docs_Gallery.Height
+        ZIndex: =11
+
+    com_Sales_Other_Gallery As com_AttachmentGallery:
+        attachmentTypes: =
+        componentHeight: =com_Sales_Other_Gallery.Height
+        componentWidth: =com_Sales_Other_Gallery.Width
+        DeleteIconIsVisible: =varCurrentUserSecurityRole = "GTM" Or varCurrentUserSecurityRole = "Administrator"
+        downloadIsVisibleReset: =varAttachmentDialogueVisible
+        gtmAttachments: =Filter(gal_AttachmentTypeOther.AllItems,Group = AttachmentGroup.Sales)
+        Height: =If(Text(varCurrentRecord.InitiativeType) = "Other", 600, 323)
+        HideHeader: =false
+        Title: ="Other Sales Documents"
+        Width: =com_Initiative_Docs_Gallery.Width
+        X: =com_Sales_Docs_Gallery.X
+        Y: =com_Initiative_Docs_Gallery.Y + com_Initiative_Docs_Gallery.Height
+        ZIndex: =12
+
+    com_Marketing_Other_Gallery As com_AttachmentGallery:
+        attachmentTypes: =
+        componentHeight: =com_Marketing_Other_Gallery.Height
+        componentWidth: =com_Marketing_Other_Gallery.Width
+        DeleteIconIsVisible: =varCurrentUserSecurityRole = "GTM" Or varCurrentUserSecurityRole = "Administrator"
+        downloadIsVisibleReset: =varAttachmentDialogueVisible
+        gtmAttachments: =Filter(gal_AttachmentTypeOther.AllItems,Group = AttachmentGroup.Marketing)
+        Height: =If(Text(varCurrentRecord.InitiativeType) = "Other", 600, 323)
+        HideHeader: =false
+        Title: ="Other Marketing Documents"
+        Width: =com_Initiative_Docs_Gallery.Width
+        X: =com_Marketing_Docs_Gallery.X
+        Y: =com_Initiative_Docs_Gallery.Y + com_Initiative_Docs_Gallery.Height
+        ZIndex: =13
+
+    com_Care_Other_Gallery As com_AttachmentGallery:
+        attachmentTypes: =
+        componentHeight: =com_Care_Other_Gallery.Height
+        componentWidth: =com_Care_Other_Gallery.Width
+        DeleteIconIsVisible: =varCurrentUserSecurityRole = "GTM" Or varCurrentUserSecurityRole = "Administrator"
+        downloadIsVisibleReset: =varAttachmentDialogueVisible
+        gtmAttachments: =Filter(gal_AttachmentTypeOther.AllItems,Group = AttachmentGroup.Care)
+        Height: =If(Text(varCurrentRecord.InitiativeType) = "Other", 600, 323)
+        HideHeader: =false
+        Title: ="Other Care Documents"
+        Width: =com_Initiative_Docs_Gallery.Width
+        X: =com_Care_Docs_Gallery.X
+        Y: =com_Initiative_Docs_Gallery.Y + com_Initiative_Docs_Gallery.Height
+        ZIndex: =14
+
+    btnNewAttachmentSetInactive As button:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        DisabledFill: =RGBA(244, 244, 244, 1)
+        Fill: =RGBA(105, 121, 126, 1)
+        FocusedBorderColor: =btnNewAttachmentSetInactive.BorderColor
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverColor: =RGBA(255, 255, 255, 1)
+        HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+        OnSelect: |-
+            =If(!(IsEmpty(Filter(gal_CurrentAttachments.AllItems,Group = DataCardValue28.Selected.Value && Name = DataCardValue10.Selected.Name))),
+            Patch(gtmAttachments, LookUp(gal_CurrentAttachments.AllItems, Group = DataCardValue28.Selected.Value && Name = DataCardValue10.Selected.Name), {Status: 'Status (gtmAttachments)'.Inactive})); 
+            
+            UpdateIf(gtmAttachments, gtmAttachments = LookUp(gal_CurrentAttachments.AllItems,Group = DataCardValue28.Selected.Value && Name = DataCardValue10.Selected.Name).gtmAttachments, {Status: 'Status (gtmAttachments)'.Inactive})
+            
+            //SubmitForm(Form3);
+            
+            //Patch(gtmAttachments, LookUp(gtmAttachments,cat_group = DataCardValue28.Selected.Value && cat_Type.cat_name = DataCardValue10.Selected.Name), {Status: 'Status (gtmAttachments)'.Inactive})
+            //Patch(gtmAttachments, LookUp(gtmAttachments, cat_gtmattachmentsid = GUID(Component1_1.selectedRecordID)), {statecode: 'Status (gtmAttachments)'.Inactive});
+            //Patch(gtmAttachments, LookUp(gtmAttachments, cat_gtmattachmentsid = GUID(Component1_1.selectedRecordID)), {statecode: 'Status (gtmAttachments)'.Inactive});
+            //LookUp(collGTMAttachments, Name = DataCardValue10.Selected.Name && Group = DataCardValue28.Selected.Value)
+        PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+        PressedColor: =RGBA(255, 255, 255, 1)
+        PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =15
+        Text: ="Set Inactive"
+        Visible: =isNewAttachFormVis And varDevMode
+        X: =1062
+        Y: =711
+        ZIndex: =15
+
+    BDL_Submit_1 As button:
+        BorderColor: =ColorFade(BDL_Submit_1.Fill, -15%)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =1
+        Color: =White
+        DisabledBorderColor: =RGBA(83, 83, 83, 1)
+        DisabledColor: =White
+        DisabledFill: =RGBA(166, 166, 166, 1)
+        DisplayMode: |-
+            =DisplayMode.Edit
+            //If(BDL_RequiredFields_Number.Text = "0",DisplayMode.Edit,DisplayMode.Disabled)
+        Fill: =RGBA(226, 0, 116, 1)
+        FocusedBorderColor: =BDL_Submit_1.BorderColor
+        FocusedBorderThickness: =1
+        Font: ='Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =30
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverColor: =White
+        HoverFill: =ColorFade(BDL_Submit_1.Fill, -20%)
+        OnSelect: |-
+            =UpdateContext({isNewAttachFormVis: true})
+        PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+        PressedColor: =RGBA(255, 255, 255, 1)
+        PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =11
+        Text: ="Add Attachment"
+        Width: =142
+        X: =1721
+        Y: =66
+        ZIndex: =16
+
+    shp_BackgroundBlur As rectangle:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        DisabledFill: =RGBA(166, 166, 166, 1)
+        DisplayMode: =DisplayMode.Disabled
+        Fill: =RGBA(237, 237, 237, .7)
+        FocusedBorderColor: =shp_BackgroundBlur.BorderColor
+        FocusedBorderThickness: =4
+        Height: =App.Height
+        HoverFill: =RGBA(105, 121, 126, 1)
+        PressedFill: =RGBA(105, 121, 126, 1)
+        Visible: =isNewAttachFormVis// Or frm_DocumentDownloadForm.Visible
+        Width: =App.Width
+        ZIndex: =18
+
+    btn_CollectAttachmentRecords As button:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        DisabledFill: =RGBA(244, 244, 244, 1)
+        Fill: =RGBA(105, 121, 126, 1)
+        FocusedBorderColor: =btn_CollectAttachmentRecords.BorderColor
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverColor: =RGBA(255, 255, 255, 1)
+        HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+        OnSelect: |-
+            =ClearCollect(colAttachmentsRecords, Filter(gal_CurrentAttachments.AllItems,Group = AttachmentGroup.Sales && !(Type.Name = "Other") && Status = 'Status (gtmAttachments)'.Active)) 
+            //used to populate attachment component gallery 
+        PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+        PressedColor: =RGBA(255, 255, 255, 1)
+        PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =10
+        Text: ="Collect ColAttachmentRecords"
+        Visible: =varDevMode
+        X: =1218
+        ZIndex: =29
+
+    grpDevControls As group:
+        Height: =5
+        Width: =5
+        X: =60
+        Y: =60
+        ZIndex: =38
+
+        btn_AttachmentsDevMode As button:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            Color: =RGBA(204, 204, 204, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            Fill: =RGBA(255, 255, 255, 1)
+            FocusedBorderColor: =btn_AttachmentsDevMode.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =30
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+            OnSelect: =Set(varDevMode, !varDevMode)
+            PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =9
+            Text: ="DM"
+            Visible: =varCurrentUserSecurityRole = "Administrator"
+            Width: =38
+            Y: =1050
+            ZIndex: =41
+
+        "gal_AttachmentTypeOther As gallery.'BrowseLayout_Vertical_OneTextVariant_ver4.0'":
+            BorderColor: =RGBA(166, 166, 166, 1)
+            DisabledBorderColor: =gal_AttachmentTypeOther.BorderColor
+            DisabledFill: =gal_AttachmentTypeOther.Fill
+            Height: =157
+            HoverBorderColor: =gal_AttachmentTypeOther.BorderColor
+            HoverFill: =gal_AttachmentTypeOther.Fill
+            Items: =Filter(gal_CurrentAttachments.AllItems, Type.Name = "Other")
+            Layout: =Layout.Vertical
+            LoadingSpinnerColor: =gal_AttachmentTypeOther.BorderColor
+            PressedBorderColor: =gal_AttachmentTypeOther.BorderColor
+            PressedFill: =gal_AttachmentTypeOther.Fill
+            TemplatePadding: =0
+            TemplateSize: =22
+            Visible: =varDevMode
+            Width: =551
+            X: =1216
+            Y: =893
+            ZIndex: =42
+
+            Title4_6 As label:
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderColor: =Title4_6.BorderColor
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =18
+                HoverBorderColor: =Title4_6.BorderColor
+                HoverColor: =Title4_6.Color
+                HoverFill: =Title4_6.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                PressedBorderColor: =Title4_6.BorderColor
+                PressedColor: =Title4_6.Color
+                PressedFill: =Title4_6.Fill
+                Size: =9
+                Text: =ThisItem.Type.Name
+                VerticalAlign: =VerticalAlign.Top
+                Width: =116
+                Y: =3
+                ZIndex: =4
+
+            Title4_7 As label:
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderColor: =Title4_7.BorderColor
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =18
+                HoverBorderColor: =Title4_7.BorderColor
+                HoverColor: =Title4_7.Color
+                HoverFill: =Title4_7.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                PressedBorderColor: =Title4_7.BorderColor
+                PressedColor: =Title4_7.Color
+                PressedFill: =Title4_7.Fill
+                Size: =9
+                Text: =ThisItem.Name
+                VerticalAlign: =VerticalAlign.Top
+                Width: =147
+                X: =99
+                Y: =4
+                ZIndex: =5
+
+            Title4_8 As label:
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderColor: =Title4_8.BorderColor
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =18
+                HoverBorderColor: =Title4_8.BorderColor
+                HoverColor: =Title4_8.Color
+                HoverFill: =Title4_8.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                PressedBorderColor: =Title4_8.BorderColor
+                PressedColor: =Title4_8.Color
+                PressedFill: =Title4_8.Fill
+                Size: =9
+                Text: =ThisItem.Group
+                VerticalAlign: =VerticalAlign.Top
+                Width: =116
+                X: =247
+                Y: =3
+                ZIndex: =6
+
+            Title4_9 As label:
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderColor: =Title4_9.BorderColor
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =18
+                HoverBorderColor: =Title4_9.BorderColor
+                HoverColor: =Title4_9.Color
+                HoverFill: =Title4_9.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                PressedBorderColor: =Title4_9.BorderColor
+                PressedColor: =Title4_9.Color
+                PressedFill: =Title4_9.Fill
+                Size: =9
+                Text: =ThisItem.Status
+                VerticalAlign: =VerticalAlign.Top
+                Width: =116
+                X: =363
+                Y: =3
+                ZIndex: =7
+
+        Icon4 As icon.Trash:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            Color: =RGBA(116, 116, 116, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(220, 220, 220, 1)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            FocusedBorderColor: =Icon4.BorderColor
+            FocusedBorderThickness: =4
+            Height: =40
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            Icon: =Icon.Trash
+            OnSelect: |-
+                =Patch(gtmAttachments, LookUp(gtmAttachments, gtmAttachments = GUID(com_Initiative_Docs_Gallery.selectedRecordID)), {Status: 'Status (gtmAttachments)'.Inactive});
+                //ClearCollect(collGTMAttachments, gal_ProjectPicker.Selected.gtmAttachments)
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Visible: =varDevMode
+            Width: =40
+            X: =570
+            Y: =150
+            ZIndex: =43
+
+        Icon4_1 As icon.Trash:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            Color: =RGBA(116, 116, 116, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(220, 220, 220, 1)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            FocusedBorderColor: =Icon4_1.BorderColor
+            FocusedBorderThickness: =4
+            Height: =40
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            Icon: =Icon.Trash
+            OnSelect: |-
+                =Patch(gtmAttachments, LookUp(gtmAttachments, gtmAttachments = GUID(com_Sales_Docs_Gallery.selectedRecordID)), {Status: 'Status (gtmAttachments)'.Inactive});
+                //ClearCollect(collGTMAttachments, gal_ProjectPicker.Selected.gtmAttachments)
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Visible: =varDevMode
+            Width: =40
+            X: =1003
+            Y: =152
+            ZIndex: =44
+
+        Icon4_2 As icon.Trash:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            Color: =RGBA(116, 116, 116, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(220, 220, 220, 1)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            FocusedBorderColor: =Icon4_2.BorderColor
+            FocusedBorderThickness: =4
+            Height: =40
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            Icon: =Icon.Trash
+            OnSelect: |-
+                =Patch(gtmAttachments, LookUp(gtmAttachments, gtmAttachments = GUID(com_Marketing_Docs_Gallery.selectedRecordID)), {Status: 'Status (gtmAttachments)'.Inactive});
+                //ClearCollect(collGTMAttachments, gal_ProjectPicker.Selected.gtmAttachments)
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Visible: =varDevMode
+            Width: =40
+            X: =1431
+            Y: =150
+            ZIndex: =45
+
+        Icon4_3 As icon.Trash:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            Color: =RGBA(116, 116, 116, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(220, 220, 220, 1)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            FocusedBorderColor: =Icon4_3.BorderColor
+            FocusedBorderThickness: =4
+            Height: =40
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            Icon: =Icon.Trash
+            OnSelect: |-
+                =Patch(gtmAttachments, LookUp(gtmAttachments, gtmAttachments = GUID(com_Care_Docs_Gallery.selectedRecordID)), {Status: 'Status (gtmAttachments)'.Inactive});
+                //ClearCollect(collGTMAttachments, gal_ProjectPicker.Selected.gtmAttachments)
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Visible: =varDevMode
+            Width: =40
+            X: =1859
+            Y: =151
+            ZIndex: =46
+
+        "gal_CurrentAttachments As gallery.'BrowseLayout_Vertical_OneTextVariant_ver4.0'":
+            BorderColor: =RGBA(166, 166, 166, 1)
+            DisabledBorderColor: =gal_CurrentAttachments.BorderColor
+            DisabledFill: =gal_CurrentAttachments.Fill
+            Height: =147
+            HoverBorderColor: =gal_CurrentAttachments.BorderColor
+            HoverFill: =gal_CurrentAttachments.Fill
+            Items: =Filter(colCurrentInitiativeAttachments, Status = 'Status (gtmAttachments)'.Active)
+            Layout: =Layout.Vertical
+            LoadingSpinnerColor: =gal_CurrentAttachments.BorderColor
+            PressedBorderColor: =gal_CurrentAttachments.BorderColor
+            PressedFill: =gal_CurrentAttachments.Fill
+            TemplatePadding: =0
+            TemplateSize: =40
+            Visible: =varDevMode
+            Width: =551
+            X: =574
+            Y: =905
+            ZIndex: =47
+
+            Title4_1 As label:
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderColor: =Title4_1.BorderColor
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =18
+                HoverBorderColor: =Title4_1.BorderColor
+                HoverColor: =Title4_1.Color
+                HoverFill: =Title4_1.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                PressedBorderColor: =Title4_1.BorderColor
+                PressedColor: =Title4_1.Color
+                PressedFill: =Title4_1.Fill
+                Size: =9
+                Text: =ThisItem.Type.Name
+                VerticalAlign: =VerticalAlign.Top
+                Width: =116
+                Y: =3
+                ZIndex: =4
+
+            Title4_3 As label:
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderColor: =Title4_3.BorderColor
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =52
+                HoverBorderColor: =Title4_3.BorderColor
+                HoverColor: =Title4_3.Color
+                HoverFill: =Title4_3.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                PressedBorderColor: =Title4_3.BorderColor
+                PressedColor: =Title4_3.Color
+                PressedFill: =Title4_3.Fill
+                Size: =9
+                Text: =ThisItem.Name
+                VerticalAlign: =VerticalAlign.Top
+                Width: =198
+                Y: =4
+                ZIndex: =5
+
+            Title4_4 As label:
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderColor: =Title4_4.BorderColor
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =18
+                HoverBorderColor: =Title4_4.BorderColor
+                HoverColor: =Title4_4.Color
+                HoverFill: =Title4_4.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                PressedBorderColor: =Title4_4.BorderColor
+                PressedColor: =Title4_4.Color
+                PressedFill: =Title4_4.Fill
+                Size: =9
+                Text: =ThisItem.Group
+                VerticalAlign: =VerticalAlign.Top
+                Width: =116
+                X: =247
+                Y: =3
+                ZIndex: =6
+
+            Title4_5 As label:
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderColor: =Title4_5.BorderColor
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =18
+                HoverBorderColor: =Title4_5.BorderColor
+                HoverColor: =Title4_5.Color
+                HoverFill: =Title4_5.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                PressedBorderColor: =Title4_5.BorderColor
+                PressedColor: =Title4_5.Color
+                PressedFill: =Title4_5.Fill
+                Size: =9
+                Text: =ThisItem.Status
+                VerticalAlign: =VerticalAlign.Top
+                Width: =116
+                X: =363
+                Y: =3
+                ZIndex: =7
+
+    Group19 As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =47
+
+        Rectangle10 As rectangle:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            DisabledFill: =RGBA(166, 166, 166, 1)
+            Fill: =RGBA(230, 230, 230, .7)
+            FocusedBorderColor: =Rectangle10.BorderColor
+            FocusedBorderThickness: =4
+            Height: =App.Height
+            HoverFill: =RGBA(105, 121, 126, 1)
+            PressedFill: =RGBA(105, 121, 126, 1)
+            Visible: =com_Initiative_Docs_Gallery.downloadIsVisible Or com_Sales_Docs_Gallery.downloadIsVisible Or com_Marketing_Docs_Gallery.downloadIsVisible Or com_Care_Docs_Gallery.downloadIsVisible Or com_Initiative_Other_Gallery.downloadIsVisible Or com_Sales_Other_Gallery.downloadIsVisible Or com_Marketing_Other_Gallery.downloadIsVisible Or com_Care_Other_Gallery.downloadIsVisible
+            Width: =App.Width
+            ZIndex: =17
+
+        FormBackground_1 As button:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            Color: =DarkGray
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =LightGrey2
+            DisplayMode: =DisplayMode.Disabled
+            Fill: =LightGrey
+            FocusedBorderColor: =FormBackground_1.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =frm_DocumentDownloadForm.Height + 100
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+            PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =15
+            Text: =""
+            Visible: =com_Initiative_Docs_Gallery.downloadIsVisible Or com_Sales_Docs_Gallery.downloadIsVisible Or com_Marketing_Docs_Gallery.downloadIsVisible Or com_Care_Docs_Gallery.downloadIsVisible Or com_Initiative_Other_Gallery.downloadIsVisible Or com_Sales_Other_Gallery.downloadIsVisible Or com_Marketing_Other_Gallery.downloadIsVisible Or com_Care_Other_Gallery.downloadIsVisible
+            Width: =497
+            X: =Parent.Width / 2 - FormBackground_1.Width / 2
+            Y: =Parent.Height / 2 - FormBackground_1.Height / 2
+            ZIndex: =19
+
+        frm_DocumentDownloadForm As form:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            DataSource: =gtmAttachments
+            DefaultMode: =FormMode.View
+            Fill: =LightGrey2
+            Height: =If(DataCardValue50_2.Text = "Other", 550, 470)
+            Item: =LookUp(varCurrentRecord.gtmAttachments, gtmAttachments = GUID(First(colActiveAttachmentRecord.gtmAttachments).gtmAttachments))
+            NumberOfColumns: =1
+            Visible: =com_Initiative_Docs_Gallery.downloadIsVisible Or com_Sales_Docs_Gallery.downloadIsVisible Or com_Marketing_Docs_Gallery.downloadIsVisible Or com_Care_Docs_Gallery.downloadIsVisible Or com_Initiative_Other_Gallery.downloadIsVisible Or com_Sales_Other_Gallery.downloadIsVisible Or com_Marketing_Other_Gallery.downloadIsVisible Or com_Care_Other_Gallery.downloadIsVisible
+            Width: =FormBackground_1.Width - 10
+            X: =FormBackground_1.X + 5
+            Y: =FormBackground_1.Y + 70
+            ZIndex: =27
+
+            Group_DataCard5 As typedDataCard.comboBoxOptionSetSingleEditCard:
+                BorderColor: =RGBA(166, 166, 166, 1)
+                BorderStyle: =BorderStyle.Solid
+                DataField: ="cat_group"
+                Default: =ThisItem.Group
+                DisplayMode: =Parent.DisplayMode
+                DisplayName: ="Group"
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =50
+                Required: =false
+                Update: =
+                Width: =Parent.Width
+                X: =0
+                Y: =0
+                ZIndex: =1
+
+                DataCardKey59 As label:
+                    AutoHeight: =true
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(116, 116, 116, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderColor: =DataCardKey59.BorderColor
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Semibold
+                    Height: =34
+                    HoverBorderColor: =DataCardKey59.BorderColor
+                    HoverColor: =DataCardKey59.Color
+                    HoverFill: =DataCardKey59.Fill
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PressedBorderColor: =DataCardKey59.BorderColor
+                    PressedColor: =DataCardKey59.Color
+                    PressedFill: =DataCardKey59.Fill
+                    Text: =" Key Document Category"
+                    Width: =Parent.Width - 60
+                    Wrap: =false
+                    X: =30
+                    Y: =10
+                    ZIndex: =1
+
+                DataCardValue50_3 As label:
+                    AutoHeight: =true
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(65, 65, 65, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisplayMode: =Parent.DisplayMode
+                    FocusedBorderColor: =DataCardValue50_3.BorderColor
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =27
+                    HoverBorderColor: =DataCardValue50_3.BorderColor
+                    HoverColor: =DataCardValue50_3.Color
+                    HoverFill: =DataCardValue50_3.Fill
+                    PaddingLeft: =20
+                    PressedBorderColor: =DataCardValue50_3.BorderColor
+                    PressedColor: =DataCardValue50_3.Color
+                    PressedFill: =DataCardValue50_3.Fill
+                    Size: =13
+                    Text: =ThisItem.Group
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardKey58.Y + DataCardKey58.Height + 5
+                    ZIndex: =2
+
+            Type_DataCard4 As typedDataCard.comboBoxEditCard:
+                BorderColor: =RGBA(166, 166, 166, 1)
+                BorderStyle: =BorderStyle.Solid
+                DataField: =ThisItem.Type.Name
+                Default: =ThisItem.Type
+                DisplayMode: =Parent.DisplayMode
+                DisplayName: ="Type"
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =50
+                Required: =false
+                Update: =
+                Width: =Parent.Width
+                X: =0
+                Y: =1
+                ZIndex: =1
+
+                DataCardKey62 As label:
+                    AutoHeight: =true
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(116, 116, 116, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderColor: =DataCardKey62.BorderColor
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Semibold
+                    Height: =34
+                    HoverBorderColor: =DataCardKey62.BorderColor
+                    HoverColor: =DataCardKey62.Color
+                    HoverFill: =DataCardKey62.Fill
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PressedBorderColor: =DataCardKey62.BorderColor
+                    PressedColor: =DataCardKey62.Color
+                    PressedFill: =DataCardKey62.Fill
+                    Text: ="Document Type"
+                    Width: =Parent.Width - 60
+                    Wrap: =false
+                    X: =30
+                    Y: =10
+                    ZIndex: =1
+
+                DataCardValue50_2 As label:
+                    AutoHeight: =true
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(65, 65, 65, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisplayMode: =Parent.DisplayMode
+                    FocusedBorderColor: =DataCardValue50_2.BorderColor
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =27
+                    HoverBorderColor: =DataCardValue50_2.BorderColor
+                    HoverColor: =DataCardValue50_2.Color
+                    HoverFill: =DataCardValue50_2.Fill
+                    PaddingLeft: =20
+                    PressedBorderColor: =DataCardValue50_2.BorderColor
+                    PressedColor: =DataCardValue50_2.Color
+                    PressedFill: =DataCardValue50_2.Fill
+                    Size: =13
+                    Text: =ThisItem.Type.Name
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardKey58.Y + DataCardKey58.Height + 5
+                    ZIndex: =2
+
+            "'Created By_DataCard1' As typedDataCard.comboBoxEditCard":
+                BorderColor: =RGBA(166, 166, 166, 1)
+                BorderStyle: =BorderStyle.Solid
+                DataField: ="createdby"
+                Default: =ThisItem.'Created By'
+                DisplayMode: =Parent.DisplayMode
+                DisplayName: ="Created By"
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =50
+                Required: =false
+                Update: =
+                Width: =Parent.Width
+                X: =0
+                Y: =2
+                ZIndex: =1
+
+                DataCardKey57 As label:
+                    AutoHeight: =true
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(116, 116, 116, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderColor: =DataCardKey57.BorderColor
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Semibold
+                    Height: =34
+                    HoverBorderColor: =DataCardKey57.BorderColor
+                    HoverColor: =DataCardKey57.Color
+                    HoverFill: =DataCardKey57.Fill
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PressedBorderColor: =DataCardKey57.BorderColor
+                    PressedColor: =DataCardKey57.Color
+                    PressedFill: =DataCardKey57.Fill
+                    Text: =Parent.DisplayName
+                    Width: =Parent.Width - 60
+                    Wrap: =false
+                    X: =30
+                    Y: =10
+                    ZIndex: =1
+
+                DataCardValue50_1 As label:
+                    AutoHeight: =true
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(65, 65, 65, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisplayMode: =Parent.DisplayMode
+                    FocusedBorderColor: =DataCardValue50_1.BorderColor
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =27
+                    HoverBorderColor: =DataCardValue50_1.BorderColor
+                    HoverColor: =DataCardValue50_1.Color
+                    HoverFill: =DataCardValue50_1.Fill
+                    PaddingLeft: =20
+                    PressedBorderColor: =DataCardValue50_1.BorderColor
+                    PressedColor: =DataCardValue50_1.Color
+                    PressedFill: =DataCardValue50_1.Fill
+                    Size: =13
+                    Text: =ThisItem.'Created By'.'Full Name'
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardKey58.Y + DataCardKey58.Height + 5
+                    ZIndex: =2
+
+            "'Created On_DataCard2' As typedDataCard.textualViewCard":
+                BorderColor: =RGBA(166, 166, 166, 1)
+                BorderStyle: =BorderStyle.Solid
+                DataField: ="createdon"
+                Default: =ThisItem.'Created On'
+                DisplayMode: =DisplayMode.View
+                DisplayName: ="Created On"
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =40
+                Required: =false
+                Width: =Parent.Width
+                X: =0
+                Y: =3
+                ZIndex: =1
+
+                DataCardKey58 As label:
+                    AutoHeight: =true
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(116, 116, 116, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderColor: =DataCardKey58.BorderColor
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Semibold
+                    Height: =34
+                    HoverBorderColor: =DataCardKey58.BorderColor
+                    HoverColor: =DataCardKey58.Color
+                    HoverFill: =DataCardKey58.Fill
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PressedBorderColor: =DataCardKey58.BorderColor
+                    PressedColor: =DataCardKey58.Color
+                    PressedFill: =DataCardKey58.Fill
+                    Text: =Parent.DisplayName
+                    Width: =Parent.Width - 60
+                    Wrap: =false
+                    X: =30
+                    Y: =10
+                    ZIndex: =1
+
+                DataCardValue50 As label:
+                    AutoHeight: =true
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(65, 65, 65, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisplayMode: =Parent.DisplayMode
+                    FocusedBorderColor: =DataCardValue50.BorderColor
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =27
+                    HoverBorderColor: =DataCardValue50.BorderColor
+                    HoverColor: =DataCardValue50.Color
+                    HoverFill: =DataCardValue50.Fill
+                    PaddingLeft: =20
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    PressedBorderColor: =DataCardValue50.BorderColor
+                    PressedColor: =DataCardValue50.Color
+                    PressedFill: =DataCardValue50.Fill
+                    Size: =13
+                    Text: =Parent.Default
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardKey58.Y + DataCardKey58.Height + 5
+                    ZIndex: =2
+
+            Name_DataCard5 As typedDataCard.textualEditCard:
+                BorderColor: =RGBA(166, 166, 166, 1)
+                BorderStyle: =BorderStyle.Solid
+                DataField: ="cat_name"
+                Default: =ThisItem.Name
+                DisplayMode: =Parent.DisplayMode
+                DisplayName: ="Name"
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =50
+                MaxLength: =DataSourceInfo([@gtmAttachments], DataSourceInfo.MaxLength, "cat_name")
+                Required: =true
+                Update: =DataCardValue52.Text
+                Visible: =ThisItem.Type.cat_name = "Other"
+                Width: =Parent.Width
+                X: =0
+                Y: =4
+                ZIndex: =1
+
+                DataCardKey60 As label:
+                    AutoHeight: =true
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(116, 116, 116, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderColor: =DataCardKey60.BorderColor
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Semibold
+                    Height: =34
+                    HoverBorderColor: =DataCardKey60.BorderColor
+                    HoverColor: =DataCardKey60.Color
+                    HoverFill: =DataCardKey60.Fill
+                    PaddingLeft: =0
+                    PressedBorderColor: =DataCardKey60.BorderColor
+                    PressedColor: =DataCardKey60.Color
+                    PressedFill: =DataCardKey60.Fill
+                    Text: =Parent.DisplayName
+                    Width: =Parent.Width - 60
+                    Wrap: =false
+                    X: =30
+                    Y: =10
+                    ZIndex: =1
+
+                DataCardValue52 As text:
+                    BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                    BorderThickness: =2
+                    Color: =RGBA(65, 65, 65, 1)
+                    Default: =Parent.Default
+                    DelayOutput: =true
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisabledFill: =RGBA(244, 244, 244, 1)
+                    DisplayMode: =Parent.DisplayMode
+                    Fill: =RGBA(237, 237, 237, 1)
+                    FocusedBorderColor: =DataCardValue52.BorderColor
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    HoverBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                    HoverColor: =RGBA(51, 51, 51, 1)
+                    HoverFill: =RGBA(255, 255, 255, 1)
+                    MaxLength: =Parent.MaxLength
+                    PaddingBottom: =0
+                    PaddingLeft: =20
+                    PressedBorderColor: =RGBA(105, 121, 126, 1)
+                    PressedColor: =RGBA(51, 51, 51, 1)
+                    PressedFill: =RGBA(255, 255, 255, 1)
+                    RadiusBottomLeft: =0
+                    RadiusBottomRight: =0
+                    RadiusTopLeft: =0
+                    RadiusTopRight: =0
+                    Size: =13
+                    Tooltip: =Parent.DisplayName
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardKey60.Y + DataCardKey60.Height + 5
+                    ZIndex: =2
+
+            Attachments_DataCard4 As typedDataCard.attachmentsEditCard:
+                BorderColor: =RGBA(166, 166, 166, 1)
+                BorderStyle: =BorderStyle.Solid
+                DataField: ="{Attachments}"
+                Default: =ThisItem.Attachments
+                DisplayMode: =Parent.DisplayMode
+                DisplayName: ="Attachments"
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =22
+                Required: =false
+                Update: =DataCardValue47.Attachments
+                Width: =Parent.Width
+                X: =0
+                Y: =5
+                ZIndex: =1
+
+                DataCardKey55 As label:
+                    Align: =Align.Center
+                    AutoHeight: =true
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =Magenta
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderColor: =DataCardKey55.BorderColor
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Bold
+                    Height: =34
+                    HoverBorderColor: =DataCardKey55.BorderColor
+                    HoverColor: =DataCardKey55.Color
+                    HoverFill: =DataCardKey55.Fill
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingTop: =25
+                    PressedBorderColor: =DataCardKey55.BorderColor
+                    PressedColor: =DataCardKey55.Color
+                    PressedFill: =DataCardKey55.Fill
+                    Text: ="Click On The Document To Download"
+                    Width: =Parent.Width - 60
+                    Wrap: =false
+                    X: =30
+                    Y: =10
+                    ZIndex: =1
+
+                DataCardValue47 As attachments:
+                    AddAttachmentColor: =DataCardValue47.Color
+                    AddedItemColor: =DataCardValue47.Color
+                    BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisabledFill: =RGBA(0, 0, 0, 0)
+                    DisplayMode: =Parent.DisplayMode
+                    Fill: =RGBA(0, 0, 0, 0)
+                    FocusedBorderColor: =DataCardValue47.BorderColor
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    Height: =67
+                    HoverBorderColor: =ColorFade(DataCardValue47.BorderColor, 15%)
+                    HoverColor: =RGBA(51, 51, 51, 1)
+                    HoverFill: =RGBA(202, 202, 202, 1)
+                    IsInDataCard: =true
+                    ItemColor: =RGBA(0, 0, 0, 1)
+                    ItemDisabledColor: =DataCardValue47.DisabledColor
+                    ItemDisabledFill: =DataCardValue47.DisabledFill
+                    ItemFill: =RGBA(105, 121, 126, 1)
+                    ItemHoverColor: =RGBA(51, 51, 51, 1)
+                    ItemHoverFill: =RGBA(212, 212, 212, 1)
+                    ItemPressedColor: =DataCardValue47.PressedColor
+                    ItemPressedFill: =DataCardValue47.PressedFill
+                    Items: =Parent.Default
+                    ItemSpacing: =12
+                    MaxAttachmentsColor: =DataCardValue47.Color
+                    NoAttachmentsColor: =RGBA(166, 166, 166, 1)
+                    PaddingBottom: =5
+                    PaddingLeft: =If(DataCardValue47.DisplayMode = DisplayMode.Edit, 5, 0)
+                    PaddingRight: =5
+                    PaddingTop: =5
+                    PressedBorderColor: =DataCardValue47.HoverBorderColor
+                    PressedColor: =RGBA(255, 255, 255, 1)
+                    PressedFill: =RGBA(105, 121, 126, 1)
+                    RemovedItemColor: =DataCardValue47.Color
+                    Tooltip: =Parent.DisplayName
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardKey55.Y + DataCardKey55.Height
+                    ZIndex: =2
+
+        lbl_AttachmentDownloadTitle As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(65, 65, 65, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =lbl_AttachmentDownloadTitle.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =60
+            HoverBorderColor: =lbl_AttachmentDownloadTitle.BorderColor
+            HoverColor: =lbl_AttachmentDownloadTitle.Color
+            HoverFill: =lbl_AttachmentDownloadTitle.Fill
+            PaddingLeft: =20
+            PressedBorderColor: =lbl_AttachmentDownloadTitle.BorderColor
+            PressedColor: =lbl_AttachmentDownloadTitle.Color
+            PressedFill: =lbl_AttachmentDownloadTitle.Fill
+            Size: =18
+            Text: ="Attachment Details"
+            Visible: =com_Initiative_Docs_Gallery.downloadIsVisible Or com_Sales_Docs_Gallery.downloadIsVisible Or com_Marketing_Docs_Gallery.downloadIsVisible Or com_Care_Docs_Gallery.downloadIsVisible Or com_Initiative_Other_Gallery.downloadIsVisible Or com_Sales_Other_Gallery.downloadIsVisible Or com_Marketing_Other_Gallery.downloadIsVisible Or com_Care_Other_Gallery.downloadIsVisible
+            Width: =FormBackground_1.Width
+            X: =FormBackground_1.X
+            Y: =FormBackground_1.Y
+            ZIndex: =28
+
+        Rectangle4 As rectangle:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            DisabledFill: =RGBA(166, 166, 166, 1)
+            Fill: =Magenta
+            FocusedBorderColor: =Rectangle4.BorderColor
+            FocusedBorderThickness: =4
+            Height: =3
+            HoverFill: =RGBA(105, 121, 126, 1)
+            PressedFill: =RGBA(105, 121, 126, 1)
+            Visible: =com_Initiative_Docs_Gallery.downloadIsVisible Or com_Sales_Docs_Gallery.downloadIsVisible Or com_Marketing_Docs_Gallery.downloadIsVisible Or com_Care_Docs_Gallery.downloadIsVisible Or com_Initiative_Other_Gallery.downloadIsVisible Or com_Sales_Other_Gallery.downloadIsVisible Or com_Marketing_Other_Gallery.downloadIsVisible Or com_Care_Other_Gallery.downloadIsVisible
+            Width: =FormBackground_1.Width - 60
+            X: =FormBackground_1.X + 30
+            Y: =FormBackground_1.Y + lbl_AttachmentDownloadTitle.Height 
+            ZIndex: =30
+
+        btn_CloseAttachmentDialogue As button:
+            BorderColor: =ColorFade(btn_CloseAttachmentDialogue.Fill, -15%)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =1
+            Color: =White
+            DisabledBorderColor: =RGBA(83, 83, 83, 1)
+            DisabledColor: =White
+            DisabledFill: =RGBA(166, 166, 166, 1)
+            DisplayMode: |-
+                =DisplayMode.Edit
+                //If(BDL_RequiredFields_Number.Text = "0",DisplayMode.Edit,DisplayMode.Disabled)
+            Fill: =RGBA(226, 0, 116, 1)
+            FocusedBorderColor: =btn_CloseAttachmentDialogue.BorderColor
+            FocusedBorderThickness: =1
+            Font: ='Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =30
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =White
+            HoverFill: =ColorFade(btn_CloseAttachmentDialogue.Fill, -20%)
+            OnSelect: =Set(varAttachmentDialogueVisible, !varAttachmentDialogueVisible)
+            PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =11
+            Text: ="Close"
+            Visible: =com_Initiative_Docs_Gallery.downloadIsVisible Or com_Sales_Docs_Gallery.downloadIsVisible Or com_Marketing_Docs_Gallery.downloadIsVisible Or com_Care_Docs_Gallery.downloadIsVisible Or com_Initiative_Other_Gallery.downloadIsVisible Or com_Sales_Other_Gallery.downloadIsVisible Or com_Marketing_Other_Gallery.downloadIsVisible Or com_Care_Other_Gallery.downloadIsVisible
+            Width: =110
+            X: =App.Width / 2 - btn_CloseAttachmentDialogue.Width / 2
+            Y: =frm_DocumentDownloadForm.Y + frm_DocumentDownloadForm.Height - 30
+            ZIndex: =31
+
+        HtmlText2 As htmlViewer:
+            DisabledFill: =LightGrey2
+            DisplayMode: =DisplayMode.Disabled
+            Fill: =LightGrey
+            Height: =426
+            HoverBorderColor: =HtmlText2.BorderColor
+            HtmlText: |-
+                ="<p style=""text-align: center;""><strong>Please Wait.</strong></p>
+                <p style=""text-align: center;"">&nbsp;</p><p style=""text-align: center;"">&nbsp;</p>
+                <p style=""text-align: center;""><br />Your document is currently being uploaded and will be available shortly.&nbsp;</p>"
+            PressedBorderColor: =HtmlText2.BorderColor
+            Size: =20
+            Visible: =btn_CloseAttachmentDialogue.Visible And IsBlank(DataCardValue50_3.Text)
+            Width: =FormBackground_1.Width - 40
+            X: =FormBackground_1.X + 20
+            Y: =FormBackground_1.Y + lbl_AttachmentDownloadTitle.Height + 20
+            ZIndex: =32
+
+        Image3 As image:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            FocusedBorderColor: =Image3.BorderColor
+            FocusedBorderThickness: =4
+            Height: =170
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            Image: =lazyload
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Visible: =btn_CloseAttachmentDialogue.Visible And IsBlank(DataCardValue50_3.Text)
+            Width: =215
+            X: =Parent.Width / 2 - Image3.Width / 2
+            Y: =Parent.Height / 2 - Image3.Height / 2
+            ZIndex: =33
+
+    Image15 As image:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledFill: =RGBA(0, 0, 0, 0)
+        FocusedBorderThickness: =4
+        Height: =36
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverFill: =RGBA(0, 0, 0, 0)
+        Image: ='358'
+        PressedBorderColor: =RGBA(0, 0, 0, 0)
+        PressedFill: =RGBA(0, 0, 0, 0)
+        Tooltip: ="Uploading Document"
+        Visible: =varShowAttachmentLoader
+        Width: =52
+        X: =1662
+        Y: =63
+        ZIndex: =48
+
+    com_LoadingSpinner_5 As com_LoadingSpinner:
+        Height: =App.Height - com_Attachment_Initiative_Header.Height - com_Attachment_Initiative_Header.Y
+        SpinnerText: =varLoadingDataMessage
+        Visible: =!showLoader
+        Width: =App.Width - com_Attachment_Left_Nav.Width
+        X: =com_Attachment_Left_Nav.Width
+        Y: =com_Attachment_Initiative_Header.Height + com_Attachment_Initiative_Header.Y
+        ZIndex: =49
+
+    Group21 As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =49
+
+        Rectangle11 As rectangle:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            DisabledFill: =RGBA(166, 166, 166, 1)
+            Fill: =RGBA(230, 230, 230, .7)
+            FocusedBorderColor: =Rectangle11.BorderColor
+            FocusedBorderThickness: =4
+            Height: =App.Height
+            HoverFill: =RGBA(105, 121, 126, 1)
+            PressedFill: =RGBA(105, 121, 126, 1)
+            Visible: =com_Initiative_Docs_Gallery.deleteIsVisbile Or com_Sales_Docs_Gallery.deleteIsVisbile Or com_Marketing_Docs_Gallery.deleteIsVisbile Or com_Care_Docs_Gallery.deleteIsVisbile Or com_Initiative_Other_Gallery.deleteIsVisbile Or com_Sales_Other_Gallery.deleteIsVisbile Or com_Marketing_Other_Gallery.deleteIsVisbile Or com_Care_Other_Gallery.deleteIsVisbile
+            Width: =App.Width
+            ZIndex: =34
+
+        FormBackground_2 As button:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            Color: =DarkGray
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(237, 237, 237, 1)
+            DisplayMode: =DisplayMode.Disabled
+            Fill: =LightGrey
+            FocusedBorderColor: =FormBackground_2.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =312
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+            PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =15
+            Text: =""
+            Visible: =com_Initiative_Docs_Gallery.deleteIsVisbile Or com_Sales_Docs_Gallery.deleteIsVisbile Or com_Marketing_Docs_Gallery.deleteIsVisbile Or com_Care_Docs_Gallery.deleteIsVisbile Or com_Initiative_Other_Gallery.deleteIsVisbile Or com_Sales_Other_Gallery.deleteIsVisbile Or com_Marketing_Other_Gallery.deleteIsVisbile Or com_Care_Other_Gallery.deleteIsVisbile
+            Width: =596
+            X: =App.Width / 2 - FormBackground_2.Width / 2
+            Y: =App.Height / 2 - FormBackground_2.Height / 2
+            ZIndex: =35
+
+        Rectangle4_2 As rectangle:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            DisabledFill: =RGBA(166, 166, 166, 1)
+            Fill: =Magenta
+            FocusedBorderColor: =Rectangle4_2.BorderColor
+            FocusedBorderThickness: =4
+            Height: =3
+            HoverFill: =RGBA(105, 121, 126, 1)
+            PressedFill: =RGBA(105, 121, 126, 1)
+            Visible: =com_Initiative_Docs_Gallery.deleteIsVisbile Or com_Sales_Docs_Gallery.deleteIsVisbile Or com_Marketing_Docs_Gallery.deleteIsVisbile Or com_Care_Docs_Gallery.deleteIsVisbile Or com_Initiative_Other_Gallery.deleteIsVisbile Or com_Sales_Other_Gallery.deleteIsVisbile Or com_Marketing_Other_Gallery.deleteIsVisbile Or com_Care_Other_Gallery.deleteIsVisbile
+            Width: =Label1_1.Width - 120
+            X: =Label1_1.X + 60
+            Y: =Label1_1.Y + Label1_1.Height 
+            ZIndex: =36
+
+        btn_CancelDeleteAttachment As button:
+            BorderColor: =ColorFade(btn_CancelDeleteAttachment.Fill, -15%)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =1
+            Color: =White
+            DisabledBorderColor: =RGBA(83, 83, 83, 1)
+            DisabledColor: =White
+            DisabledFill: =RGBA(166, 166, 166, 1)
+            DisplayMode: |-
+                =DisplayMode.Edit
+                //If(BDL_RequiredFields_Number.Text = "0",DisplayMode.Edit,DisplayMode.Disabled)
+            Fill: =RGBA(226, 0, 116, 1)
+            FocusedBorderColor: =btn_CancelDeleteAttachment.BorderColor
+            FocusedBorderThickness: =1
+            Font: ='Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =45
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =White
+            HoverFill: =ColorFade(btn_CancelDeleteAttachment.Fill, -20%)
+            OnSelect: |-
+                =Set(varAttachmentDialogueVisible, !varAttachmentDialogueVisible);
+                //UpdateIf(gtmAttachments, [@gtmAttachments] = colActiveAttachmentRecord.gtmAttachments, {Status: 'Status (gtmAttachments)'.Inactive});
+                //ClearCollect(colCurrentInitiativeAttachments, Filter(varCurrentRecord.gtmAttachments, Status = 'Status (gtmAttachments)'.Active));
+                //Set(varAttachmentDialogueVisible, !varAttachmentDialogueVisible)
+            PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =11
+            Text: ="Cancel"
+            Visible: =com_Initiative_Docs_Gallery.deleteIsVisbile Or com_Sales_Docs_Gallery.deleteIsVisbile Or com_Marketing_Docs_Gallery.deleteIsVisbile Or com_Care_Docs_Gallery.deleteIsVisbile Or com_Initiative_Other_Gallery.deleteIsVisbile Or com_Sales_Other_Gallery.deleteIsVisbile Or com_Marketing_Other_Gallery.deleteIsVisbile Or com_Care_Other_Gallery.deleteIsVisbile
+            Width: =150
+            X: =FormBackground_2.X + 100
+            Y: =FormBackground_2.Y + FormBackground_2.Height - 100
+            ZIndex: =37
+
+        Label1_1 As label:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(65, 65, 65, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =Label1_1.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Height: =73
+            HoverBorderColor: =Label1_1.BorderColor
+            HoverColor: =Label1_1.Color
+            HoverFill: =Label1_1.Fill
+            PressedBorderColor: =Label1_1.BorderColor
+            PressedColor: =Label1_1.Color
+            PressedFill: =Label1_1.Fill
+            Size: =25
+            Text: ="Delete File"
+            Visible: =com_Initiative_Docs_Gallery.deleteIsVisbile Or com_Sales_Docs_Gallery.deleteIsVisbile Or com_Marketing_Docs_Gallery.deleteIsVisbile Or com_Care_Docs_Gallery.deleteIsVisbile Or com_Initiative_Other_Gallery.deleteIsVisbile Or com_Sales_Other_Gallery.deleteIsVisbile Or com_Marketing_Other_Gallery.deleteIsVisbile Or com_Care_Other_Gallery.deleteIsVisbile
+            Width: =596
+            X: =FormBackground_2.X
+            Y: =FormBackground_2.Y
+            ZIndex: =38
+
+        Label24 As label:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =Label24.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Height: =86
+            HoverBorderColor: =Label24.BorderColor
+            HoverColor: =Label24.Color
+            HoverFill: =Label24.Fill
+            PressedBorderColor: =Label24.BorderColor
+            PressedColor: =Label24.Color
+            PressedFill: =Label24.Fill
+            Size: =16
+            Text: ="Are you sure you want to delete this file?"
+            Visible: =com_Initiative_Docs_Gallery.deleteIsVisbile Or com_Sales_Docs_Gallery.deleteIsVisbile Or com_Marketing_Docs_Gallery.deleteIsVisbile Or com_Care_Docs_Gallery.deleteIsVisbile Or com_Initiative_Other_Gallery.deleteIsVisbile Or com_Sales_Other_Gallery.deleteIsVisbile Or com_Marketing_Other_Gallery.deleteIsVisbile Or com_Care_Other_Gallery.deleteIsVisbile
+            Width: =FormBackground_2.Width
+            X: =FormBackground_2.X
+            Y: =FormBackground_2.Y + 90 
+            ZIndex: =39
+
+        btn_ConfirmDeleteAttachment As button:
+            BorderColor: =ColorFade(btn_ConfirmDeleteAttachment.Fill, -15%)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =1
+            Color: =White
+            DisabledBorderColor: =RGBA(83, 83, 83, 1)
+            DisabledColor: =White
+            DisabledFill: =RGBA(166, 166, 166, 1)
+            DisplayMode: |-
+                =DisplayMode.Edit
+                //If(BDL_RequiredFields_Number.Text = "0",DisplayMode.Edit,DisplayMode.Disabled)
+            Fill: =RGBA(226, 0, 116, 1)
+            FocusedBorderColor: =btn_ConfirmDeleteAttachment.BorderColor
+            FocusedBorderThickness: =1
+            Font: ='Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =45
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =White
+            HoverFill: =ColorFade(btn_ConfirmDeleteAttachment.Fill, -20%)
+            OnSelect: |-
+                =UpdateContext({varLoadingDataMessage: "Deleting your attachment"});
+                UpdateContext({showLoader: false});
+                Set(varAttachmentDialogueVisible, !varAttachmentDialogueVisible);
+                Patch(gtmAttachments, LookUp(gtmAttachments, gtmAttachments[@gtmAttachments] = First(colActiveAttachmentRecord.gtmAttachments).gtmAttachments), {Status: 'Status (gtmAttachments)'.Inactive});
+                //ClearCollect(colCurrentInitiativeAttachments, Filter(varCurrentRecord.gtmAttachments, Status = 'Status (gtmAttachments)'.Active));
+                UpdateContext({varStartAttachmentTimer2: true});
+            PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =11
+            Text: ="Yes"
+            Visible: =com_Initiative_Docs_Gallery.deleteIsVisbile Or com_Sales_Docs_Gallery.deleteIsVisbile Or com_Marketing_Docs_Gallery.deleteIsVisbile Or com_Care_Docs_Gallery.deleteIsVisbile Or com_Initiative_Other_Gallery.deleteIsVisbile Or com_Sales_Other_Gallery.deleteIsVisbile Or com_Marketing_Other_Gallery.deleteIsVisbile Or com_Care_Other_Gallery.deleteIsVisbile
+            Width: =150
+            X: =FormBackground_2.X + FormBackground_2.Width - btn_CancelDeleteAttachment.Width - 100
+            Y: =FormBackground_2.Y + FormBackground_2.Height - 100
+            ZIndex: =40
+
+    grp_AttachmentUploadDialogue As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =72
+
+        FormBackground As button:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            Color: =DarkGray
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =LightGrey2
+            DisplayMode: =DisplayMode.Disabled
+            Fill: =LightGrey
+            FocusedBorderColor: =FormBackground.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: |-
+                =IfError(
+                    If(!IsBlank(lbl_DocumentOverwriteWarning.Text) And isNewAttachFormVis, 
+                    If(Text(varCurrentRecord.InitiativeType) = "Other", 
+                        525, 625),
+                    If(Text(varCurrentRecord.InitiativeType) = "Other",
+                    425, 525)
+                    ), 
+                    625)
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+            PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =15
+            Text: =""
+            Visible: =isNewAttachFormVis
+            Width: =Form3.Width + 10
+            X: =739
+            Y: =192
+            ZIndex: =20
+
+        Form3 As form:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            DataSource: =gtmAttachments
+            DefaultMode: =FormMode.New
+            Height: =600
+            NumberOfColumns: =1
+            OnFailure: |-
+                =Set(varAttachmentFailure, "Failure to attach document");
+                UpdateContext({showLoader: true});
+            OnSuccess: |-
+                =//Relate(varCurrentRecord.gtmAttachments, Form3.LastSubmit);
+                //Set(varStartAttachmentTimer, true);
+                //UpdateContext({SelectedGTMEntry:LookUp(gtmEntries, gtmEntry = SelectedGTMEntry.gtmEntry)});
+                
+                
+                ResetForm(Form3);
+                //Clear(selectedGtmEntryAttachmentTypes);
+                //ForAll(Gallery3.AllItems, Collect(selectedGtmEntryAttachmentTypes, { AttachmentTypeName: Title4_1.Text}));
+                ClearCollect(colCurrentInitiativeAttachments, Filter(varCurrentRecord.gtmAttachments, Status = 'Status (gtmAttachments)'.Active));
+                //Set(varLoadingData, false);
+                //UpdateContext({varStartTimer: true});
+            Visible: =isNewAttachFormVis
+            Width: =497
+            X: =FormBackground.X + 5
+            Y: =Label1.Y + Label1.Height
+            ZIndex: =21
+
+            Group_DataCard2 As typedDataCard.comboBoxOptionSetSingleEditCard:
+                BorderColor: =RGBA(116, 116, 116, 1)
+                BorderStyle: =BorderStyle.Solid
+                DataField: ="cat_group"
+                Default: =ThisItem.Group
+                DisplayMode: =Parent.DisplayMode
+                DisplayName: ="Group"
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =50
+                Required: =true
+                Update: =DataCardValue28.Selected.Value
+                Width: =Parent.Width
+                X: =0
+                Y: =0
+                ZIndex: =1
+
+                DataCardKey32 As label:
+                    AutoHeight: =true
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(116, 116, 116, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderColor: =DataCardKey32.BorderColor
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Semibold
+                    Height: =34
+                    HoverBorderColor: =DataCardKey32.BorderColor
+                    HoverColor: =DataCardKey32.Color
+                    HoverFill: =DataCardKey32.Fill
+                    PaddingLeft: =0
+                    PressedBorderColor: =DataCardKey32.BorderColor
+                    PressedColor: =DataCardKey32.Color
+                    PressedFill: =DataCardKey32.Fill
+                    Text: ="Attachment Group*"
+                    Width: =Parent.Width - 60
+                    Wrap: =false
+                    X: =30
+                    Y: =10
+                    ZIndex: =1
+
+                ErrorMessage28 As label:
+                    AutoHeight: =true
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(168, 0, 0, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(168, 0, 0, 1)
+                    FocusedBorderColor: =ErrorMessage28.BorderColor
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Semibold
+                    Height: =10
+                    HoverBorderColor: =ErrorMessage28.BorderColor
+                    HoverColor: =ErrorMessage28.Color
+                    HoverFill: =ErrorMessage28.Fill
+                    Live: =Live.Assertive
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    PressedBorderColor: =ErrorMessage28.BorderColor
+                    PressedColor: =ErrorMessage28.Color
+                    PressedFill: =ErrorMessage28.Fill
+                    Size: =13
+                    Text: =Parent.Error
+                    Visible: =Parent.DisplayMode=DisplayMode.Edit
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardValue28.Y + DataCardValue28.Height
+                    ZIndex: =3
+
+                DataCardValue28 As dropdown:
+                    BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                    ChevronBackground: =RGBA(226, 0, 116, 1)
+                    ChevronDisabledBackground: =RGBA(244, 244, 244, 1)
+                    ChevronDisabledFill: =RGBA(166, 166, 166, 1)
+                    ChevronHoverBackground: =ColorFade(RGBA(226, 0, 116, 1), -20%)
+                    ChevronHoverFill: =RGBA(33, 33, 33, 1)
+                    Color: =RGBA(51, 51, 51, 1)
+                    Default: ="Please Select"
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisabledFill: =RGBA(244, 244, 244, 1)
+                    DisplayMode: =Parent.DisplayMode
+                    FocusedBorderColor: =DataCardValue28.BorderColor
+                    Font: =Font.'Segoe UI'
+                    HoverBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                    HoverColor: =RGBA(51, 51, 51, 1)
+                    HoverFill: =RGBA(226, 0, 116, .2)
+                    Items: =Choices(AttachmentGroup)
+                    OnSelect: =Set(varFormValuesChanged, true);
+                    PaddingBottom: =5
+                    PaddingLeft: =12
+                    PaddingRight: =5
+                    PaddingTop: =5
+                    PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                    PressedColor: =RGBA(255, 255, 255, 1)
+                    PressedFill: =RGBA(226, 0, 116, 1)
+                    SelectionFill: =RGBA(226, 0, 116, 1)
+                    Size: =13
+                    Tooltip: =Parent.DisplayName
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardKey12.Y + DataCardKey12.Height + 5
+                    ZIndex: =4
+
+            Type_DataCard1 As typedDataCard.comboBoxEditCard:
+                BorderColor: =RGBA(116, 116, 116, 1)
+                BorderStyle: =BorderStyle.Solid
+                DataField: ="cat_Type"
+                Default: =ThisItem.Type
+                DisplayMode: =Parent.DisplayMode
+                DisplayName: ="Type"
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =50
+                Required: =true
+                Update: =DataCardValue10.Selected
+                Visible: =!(Text(varCurrentRecord.InitiativeType) = "Other")
+                Width: =Parent.Width
+                X: =0
+                Y: =1
+                ZIndex: =1
+
+                DataCardKey12 As label:
+                    AutoHeight: =true
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(116, 116, 116, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderColor: =DataCardKey12.BorderColor
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Semibold
+                    Height: =34
+                    HoverBorderColor: =DataCardKey12.BorderColor
+                    HoverColor: =DataCardKey12.Color
+                    HoverFill: =DataCardKey12.Fill
+                    PaddingLeft: =0
+                    PressedBorderColor: =DataCardKey12.BorderColor
+                    PressedColor: =DataCardKey12.Color
+                    PressedFill: =DataCardKey12.Fill
+                    Text: ="Attachment Type*"
+                    Width: =Parent.Width - 60
+                    Wrap: =false
+                    X: =30
+                    Y: =10
+                    ZIndex: =1
+
+                ErrorMessage11 As label:
+                    AutoHeight: =true
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(168, 0, 0, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(168, 0, 0, 1)
+                    FocusedBorderColor: =ErrorMessage11.BorderColor
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Semibold
+                    Height: =10
+                    HoverBorderColor: =ErrorMessage11.BorderColor
+                    HoverColor: =ErrorMessage11.Color
+                    HoverFill: =ErrorMessage11.Fill
+                    Live: =Live.Assertive
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    PressedBorderColor: =ErrorMessage11.BorderColor
+                    PressedColor: =ErrorMessage11.Color
+                    PressedFill: =ErrorMessage11.Fill
+                    Size: =13
+                    Text: =Parent.Error
+                    Visible: =Parent.DisplayMode=DisplayMode.Edit
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardValue10.Y + DataCardValue10.Height
+                    ZIndex: =3
+
+                DataCardValue10 As dropdown:
+                    BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                    ChevronBackground: =RGBA(226, 0, 116, 1)
+                    ChevronDisabledBackground: =RGBA(244, 244, 244, 1)
+                    ChevronDisabledFill: =RGBA(166, 166, 166, 1)
+                    ChevronHoverBackground: =ColorFade(RGBA(226, 0, 116, 1), -20%)
+                    ChevronHoverFill: =RGBA(33, 33, 33, 1)
+                    Color: =RGBA(51, 51, 51, 1)
+                    Default: =If( Text(varCurrentRecord.InitiativeType) = "Other", "Other", "Please Select")
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisabledFill: =RGBA(244, 244, 244, 1)
+                    DisplayMode: =If(IsBlank(DataCardValue28.Selected.Value), DisplayMode.Disabled, DisplayMode.Edit)
+                    FocusedBorderColor: =DataCardValue10.BorderColor
+                    Font: =Font.'Segoe UI'
+                    HoverBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                    HoverColor: =RGBA(51, 51, 51, 1)
+                    HoverFill: =RGBA(226, 0, 116, .2)
+                    Items: |-
+                        =Sort(Filter(colAttachmentTypes, Group = DataCardValue28.Selected.Value), 'Created On', Descending)
+                        //Sort(colAttachmentTypes, 'Created On', Descending)
+                    OnSelect: =Set(varFormValuesChanged, true);
+                    PaddingBottom: =5
+                    PaddingLeft: =12
+                    PaddingRight: =5
+                    PaddingTop: =5
+                    PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                    PressedColor: =RGBA(255, 255, 255, 1)
+                    PressedFill: =RGBA(226, 0, 116, 1)
+                    SelectionFill: =RGBA(226, 0, 116, 1)
+                    Size: =13
+                    Tooltip: =Parent.DisplayName
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardKey12.Y + DataCardKey12.Height + 5
+                    ZIndex: =4
+
+            Name_DataCard4 As typedDataCard.textualEditCard:
+                BorderColor: =RGBA(116, 116, 116, 1)
+                BorderStyle: =BorderStyle.Solid
+                DataField: ="cat_name"
+                Default: =ThisItem.Name
+                DisplayMode: =Parent.DisplayMode
+                DisplayName: ="Name"
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =50
+                MaxLength: =50
+                Required: =true
+                Update: =DataCardValue45.Text
+                Visible: =false
+                Width: =Parent.Width
+                X: =0
+                Y: =2
+                ZIndex: =1
+
+                DataCardKey50 As label:
+                    AutoHeight: =true
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(116, 116, 116, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderColor: =DataCardKey50.BorderColor
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Semibold
+                    Height: =34
+                    HoverBorderColor: =DataCardKey50.BorderColor
+                    HoverColor: =DataCardKey50.Color
+                    HoverFill: =DataCardKey50.Fill
+                    PaddingLeft: =0
+                    PressedBorderColor: =DataCardKey50.BorderColor
+                    PressedColor: =DataCardKey50.Color
+                    PressedFill: =DataCardKey50.Fill
+                    Text: ="Attachment Name*"
+                    Width: =Parent.Width - 60
+                    Wrap: =false
+                    X: =30
+                    Y: =10
+                    ZIndex: =1
+
+                DataCardValue45 As text:
+                    BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    Default: =If(DataCardValue10.Selected.Name = "Other", First(DataCardValue25.Attachments).Name, DataCardValue10.Selected.Name)
+                    DelayOutput: =true
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisabledFill: =RGBA(255, 255, 255, 1)
+                    DisplayMode: =Parent.DisplayMode
+                    FocusedBorderColor: =DataCardValue45.BorderColor
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    HoverBorderColor: =RGBA(128, 128, 128, 1)
+                    HoverColor: =RGBA(51, 51, 51, 1)
+                    HoverFill: =RGBA(255, 255, 255, 1)
+                    MaxLength: =Parent.MaxLength
+                    PaddingLeft: =5
+                    PressedBorderColor: =RGBA(105, 121, 126, 1)
+                    PressedColor: =RGBA(51, 51, 51, 1)
+                    PressedFill: =RGBA(255, 255, 255, 1)
+                    RadiusBottomLeft: =0
+                    RadiusBottomRight: =0
+                    RadiusTopLeft: =0
+                    RadiusTopRight: =0
+                    Size: =13
+                    Tooltip: =Parent.DisplayName
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardKey50.Y + DataCardKey50.Height + 5
+                    ZIndex: =2
+
+                ErrorMessage43 As label:
+                    AutoHeight: =true
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(168, 0, 0, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(168, 0, 0, 1)
+                    FocusedBorderColor: =ErrorMessage43.BorderColor
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Semibold
+                    Height: =10
+                    HoverBorderColor: =ErrorMessage43.BorderColor
+                    HoverColor: =ErrorMessage43.Color
+                    HoverFill: =ErrorMessage43.Fill
+                    Live: =Live.Assertive
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    PressedBorderColor: =ErrorMessage43.BorderColor
+                    PressedColor: =ErrorMessage43.Color
+                    PressedFill: =ErrorMessage43.Fill
+                    Size: =13
+                    Text: =Parent.Error
+                    Visible: =Parent.DisplayMode=DisplayMode.Edit
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardValue45.Y + DataCardValue45.Height
+                    ZIndex: =3
+
+            Attachments_DataCard3 As typedDataCard.attachmentsEditCard:
+                BorderColor: =RGBA(116, 116, 116, 1)
+                BorderStyle: =BorderStyle.Solid
+                DataField: ="{Attachments}"
+                Default: =ThisItem.Attachments
+                DisplayMode: =Parent.DisplayMode
+                DisplayName: ="Attachments"
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =50
+                Required: =true
+                Update: =DataCardValue25.Attachments
+                Width: =Parent.Width
+                X: =0
+                Y: =3
+                ZIndex: =1
+
+                DataCardKey29 As label:
+                    AutoHeight: =true
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(116, 116, 116, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderColor: =DataCardKey29.BorderColor
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Semibold
+                    Height: =34
+                    HoverBorderColor: =DataCardKey29.BorderColor
+                    HoverColor: =DataCardKey29.Color
+                    HoverFill: =DataCardKey29.Fill
+                    PaddingLeft: =0
+                    PressedBorderColor: =DataCardKey29.BorderColor
+                    PressedColor: =DataCardKey29.Color
+                    PressedFill: =DataCardKey29.Fill
+                    Text: ="Attachment*"
+                    Width: =Parent.Width - 60
+                    Wrap: =false
+                    X: =30
+                    Y: =10
+                    ZIndex: =1
+
+                DataCardValue25 As attachments:
+                    AddAttachmentColor: =DataCardValue25.Color
+                    AddAttachmentText: ="Attach File"
+                    AddedItemColor: =DataCardValue25.Color
+                    BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisabledFill: =RGBA(0, 0, 0, 0)
+                    DisplayMode: =If(IsBlank(DataCardValue10.Selected.Name), DisplayMode.Disabled, DisplayMode.Edit)
+                    Fill: =White
+                    FocusedBorderColor: =DataCardValue25.BorderColor
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    Height: =118
+                    HoverBorderColor: =ColorFade(DataCardValue25.BorderColor, 15%)
+                    HoverColor: =RGBA(51, 51, 51, 1)
+                    HoverFill: =White
+                    IsInDataCard: =true
+                    ItemColor: =RGBA(0, 0, 0, 1)
+                    ItemDisabledColor: =DataCardValue25.DisabledColor
+                    ItemDisabledFill: =DataCardValue25.DisabledFill
+                    ItemFill: =RGBA(105, 121, 126, 1)
+                    ItemHoverColor: =RGBA(51, 51, 51, 1)
+                    ItemHoverFill: =ColorFade(Magenta, 80%)
+                    ItemPressedColor: =DataCardValue25.PressedColor
+                    ItemPressedFill: =DataCardValue25.PressedFill
+                    Items: =Parent.Default
+                    ItemSpacing: =12
+                    MaxAttachments: =1
+                    MaxAttachmentsColor: =DataCardValue25.Color
+                    MaxAttachmentSize: =131
+                    MaxAttachmentsText: =""
+                    NoAttachmentsColor: =RGBA(166, 166, 166, 1)
+                    NoAttachmentsText: =If(IsBlank(DataCardValue10.Selected.Name), "", "Please Attach File")
+                    PaddingBottom: =5
+                    PaddingLeft: =If(DataCardValue25.DisplayMode = DisplayMode.Edit, 5, 0)
+                    PaddingRight: =5
+                    PaddingTop: =5
+                    PressedBorderColor: =DataCardValue25.HoverBorderColor
+                    PressedColor: =RGBA(255, 255, 255, 1)
+                    PressedFill: =RGBA(105, 121, 126, 1)
+                    RemovedItemColor: =DataCardValue25.Color
+                    Tooltip: =Parent.DisplayName
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =54
+                    ZIndex: =2
+
+                ErrorMessage25 As label:
+                    AutoHeight: =true
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(168, 0, 0, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(168, 0, 0, 1)
+                    FocusedBorderColor: =ErrorMessage25.BorderColor
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Semibold
+                    Height: =10
+                    HoverBorderColor: =ErrorMessage25.BorderColor
+                    HoverColor: =ErrorMessage25.Color
+                    HoverFill: =ErrorMessage25.Fill
+                    Live: =Live.Assertive
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    PressedBorderColor: =ErrorMessage25.BorderColor
+                    PressedColor: =ErrorMessage25.Color
+                    PressedFill: =ErrorMessage25.Fill
+                    Size: =13
+                    Text: =Parent.Error
+                    Visible: =Parent.DisplayMode=DisplayMode.Edit
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardValue25.Y + DataCardValue25.Height
+                    ZIndex: =3
+
+            gtmEntry_DataCard1 As typedDataCard.comboBoxEditCard:
+                BorderColor: =RGBA(166, 166, 166, 1)
+                BorderStyle: =BorderStyle.Solid
+                DataField: ="cat_gtmEntry"
+                Default: =varCurrentRecord
+                DisplayMode: =Parent.DisplayMode
+                DisplayName: ="gtmEntry"
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =50
+                Required: =false
+                Update: =DataCardValue2.Selected
+                Visible: =false
+                Width: =Parent.Width
+                X: =0
+                Y: =4
+                ZIndex: =1
+
+                DataCardKey2 As label:
+                    AutoHeight: =true
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderColor: =DataCardKey2.BorderColor
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Semibold
+                    Height: =34
+                    HoverBorderColor: =DataCardKey2.BorderColor
+                    HoverColor: =DataCardKey2.Color
+                    HoverFill: =DataCardKey2.Fill
+                    PaddingLeft: =0
+                    PressedBorderColor: =DataCardKey2.BorderColor
+                    PressedColor: =DataCardKey2.Color
+                    PressedFill: =DataCardKey2.Fill
+                    Size: =13
+                    Text: =Parent.DisplayName
+                    Width: =Parent.Width - 60
+                    Wrap: =false
+                    X: =30
+                    Y: =10
+                    ZIndex: =1
+
+                DataCardValue2 As combobox:
+                    BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                    ChevronBackground: =RGBA(255, 255, 255, 1)
+                    ChevronDisabledBackground: =RGBA(244, 244, 244, 1)
+                    ChevronDisabledFill: =RGBA(166, 166, 166, 1)
+                    ChevronFill: =RGBA(33, 33, 33, 1)
+                    ChevronHoverBackground: =RGBA(212, 212, 212, 1)
+                    ChevronHoverFill: =RGBA(33, 33, 33, 1)
+                    Color: =RGBA(51, 51, 51, 1)
+                    DefaultSelectedItems: =Parent.Default
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisabledFill: =RGBA(244, 244, 244, 1)
+                    DisplayFields: =["cat_initiativename"]
+                    DisplayMode: =Parent.DisplayMode
+                    FocusedBorderColor: =DataCardValue2.BorderColor
+                    Font: =Font.'Segoe UI'
+                    HoverBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                    HoverColor: =RGBA(51, 51, 51, 1)
+                    HoverFill: =RGBA(212, 212, 212, 1)
+                    IsSearchable: =false
+                    Items: =Choices([@gtmAttachments].gtmEntry)
+                    MoreItemsButtonColor: =DataCardValue2.ChevronBackground
+                    PaddingLeft: =If(DataCardValue2.DisplayMode = DisplayMode.Edit, 5, 0)
+                    PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                    PressedColor: =RGBA(255, 255, 255, 1)
+                    PressedFill: =RGBA(105, 121, 126, 1)
+                    SearchFields: =["cat_initiativename"]
+                    SearchItems: =[]
+                    SelectionFill: =RGBA(105, 121, 126, 1)
+                    SelectionTagColor: =DataCardValue2.HoverColor
+                    SelectionTagFill: =DataCardValue2.HoverFill
+                    SelectMultiple: =false
+                    Size: =13
+                    Tooltip: =Parent.DisplayName
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardKey2.Y + DataCardKey2.Height + 5
+                    ZIndex: =2
+
+                ErrorMessage2 As label:
+                    AutoHeight: =true
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(168, 0, 0, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(168, 0, 0, 1)
+                    FocusedBorderColor: =ErrorMessage2.BorderColor
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    FontWeight: =FontWeight.Semibold
+                    Height: =10
+                    HoverBorderColor: =ErrorMessage2.BorderColor
+                    HoverColor: =ErrorMessage2.Color
+                    HoverFill: =ErrorMessage2.Fill
+                    Live: =Live.Assertive
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    PressedBorderColor: =ErrorMessage2.BorderColor
+                    PressedColor: =ErrorMessage2.Color
+                    PressedFill: =ErrorMessage2.Fill
+                    Size: =13
+                    Text: =Parent.Error
+                    Visible: =Parent.DisplayMode=DisplayMode.Edit
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardValue2.Y + DataCardValue2.Height
+                    ZIndex: =3
+
+        Label1 As label:
+            Align: =Left
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(65, 65, 65, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =Label1.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =60
+            HoverBorderColor: =Label1.BorderColor
+            HoverColor: =Label1.Color
+            HoverFill: =Label1.Fill
+            PaddingLeft: =35
+            PressedBorderColor: =Label1.BorderColor
+            PressedColor: =Label1.Color
+            PressedFill: =Label1.Fill
+            Size: =18
+            Text: ="Attach File"
+            Visible: =isNewAttachFormVis
+            Width: =Form3.Width
+            X: =739
+            Y: =192
+            ZIndex: =22
+
+        btn_CancelAttachmentUpload As button:
+            BorderColor: =ColorFade(btn_CancelAttachmentUpload.Fill, -15%)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =1
+            Color: =White
+            DisabledBorderColor: =RGBA(83, 83, 83, 1)
+            DisabledColor: =White
+            DisabledFill: =RGBA(166, 166, 166, 1)
+            DisplayMode: |-
+                =DisplayMode.Edit
+                //If(BDL_RequiredFields_Number.Text = "0",DisplayMode.Edit,DisplayMode.Disabled)
+            Fill: =RGBA(226, 0, 116, 1)
+            FocusedBorderColor: =btn_CancelAttachmentUpload.BorderColor
+            FocusedBorderThickness: =1
+            Font: ='Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =30
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =White
+            HoverFill: =ColorFade(btn_CancelAttachmentUpload.Fill, -20%)
+            OnSelect: |-
+                =ResetForm(Form3);
+                UpdateContext({isNewAttachFormVis: false})
+            PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =11
+            Text: ="Cancel"
+            Visible: =isNewAttachFormVis
+            Width: =110
+            X: =836
+            Y: |-
+                =IfError(
+                    If(lbl_DocumentOverwriteWarning.Visible, 
+                    If(Text(varCurrentRecord.InitiativeType) = "Other", 
+                        653, 
+                        753),
+                    If(Text(varCurrentRecord.InitiativeType) = "Other",
+                    553, 
+                    653)
+                    ),
+                    753
+                )
+            ZIndex: =23
+
+        btn_SubmitAttachmentUpload As button:
+            BorderColor: =ColorFade(btn_SubmitAttachmentUpload.Fill, -15%)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =1
+            Color: =White
+            DisabledBorderColor: =RGBA(83, 83, 83, 1)
+            DisabledColor: =White
+            DisabledFill: =RGBA(166, 166, 166, 1)
+            DisplayMode: |-
+                =If(!IsEmpty(DataCardValue25.Attachments.Name) And DataCardValue10.Selected.Name <> "Please Select", 
+                    If(DataCardValue10.Selected.Name = "Other", 
+                        If(IsBlank(DataCardValue45.Text), 
+                            DisplayMode.Disabled, 
+                            DisplayMode.Edit), 
+                        If(IsBlank(DataCardValue10.Selected.Name), 
+                            DisplayMode.Disabled, 
+                            DisplayMode.Edit)),
+                        DisplayMode.Disabled
+                            )
+            Fill: =RGBA(226, 0, 116, 1)
+            FocusedBorderColor: =btn_SubmitAttachmentUpload.BorderColor
+            FocusedBorderThickness: =1
+            Font: ='Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =30
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =White
+            HoverFill: =ColorFade(btn_SubmitAttachmentUpload.Fill, -20%)
+            OnSelect: |
+                =UpdateContext({varShowAttachmentLoader: true});
+                UpdateContext({isNewAttachFormVis: false});
+                UpdateContext({varAttachmentCount: CountRows(colCurrentInitiativeAttachments)});
+                If(DataCardValue10.Selected.Name = "Other", 
+                    UpdateIf(gtmAttachments, gtmAttachments = LookUp(colCurrentInitiativeAttachments,Group = DataCardValue28.Selected.Value && Name = First(DataCardValue25.Attachments).Name).gtmAttachments, {Status: 'Status (gtmAttachments)'.Inactive}),
+                    UpdateIf(gtmAttachments, gtmAttachments = LookUp(colCurrentInitiativeAttachments,Group = DataCardValue28.Selected.Value && Name = DataCardValue10.Selected.Name).gtmAttachments, {Status: 'Status (gtmAttachments)'.Inactive})
+                );
+                SubmitForm(Form3);
+                
+                If(lbl_DocumentOverwriteWarning.Visible, 
+                    UpdateContext({varDuplicateAttachmentRecord: false});
+                    UpdateContext({varStartAttachmentTimer2: true}),
+                    Set(varLoadingAttachment, true);
+                    UpdateContext({varStartAttachmentTimer: true})
+                );
+            PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =11
+            Text: ="Submit"
+            Visible: =isNewAttachFormVis
+            Width: =110
+            X: =1050
+            Y: |-
+                =IfError(
+                    If(lbl_DocumentOverwriteWarning.Visible, 
+                    If(Text(varCurrentRecord.InitiativeType) = "Other", 
+                        653, 
+                        753),
+                    If(Text(varCurrentRecord.InitiativeType) = "Other",
+                    553, 
+                    653)
+                    ),
+                    753
+                )
+            ZIndex: =24
+
+        Rectangle4_1 As rectangle:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            DisabledFill: =RGBA(166, 166, 166, 1)
+            Fill: =Magenta
+            FocusedBorderColor: =Rectangle4_1.BorderColor
+            FocusedBorderThickness: =4
+            Height: =3
+            HoverFill: =RGBA(105, 121, 126, 1)
+            PressedFill: =RGBA(105, 121, 126, 1)
+            Visible: =isNewAttachFormVis
+            Width: =Label1.Width - 60
+            X: =Label1.X + 30
+            Y: =Label1.Y + Label1.Height 
+            ZIndex: =25
+
+        lbl_DocumentOverwriteWarning As label:
+            Align: =Align.Center
+            AutoHeight: =true
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(203, 102, 102, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =lbl_DocumentOverwriteWarning.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =75
+            HoverBorderColor: =lbl_DocumentOverwriteWarning.BorderColor
+            HoverColor: =lbl_DocumentOverwriteWarning.Color
+            HoverFill: =lbl_DocumentOverwriteWarning.Fill
+            PaddingBottom: =20
+            PaddingLeft: =10
+            PaddingRight: =10
+            PaddingTop: =20
+            PressedBorderColor: =lbl_DocumentOverwriteWarning.BorderColor
+            PressedColor: =lbl_DocumentOverwriteWarning.Color
+            PressedFill: =lbl_DocumentOverwriteWarning.Fill
+            Size: =13
+            Text: |-
+                =If(!IsBlank(LookUp(varCurrentRecord.gtmAttachments, Group = DataCardValue28.Selected.Value And Name = DataCardValue45.Text And Status = 'Status (gtmAttachments)'.Active).Name) Or !IsBlank(LookUp(varCurrentRecord.gtmAttachments, Name = First(DataCardValue25.Attachments).Name).'Created On'),
+                    Concatenate("Warning: uploading this document will overwrite the existing document type: ",
+                        LookUp(varCurrentRecord.gtmAttachments, Group = DataCardValue28.Selected.Value And Name = DataCardValue45.Text And Status = 'Status (gtmAttachments)'.Active).Name),"")
+            Visible: =!IsBlank(lbl_DocumentOverwriteWarning) And isNewAttachFormVis
+            Width: =Form3.Width
+            X: =Form3.X
+            Y: |-
+                =If(lbl_DocumentOverwriteWarning.Visible, 
+                    If(Text(varCurrentRecord.InitiativeType) = "Other", 
+                        553, 
+                        653),
+                    If(Text(varCurrentRecord.InitiativeType) = "Other",
+                    453, 
+                    653)
+                    )
+            ZIndex: =26
+

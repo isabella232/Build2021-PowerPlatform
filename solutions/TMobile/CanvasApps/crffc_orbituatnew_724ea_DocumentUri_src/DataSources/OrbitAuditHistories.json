@@ -1,0 +1,101 @@
+[
+  {
+    "CdsFCBContext": "{\"FileType\":true,\"ImageExternalStorage\":true}",
+    "EntitySetName": "cat_orbitaudithistories",
+    "IsHidden": false,
+    "IsSampleData": false,
+    "IsWritable": true,
+    "LogicalName": "cat_orbitaudithistory",
+    "MaxGetRowsCount": 2000,
+    "Name": "OrbitAuditHistories",
+    "NativeCDSDataSourceInfoNameMapping": {
+      "_ownerid_value": "Owner",
+      "cat_fieldname": "FieldName",
+      "cat_GTMEntry": "GTMEntry",
+      "cat_newvalue": "NewValue",
+      "cat_oldvalue": "OldValue",
+      "cat_orbitaudithistory_AsyncOperations": "System Jobs",
+      "cat_orbitaudithistory_BulkDeleteFailures": "Bulk Delete Failures",
+      "cat_orbitaudithistory_DuplicateBaseRecord": "Duplicate Records (cat_orbitaudithistory_DuplicateBaseRecord)",
+      "cat_orbitaudithistory_DuplicateMatchingRecord": "Duplicate Records (cat_orbitaudithistory_DuplicateMatchingRecord)",
+      "cat_orbitaudithistory_MailboxTrackingFolders": "Mailbox Auto Tracking Folders",
+      "cat_orbitaudithistory_PrincipalObjectAttributeAccesses": "Field Sharing",
+      "cat_orbitaudithistory_ProcessSession": "Process Sessions",
+      "cat_orbitaudithistory_SyncErrors": "Sync Errors",
+      "cat_orbitaudithistoryid": "OrbitAuditHistory",
+      "cat_User": "User",
+      "createdby": "Created By",
+      "createdon": "Created On",
+      "createdonbehalfby": "Created By (Delegate)",
+      "importsequencenumber": "Import Sequence Number",
+      "modifiedby": "Modified By",
+      "modifiedon": "Modified On",
+      "modifiedonbehalfby": "Modified By (Delegate)",
+      "overriddencreatedon": "Record Created On",
+      "owningbusinessunit": "Owning Business Unit",
+      "owningteam": "Owning Team",
+      "owninguser": "Owning User",
+      "statecode": "Status",
+      "statuscode": "Status Reason",
+      "timezoneruleversionnumber": "Time Zone Rule Version Number",
+      "utcconversiontimezonecode": "UTC Conversion Time Zone Code",
+      "versionnumber": "Version Number"
+    },
+    "PreferredName": "OrbitAuditHistories",
+    "Type": "NativeCDSDataSourceInfo"
+  },
+  {
+    "DisplayName": "OrbitAuditHistories (Views)",
+    "Name": "_cat_orbitaudithistory_views",
+    "RelatedEntityName": "OrbitAuditHistories",
+    "TrimmedViewName": true,
+    "Type": "ViewInfo",
+    "ViewInfoNameMapping": {
+      "1c2e1ce6-45cc-4386-b3dd-513ffe24979f": "Active OrbitAuditHistories",
+      "947a0c62-5272-4e8a-85f6-26a4bab1a74b": "OrbitAuditHistory Associated View",
+      "ba153a49-d601-4b17-9516-dfaba3b85633": "Inactive OrbitAuditHistories",
+      "f3b5f907-6f9d-47d7-a64a-936c03b6636e": "OrbitAuditHistory Advanced Find View",
+      "ff197703-3c93-4019-be0e-84241a00fb70": "OrbitAuditHistory Lookup View"
+    }
+  },
+  {
+    "DisplayName": "Status (OrbitAuditHistories)",
+    "Name": "cat_orbitaudithistory_statecode",
+    "OptionSetInfoNameMapping": {
+      "0": "Active",
+      "1": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statecode",
+        "OptionSetReferenceEntityName": "OrbitAuditHistories"
+      }
+    },
+    "OptionSetTypeKey": "StateType",
+    "RelatedColumnInvariantName": "statecode",
+    "RelatedEntityName": "OrbitAuditHistories",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status Reason (OrbitAuditHistories)",
+    "Name": "cat_orbitaudithistory_statuscode",
+    "OptionSetInfoNameMapping": {
+      "1": "Active",
+      "2": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statuscode",
+        "OptionSetReferenceEntityName": "OrbitAuditHistories"
+      }
+    },
+    "OptionSetTypeKey": "StatusType",
+    "RelatedColumnInvariantName": "statuscode",
+    "RelatedEntityName": "OrbitAuditHistories",
+    "Type": "OptionSetInfo"
+  }
+]

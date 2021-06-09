@@ -1,0 +1,134 @@
+[
+  {
+    "CdsFCBContext": "{\"FileType\":true,\"ImageExternalStorage\":true}",
+    "EntitySetName": "msdyn_flow_approvalrequests",
+    "IsHidden": false,
+    "IsSampleData": false,
+    "IsWritable": true,
+    "LogicalName": "msdyn_flow_approvalrequest",
+    "MaxGetRowsCount": 2000,
+    "Name": "Approval Requests",
+    "NativeCDSDataSourceInfoNameMapping": {
+      "_ownerid_value": "Owner",
+      "createdby": "Created By",
+      "createdon": "Created On",
+      "createdonbehalfby": "Created By (Delegate)",
+      "importsequencenumber": "Import Sequence Number",
+      "modifiedby": "Modified By",
+      "modifiedon": "Modified On",
+      "modifiedonbehalfby": "Modified By (Delegate)",
+      "msdyn_flow_approvalrequest_allowreassignment": "Allow Reassignment",
+      "msdyn_flow_approvalrequest_approval": "Approval",
+      "msdyn_flow_approvalrequest_approvalstagekey": "Approval Stage Key",
+      "msdyn_flow_approvalrequest_AsyncOperations": "System Jobs",
+      "msdyn_flow_approvalrequest_BulkDeleteFailures": "Bulk Delete Failures",
+      "msdyn_flow_approvalrequest_dueon": "Due On",
+      "msdyn_flow_approvalrequest_DuplicateBaseRecord": "Duplicate Records (msdyn_flow_approvalrequest_DuplicateBaseRecord)",
+      "msdyn_flow_approvalrequest_DuplicateMatchingRecord": "Duplicate Records (msdyn_flow_approvalrequest_DuplicateMatchingRecord)",
+      "msdyn_flow_approvalrequest_expireson": "Expires On",
+      "msdyn_flow_approvalrequest_lastnotifiedon": "Last Notified On",
+      "msdyn_flow_approvalrequest_MailboxTrackingFolders": "Mailbox Auto Tracking Folders",
+      "msdyn_flow_approvalrequest_name": "Name",
+      "msdyn_flow_approvalrequest_notificationfrequency": "Notification Frequency",
+      "msdyn_flow_approvalrequest_options": "Response Options (msdyn_flow_approvalrequest_options)",
+      "msdyn_flow_approvalrequest_PrincipalObjectAttributeAccesses": "Field Sharing",
+      "msdyn_flow_approvalrequest_ProcessSession": "Process Sessions",
+      "msdyn_flow_approvalrequest_reassignedfrom": "Reassigned From",
+      "msdyn_flow_approvalrequest_responseoptions": "Response Options (msdyn_flow_approvalrequest_responseoptions)",
+      "msdyn_flow_approvalrequest_stage": "Stage",
+      "msdyn_flow_approvalrequest_SyncErrors": "Sync Errors",
+      "msdyn_flow_approvalrequestid": "Approval Request",
+      "msdyn_flow_approvalrequestidx_approvalid": "Approval Id Index",
+      "msdyn_flow_approvalrequestidx_owninguserid": "Owning User Index",
+      "msdyn_flow_approvalrequestidx_reassignedfromid": "Reassigned From Index",
+      "msdyn_flow_approvalrequestidx_stage": "Stage Index",
+      "msdyn_flow_approvalrequestrelationship_reassignment": "Approval Requests",
+      "overriddencreatedon": "Record Created On",
+      "owningbusinessunit": "Owning Business Unit",
+      "owningteam": "Owning Team",
+      "owninguser": "Owning User",
+      "statecode": "Status",
+      "statuscode": "Status Reason",
+      "timezoneruleversionnumber": "Time Zone Rule Version Number",
+      "utcconversiontimezonecode": "UTC Conversion Time Zone Code",
+      "versionnumber": "Version Number"
+    },
+    "PreferredName": "Approval Requests",
+    "Type": "NativeCDSDataSourceInfo"
+  },
+  {
+    "DisplayName": "Approval Requests (Views)",
+    "Name": "_msdyn_flow_approvalrequest_views",
+    "RelatedEntityName": "Approval Requests",
+    "TrimmedViewName": true,
+    "Type": "ViewInfo",
+    "ViewInfoNameMapping": {
+      "0fec2a63-290f-4f9c-b55d-f7d57e5485ac": "Inactive Approval Requests",
+      "2d6d65b1-b335-478f-87e9-43d5f9fc05d2": "Approval Request Advanced Find View",
+      "6ab2fa71-cf50-4b65-9985-39a0679e0b26": "Approval Request Lookup View",
+      "78acd493-bf95-44bb-a480-70e4670fe083": "Active Approval Requests",
+      "9e0826b2-1dbd-453b-a6e0-3c76f20c6cf3": "Approval Request Associated View"
+    }
+  },
+  {
+    "DisplayName": "Allow Reassignment (Approval Requests)",
+    "Name": "msdyn_flow_approvalrequest_msdyn_flow_approvalrequest_allowreassignment",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "msdyn_flow_approvalrequest_allowreassignment",
+        "OptionSetReferenceEntityName": "Approval Requests"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "msdyn_flow_approvalrequest_allowreassignment",
+    "RelatedEntityName": "Approval Requests",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status (Approval Requests)",
+    "Name": "msdyn_flow_approvalrequest_statecode",
+    "OptionSetInfoNameMapping": {
+      "0": "Active",
+      "1": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statecode",
+        "OptionSetReferenceEntityName": "Approval Requests"
+      }
+    },
+    "OptionSetTypeKey": "StateType",
+    "RelatedColumnInvariantName": "statecode",
+    "RelatedEntityName": "Approval Requests",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status Reason (Approval Requests)",
+    "Name": "msdyn_flow_approvalrequest_statuscode",
+    "OptionSetInfoNameMapping": {
+      "1": "Active",
+      "192350000": "Reassigned",
+      "2": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statuscode",
+        "OptionSetReferenceEntityName": "Approval Requests"
+      }
+    },
+    "OptionSetTypeKey": "StatusType",
+    "RelatedColumnInvariantName": "statuscode",
+    "RelatedEntityName": "Approval Requests",
+    "Type": "OptionSetInfo"
+  }
+]

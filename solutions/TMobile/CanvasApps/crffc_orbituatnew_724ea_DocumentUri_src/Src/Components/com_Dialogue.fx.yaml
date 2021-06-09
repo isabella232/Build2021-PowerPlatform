@@ -1,0 +1,232 @@
+com_Dialogue As CanvasComponent:
+    Button1Text: ="Text"
+    Button2Text: ="Text"
+    CurrentScreen: =App.ActiveScreen
+    DialogueSubText: ="Text"
+    DialogueSubText2: ="Text"
+    DialogueTextTitle: ="Text"
+    Fill: =RGBA(255, 255, 255, .7)
+    Height: =App.Height
+    InitiativeType: ="Text"
+    IsVisible: =varIsVisible
+    LeftButtonAction: =varLeftButtonAction
+    NavigateToScreen: =App.ActiveScreen
+    NewOrDraft: =false
+    OnReset: =Set(varLeftButtonAction, false); Set(varRightButtonAction, false); Set(varIsVisible, true)
+    ResetComponent: =true
+    RightButtonAction: =varRightButtonAction
+    ShowButtons: =true
+    TwoButtons: =true
+    Width: =App.Width
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    ctr_DialogueContainer As groupContainer:
+        DisplayMode: =DisplayMode.Edit
+        Height: =htm_BackgroundShadow.Height
+        Width: =770
+        X: =Parent.Width / 2 - htm_BackgroundShadow.Width / 2
+        Y: =Parent.Height / 2 - htm_BackgroundShadow.Height / 2
+        ZIndex: =1
+
+        htm_BackgroundShadow As htmlViewer:
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =btn_Background.Height + 30
+            HoverBorderColor: =htm_BackgroundShadow.BorderColor
+            HtmlText: |-
+                ="<div style='margin:0px;width:"& htm_BackgroundShadow.Width - 35 &"px;height:"& htm_BackgroundShadow.Height - 35 &"px;background-color:#;box-shadow:0 1px 10px 15px  #ccc; border-radius:15px'></div>"
+            PressedBorderColor: =htm_BackgroundShadow.BorderColor
+            Width: =Parent.Width
+            ZIndex: =1
+
+        btn_Background As button:
+            BorderColor: =ColorFade(btn_Background.Fill, -15%)
+            BorderThickness: =3
+            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            DisplayMode: =DisplayMode.Disabled
+            Fill: =RGBA(237, 237, 237, 1)
+            FocusedBorderColor: =btn_Background.BorderColor
+            FontWeight: =FontWeight.Semibold
+            Height: =btn_Right.Y + btn_Right.Height + 30
+            HoverBorderColor: =ColorFade(btn_Background.BorderColor, 20%)
+            HoverColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            PressedBorderColor: =btn_Background.Fill
+            PressedColor: =btn_Background.Fill
+            PressedFill: =btn_Background.Color
+            RadiusBottomLeft: =15
+            RadiusBottomRight: =15
+            RadiusTopLeft: =15
+            RadiusTopRight: =15
+            Size: =15
+            Text: =""
+            Width: =740
+            ZIndex: =2
+
+        btn_Right As button:
+            BorderColor: =ColorFade(btn_Right.Fill, -15%)
+            BorderThickness: =1
+            Color: =White
+            DisabledBorderColor: =RGBA(83, 83, 83, 1)
+            DisabledColor: =White
+            DisabledFill: =RGBA(166, 166, 166, 1)
+            Fill: =RGBA(226, 0, 116, 1)
+            FocusedBorderColor: =btn_Right.BorderColor
+            FocusedBorderThickness: =1
+            Font: ='Open Sans'
+            FontWeight: =FontWeight.Semibold
+            HoverBorderColor: =ColorFade(btn_Right.BorderColor, 20%)
+            HoverColor: =White
+            HoverFill: =ColorFade(RGBA(226, 0, 116, 1), -20%)
+            OnSelect: =Set(varRightButtonAction, !varRightButtonAction);Set(varIsVisible, false)
+            PressedBorderColor: =btn_Right.Fill
+            PressedColor: =btn_Right.Fill
+            PressedFill: =btn_Right.Color
+            Size: =11
+            Text: =com_Dialogue.Button2Text
+            Visible: =com_Dialogue.TwoButtons And com_Dialogue.ShowButtons
+            Width: =180
+            X: =btn_Background.Width / 2 - (btn_Right.Width / 2) + 120
+            Y: =lbl_SubText2.Y + lbl_SubText2.Height + 40
+            ZIndex: =3
+
+        btn_Left As button:
+            BorderColor: =ColorFade(btn_Left.Fill, -15%)
+            BorderThickness: =1
+            Color: =White
+            DisabledBorderColor: =RGBA(83, 83, 83, 1)
+            DisabledColor: =White
+            DisabledFill: =RGBA(166, 166, 166, 1)
+            Fill: =RGBA(226, 0, 116, 1)
+            FocusedBorderColor: =btn_Left.BorderColor
+            FocusedBorderThickness: =1
+            Font: ='Open Sans'
+            FontWeight: =FontWeight.Semibold
+            HoverBorderColor: =ColorFade(btn_Left.BorderColor, 20%)
+            HoverColor: =White
+            HoverFill: =ColorFade(RGBA(226, 0, 116, 1), -20%)
+            OnSelect: |-
+                =Set(varLeftButtonAction, true);Set(varIsVisible, false);
+                
+                Switch(com_Dialogue.CurrentScreen.Name,
+                "Project_Details_Screen",
+                    If(com_Dialogue.NewOrDraft, 
+                        ClearCollect(collFormValues, Filter(ComponentFieldDetails, formID = com_Dialogue.InitiativeType, isOnIntake = true)), 
+                        ClearCollect(collFormValues, Filter(ComponentFieldDetails, formID = com_Dialogue.InitiativeType))
+                        );
+                    Set(varIsVisible, false);
+                    Set(varResetControls, true);
+                    Set(varResetControls, false),
+                "Project_Summary_Screen", 
+                    Set(varResetControls, true);
+                    Set(varResetControls, false);
+                    Navigate(com_Dialogue.NavigateToScreen, Transition.None),
+                    Set(varResetControls, true);
+                    Set(varResetControls, false)
+                )
+            PressedBorderColor: =btn_Left.Fill
+            PressedColor: =btn_Left.Fill
+            PressedFill: =btn_Left.Color
+            Size: =11
+            Text: =com_Dialogue.Button1Text
+            Visible: =com_Dialogue.TwoButtons And com_Dialogue.ShowButtons
+            Width: =180
+            X: =btn_Background.Width / 2 - (btn_Left.Width / 2) - 120
+            Y: =lbl_SubText2.Y + lbl_SubText2.Height + 40
+            ZIndex: =4
+
+        lbl_SubText2 As label:
+            Align: =Center
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =DarkGray
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisplayMode: =DisplayMode.View
+            FocusedBorderColor: =lbl_SubText2.BorderColor
+            Font: ='Open Sans'
+            FontWeight: =Semibold
+            Height: =60
+            HoverBorderColor: =lbl_SubText2.BorderColor
+            HoverColor: =lbl_SubText2.Color
+            HoverFill: =lbl_SubText2.Fill
+            PressedBorderColor: =lbl_SubText2.BorderColor
+            PressedColor: =lbl_SubText2.Color
+            PressedFill: =lbl_SubText2.Fill
+            Text: =Coalesce(com_Dialogue.DialogueSubText2, " ")
+            Width: =btn_Background.Width
+            Y: =lbl_SubText.Y + lbl_SubText.Height
+            ZIndex: =5
+
+        lbl_SubText As label:
+            Align: =Center
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: |
+                =RGBA(83, 83, 83, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisplayMode: =DisplayMode.View
+            FocusedBorderColor: =lbl_SubText.BorderColor
+            Font: ='Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =0
+            HoverBorderColor: =lbl_SubText.BorderColor
+            HoverColor: =lbl_SubText.Color
+            HoverFill: =lbl_SubText.Fill
+            PaddingTop: =10
+            PressedBorderColor: =lbl_SubText.BorderColor
+            PressedColor: =lbl_SubText.Color
+            PressedFill: =lbl_SubText.Fill
+            Size: =17
+            Text: =com_Dialogue.DialogueSubText
+            Width: =btn_Background.Width
+            Y: =lbl_Title.Y + lbl_Title.Height
+            ZIndex: =6
+
+        lbl_Title As label:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(226, 0, 116, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =lbl_Title.BorderColor
+            FontWeight: =FontWeight.Bold
+            Height: =80
+            HoverBorderColor: =lbl_Title.BorderColor
+            HoverColor: =lbl_Title.Color
+            HoverFill: =lbl_Title.Fill
+            PaddingBottom: =10
+            PaddingTop: =25
+            PressedBorderColor: =lbl_Title.BorderColor
+            PressedColor: =lbl_Title.Color
+            PressedFill: =lbl_Title.Fill
+            Size: =20
+            Text: =com_Dialogue.DialogueTextTitle
+            Width: =btn_Background.Width
+            ZIndex: =7
+
+        btn_Center As button:
+            BorderColor: =ColorFade(btn_Center.Fill, -15%)
+            BorderThickness: =1
+            Color: =White
+            DisabledBorderColor: =RGBA(83, 83, 83, 1)
+            DisabledColor: =White
+            DisabledFill: =RGBA(166, 166, 166, 1)
+            Fill: =RGBA(226, 0, 116, 1)
+            FocusedBorderColor: =btn_Center.BorderColor
+            FocusedBorderThickness: =1
+            Font: ='Open Sans'
+            FontWeight: =FontWeight.Semibold
+            HoverBorderColor: =ColorFade(btn_Center.BorderColor, 20%)
+            HoverColor: =White
+            HoverFill: =ColorFade(RGBA(226, 0, 116, 1), -20%)
+            PressedBorderColor: =btn_Center.Fill
+            PressedColor: =btn_Center.Fill
+            PressedFill: =btn_Center.Color
+            Size: =11
+            Text: =com_Dialogue.Button1Text
+            Visible: =!com_Dialogue.TwoButtons And com_Dialogue.ShowButtons
+            Width: =180
+            X: =btn_Background.Width / 2 - (btn_Center.Width / 2)
+            Y: =lbl_SubText2.Y + lbl_SubText2.Height + 40
+            ZIndex: =8
+

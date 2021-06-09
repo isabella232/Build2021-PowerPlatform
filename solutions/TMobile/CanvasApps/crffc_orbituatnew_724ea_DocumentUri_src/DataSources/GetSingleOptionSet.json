@@ -1,0 +1,9 @@
+[
+  {
+    "AddinConnectorId": "a52c096a-cbc7-4139-a3f3-7e8cdd3db981",
+    "AddinId": "6d1f157d-95bf-406d-b65d-cfd3240f724e",
+    "Name": "GetSingleOptionSet",
+    "ServiceKind": "AddinWadl",
+    "Type": "ServiceInfo"
+  }
+]

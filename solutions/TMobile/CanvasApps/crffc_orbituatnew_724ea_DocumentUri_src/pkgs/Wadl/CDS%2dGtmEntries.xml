@@ -1,0 +1,1441 @@
+<application xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:service="https://unitedstates-002.azure-apim.net/apim/cdsconnector-5f00d64d714648f44a-5f4dba14982592dc78" xmlns:siena="http://schemas.microsoft.com/MicrosoftProjectSiena/WADL/2014/11" siena:serviceId="CDS-GtmEntries" xmlns="http://wadl.dev.java.net/2009/02">
+  <doc title="CDS - GtmEntries">CDS - GtmEntries</doc>
+  <grammars>
+    <jsonTypes targetNamespace="https://unitedstates-002.azure-apim.net/apim/cdsconnector-5f00d64d714648f44a-5f4dba14982592dc78" xmlns="http://schemas.microsoft.com/MicrosoftProjectSiena/WADL/2014/11">
+      <string name="cat_gtmentries_responses_default_def__ux40_odata_context_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def__ux40_odata_etag_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_beneficiarylob_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_lobchannelhorizontal_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <integer name="cat_gtmentries_responses_default_def_value_def_items_def_cat_lobchannelhorizontal_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_explainaudiencespecificcommunications_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_jumpeligible_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <boolean name="cat_gtmentries_responses_default_def_value_def_items_def_cat_jumpeligible_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_market_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <boolean name="cat_gtmentries_responses_default_def_value_def_items_def_cat_market_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_modifiedon_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_modifiedon_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_brand_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_replacinganexistingproduct_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <boolean name="cat_gtmentries_responses_default_def_value_def_items_def_cat_replacinganexistingproduct_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_eligibilitysummary_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_customerimpacting_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <boolean name="cat_gtmentries_responses_default_def_value_def_items_def_cat_customerimpacting_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_activeservicerequired_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <boolean name="cat_gtmentries_responses_default_def_value_def_items_def_cat_activeservicerequired_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_rateplanrequirements_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_positioningmessaging_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_deviceoem_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_annualgaliftestimate_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <integer name="cat_gtmentries_responses_default_def_value_def_items_def_cat_annualgaliftestimate_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_designprinciples_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_keyfeatures_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_otherpromotionsnotstackable_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_originalcreatedondate_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_originalcreatedondate_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_employeeeligible_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <boolean name="cat_gtmentries_responses_default_def_value_def_items_def_cat_employeeeligible_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_integration_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <boolean name="cat_gtmentries_responses_default_def_value_def_items_def_cat_integration_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_promocode_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_employeediscount_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <boolean name="cat_gtmentries_responses_default_def_value_def_items_def_cat_employeediscount_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_totalnetaddgoals_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def__createdonbehalfby_value_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_devicename_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_enddate_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_enddate_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def__owninguser_value_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def__ownerid_value_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def__ownerid_value_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_anticipatedvolumetakeratesdaily_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_devicefulfillmentinscope_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_actuallaunchdate_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_offerlimitsconsumertfb_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_keyinitiative_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <boolean name="cat_gtmentries_responses_default_def_value_def_items_def_cat_keyinitiative_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def__cat_teamroles_value_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_description_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_keylaunch_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <boolean name="cat_gtmentries_responses_default_def_value_def_items_def_cat_keylaunch_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_validationcheck_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_desiredexecution_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_promodetailslocked_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <boolean name="cat_gtmentries_responses_default_def_value_def_items_def_cat_promodetailslocked_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_priority_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_traversedpath_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def__owningbusinessunit_value_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_target_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_supportplan_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_eligibledevices_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_planandfeaturerequirementsbuild_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_initiativetypegroup_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <integer name="cat_gtmentries_responses_default_def_value_def_items_def_cat_initiativetypegroup_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_marketingsupportneeded_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_otherlimitationsandexclusions_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_explainintegratedmarketing_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_carrierfreedom_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <boolean name="cat_gtmentries_responses_default_def_value_def_items_def_cat_carrierfreedom_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_detailsstillopen_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_monitoring_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <boolean name="cat_gtmentries_responses_default_def_value_def_items_def_cat_monitoring_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_incrementallifttotal_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_productnotes_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_additionaleligibilityrequirements_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_valueproposition_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_incrementalliftdaily_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_prcode_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_pjcode_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def__cat_originalcreatedbyuser_value_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def__cat_originalcreatedbyuser_value_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_initiativetype_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <integer name="cat_gtmentries_responses_default_def_value_def_items_def_cat_initiativetype_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_statecode_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <integer name="cat_gtmentries_responses_default_def_value_def_items_def_statecode_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_strategicpillar_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def__modifiedonbehalfby_value_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_health_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_tier_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_voicerateplanrequirements_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_gtmentryid_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_statuscode_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <integer name="cat_gtmentries_responses_default_def_value_def_items_def_statuscode_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_eligibilityandexclusions_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_contingency_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <boolean name="cat_gtmentries_responses_default_def_value_def_items_def_cat_contingency_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_ptloeswag_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_expectedmarketingsupport_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_day_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_overriddencreatedon_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_preorderdate_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_preorderdate_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_legacygtmentryid_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <integer name="cat_gtmentries_responses_default_def_value_def_items_def_cat_legacygtmentryid_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_timezoneruleversionnumber_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <integer name="cat_gtmentries_responses_default_def_value_def_items_def_timezoneruleversionnumber_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_productobjectives_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_initiativename_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_requestedlaunchdate_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_requestedlaunchdate_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_audiencespecificcommunications_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def__cat_sponsor_value_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def__cat_sponsor_value_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_startdate_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_offerlimitstfbban_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_explaintargetaudiencesegment_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_channels_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_createdon_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_createdon_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_addalinetypes_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_limitedtimeoffer_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <boolean name="cat_gtmentries_responses_default_def_value_def_items_def_cat_limitedtimeoffer_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_initiativesubmitdate_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_initiativesubmitdate_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_forecasteddate_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_forecasteddate_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_pitch_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_desiredexecutionexplanation_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_nameofexistingproduct_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_localmarket_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_category_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <integer name="cat_gtmentries_responses_default_def_value_def_items_def_cat_category_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_calendargrouping_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_estimatedlaunchdate_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_estimatedlaunchdate_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_costcorebatecode_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_mobileinternetplanrequirements_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_presaledate_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_presaledate_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_billname_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_importsequencenumber_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def__owningteam_value_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_testing_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def__cat_businessowner_value_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def__cat_businessowner_value_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_darkstatus_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <boolean name="cat_gtmentries_responses_default_def_value_def_items_def_cat_darkstatus_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_systemstack_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_reasontobelieve_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_triagenotes_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_whatisitreplacing_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_purchasetypefinancing_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_customerexperience_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_otherlaunch_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <boolean name="cat_gtmentries_responses_default_def_value_def_items_def_cat_otherlaunch_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_otherbusinessbenefit_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_phase_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <integer name="cat_gtmentries_responses_default_def_value_def_items_def_cat_phase_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def__createdby_value_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def__createdby_value_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_processid_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_promoeligibilitytool_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <boolean name="cat_gtmentries_responses_default_def_value_def_items_def_cat_promoeligibilitytool_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_tbd_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <boolean name="cat_gtmentries_responses_default_def_value_def_items_def_cat_tbd_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_totalofferspend_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_threeyearnpv_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_situation_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_lastdatetocancel_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_offerrevisiondescription_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_numberofaddalinerequired_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_versionnumber_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <integer name="cat_gtmentries_responses_default_def_value_def_items_def_versionnumber_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_priorityquarter_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_productfunctionality_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_committedlaunchdate_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_committedlaunchdate_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_offertype_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_subphase_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <integer name="cat_gtmentries_responses_default_def_value_def_items_def_cat_subphase_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_offerlimits_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def__stageid_value_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_getoutofthered_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <boolean name="cat_gtmentries_responses_default_def_value_def_items_def_cat_getoutofthered_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_shortdescription_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_goalkpi_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_steeringmeetingresults_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_goesoncalendar_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <boolean name="cat_gtmentries_responses_default_def_value_def_items_def_cat_goesoncalendar_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_type_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_integratedmarketing_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_businessbenefit_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_numberofcustomerstargeted_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def__modifiedby_value_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def__modifiedby_value_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_utcconversiontimezonecode_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_customersegment_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_galifttype_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_maprestricted_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <boolean name="cat_gtmentries_responses_default_def_value_def_items_def_cat_maprestricted_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_targetaudiencesegment_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_wearableplanrequirements_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_anticipatedvolumetakeratestotal_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_keyassumptions_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_BusinessOwner_def_fullname_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_BusinessOwner_def_firstname_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_BusinessOwner_def_lastname_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_BusinessOwner_def_nickname_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_BusinessOwner_def_systemuserid_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_BusinessOwner_def_ownerid_def" />
+      <object name="cat_gtmentries_responses_default_def_value_def_items_def_cat_BusinessOwner_def">
+        <property name="fullname" type="string" />
+        <property name="firstname" type="string" />
+        <property name="lastname" type="string" />
+        <property name="nickname" type="string" />
+        <property name="systemuserid" type="string" />
+        <property name="ownerid" type="string" />
+      </object>
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_Sponsor_def_fullname_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_Sponsor_def_firstname_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_Sponsor_def_lastname_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_Sponsor_def_nickname_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_Sponsor_def_systemuserid_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_Sponsor_def_ownerid_def" />
+      <object name="cat_gtmentries_responses_default_def_value_def_items_def_cat_Sponsor_def">
+        <property name="fullname" type="string" />
+        <property name="firstname" type="string" />
+        <property name="lastname" type="string" />
+        <property name="nickname" type="string" />
+        <property name="systemuserid" type="string" />
+        <property name="ownerid" type="string" />
+      </object>
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_createdby_def_fullname_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_createdby_def_firstname_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_createdby_def_lastname_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_createdby_def_nickname_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_createdby_def_systemuserid_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_createdby_def_ownerid_def" />
+      <object name="cat_gtmentries_responses_default_def_value_def_items_def_createdby_def">
+        <property name="fullname" type="string" />
+        <property name="firstname" type="string" />
+        <property name="lastname" type="string" />
+        <property name="nickname" type="string" />
+        <property name="systemuserid" type="string" />
+        <property name="ownerid" type="string" />
+      </object>
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_OriginalCreatedByUser_def_fullname_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_OriginalCreatedByUser_def_firstname_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_OriginalCreatedByUser_def_lastname_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_OriginalCreatedByUser_def_nickname_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_OriginalCreatedByUser_def_systemuserid_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_OriginalCreatedByUser_def_ownerid_def" />
+      <object name="cat_gtmentries_responses_default_def_value_def_items_def_cat_OriginalCreatedByUser_def">
+        <property name="fullname" type="string" />
+        <property name="firstname" type="string" />
+        <property name="lastname" type="string" />
+        <property name="nickname" type="string" />
+        <property name="systemuserid" type="string" />
+        <property name="ownerid" type="string" />
+      </object>
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_ProjectTeamRoles_gtmEntry_cat_gtmEntr_def_items_def__ux40_odata_etag_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_ProjectTeamRoles_gtmEntry_cat_gtmEntr_def_items_def__cat_teammember_value_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_ProjectTeamRoles_gtmEntry_cat_gtmEntr_def_items_def__cat_teammember_value_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_ProjectTeamRoles_gtmEntry_cat_gtmEntr_def_items_def__cat_gtmentry_value_ux40_OData_Community_Display_V1_FormattedValue_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_ProjectTeamRoles_gtmEntry_cat_gtmEntr_def_items_def__cat_gtmentry_value_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_ProjectTeamRoles_gtmEntry_cat_gtmEntr_def_items_def_cat_projectteamrolesid_def" />
+      <object name="cat_gtmentries_responses_default_def_value_def_items_def_cat_ProjectTeamRoles_gtmEntry_cat_gtmEntr_def_items_def">
+        <property name="@odata.etag" type="string" />
+        <property name="_cat_teammember_value@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="_cat_teammember_value" type="string" />
+        <property name="_cat_gtmentry_value@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="_cat_gtmentry_value" type="string" />
+        <property name="cat_projectteamrolesid" type="string" />
+      </object>
+      <array typeRef="cat_gtmentries_responses_default_def_value_def_items_def_cat_ProjectTeamRoles_gtmEntry_cat_gtmEntr_def_items_def" name="cat_gtmentries_responses_default_def_value_def_items_def_cat_ProjectTeamRoles_gtmEntry_cat_gtmEntr_def" />
+      <string name="cat_gtmentries_responses_default_def_value_def_items_def_cat_ProjectTeamRoles_gtmEntry_cat_gtmEntr_ux40_odata_nextLink_def" />
+      <object name="cat_gtmentries_responses_default_def_value_def_items_def">
+        <property name="@odata.etag" type="string" />
+        <property name="cat_beneficiarylob" type="string" />
+        <property name="cat_lobchannelhorizontal@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="cat_lobchannelhorizontal" type="integer" />
+        <property name="cat_explainaudiencespecificcommunications" type="string" />
+        <property name="cat_jumpeligible@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="cat_jumpeligible" type="boolean" />
+        <property name="cat_market@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="cat_market" type="boolean" />
+        <property name="modifiedon@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="modifiedon" type="string" />
+        <property name="cat_brand" type="string" />
+        <property name="cat_replacinganexistingproduct@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="cat_replacinganexistingproduct" type="boolean" />
+        <property name="cat_eligibilitysummary" type="string" />
+        <property name="cat_customerimpacting@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="cat_customerimpacting" type="boolean" />
+        <property name="cat_activeservicerequired@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="cat_activeservicerequired" type="boolean" />
+        <property name="cat_rateplanrequirements" type="string" />
+        <property name="cat_positioningmessaging" type="string" />
+        <property name="cat_deviceoem" type="string" />
+        <property name="cat_annualgaliftestimate@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="cat_annualgaliftestimate" type="integer" />
+        <property name="cat_designprinciples" type="string" />
+        <property name="cat_keyfeatures" type="string" />
+        <property name="cat_otherpromotionsnotstackable" type="string" />
+        <property name="cat_originalcreatedondate@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="cat_originalcreatedondate" type="string" />
+        <property name="cat_employeeeligible@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="cat_employeeeligible" type="boolean" />
+        <property name="cat_integration@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="cat_integration" type="boolean" />
+        <property name="cat_promocode" type="string" />
+        <property name="cat_employeediscount@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="cat_employeediscount" type="boolean" />
+        <property name="cat_totalnetaddgoals" type="string" />
+        <property name="_createdonbehalfby_value" type="string" />
+        <property name="cat_devicename" type="string" />
+        <property name="cat_enddate@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="cat_enddate" type="string" />
+        <property name="_owninguser_value" type="string" />
+        <property name="_ownerid_value@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="_ownerid_value" type="string" />
+        <property name="cat_anticipatedvolumetakeratesdaily" type="string" />
+        <property name="cat_devicefulfillmentinscope" type="string" />
+        <property name="cat_actuallaunchdate" type="string" />
+        <property name="cat_offerlimitsconsumertfb" type="string" />
+        <property name="cat_keyinitiative@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="cat_keyinitiative" type="boolean" />
+        <property name="_cat_teamroles_value" type="string" />
+        <property name="cat_description" type="string" />
+        <property name="cat_keylaunch@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="cat_keylaunch" type="boolean" />
+        <property name="cat_validationcheck" type="string" />
+        <property name="cat_desiredexecution" type="string" />
+        <property name="cat_promodetailslocked@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="cat_promodetailslocked" type="boolean" />
+        <property name="cat_priority" type="string" />
+        <property name="traversedpath" type="string" />
+        <property name="_owningbusinessunit_value" type="string" />
+        <property name="cat_target" type="string" />
+        <property name="cat_supportplan" type="string" />
+        <property name="cat_eligibledevices" type="string" />
+        <property name="cat_planandfeaturerequirementsbuild" type="string" />
+        <property name="cat_initiativetypegroup@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="cat_initiativetypegroup" type="integer" />
+        <property name="cat_marketingsupportneeded" type="string" />
+        <property name="cat_otherlimitationsandexclusions" type="string" />
+        <property name="cat_explainintegratedmarketing" type="string" />
+        <property name="cat_carrierfreedom@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="cat_carrierfreedom" type="boolean" />
+        <property name="cat_detailsstillopen" type="string" />
+        <property name="cat_monitoring@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="cat_monitoring" type="boolean" />
+        <property name="cat_incrementallifttotal" type="string" />
+        <property name="cat_productnotes" type="string" />
+        <property name="cat_additionaleligibilityrequirements" type="string" />
+        <property name="cat_valueproposition" type="string" />
+        <property name="cat_incrementalliftdaily" type="string" />
+        <property name="cat_prcode" type="string" />
+        <property name="cat_pjcode" type="string" />
+        <property name="_cat_originalcreatedbyuser_value@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="_cat_originalcreatedbyuser_value" type="string" />
+        <property name="cat_initiativetype@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="cat_initiativetype" type="integer" />
+        <property name="statecode@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="statecode" type="integer" />
+        <property name="cat_strategicpillar" type="string" />
+        <property name="_modifiedonbehalfby_value" type="string" />
+        <property name="cat_health" type="string" />
+        <property name="cat_tier" type="string" />
+        <property name="cat_voicerateplanrequirements" type="string" />
+        <property name="cat_gtmentryid" type="string" />
+        <property name="statuscode@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="statuscode" type="integer" />
+        <property name="cat_eligibilityandexclusions" type="string" />
+        <property name="cat_contingency@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="cat_contingency" type="boolean" />
+        <property name="cat_ptloeswag" type="string" />
+        <property name="cat_expectedmarketingsupport" type="string" />
+        <property name="cat_day" type="string" />
+        <property name="overriddencreatedon" type="string" />
+        <property name="cat_preorderdate@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="cat_preorderdate" type="string" />
+        <property name="cat_legacygtmentryid@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="cat_legacygtmentryid" type="integer" />
+        <property name="timezoneruleversionnumber@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="timezoneruleversionnumber" type="integer" />
+        <property name="cat_productobjectives" type="string" />
+        <property name="cat_initiativename" type="string" />
+        <property name="cat_requestedlaunchdate@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="cat_requestedlaunchdate" type="string" />
+        <property name="cat_audiencespecificcommunications" type="string" />
+        <property name="_cat_sponsor_value@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="_cat_sponsor_value" type="string" />
+        <property name="cat_startdate" type="string" />
+        <property name="cat_offerlimitstfbban" type="string" />
+        <property name="cat_explaintargetaudiencesegment" type="string" />
+        <property name="cat_channels" type="string" />
+        <property name="createdon@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="createdon" type="string" />
+        <property name="cat_addalinetypes" type="string" />
+        <property name="cat_limitedtimeoffer@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="cat_limitedtimeoffer" type="boolean" />
+        <property name="cat_initiativesubmitdate@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="cat_initiativesubmitdate" type="string" />
+        <property name="cat_forecasteddate@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="cat_forecasteddate" type="string" />
+        <property name="cat_pitch" type="string" />
+        <property name="cat_desiredexecutionexplanation" type="string" />
+        <property name="cat_nameofexistingproduct" type="string" />
+        <property name="cat_localmarket" type="string" />
+        <property name="cat_category@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="cat_category" type="integer" />
+        <property name="cat_calendargrouping" type="string" />
+        <property name="cat_estimatedlaunchdate@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="cat_estimatedlaunchdate" type="string" />
+        <property name="cat_costcorebatecode" type="string" />
+        <property name="cat_mobileinternetplanrequirements" type="string" />
+        <property name="cat_presaledate@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="cat_presaledate" type="string" />
+        <property name="cat_billname" type="string" />
+        <property name="importsequencenumber" type="string" />
+        <property name="_owningteam_value" type="string" />
+        <property name="cat_testing" type="string" />
+        <property name="_cat_businessowner_value@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="_cat_businessowner_value" type="string" />
+        <property name="cat_darkstatus@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="cat_darkstatus" type="boolean" />
+        <property name="cat_systemstack" type="string" />
+        <property name="cat_reasontobelieve" type="string" />
+        <property name="cat_triagenotes" type="string" />
+        <property name="cat_whatisitreplacing" type="string" />
+        <property name="cat_purchasetypefinancing" type="string" />
+        <property name="cat_customerexperience" type="string" />
+        <property name="cat_otherlaunch@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="cat_otherlaunch" type="boolean" />
+        <property name="cat_otherbusinessbenefit" type="string" />
+        <property name="cat_phase@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="cat_phase" type="integer" />
+        <property name="_createdby_value@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="_createdby_value" type="string" />
+        <property name="processid" type="string" />
+        <property name="cat_promoeligibilitytool@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="cat_promoeligibilitytool" type="boolean" />
+        <property name="cat_tbd@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="cat_tbd" type="boolean" />
+        <property name="cat_totalofferspend" type="string" />
+        <property name="cat_threeyearnpv" type="string" />
+        <property name="cat_situation" type="string" />
+        <property name="cat_lastdatetocancel" type="string" />
+        <property name="cat_offerrevisiondescription" type="string" />
+        <property name="cat_numberofaddalinerequired" type="string" />
+        <property name="versionnumber@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="versionnumber" type="integer" />
+        <property name="cat_priorityquarter" type="string" />
+        <property name="cat_productfunctionality" type="string" />
+        <property name="cat_committedlaunchdate@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="cat_committedlaunchdate" type="string" />
+        <property name="cat_offertype" type="string" />
+        <property name="cat_subphase@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="cat_subphase" type="integer" />
+        <property name="cat_offerlimits" type="string" />
+        <property name="_stageid_value" type="string" />
+        <property name="cat_getoutofthered@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="cat_getoutofthered" type="boolean" />
+        <property name="cat_shortdescription" type="string" />
+        <property name="cat_goalkpi" type="string" />
+        <property name="cat_steeringmeetingresults" type="string" />
+        <property name="cat_goesoncalendar@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="cat_goesoncalendar" type="boolean" />
+        <property name="cat_type" type="string" />
+        <property name="cat_integratedmarketing" type="string" />
+        <property name="cat_businessbenefit" type="string" />
+        <property name="cat_numberofcustomerstargeted" type="string" />
+        <property name="_modifiedby_value@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="_modifiedby_value" type="string" />
+        <property name="utcconversiontimezonecode" type="string" />
+        <property name="cat_customersegment" type="string" />
+        <property name="cat_galifttype" type="string" />
+        <property name="cat_maprestricted@OData.Community.Display.V1.FormattedValue" type="string" />
+        <property name="cat_maprestricted" type="boolean" />
+        <property name="cat_targetaudiencesegment" type="string" />
+        <property name="cat_wearableplanrequirements" type="string" />
+        <property name="cat_anticipatedvolumetakeratestotal" type="string" />
+        <property name="cat_keyassumptions" type="string" />
+        <property name="cat_BusinessOwner" typeRef="cat_gtmentries_responses_default_def_value_def_items_def_cat_BusinessOwner_def" />
+        <property name="cat_Sponsor" typeRef="cat_gtmentries_responses_default_def_value_def_items_def_cat_Sponsor_def" />
+        <property name="createdby" typeRef="cat_gtmentries_responses_default_def_value_def_items_def_createdby_def" />
+        <property name="cat_OriginalCreatedByUser" typeRef="cat_gtmentries_responses_default_def_value_def_items_def_cat_OriginalCreatedByUser_def" />
+        <property name="cat_ProjectTeamRoles_gtmEntry_cat_gtmEntr" typeRef="cat_gtmentries_responses_default_def_value_def_items_def_cat_ProjectTeamRoles_gtmEntry_cat_gtmEntr_def" />
+        <property name="cat_ProjectTeamRoles_gtmEntry_cat_gtmEntr@odata.nextLink" type="string" />
+      </object>
+      <array typeRef="cat_gtmentries_responses_default_def_value_def_items_def" name="cat_gtmentries_responses_default_def_value_def" />
+      <object name="cat_gtmentries_responses_default_def">
+        <property name="@odata.context" type="string" />
+        <property name="value" typeRef="cat_gtmentries_responses_default_def_value_def" />
+      </object>
+      <string name="GetBPF_responses_default_def__ux40_odata_context_def" />
+      <string name="GetBPF_responses_default_def_value_def_items_def__ux40_odata_etag_def" />
+      <string name="GetBPF_responses_default_def_value_def_items_def_uniquename_def" />
+      <string name="GetBPF_responses_default_def_value_def_items_def_workflowid_def" />
+      <object name="GetBPF_responses_default_def_value_def_items_def">
+        <property name="@odata.etag" type="string" />
+        <property name="uniquename" type="string" />
+        <property name="workflowid" type="string" />
+      </object>
+      <array typeRef="GetBPF_responses_default_def_value_def_items_def" name="GetBPF_responses_default_def_value_def" />
+      <object name="GetBPF_responses_default_def">
+        <property name="@odata.context" type="string" />
+        <property name="value" typeRef="GetBPF_responses_default_def_value_def" />
+      </object>
+      <string name="GetBPFActivePath_responses_default_def__ux40_odata_context_def" />
+      <string name="GetBPFActivePath_responses_default_def_value_def_items_def__ux40_odata_etag_def" />
+      <string name="GetBPFActivePath_responses_default_def_value_def_items_def__ownerid_value_def" />
+      <string name="GetBPFActivePath_responses_default_def_value_def_items_def__processid_value_def" />
+      <string name="GetBPFActivePath_responses_default_def_value_def_items_def_owningbusinessunit_def" />
+      <string name="GetBPFActivePath_responses_default_def_value_def_items_def_stagename_def" />
+      <string name="GetBPFActivePath_responses_default_def_value_def_items_def_primaryentitytypecode_def" />
+      <string name="GetBPFActivePath_responses_default_def_value_def_items_def_clientdata_def_items_def_DisplayName_def" />
+      <string name="GetBPFActivePath_responses_default_def_value_def_items_def_clientdata_def_items_def_DisplayLabelId_def" />
+      <string name="GetBPFActivePath_responses_default_def_value_def_items_def_clientdata_def_items_def_Type_def" />
+      <string name="GetBPFActivePath_responses_default_def_value_def_items_def_clientdata_def_items_def_Field_def_AttributeName_def" />
+      <boolean name="GetBPFActivePath_responses_default_def_value_def_items_def_clientdata_def_items_def_Field_def_IsRequired_def" />
+      <object name="GetBPFActivePath_responses_default_def_value_def_items_def_clientdata_def_items_def_Field_def">
+        <property name="AttributeName" type="string" />
+        <property name="IsRequired" type="boolean" />
+      </object>
+      <object name="GetBPFActivePath_responses_default_def_value_def_items_def_clientdata_def_items_def">
+        <property name="DisplayName" type="string" />
+        <property name="DisplayLabelId" type="string" />
+        <property name="Type" type="string" />
+        <property name="Field" typeRef="GetBPFActivePath_responses_default_def_value_def_items_def_clientdata_def_items_def_Field_def" />
+      </object>
+      <array typeRef="GetBPFActivePath_responses_default_def_value_def_items_def_clientdata_def_items_def" name="GetBPFActivePath_responses_default_def_value_def_items_def_clientdata_def" />
+      <string name="GetBPFActivePath_responses_default_def_value_def_items_def_processstageid_def" />
+      <integer name="GetBPFActivePath_responses_default_def_value_def_items_def_stagecategory_def" />
+      <object name="GetBPFActivePath_responses_default_def_value_def_items_def">
+        <property name="@odata.etag" type="string" />
+        <property name="_ownerid_value" type="string" />
+        <property name="_processid_value" type="string" />
+        <property name="owningbusinessunit" type="string" />
+        <property name="stagename" type="string" />
+        <property name="primaryentitytypecode" type="string" />
+        <property name="clientdata" typeRef="GetBPFActivePath_responses_default_def_value_def_items_def_clientdata_def" />
+        <property name="processstageid" type="string" />
+        <property name="stagecategory" type="integer" />
+      </object>
+      <array typeRef="GetBPFActivePath_responses_default_def_value_def_items_def" name="GetBPFActivePath_responses_default_def_value_def" />
+      <object name="GetBPFActivePath_responses_default_def">
+        <property name="@odata.context" type="string" />
+        <property name="value" typeRef="GetBPFActivePath_responses_default_def_value_def" />
+      </object>
+      <string name="CreateBPFInstance_param_body_def_bpf_accountid_ux40_odata_bind_def" />
+      <string name="CreateBPFInstance_param_body_def_activestageid_ux40_odata_bind_def" />
+      <object name="CreateBPFInstance_param_body_def">
+        <property name="bpf_accountid@odata.bind" type="string" />
+        <property name="activestageid@odata.bind" type="string" />
+      </object>
+      <object name="CreateAndAssociate_param_body_def" />
+      <string name="AddUserToAccessTeamTemplate_param_body_def_Record_def__ux40_odata_type_def" />
+      <string name="AddUserToAccessTeamTemplate_param_body_def_Record_def_cat_gtmentryid_def" />
+      <object name="AddUserToAccessTeamTemplate_param_body_def_Record_def">
+        <property name="@odata.type" type="string" />
+        <property name="cat_gtmentryid" type="string" />
+      </object>
+      <string name="AddUserToAccessTeamTemplate_param_body_def_TeamTemplate_def__ux40_odata_type_def" />
+      <string name="AddUserToAccessTeamTemplate_param_body_def_TeamTemplate_def_teamtemplateid_def" />
+      <object name="AddUserToAccessTeamTemplate_param_body_def_TeamTemplate_def">
+        <property name="@odata.type" type="string" />
+        <property name="teamtemplateid" type="string" />
+      </object>
+      <object name="AddUserToAccessTeamTemplate_param_body_def">
+        <property name="Record" typeRef="AddUserToAccessTeamTemplate_param_body_def_Record_def" />
+        <property name="TeamTemplate" typeRef="AddUserToAccessTeamTemplate_param_body_def_TeamTemplate_def" />
+      </object>
+      <string name="RemoveUserFromAccessTeamTeamplate_param_body_def_Record_def__ux40_odata_type_def" />
+      <string name="RemoveUserFromAccessTeamTeamplate_param_body_def_Record_def_cat_gtmentryid_def" />
+      <object name="RemoveUserFromAccessTeamTeamplate_param_body_def_Record_def">
+        <property name="@odata.type" type="string" />
+        <property name="cat_gtmentryid" type="string" />
+      </object>
+      <string name="RemoveUserFromAccessTeamTeamplate_param_body_def_TeamTemplate_def__ux40_odata_type_def" />
+      <string name="RemoveUserFromAccessTeamTeamplate_param_body_def_TeamTemplate_def_teamtemplateid_def" />
+      <object name="RemoveUserFromAccessTeamTeamplate_param_body_def_TeamTemplate_def">
+        <property name="@odata.type" type="string" />
+        <property name="teamtemplateid" type="string" />
+      </object>
+      <object name="RemoveUserFromAccessTeamTeamplate_param_body_def">
+        <property name="Record" typeRef="RemoveUserFromAccessTeamTeamplate_param_body_def_Record_def" />
+        <property name="TeamTemplate" typeRef="RemoveUserFromAccessTeamTeamplate_param_body_def_TeamTemplate_def" />
+      </object>
+      <string name="PostToProjectTeamRoles_param_body_def_cat_name_def" />
+      <integer name="PostToProjectTeamRoles_param_body_def_cat_roletype_def" />
+      <string name="PostToProjectTeamRoles_param_body_def_cat_gtmEntry_ux40_odata_bind_def" />
+      <string name="PostToProjectTeamRoles_param_body_def_cat_TeamMember_ux40_odata_bind_def" />
+      <object name="PostToProjectTeamRoles_param_body_def">
+        <property name="cat_name" type="string" />
+        <property name="cat_roletype" type="integer" />
+        <property name="cat_gtmEntry@odata.bind" type="string" />
+        <property name="cat_TeamMember@odata.bind" type="string" />
+      </object>
+      <string name="GetUserRecord_responses_default_def__ux40_odata_context_def" />
+      <string name="GetUserRecord_responses_default_def__ux40_odata_etag_def" />
+      <string name="GetUserRecord_responses_default_def_systemuserid_def" />
+      <integer name="GetUserRecord_responses_default_def_accessmode_def" />
+      <string name="GetUserRecord_responses_default_def_firstname_def" />
+      <boolean name="GetUserRecord_responses_default_def_setupuser_def" />
+      <string name="GetUserRecord_responses_default_def_address1_addressid_def" />
+      <integer name="GetUserRecord_responses_default_def_incomingemaildeliverymethod_def" />
+      <string name="GetUserRecord_responses_default_def_internalemailaddress_def" />
+      <integer name="GetUserRecord_responses_default_def_identityid_def" />
+      <string name="GetUserRecord_responses_default_def_domainname_def" />
+      <string name="GetUserRecord_responses_default_def__queueid_value_def" />
+      <string name="GetUserRecord_responses_default_def_entityimageid_def" />
+      <boolean name="GetUserRecord_responses_default_def_isintegrationuser_def" />
+      <string name="GetUserRecord_responses_default_def_createdon_def" />
+      <integer name="GetUserRecord_responses_default_def_entityimage_timestamp_def" />
+      <string name="GetUserRecord_responses_default_def__calendarid_value_def" />
+      <string name="GetUserRecord_responses_default_def_windowsliveid_def" />
+      <string name="GetUserRecord_responses_default_def__businessunitid_value_def" />
+      <integer name="GetUserRecord_responses_default_def_caltype_def" />
+      <string name="GetUserRecord_responses_default_def_modifiedon_def" />
+      <boolean name="GetUserRecord_responses_default_def_defaultfilterspopulated_def" />
+      <integer name="GetUserRecord_responses_default_def_outgoingemaildeliverymethod_def" />
+      <string name="GetUserRecord_responses_default_def_title_def" />
+      <integer name="GetUserRecord_responses_default_def_emailrouteraccessapproval_def" />
+      <string name="GetUserRecord_responses_default_def_lastname_def" />
+      <string name="GetUserRecord_responses_default_def_fullname_def" />
+      <boolean name="GetUserRecord_responses_default_def_issyncwithdirectory_def" />
+      <integer name="GetUserRecord_responses_default_def_userlicensetype_def" />
+      <string name="GetUserRecord_responses_default_def_azureactivedirectoryobjectid_def" />
+      <string name="GetUserRecord_responses_default_def__modifiedby_value_def" />
+      <string name="GetUserRecord_responses_default_def_organizationid_def" />
+      <string name="GetUserRecord_responses_default_def_defaultodbfoldername_def" />
+      <integer name="GetUserRecord_responses_default_def_versionnumber_def" />
+      <boolean name="GetUserRecord_responses_default_def_isemailaddressapprovedbyo365admin_def" />
+      <integer name="GetUserRecord_responses_default_def_invitestatuscode_def" />
+      <string name="GetUserRecord_responses_default_def_yomifullname_def" />
+      <string name="GetUserRecord_responses_default_def_entityimage_url_def" />
+      <boolean name="GetUserRecord_responses_default_def_isdisabled_def" />
+      <string name="GetUserRecord_responses_default_def_userpuid_def" />
+      <string name="GetUserRecord_responses_default_def_address2_addressid_def" />
+      <string name="GetUserRecord_responses_default_def__defaultmailbox_value_def" />
+      <string name="GetUserRecord_responses_default_def_entityimage_def" />
+      <boolean name="GetUserRecord_responses_default_def_islicensed_def" />
+      <string name="GetUserRecord_responses_default_def_ownerid_def" />
+      <string name="GetUserRecord_responses_default_def_address1_fax_def" />
+      <string name="GetUserRecord_responses_default_def_address1_postofficebox_def" />
+      <string name="GetUserRecord_responses_default_def_address1_upszone_def" />
+      <string name="GetUserRecord_responses_default_def_photourl_def" />
+      <string name="GetUserRecord_responses_default_def_address1_latitude_def" />
+      <string name="GetUserRecord_responses_default_def_address1_shippingmethodcode_def" />
+      <string name="GetUserRecord_responses_default_def_address1_utcoffset_def" />
+      <string name="GetUserRecord_responses_default_def__createdonbehalfby_value_def" />
+      <string name="GetUserRecord_responses_default_def_homephone_def" />
+      <string name="GetUserRecord_responses_default_def_skills_def" />
+      <string name="GetUserRecord_responses_default_def_address2_latitude_def" />
+      <string name="GetUserRecord_responses_default_def__cat_fullname_value_def" />
+      <string name="GetUserRecord_responses_default_def__createdby_value_def" />
+      <string name="GetUserRecord_responses_default_def_governmentid_def" />
+      <string name="GetUserRecord_responses_default_def__parentsystemuserid_value_def" />
+      <string name="GetUserRecord_responses_default_def_address2_stateorprovince_def" />
+      <string name="GetUserRecord_responses_default_def_address2_longitude_def" />
+      <string name="GetUserRecord_responses_default_def_address2_city_def" />
+      <string name="GetUserRecord_responses_default_def_address1_telephone3_def" />
+      <string name="GetUserRecord_responses_default_def_mobilephone_def" />
+      <string name="GetUserRecord_responses_default_def_address2_fax_def" />
+      <string name="GetUserRecord_responses_default_def_preferredaddresscode_def" />
+      <string name="GetUserRecord_responses_default_def_address1_name_def" />
+      <string name="GetUserRecord_responses_default_def_address2_line2_def" />
+      <string name="GetUserRecord_responses_default_def_passporthi_def" />
+      <string name="GetUserRecord_responses_default_def__territoryid_value_def" />
+      <string name="GetUserRecord_responses_default_def__modifiedonbehalfby_value_def" />
+      <string name="GetUserRecord_responses_default_def_address1_stateorprovince_def" />
+      <string name="GetUserRecord_responses_default_def_applicationid_def" />
+      <string name="GetUserRecord_responses_default_def_salutation_def" />
+      <string name="GetUserRecord_responses_default_def_address1_county_def" />
+      <string name="GetUserRecord_responses_default_def_address2_line3_def" />
+      <string name="GetUserRecord_responses_default_def_stageid_def" />
+      <string name="GetUserRecord_responses_default_def_address1_longitude_def" />
+      <string name="GetUserRecord_responses_default_def_address1_addresstypecode_def" />
+      <string name="GetUserRecord_responses_default_def_address2_postalcode_def" />
+      <string name="GetUserRecord_responses_default_def_passportlo_def" />
+      <string name="GetUserRecord_responses_default_def_importsequencenumber_def" />
+      <string name="GetUserRecord_responses_default_def_timezoneruleversionnumber_def" />
+      <string name="GetUserRecord_responses_default_def_sharepointemailaddress_def" />
+      <string name="GetUserRecord_responses_default_def_yammeruserid_def" />
+      <string name="GetUserRecord_responses_default_def_nickname_def" />
+      <string name="GetUserRecord_responses_default_def_address1_composite_def" />
+      <string name="GetUserRecord_responses_default_def_overriddencreatedon_def" />
+      <string name="GetUserRecord_responses_default_def_personalemailaddress_def" />
+      <string name="GetUserRecord_responses_default_def_utcconversiontimezonecode_def" />
+      <string name="GetUserRecord_responses_default_def_preferredemailcode_def" />
+      <string name="GetUserRecord_responses_default_def_address2_composite_def" />
+      <string name="GetUserRecord_responses_default_def_address1_telephone1_def" />
+      <string name="GetUserRecord_responses_default_def__mobileofflineprofileid_value_def" />
+      <string name="GetUserRecord_responses_default_def_address2_country_def" />
+      <string name="GetUserRecord_responses_default_def_address1_line1_def" />
+      <string name="GetUserRecord_responses_default_def_yomimiddlename_def" />
+      <string name="GetUserRecord_responses_default_def__transactioncurrencyid_value_def" />
+      <string name="GetUserRecord_responses_default_def_address1_line3_def" />
+      <string name="GetUserRecord_responses_default_def_address1_line2_def" />
+      <string name="GetUserRecord_responses_default_def_address1_city_def" />
+      <string name="GetUserRecord_responses_default_def_disabledreason_def" />
+      <string name="GetUserRecord_responses_default_def_address2_name_def" />
+      <string name="GetUserRecord_responses_default_def__positionid_value_def" />
+      <string name="GetUserRecord_responses_default_def_address2_line1_def" />
+      <string name="GetUserRecord_responses_default_def_middlename_def" />
+      <string name="GetUserRecord_responses_default_def_preferredphonecode_def" />
+      <string name="GetUserRecord_responses_default_def_employeeid_def" />
+      <string name="GetUserRecord_responses_default_def_mobilealertemail_def" />
+      <string name="GetUserRecord_responses_default_def_address2_telephone2_def" />
+      <string name="GetUserRecord_responses_default_def_address2_telephone1_def" />
+      <string name="GetUserRecord_responses_default_def_traversedpath_def" />
+      <string name="GetUserRecord_responses_default_def_address2_county_def" />
+      <string name="GetUserRecord_responses_default_def_yomifirstname_def" />
+      <string name="GetUserRecord_responses_default_def_address2_shippingmethodcode_def" />
+      <string name="GetUserRecord_responses_default_def_address2_telephone3_def" />
+      <string name="GetUserRecord_responses_default_def_yomilastname_def" />
+      <string name="GetUserRecord_responses_default_def_displayinserviceviews_def" />
+      <string name="GetUserRecord_responses_default_def_address2_addresstypecode_def" />
+      <string name="GetUserRecord_responses_default_def_yammeremailaddress_def" />
+      <string name="GetUserRecord_responses_default_def_address1_postalcode_def" />
+      <string name="GetUserRecord_responses_default_def_exchangerate_def" />
+      <string name="GetUserRecord_responses_default_def_jobtitle_def" />
+      <string name="GetUserRecord_responses_default_def_address2_postofficebox_def" />
+      <string name="GetUserRecord_responses_default_def_address2_upszone_def" />
+      <string name="GetUserRecord_responses_default_def_processid_def" />
+      <string name="GetUserRecord_responses_default_def_applicationiduri_def" />
+      <string name="GetUserRecord_responses_default_def_address2_utcoffset_def" />
+      <string name="GetUserRecord_responses_default_def_address1_telephone2_def" />
+      <string name="GetUserRecord_responses_default_def_address1_country_def" />
+      <object name="GetUserRecord_responses_default_def">
+        <property name="@odata.context" type="string" />
+        <property name="@odata.etag" type="string" />
+        <property name="systemuserid" type="string" />
+        <property name="accessmode" type="integer" />
+        <property name="firstname" type="string" />
+        <property name="setupuser" type="boolean" />
+        <property name="address1_addressid" type="string" />
+        <property name="incomingemaildeliverymethod" type="integer" />
+        <property name="internalemailaddress" type="string" />
+        <property name="identityid" type="integer" />
+        <property name="domainname" type="string" />
+        <property name="_queueid_value" type="string" />
+        <property name="entityimageid" type="string" />
+        <property name="isintegrationuser" type="boolean" />
+        <property name="createdon" type="string" />
+        <property name="entityimage_timestamp" type="integer" />
+        <property name="_calendarid_value" type="string" />
+        <property name="windowsliveid" type="string" />
+        <property name="_businessunitid_value" type="string" />
+        <property name="caltype" type="integer" />
+        <property name="modifiedon" type="string" />
+        <property name="defaultfilterspopulated" type="boolean" />
+        <property name="outgoingemaildeliverymethod" type="integer" />
+        <property name="title" type="string" />
+        <property name="emailrouteraccessapproval" type="integer" />
+        <property name="lastname" type="string" />
+        <property name="fullname" type="string" />
+        <property name="issyncwithdirectory" type="boolean" />
+        <property name="userlicensetype" type="integer" />
+        <property name="azureactivedirectoryobjectid" type="string" />
+        <property name="_modifiedby_value" type="string" />
+        <property name="organizationid" type="string" />
+        <property name="defaultodbfoldername" type="string" />
+        <property name="versionnumber" type="integer" />
+        <property name="isemailaddressapprovedbyo365admin" type="boolean" />
+        <property name="invitestatuscode" type="integer" />
+        <property name="yomifullname" type="string" />
+        <property name="entityimage_url" type="string" />
+        <property name="isdisabled" type="boolean" />
+        <property name="userpuid" type="string" />
+        <property name="address2_addressid" type="string" />
+        <property name="_defaultmailbox_value" type="string" />
+        <property name="entityimage" type="string" />
+        <property name="islicensed" type="boolean" />
+        <property name="ownerid" type="string" />
+        <property name="address1_fax" type="string" />
+        <property name="address1_postofficebox" type="string" />
+        <property name="address1_upszone" type="string" />
+        <property name="photourl" type="string" />
+        <property name="address1_latitude" type="string" />
+        <property name="address1_shippingmethodcode" type="string" />
+        <property name="address1_utcoffset" type="string" />
+        <property name="_createdonbehalfby_value" type="string" />
+        <property name="homephone" type="string" />
+        <property name="skills" type="string" />
+        <property name="address2_latitude" type="string" />
+        <property name="_cat_fullname_value" type="string" />
+        <property name="_createdby_value" type="string" />
+        <property name="governmentid" type="string" />
+        <property name="_parentsystemuserid_value" type="string" />
+        <property name="address2_stateorprovince" type="string" />
+        <property name="address2_longitude" type="string" />
+        <property name="address2_city" type="string" />
+        <property name="address1_telephone3" type="string" />
+        <property name="mobilephone" type="string" />
+        <property name="address2_fax" type="string" />
+        <property name="preferredaddresscode" type="string" />
+        <property name="address1_name" type="string" />
+        <property name="address2_line2" type="string" />
+        <property name="passporthi" type="string" />
+        <property name="_territoryid_value" type="string" />
+        <property name="_modifiedonbehalfby_value" type="string" />
+        <property name="address1_stateorprovince" type="string" />
+        <property name="applicationid" type="string" />
+        <property name="salutation" type="string" />
+        <property name="address1_county" type="string" />
+        <property name="address2_line3" type="string" />
+        <property name="stageid" type="string" />
+        <property name="address1_longitude" type="string" />
+        <property name="address1_addresstypecode" type="string" />
+        <property name="address2_postalcode" type="string" />
+        <property name="passportlo" type="string" />
+        <property name="importsequencenumber" type="string" />
+        <property name="timezoneruleversionnumber" type="string" />
+        <property name="sharepointemailaddress" type="string" />
+        <property name="yammeruserid" type="string" />
+        <property name="nickname" type="string" />
+        <property name="address1_composite" type="string" />
+        <property name="overriddencreatedon" type="string" />
+        <property name="personalemailaddress" type="string" />
+        <property name="utcconversiontimezonecode" type="string" />
+        <property name="preferredemailcode" type="string" />
+        <property name="address2_composite" type="string" />
+        <property name="address1_telephone1" type="string" />
+        <property name="_mobileofflineprofileid_value" type="string" />
+        <property name="address2_country" type="string" />
+        <property name="address1_line1" type="string" />
+        <property name="yomimiddlename" type="string" />
+        <property name="_transactioncurrencyid_value" type="string" />
+        <property name="address1_line3" type="string" />
+        <property name="address1_line2" type="string" />
+        <property name="address1_city" type="string" />
+        <property name="disabledreason" type="string" />
+        <property name="address2_name" type="string" />
+        <property name="_positionid_value" type="string" />
+        <property name="address2_line1" type="string" />
+        <property name="middlename" type="string" />
+        <property name="preferredphonecode" type="string" />
+        <property name="employeeid" type="string" />
+        <property name="mobilealertemail" type="string" />
+        <property name="address2_telephone2" type="string" />
+        <property name="address2_telephone1" type="string" />
+        <property name="traversedpath" type="string" />
+        <property name="address2_county" type="string" />
+        <property name="yomifirstname" type="string" />
+        <property name="address2_shippingmethodcode" type="string" />
+        <property name="address2_telephone3" type="string" />
+        <property name="yomilastname" type="string" />
+        <property name="displayinserviceviews" type="string" />
+        <property name="address2_addresstypecode" type="string" />
+        <property name="yammeremailaddress" type="string" />
+        <property name="address1_postalcode" type="string" />
+        <property name="exchangerate" type="string" />
+        <property name="jobtitle" type="string" />
+        <property name="address2_postofficebox" type="string" />
+        <property name="address2_upszone" type="string" />
+        <property name="processid" type="string" />
+        <property name="applicationiduri" type="string" />
+        <property name="address2_utcoffset" type="string" />
+        <property name="address1_telephone2" type="string" />
+        <property name="address1_country" type="string" />
+      </object>
+      <string name="GetUserRecordPermissions_responses_default_def__ux40_odata_context_def" />
+      <string name="GetUserRecordPermissions_responses_default_def_AccessRights_def" />
+      <object name="GetUserRecordPermissions_responses_default_def">
+        <property name="@odata.context" type="string" />
+        <property name="AccessRights" type="string" />
+      </object>
+      <string name="AddAttachment_param_body_def_filename_def" />
+      <string name="AddAttachment_param_body_def_documentbody_def" />
+      <string name="AddAttachment_param_body_def_subject_def" />
+      <string name="AddAttachment_param_body_def_objectid_cat_gtmattachments_ux40_odata_bind_def" />
+      <object name="AddAttachment_param_body_def">
+        <property name="filename" type="string" />
+        <property name="documentbody" type="string" />
+        <property name="subject" type="string" />
+        <property name="objectid_cat_gtmattachments@odata.bind" type="string" />
+      </object>
+      <string name="GetUsers_responses_default_def__ux40_odata_context_def" />
+      <string name="GetUsers_responses_default_def_value_def_items_def__ux40_odata_etag_def" />
+      <string name="GetUsers_responses_default_def_value_def_items_def_nickname_def" />
+      <string name="GetUsers_responses_default_def_value_def_items_def_fullname_def" />
+      <string name="GetUsers_responses_default_def_value_def_items_def_firstname_def" />
+      <string name="GetUsers_responses_default_def_value_def_items_def_lastname_def" />
+      <string name="GetUsers_responses_default_def_value_def_items_def_azureactivedirectoryobjectid_def" />
+      <string name="GetUsers_responses_default_def_value_def_items_def_systemuserid_def" />
+      <string name="GetUsers_responses_default_def_value_def_items_def_ownerid_def" />
+      <object name="GetUsers_responses_default_def_value_def_items_def">
+        <property name="@odata.etag" type="string" />
+        <property name="nickname" type="string" />
+        <property name="fullname" type="string" />
+        <property name="firstname" type="string" />
+        <property name="lastname" type="string" />
+        <property name="azureactivedirectoryobjectid" type="string" />
+        <property name="systemuserid" type="string" />
+        <property name="ownerid" type="string" />
+      </object>
+      <array typeRef="GetUsers_responses_default_def_value_def_items_def" name="GetUsers_responses_default_def_value_def" />
+      <object name="GetUsers_responses_default_def">
+        <property name="@odata.context" type="string" />
+        <property name="value" typeRef="GetUsers_responses_default_def_value_def" />
+      </object>
+      <string name="GetOptionSets_responses_default_def__ux40_odata_context_def" />
+      <string name="GetOptionSets_responses_default_def_value_def_items_def_LogicalName_def" />
+      <string name="GetOptionSets_responses_default_def_value_def_items_def_MetadataId_def" />
+      <string name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_MetadataId_def" />
+      <string name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_HasChanged_def" />
+      <boolean name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_IsCustomOptionSet_def" />
+      <boolean name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_IsGlobal_def" />
+      <boolean name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_IsManaged_def" />
+      <string name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Name_def" />
+      <string name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_ExternalTypeName_def" />
+      <string name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_OptionSetType_def" />
+      <string name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_IntroducedVersion_def" />
+      <string name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_ParentOptionSetName_def" />
+      <string name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Description_def_LocalizedLabels_def_items_def_Label_def" />
+      <integer name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Description_def_LocalizedLabels_def_items_def_LanguageCode_def" />
+      <boolean name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Description_def_LocalizedLabels_def_items_def_IsManaged_def" />
+      <string name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Description_def_LocalizedLabels_def_items_def_MetadataId_def" />
+      <string name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Description_def_LocalizedLabels_def_items_def_HasChanged_def" />
+      <object name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Description_def_LocalizedLabels_def_items_def">
+        <property name="Label" type="string" />
+        <property name="LanguageCode" type="integer" />
+        <property name="IsManaged" type="boolean" />
+        <property name="MetadataId" type="string" />
+        <property name="HasChanged" type="string" />
+      </object>
+      <array typeRef="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Description_def_LocalizedLabels_def_items_def" name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Description_def_LocalizedLabels_def" />
+      <string name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Description_def_UserLocalizedLabel_def_Label_def" />
+      <integer name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Description_def_UserLocalizedLabel_def_LanguageCode_def" />
+      <boolean name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Description_def_UserLocalizedLabel_def_IsManaged_def" />
+      <string name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Description_def_UserLocalizedLabel_def_MetadataId_def" />
+      <string name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Description_def_UserLocalizedLabel_def_HasChanged_def" />
+      <object name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Description_def_UserLocalizedLabel_def">
+        <property name="Label" type="string" />
+        <property name="LanguageCode" type="integer" />
+        <property name="IsManaged" type="boolean" />
+        <property name="MetadataId" type="string" />
+        <property name="HasChanged" type="string" />
+      </object>
+      <object name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Description_def">
+        <property name="LocalizedLabels" typeRef="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Description_def_LocalizedLabels_def" />
+        <property name="UserLocalizedLabel" typeRef="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Description_def_UserLocalizedLabel_def" />
+      </object>
+      <string name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_DisplayName_def_LocalizedLabels_def_items_def_Label_def" />
+      <integer name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_DisplayName_def_LocalizedLabels_def_items_def_LanguageCode_def" />
+      <boolean name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_DisplayName_def_LocalizedLabels_def_items_def_IsManaged_def" />
+      <string name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_DisplayName_def_LocalizedLabels_def_items_def_MetadataId_def" />
+      <string name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_DisplayName_def_LocalizedLabels_def_items_def_HasChanged_def" />
+      <object name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_DisplayName_def_LocalizedLabels_def_items_def">
+        <property name="Label" type="string" />
+        <property name="LanguageCode" type="integer" />
+        <property name="IsManaged" type="boolean" />
+        <property name="MetadataId" type="string" />
+        <property name="HasChanged" type="string" />
+      </object>
+      <array typeRef="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_DisplayName_def_LocalizedLabels_def_items_def" name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_DisplayName_def_LocalizedLabels_def" />
+      <string name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_DisplayName_def_UserLocalizedLabel_def_Label_def" />
+      <integer name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_DisplayName_def_UserLocalizedLabel_def_LanguageCode_def" />
+      <boolean name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_DisplayName_def_UserLocalizedLabel_def_IsManaged_def" />
+      <string name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_DisplayName_def_UserLocalizedLabel_def_MetadataId_def" />
+      <string name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_DisplayName_def_UserLocalizedLabel_def_HasChanged_def" />
+      <object name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_DisplayName_def_UserLocalizedLabel_def">
+        <property name="Label" type="string" />
+        <property name="LanguageCode" type="integer" />
+        <property name="IsManaged" type="boolean" />
+        <property name="MetadataId" type="string" />
+        <property name="HasChanged" type="string" />
+      </object>
+      <object name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_DisplayName_def">
+        <property name="LocalizedLabels" typeRef="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_DisplayName_def_LocalizedLabels_def" />
+        <property name="UserLocalizedLabel" typeRef="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_DisplayName_def_UserLocalizedLabel_def" />
+      </object>
+      <boolean name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_IsCustomizable_def_Value_def" />
+      <boolean name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_IsCustomizable_def_CanBeChanged_def" />
+      <string name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_IsCustomizable_def_ManagedPropertyLogicalName_def" />
+      <object name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_IsCustomizable_def">
+        <property name="Value" type="boolean" />
+        <property name="CanBeChanged" type="boolean" />
+        <property name="ManagedPropertyLogicalName" type="string" />
+      </object>
+      <integer name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Options_def_items_def_Value_def" />
+      <string name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Options_def_items_def_Color_def" />
+      <boolean name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Options_def_items_def_IsManaged_def" />
+      <string name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Options_def_items_def_ExternalValue_def" />
+      <string name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Options_def_items_def_MetadataId_def" />
+      <string name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Options_def_items_def_HasChanged_def" />
+      <string name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Options_def_items_def_Label_def_LocalizedLabels_def_items_def_Label_def" />
+      <integer name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Options_def_items_def_Label_def_LocalizedLabels_def_items_def_LanguageCode_def" />
+      <boolean name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Options_def_items_def_Label_def_LocalizedLabels_def_items_def_IsManaged_def" />
+      <string name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Options_def_items_def_Label_def_LocalizedLabels_def_items_def_MetadataId_def" />
+      <string name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Options_def_items_def_Label_def_LocalizedLabels_def_items_def_HasChanged_def" />
+      <object name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Options_def_items_def_Label_def_LocalizedLabels_def_items_def">
+        <property name="Label" type="string" />
+        <property name="LanguageCode" type="integer" />
+        <property name="IsManaged" type="boolean" />
+        <property name="MetadataId" type="string" />
+        <property name="HasChanged" type="string" />
+      </object>
+      <array typeRef="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Options_def_items_def_Label_def_LocalizedLabels_def_items_def" name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Options_def_items_def_Label_def_LocalizedLabels_def" />
+      <string name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Options_def_items_def_Label_def_UserLocalizedLabel_def_Label_def" />
+      <integer name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Options_def_items_def_Label_def_UserLocalizedLabel_def_LanguageCode_def" />
+      <boolean name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Options_def_items_def_Label_def_UserLocalizedLabel_def_IsManaged_def" />
+      <string name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Options_def_items_def_Label_def_UserLocalizedLabel_def_MetadataId_def" />
+      <string name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Options_def_items_def_Label_def_UserLocalizedLabel_def_HasChanged_def" />
+      <object name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Options_def_items_def_Label_def_UserLocalizedLabel_def">
+        <property name="Label" type="string" />
+        <property name="LanguageCode" type="integer" />
+        <property name="IsManaged" type="boolean" />
+        <property name="MetadataId" type="string" />
+        <property name="HasChanged" type="string" />
+      </object>
+      <object name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Options_def_items_def_Label_def">
+        <property name="LocalizedLabels" typeRef="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Options_def_items_def_Label_def_LocalizedLabels_def" />
+        <property name="UserLocalizedLabel" typeRef="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Options_def_items_def_Label_def_UserLocalizedLabel_def" />
+      </object>
+      <string name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Options_def_items_def_Description_def_LocalizedLabels_def_items_def_Label_def" />
+      <integer name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Options_def_items_def_Description_def_LocalizedLabels_def_items_def_LanguageCode_def" />
+      <boolean name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Options_def_items_def_Description_def_LocalizedLabels_def_items_def_IsManaged_def" />
+      <string name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Options_def_items_def_Description_def_LocalizedLabels_def_items_def_MetadataId_def" />
+      <string name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Options_def_items_def_Description_def_LocalizedLabels_def_items_def_HasChanged_def" />
+      <object name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Options_def_items_def_Description_def_LocalizedLabels_def_items_def">
+        <property name="Label" type="string" />
+        <property name="LanguageCode" type="integer" />
+        <property name="IsManaged" type="boolean" />
+        <property name="MetadataId" type="string" />
+        <property name="HasChanged" type="string" />
+      </object>
+      <array typeRef="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Options_def_items_def_Description_def_LocalizedLabels_def_items_def" name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Options_def_items_def_Description_def_LocalizedLabels_def" />
+      <string name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Options_def_items_def_Description_def_UserLocalizedLabel_def" />
+      <object name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Options_def_items_def_Description_def">
+        <property name="LocalizedLabels" typeRef="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Options_def_items_def_Description_def_LocalizedLabels_def" />
+        <property name="UserLocalizedLabel" type="string" />
+      </object>
+      <object name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Options_def_items_def">
+        <property name="Value" type="integer" />
+        <property name="Color" type="string" />
+        <property name="IsManaged" type="boolean" />
+        <property name="ExternalValue" type="string" />
+        <property name="MetadataId" type="string" />
+        <property name="HasChanged" type="string" />
+        <property name="Label" typeRef="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Options_def_items_def_Label_def" />
+        <property name="Description" typeRef="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Options_def_items_def_Description_def" />
+      </object>
+      <array typeRef="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Options_def_items_def" name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Options_def" />
+      <object name="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def">
+        <property name="MetadataId" type="string" />
+        <property name="HasChanged" type="string" />
+        <property name="IsCustomOptionSet" type="boolean" />
+        <property name="IsGlobal" type="boolean" />
+        <property name="IsManaged" type="boolean" />
+        <property name="Name" type="string" />
+        <property name="ExternalTypeName" type="string" />
+        <property name="OptionSetType" type="string" />
+        <property name="IntroducedVersion" type="string" />
+        <property name="ParentOptionSetName" type="string" />
+        <property name="Description" typeRef="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Description_def" />
+        <property name="DisplayName" typeRef="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_DisplayName_def" />
+        <property name="IsCustomizable" typeRef="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_IsCustomizable_def" />
+        <property name="Options" typeRef="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def_Options_def" />
+      </object>
+      <object name="GetOptionSets_responses_default_def_value_def_items_def">
+        <property name="LogicalName" type="string" />
+        <property name="MetadataId" type="string" />
+        <property name="OptionSet" typeRef="GetOptionSets_responses_default_def_value_def_items_def_OptionSet_def" />
+      </object>
+      <array typeRef="GetOptionSets_responses_default_def_value_def_items_def" name="GetOptionSets_responses_default_def_value_def" />
+      <object name="GetOptionSets_responses_default_def">
+        <property name="@odata.context" type="string" />
+        <property name="value" typeRef="GetOptionSets_responses_default_def_value_def" />
+      </object>
+      <string name="GetSingleOptionSet_responses_default_def__ux40_odata_context_def" />
+      <string name="GetSingleOptionSet_responses_default_def__ux40_odata_type_def" />
+      <string name="GetSingleOptionSet_responses_default_def_ParentOptionSetName_def" />
+      <boolean name="GetSingleOptionSet_responses_default_def_IsCustomOptionSet_def" />
+      <boolean name="GetSingleOptionSet_responses_default_def_IsGlobal_def" />
+      <boolean name="GetSingleOptionSet_responses_default_def_IsManaged_def" />
+      <string name="GetSingleOptionSet_responses_default_def_Name_def" />
+      <string name="GetSingleOptionSet_responses_default_def_ExternalTypeName_def" />
+      <string name="GetSingleOptionSet_responses_default_def_OptionSetType_def" />
+      <string name="GetSingleOptionSet_responses_default_def_IntroducedVersion_def" />
+      <string name="GetSingleOptionSet_responses_default_def_MetadataId_def" />
+      <string name="GetSingleOptionSet_responses_default_def_HasChanged_def" />
+      <integer name="GetSingleOptionSet_responses_default_def_Options_def_items_def_Value_def" />
+      <string name="GetSingleOptionSet_responses_default_def_Options_def_items_def_Color_def" />
+      <boolean name="GetSingleOptionSet_responses_default_def_Options_def_items_def_IsManaged_def" />
+      <string name="GetSingleOptionSet_responses_default_def_Options_def_items_def_ExternalValue_def" />
+      <string name="GetSingleOptionSet_responses_default_def_Options_def_items_def_MetadataId_def" />
+      <string name="GetSingleOptionSet_responses_default_def_Options_def_items_def_HasChanged_def" />
+      <string name="GetSingleOptionSet_responses_default_def_Options_def_items_def_Label_def_LocalizedLabels_def_items_def_Label_def" />
+      <integer name="GetSingleOptionSet_responses_default_def_Options_def_items_def_Label_def_LocalizedLabels_def_items_def_LanguageCode_def" />
+      <boolean name="GetSingleOptionSet_responses_default_def_Options_def_items_def_Label_def_LocalizedLabels_def_items_def_IsManaged_def" />
+      <string name="GetSingleOptionSet_responses_default_def_Options_def_items_def_Label_def_LocalizedLabels_def_items_def_MetadataId_def" />
+      <string name="GetSingleOptionSet_responses_default_def_Options_def_items_def_Label_def_LocalizedLabels_def_items_def_HasChanged_def" />
+      <object name="GetSingleOptionSet_responses_default_def_Options_def_items_def_Label_def_LocalizedLabels_def_items_def">
+        <property name="Label" type="string" />
+        <property name="LanguageCode" type="integer" />
+        <property name="IsManaged" type="boolean" />
+        <property name="MetadataId" type="string" />
+        <property name="HasChanged" type="string" />
+      </object>
+      <array typeRef="GetSingleOptionSet_responses_default_def_Options_def_items_def_Label_def_LocalizedLabels_def_items_def" name="GetSingleOptionSet_responses_default_def_Options_def_items_def_Label_def_LocalizedLabels_def" />
+      <string name="GetSingleOptionSet_responses_default_def_Options_def_items_def_Label_def_UserLocalizedLabel_def_Label_def" />
+      <integer name="GetSingleOptionSet_responses_default_def_Options_def_items_def_Label_def_UserLocalizedLabel_def_LanguageCode_def" />
+      <boolean name="GetSingleOptionSet_responses_default_def_Options_def_items_def_Label_def_UserLocalizedLabel_def_IsManaged_def" />
+      <string name="GetSingleOptionSet_responses_default_def_Options_def_items_def_Label_def_UserLocalizedLabel_def_MetadataId_def" />
+      <string name="GetSingleOptionSet_responses_default_def_Options_def_items_def_Label_def_UserLocalizedLabel_def_HasChanged_def" />
+      <object name="GetSingleOptionSet_responses_default_def_Options_def_items_def_Label_def_UserLocalizedLabel_def">
+        <property name="Label" type="string" />
+        <property name="LanguageCode" type="integer" />
+        <property name="IsManaged" type="boolean" />
+        <property name="MetadataId" type="string" />
+        <property name="HasChanged" type="string" />
+      </object>
+      <object name="GetSingleOptionSet_responses_default_def_Options_def_items_def_Label_def">
+        <property name="LocalizedLabels" typeRef="GetSingleOptionSet_responses_default_def_Options_def_items_def_Label_def_LocalizedLabels_def" />
+        <property name="UserLocalizedLabel" typeRef="GetSingleOptionSet_responses_default_def_Options_def_items_def_Label_def_UserLocalizedLabel_def" />
+      </object>
+      <string name="GetSingleOptionSet_responses_default_def_Options_def_items_def_Description_def_UserLocalizedLabel_def" />
+      <object name="GetSingleOptionSet_responses_default_def_Options_def_items_def_Description_def">
+        <property name="UserLocalizedLabel" type="string" />
+      </object>
+      <object name="GetSingleOptionSet_responses_default_def_Options_def_items_def">
+        <property name="Value" type="integer" />
+        <property name="Color" type="string" />
+        <property name="IsManaged" type="boolean" />
+        <property name="ExternalValue" type="string" />
+        <property name="MetadataId" type="string" />
+        <property name="HasChanged" type="string" />
+        <property name="Label" typeRef="GetSingleOptionSet_responses_default_def_Options_def_items_def_Label_def" />
+        <property name="Description" typeRef="GetSingleOptionSet_responses_default_def_Options_def_items_def_Description_def" />
+      </object>
+      <array typeRef="GetSingleOptionSet_responses_default_def_Options_def_items_def" name="GetSingleOptionSet_responses_default_def_Options_def" />
+      <string name="GetSingleOptionSet_responses_default_def_Description_def_LocalizedLabels_def_items_def_Label_def" />
+      <integer name="GetSingleOptionSet_responses_default_def_Description_def_LocalizedLabels_def_items_def_LanguageCode_def" />
+      <boolean name="GetSingleOptionSet_responses_default_def_Description_def_LocalizedLabels_def_items_def_IsManaged_def" />
+      <string name="GetSingleOptionSet_responses_default_def_Description_def_LocalizedLabels_def_items_def_MetadataId_def" />
+      <string name="GetSingleOptionSet_responses_default_def_Description_def_LocalizedLabels_def_items_def_HasChanged_def" />
+      <object name="GetSingleOptionSet_responses_default_def_Description_def_LocalizedLabels_def_items_def">
+        <property name="Label" type="string" />
+        <property name="LanguageCode" type="integer" />
+        <property name="IsManaged" type="boolean" />
+        <property name="MetadataId" type="string" />
+        <property name="HasChanged" type="string" />
+      </object>
+      <array typeRef="GetSingleOptionSet_responses_default_def_Description_def_LocalizedLabels_def_items_def" name="GetSingleOptionSet_responses_default_def_Description_def_LocalizedLabels_def" />
+      <string name="GetSingleOptionSet_responses_default_def_Description_def_UserLocalizedLabel_def_Label_def" />
+      <integer name="GetSingleOptionSet_responses_default_def_Description_def_UserLocalizedLabel_def_LanguageCode_def" />
+      <boolean name="GetSingleOptionSet_responses_default_def_Description_def_UserLocalizedLabel_def_IsManaged_def" />
+      <string name="GetSingleOptionSet_responses_default_def_Description_def_UserLocalizedLabel_def_MetadataId_def" />
+      <string name="GetSingleOptionSet_responses_default_def_Description_def_UserLocalizedLabel_def_HasChanged_def" />
+      <object name="GetSingleOptionSet_responses_default_def_Description_def_UserLocalizedLabel_def">
+        <property name="Label" type="string" />
+        <property name="LanguageCode" type="integer" />
+        <property name="IsManaged" type="boolean" />
+        <property name="MetadataId" type="string" />
+        <property name="HasChanged" type="string" />
+      </object>
+      <object name="GetSingleOptionSet_responses_default_def_Description_def">
+        <property name="LocalizedLabels" typeRef="GetSingleOptionSet_responses_default_def_Description_def_LocalizedLabels_def" />
+        <property name="UserLocalizedLabel" typeRef="GetSingleOptionSet_responses_default_def_Description_def_UserLocalizedLabel_def" />
+      </object>
+      <string name="GetSingleOptionSet_responses_default_def_DisplayName_def_LocalizedLabels_def_items_def_Label_def" />
+      <integer name="GetSingleOptionSet_responses_default_def_DisplayName_def_LocalizedLabels_def_items_def_LanguageCode_def" />
+      <boolean name="GetSingleOptionSet_responses_default_def_DisplayName_def_LocalizedLabels_def_items_def_IsManaged_def" />
+      <string name="GetSingleOptionSet_responses_default_def_DisplayName_def_LocalizedLabels_def_items_def_MetadataId_def" />
+      <string name="GetSingleOptionSet_responses_default_def_DisplayName_def_LocalizedLabels_def_items_def_HasChanged_def" />
+      <object name="GetSingleOptionSet_responses_default_def_DisplayName_def_LocalizedLabels_def_items_def">
+        <property name="Label" type="string" />
+        <property name="LanguageCode" type="integer" />
+        <property name="IsManaged" type="boolean" />
+        <property name="MetadataId" type="string" />
+        <property name="HasChanged" type="string" />
+      </object>
+      <array typeRef="GetSingleOptionSet_responses_default_def_DisplayName_def_LocalizedLabels_def_items_def" name="GetSingleOptionSet_responses_default_def_DisplayName_def_LocalizedLabels_def" />
+      <string name="GetSingleOptionSet_responses_default_def_DisplayName_def_UserLocalizedLabel_def_Label_def" />
+      <integer name="GetSingleOptionSet_responses_default_def_DisplayName_def_UserLocalizedLabel_def_LanguageCode_def" />
+      <boolean name="GetSingleOptionSet_responses_default_def_DisplayName_def_UserLocalizedLabel_def_IsManaged_def" />
+      <string name="GetSingleOptionSet_responses_default_def_DisplayName_def_UserLocalizedLabel_def_MetadataId_def" />
+      <string name="GetSingleOptionSet_responses_default_def_DisplayName_def_UserLocalizedLabel_def_HasChanged_def" />
+      <object name="GetSingleOptionSet_responses_default_def_DisplayName_def_UserLocalizedLabel_def">
+        <property name="Label" type="string" />
+        <property name="LanguageCode" type="integer" />
+        <property name="IsManaged" type="boolean" />
+        <property name="MetadataId" type="string" />
+        <property name="HasChanged" type="string" />
+      </object>
+      <object name="GetSingleOptionSet_responses_default_def_DisplayName_def">
+        <property name="LocalizedLabels" typeRef="GetSingleOptionSet_responses_default_def_DisplayName_def_LocalizedLabels_def" />
+        <property name="UserLocalizedLabel" typeRef="GetSingleOptionSet_responses_default_def_DisplayName_def_UserLocalizedLabel_def" />
+      </object>
+      <boolean name="GetSingleOptionSet_responses_default_def_IsCustomizable_def_Value_def" />
+      <boolean name="GetSingleOptionSet_responses_default_def_IsCustomizable_def_CanBeChanged_def" />
+      <string name="GetSingleOptionSet_responses_default_def_IsCustomizable_def_ManagedPropertyLogicalName_def" />
+      <object name="GetSingleOptionSet_responses_default_def_IsCustomizable_def">
+        <property name="Value" type="boolean" />
+        <property name="CanBeChanged" type="boolean" />
+        <property name="ManagedPropertyLogicalName" type="string" />
+      </object>
+      <object name="GetSingleOptionSet_responses_default_def">
+        <property name="@odata.context" type="string" />
+        <property name="@odata.type" type="string" />
+        <property name="ParentOptionSetName" type="string" />
+        <property name="IsCustomOptionSet" type="boolean" />
+        <property name="IsGlobal" type="boolean" />
+        <property name="IsManaged" type="boolean" />
+        <property name="Name" type="string" />
+        <property name="ExternalTypeName" type="string" />
+        <property name="OptionSetType" type="string" />
+        <property name="IntroducedVersion" type="string" />
+        <property name="MetadataId" type="string" />
+        <property name="HasChanged" type="string" />
+        <property name="Options" typeRef="GetSingleOptionSet_responses_default_def_Options_def" />
+        <property name="Description" typeRef="GetSingleOptionSet_responses_default_def_Description_def" />
+        <property name="DisplayName" typeRef="GetSingleOptionSet_responses_default_def_DisplayName_def" />
+        <property name="IsCustomizable" typeRef="GetSingleOptionSet_responses_default_def_IsCustomizable_def" />
+      </object>
+    </jsonTypes>
+  </grammars>
+  <resources siena:authenticationProviderHref="#PowerAppAuth" base="https://unitedstates-002.azure-apim.net/apim/cdsconnector-5f00d64d714648f44a-5f4dba14982592dc78">
+    <resource path="/{connectionId}/api/data/v9.0/cat_gtmentries">
+      <param style="template" name="connectionId" type="xs:string" required="true" />
+      <method siena:requiresAuthentication="true" name="GET" id="catgtmentries" siena:isDeprecated="false">
+        <doc title="Get GTMEntries&#xA;Get GTMEntries" />
+        <request>
+          <param style="query" name="$select" type="xs:string" />
+          <param style="query" name="$expand" type="xs:string" />
+          <param style="query" name="$orderby" type="xs:string" />
+          <param style="query" name="$top" type="xs:long" default="100" />
+          <param style="query" name="$filter" type="xs:string" />
+          <param style="header" name="Prefer" type="xs:string" default="odata.include-annotations=&quot;OData.Community.Display.V1.FormattedValue&quot;" />
+        </request>
+        <response>
+          <representation mediaType="application/json" element="service:cat_gtmentries_responses_default_def" />
+        </response>
+      </method>
+    </resource>
+    <resource path="/{connectionId}/contosodev.crm.dynamics.com/api/data/v9.0/workflows">
+      <param style="template" name="connectionId" type="xs:string" required="true" />
+      <method siena:requiresAuthentication="true" name="GET" id="GetBPF" siena:isDeprecated="false">
+        <doc title="GetBPF&#xA;GetBPF" />
+        <request>
+          <param style="query" name="$filter" type="xs:string" />
+          <param style="query" name="$select" type="xs:string" />
+        </request>
+        <response>
+          <representation mediaType="application/json" element="service:GetBPF_responses_default_def" />
+        </response>
+      </method>
+    </resource>
+    <resource path="/{connectionId}/api/data/v9.1/RetrieveActivePath(ProcessInstanceId={ProcessInstanceId})">
+      <param style="template" name="connectionId" type="xs:string" required="true" />
+      <param style="template" name="ProcessInstanceId" type="xs:string" required="true" />
+      <method siena:requiresAuthentication="true" name="GET" id="GetBPFActivePath" siena:isDeprecated="false">
+        <doc title="GetBPFActivePath&#xA;GetBPFActivePath" />
+        <request />
+        <response>
+          <representation mediaType="application/json" element="service:GetBPFActivePath_responses_default_def" />
+        </response>
+      </method>
+    </resource>
+    <resource path="/{connectionId}/api/data/v9.0/ORBIT_Initiative_Approval_Process">
+      <param style="template" name="connectionId" type="xs:string" required="true" />
+      <method siena:requiresAuthentication="true" name="POST" id="CreateBPFInstance" siena:isDeprecated="false">
+        <doc title="Create BPF Instance&#xA;Create BPF Instance" />
+        <request>
+          <representation mediaType="application/json">
+            <param style="plain" name="bpf_accountid@odata.bind" path="/bpf_accountid@odata.bind" type="xs:string" />
+            <param style="plain" name="activestageid@odata.bind" path="/activestageid@odata.bind" type="xs:string" />
+          </representation>
+        </request>
+      </method>
+    </resource>
+    <resource path="/{connectionId}/api/data/v9.0/{entityName}">
+      <param style="template" name="connectionId" type="xs:string" required="true" />
+      <param style="template" name="entityName" type="xs:string" required="true" />
+      <method siena:requiresAuthentication="true" name="POST" id="CreateAndAssociate" siena:isDeprecated="false">
+        <doc title="CreateAndAssociate&#xA;CreateAndAssociate" />
+        <request>
+          <representation mediaType="application/json" />
+        </request>
+      </method>
+    </resource>
+    <resource path="/{connectionId}/api/data/v9.0/annotations({stringID})">
+      <param style="template" name="connectionId" type="xs:string" required="true" />
+      <param style="template" name="stringID" type="xs:string" required="true" />
+      <method siena:requiresAuthentication="true" name="GET" id="GetFileBase64String" siena:isDeprecated="false">
+        <doc title="GetFileBase64String&#xA;GetFileBase64String" />
+        <request>
+          <param style="query" name="$select" type="xs:string" default="documentbody" />
+          <param style="header" name="&quot;documentbody&quot;:" type="xs:string" />
+        </request>
+      </method>
+    </resource>
+    <resource path="/{connectionId}/api/data/v9.0/systemusers({userid})/Microsoft.Dynamics.CRM.AddUserToRecordTeam">
+      <param style="template" name="connectionId" type="xs:string" required="true" />
+      <param style="template" name="userid" type="xs:string" required="true" />
+      <method siena:requiresAuthentication="true" name="POST" id="AddUserToAccessTeamTemplate" siena:isDeprecated="false">
+        <doc title="AddUserToAccessTeamTemplate&#xA;AddUserToAccessTeamTemplate" />
+        <request>
+          <representation mediaType="application/json">
+            <param style="plain" name="Record" path="/Record" type="service:AddUserToAccessTeamTemplate_param_body_def_Record_def" required="true" />
+            <param style="plain" name="TeamTemplate" path="/TeamTemplate" type="service:AddUserToAccessTeamTemplate_param_body_def_TeamTemplate_def" required="true" />
+          </representation>
+        </request>
+      </method>
+    </resource>
+    <resource path="/{connectionId}/api/data/v9.0/systemusers({userID})/Microsoft.Dynamics.CRM.RemoveUserFromRecordTeam">
+      <param style="template" name="connectionId" type="xs:string" required="true" />
+      <param style="template" name="userID" type="xs:string" required="true" />
+      <method siena:requiresAuthentication="true" name="POST" id="RemoveUserFromAccessTeamTeamplate" siena:isDeprecated="false">
+        <doc title="RemoveUserFromAccessTeamTeamplate" />
+        <request>
+          <representation mediaType="application/json">
+            <param style="plain" name="Record" path="/Record" type="service:RemoveUserFromAccessTeamTeamplate_param_body_def_Record_def" required="true" />
+            <param style="plain" name="TeamTemplate" path="/TeamTemplate" type="service:RemoveUserFromAccessTeamTeamplate_param_body_def_TeamTemplate_def" required="true" />
+          </representation>
+        </request>
+      </method>
+    </resource>
+    <resource path="/{connectionId}/api/data/v9.0/cat_projectteamroleses">
+      <param style="template" name="connectionId" type="xs:string" required="true" />
+      <method siena:requiresAuthentication="true" name="POST" id="PostToProjectTeamRoles" siena:isDeprecated="false">
+        <doc title="PostToProjectTeamRoles&#xA;PostToProjectTeamRoles" />
+        <request>
+          <param style="header" name="&quot;Accept&quot;:" type="xs:string" />
+          <param style="header" name="&quot;Prefer&quot;:" type="xs:string" />
+          <param style="header" name="&quot;x-ms-user-agent&quot;:" type="xs:string" />
+          <param style="header" name="&quot;x-ms-client-session-id&quot;:" type="xs:string" />
+          <param style="header" name="&quot;x-ms-client-request-id&quot;:" type="xs:string" />
+          <param style="header" name="&quot;Request-Id&quot;:" type="xs:string" />
+          <param style="header" name="&quot;Client-Session-Id&quot;:" type="xs:string" />
+          <param style="header" name="&quot;FormLoadId&quot;:" type="xs:string" />
+          <param style="header" name="&quot;Accept-Language&quot;:" type="xs:string" />
+          <param style="header" name="&quot;Cache-Control&quot;:" type="xs:string" />
+          <param style="header" name="&quot;Content-Type&quot;:" type="xs:string" />
+          <representation mediaType="application/json">
+            <param style="plain" name="cat_name" path="/cat_name" type="xs:string" />
+            <param style="plain" name="cat_roletype" path="/cat_roletype" type="xs:int" />
+            <param style="plain" name="cat_gtmEntry@odata.bind" path="/cat_gtmEntry@odata.bind" type="xs:string" />
+            <param style="plain" name="cat_TeamMember@odata.bind" path="/cat_TeamMember@odata.bind" type="xs:string" />
+          </representation>
+        </request>
+      </method>
+    </resource>
+    <resource path="/{connectionId}/api/data/v9.1/systemusers({UserID})">
+      <param style="template" name="connectionId" type="xs:string" required="true" />
+      <param style="template" name="UserID" type="xs:string" required="true" />
+      <method siena:requiresAuthentication="true" name="GET" id="GetUserRecord" siena:isDeprecated="false">
+        <doc title="Get User Record" />
+        <request />
+        <response>
+          <representation mediaType="application/json" element="service:GetUserRecord_responses_default_def" />
+        </response>
+      </method>
+    </resource>
+    <resource path="/{connectionId}/api/data/v9.1/systemusers({SystemUserID})/Microsoft.Dynamics.CRM.RetrievePrincipalAccess(Target =@Target)">
+      <param style="template" name="connectionId" type="xs:string" required="true" />
+      <param style="template" name="SystemUserID" type="xs:string" required="true" />
+      <method siena:requiresAuthentication="true" name="GET" id="GetUserRecordPermissions" siena:isDeprecated="false">
+        <doc title="GetUserRecordPermissions" />
+        <request>
+          <param style="query" name="@Target" type="xs:string" default="{'@odata.id' : 'cat_gtmentries(1f43fd09-8c7b-ea11-a812-000d3a59c3b2)'}" />
+        </request>
+        <response>
+          <representation mediaType="application/json" element="service:GetUserRecordPermissions_responses_default_def" />
+        </response>
+      </method>
+    </resource>
+    <resource path="/{connectionId}/api/data/v9.0/annotations">
+      <param style="template" name="connectionId" type="xs:string" required="true" />
+      <method siena:requiresAuthentication="true" name="POST" id="AddAttachment" siena:isDeprecated="false">
+        <doc title="AddAttachment&#xA;AddAttachment" />
+        <request>
+          <representation mediaType="application/json">
+            <param style="plain" name="filename" path="/filename" type="xs:string" />
+            <param style="plain" name="documentbody" path="/documentbody" type="xs:string" />
+            <param style="plain" name="subject" path="/subject" type="xs:string" />
+            <param style="plain" name="objectid_cat_gtmattachments@odata.bind" path="/objectid_cat_gtmattachments@odata.bind" type="xs:string" />
+          </representation>
+        </request>
+      </method>
+    </resource>
+    <resource path="/{connectionId}/api/data/v9.0/systemusers">
+      <param style="template" name="connectionId" type="xs:string" required="true" />
+      <method siena:requiresAuthentication="true" name="GET" id="GetUsers" siena:isDeprecated="false">
+        <doc title="GetUsers&#xA;GetUsers" />
+        <request>
+          <param style="query" name="$select" type="xs:string" />
+          <param style="query" name="$filter" type="xs:string" />
+          <param style="query" name="$orderby" type="xs:string" />
+        </request>
+        <response>
+          <representation mediaType="application/json" element="service:GetUsers_responses_default_def" />
+        </response>
+      </method>
+    </resource>
+    <resource path="/{connectionId}/api/data/v9.0/EntityDefinitions(LogicalName='cat_gtmentry')/Attributes/Microsoft.Dynamics.CRM.PicklistAttributeMetadata">
+      <param style="template" name="connectionId" type="xs:string" required="true" />
+      <method siena:requiresAuthentication="true" name="GET" id="GetOptionSets" siena:isDeprecated="false">
+        <doc title="GetOptionSets&#xA;GetOptionSets" />
+        <request>
+          <param style="query" name="$select" type="xs:string" default="LogicalName" />
+          <param style="query" name="$expand" type="xs:string" default="OptionSet" />
+        </request>
+        <response>
+          <representation mediaType="application/json" element="service:GetOptionSets_responses_default_def" />
+        </response>
+      </method>
+    </resource>
+    <resource path="/{connectionId}/api/data/v9.0/GlobalOptionSetDefinitions(Name='{OptionSetName}')">
+      <param style="template" name="connectionId" type="xs:string" required="true" />
+      <param style="template" name="OptionSetName" type="xs:string" required="true" />
+      <method siena:requiresAuthentication="true" name="GET" id="GetSingleOptionSet" siena:isDeprecated="false">
+        <doc title="GetSingleOptionSet&#xA;GetSingleOptionSet" />
+        <request />
+        <response>
+          <representation mediaType="application/json" element="service:GetSingleOptionSet_responses_default_def" />
+        </response>
+      </method>
+    </resource>
+  </resources>
+  <authenticationProviders xmlns="http://schemas.microsoft.com/MicrosoftProjectSiena/WADL/2014/11">
+    <connectionProvider id="PowerAppAuth" siena:connectionProviderId="shared_cdsconnector-5f00d64d714648f44a-5f4dba14982592dc78" />
+  </authenticationProviders>
+  <template xmlns="http://schemas.microsoft.com/MicrosoftProjectSiena/WADL/2014/11">
+    <variable name="connectionId">
+      <modifyParams style="template" name="connectionId" attribute="fixed" />
+    </variable>
+  </template>
+</application>

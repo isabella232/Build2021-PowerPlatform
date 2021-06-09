@@ -1,0 +1,63 @@
+[
+  {
+    "CdsFCBContext": "{\"FileType\":true,\"ImageExternalStorage\":true}",
+    "EntitySetName": "teamtemplates",
+    "IsHidden": false,
+    "IsSampleData": false,
+    "IsWritable": true,
+    "LogicalName": "teamtemplate",
+    "MaxGetRowsCount": 2000,
+    "Name": "Team templates",
+    "NativeCDSDataSourceInfoNameMapping": {
+      "createdby": "Created By",
+      "createdon": "Created On",
+      "createdonbehalfby": "Created By (Delegate)",
+      "defaultaccessrightsmask": "Access Rights",
+      "description": "Description",
+      "issystem": "Is System",
+      "modifiedby": "Modified By",
+      "modifiedon": "Modified On",
+      "modifiedonbehalfby": "Modified By (Delegate)",
+      "objecttypecode": "Entity",
+      "TeamTemplate_SyncErrors": "Sync Errors",
+      "teamtemplate_Teams": "Teams",
+      "teamtemplateid": "Primary key for team template",
+      "teamtemplatename": "Name",
+      "versionnumber": "Version Number"
+    },
+    "PreferredName": "Team templates",
+    "Type": "NativeCDSDataSourceInfo"
+  },
+  {
+    "DisplayName": "Team templates (Views)",
+    "Name": "_teamtemplate_views",
+    "RelatedEntityName": "Team templates",
+    "TrimmedViewName": true,
+    "Type": "ViewInfo",
+    "ViewInfoNameMapping": {
+      "05abdcae-a30c-466c-bfd0-59f54ddf1475": "TeamTemplate Lookup View",
+      "366017bf-1fe0-4856-acd9-9a06eb1c96e6": "All Team Templates",
+      "532fa9d4-c6be-427b-94f2-7cf1151b2495": "TeamTemplate Workflow Lookup View"
+    }
+  },
+  {
+    "DisplayName": "Is System (Team templates)",
+    "Name": "teamtemplate_issystem",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "issystem",
+        "OptionSetReferenceEntityName": "Team templates"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "issystem",
+    "RelatedEntityName": "Team templates",
+    "Type": "OptionSetInfo"
+  }
+]

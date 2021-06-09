@@ -1,0 +1,146 @@
+[
+  {
+    "CdsFCBContext": "{\"FileType\":true,\"ImageExternalStorage\":true}",
+    "EntitySetName": "cat_stageapprovalresponseses",
+    "IsHidden": false,
+    "IsSampleData": false,
+    "IsWritable": true,
+    "LogicalName": "cat_stageapprovalresponses",
+    "MaxGetRowsCount": 2000,
+    "Name": "StageApprovalResponses",
+    "NativeCDSDataSourceInfoNameMapping": {
+      "_ownerid_value": "Owner",
+      "cat_approvalstatus": "ApprovalStatus",
+      "cat_ApprovalUser": "ApprovalUser",
+      "cat_approvercomments": "ApproverComments",
+      "cat_gtmEntry": "gtmEntry",
+      "cat_legacygtmentryid": "legacyGTMEntryID",
+      "cat_name": "Name",
+      "cat_ORBITApprovalsHistory_StageApprovalRe": "ORBITApprovalsHistories",
+      "cat_stageapprovalresponses_AsyncOperations": "System Jobs",
+      "cat_stageapprovalresponses_BulkDeleteFailures": "Bulk Delete Failures",
+      "cat_stageapprovalresponses_DuplicateBaseRecord": "Duplicate Records (cat_stageapprovalresponses_DuplicateBaseRecord)",
+      "cat_stageapprovalresponses_DuplicateMatchingRecord": "Duplicate Records (cat_stageapprovalresponses_DuplicateMatchingRecord)",
+      "cat_stageapprovalresponses_MailboxTrackingFolders": "Mailbox Auto Tracking Folders",
+      "cat_stageapprovalresponses_PrincipalObjectAttributeAccesses": "Field Sharing",
+      "cat_stageapprovalresponses_ProcessSession": "Process Sessions",
+      "cat_stageapprovalresponses_SyncErrors": "Sync Errors",
+      "cat_stageapprovalresponsesid": "StageApprovalResponses",
+      "createdby": "Created By",
+      "createdon": "Created On",
+      "createdonbehalfby": "Created By (Delegate)",
+      "crffc_crba4_StageApprovalUsers": "StageApprovalUsers",
+      "importsequencenumber": "Import Sequence Number",
+      "modifiedby": "Modified By",
+      "modifiedon": "Modified On",
+      "modifiedonbehalfby": "Modified By (Delegate)",
+      "overriddencreatedon": "Record Created On",
+      "owningbusinessunit": "Owning Business Unit",
+      "owningteam": "Owning Team",
+      "owninguser": "Owning User",
+      "statecode": "Status",
+      "statuscode": "Status Reason",
+      "timezoneruleversionnumber": "Time Zone Rule Version Number",
+      "utcconversiontimezonecode": "UTC Conversion Time Zone Code",
+      "versionnumber": "Version Number"
+    },
+    "PreferredName": "StageApprovalResponses",
+    "Type": "NativeCDSDataSourceInfo"
+  },
+  {
+    "DisplayName": "StageApprovalResponses (Views)",
+    "Name": "_cat_stageapprovalresponses_views",
+    "RelatedEntityName": "StageApprovalResponses",
+    "TrimmedViewName": true,
+    "Type": "ViewInfo",
+    "ViewInfoNameMapping": {
+      "0605efb0-6b73-ea11-a811-000d3a36880e": "No Approval User",
+      "1a3ec7b9-94ac-4409-bf62-3fe88b6960fc": "StageApprovalResponses Associated View",
+      "67e9ebd9-cf73-ea11-a811-000d3a36880e": "My Approvals",
+      "826bedcf-c220-4503-9444-e30c94cbea82": "StageApprovalResponses Lookup View",
+      "9d8ceb89-e560-468d-a9f0-7b0a7e220970": "Active StageApprovalResponses",
+      "a17992ee-3d3d-ea11-a812-000d3a368be7": "User Pending Approvals",
+      "c8f81d31-6e73-ea11-a811-000d3a36880e": "No StageApprovalUser",
+      "d4810bc4-63a9-4ee4-a275-c8f4e27d2ad5": "StageApprovalResponses Advanced Find View",
+      "f87999e9-fdae-4d70-9fd2-2c975cca28c5": "Inactive StageApprovalResponses"
+    }
+  },
+  {
+    "DisplayName": "ApprovalStatus",
+    "Name": "cat_approvalstatus",
+    "OptionSetInfoNameMapping": {
+      "809060000": "Pending",
+      "809060001": "Approved",
+      "809060002": "Rejected",
+      "809060003": "Canceled"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_approvalstatus",
+        "OptionSetReferenceEntityName": "StageApprovalResponses"
+      },
+      "OptionSetReferenceItem1": {
+        "OptionSetReferenceColumnName": "cat_approvalstatusresponse",
+        "OptionSetReferenceEntityName": "ORBITApprovalsHistories"
+      },
+      "OptionSetReferenceItem2": {
+        "OptionSetReferenceColumnName": "cat_t1reviewerstatus",
+        "OptionSetReferenceEntityName": "ChangeRequests"
+      },
+      "OptionSetReferenceItem3": {
+        "OptionSetReferenceColumnName": "cat_t2reviewerstatus",
+        "OptionSetReferenceEntityName": "ChangeRequests"
+      },
+      "OptionSetReferenceItem4": {
+        "OptionSetReferenceColumnName": "cat_crapprovalstage",
+        "OptionSetReferenceEntityName": "ChangeRequests"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "cat_approvalstatus",
+    "RelatedEntityName": "StageApprovalResponses",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status (StageApprovalResponses)",
+    "Name": "cat_stageapprovalresponses_statecode",
+    "OptionSetInfoNameMapping": {
+      "0": "Active",
+      "1": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statecode",
+        "OptionSetReferenceEntityName": "StageApprovalResponses"
+      }
+    },
+    "OptionSetTypeKey": "StateType",
+    "RelatedColumnInvariantName": "statecode",
+    "RelatedEntityName": "StageApprovalResponses",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status Reason (StageApprovalResponses)",
+    "Name": "cat_stageapprovalresponses_statuscode",
+    "OptionSetInfoNameMapping": {
+      "1": "Active",
+      "2": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statuscode",
+        "OptionSetReferenceEntityName": "StageApprovalResponses"
+      }
+    },
+    "OptionSetTypeKey": "StatusType",
+    "RelatedColumnInvariantName": "statuscode",
+    "RelatedEntityName": "StageApprovalResponses",
+    "Type": "OptionSetInfo"
+  }
+]

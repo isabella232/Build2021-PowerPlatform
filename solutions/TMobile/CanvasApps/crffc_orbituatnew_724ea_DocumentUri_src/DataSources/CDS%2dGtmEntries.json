@@ -1,0 +1,8 @@
+[
+  {
+    "ApiId": "/providers/microsoft.powerapps/apis/shared_cdsconnector-5f00d64d714648f44a-5f4dba14982592dc78",
+    "Name": "CDS-GtmEntries",
+    "ServiceKind": "ConnectedWadl",
+    "Type": "ServiceInfo"
+  }
+]

@@ -1,0 +1,99 @@
+[
+  {
+    "CdsFCBContext": "{\"FileType\":true,\"ImageExternalStorage\":true}",
+    "EntitySetName": "newprocesses",
+    "IsHidden": false,
+    "IsSampleData": false,
+    "IsWritable": true,
+    "LogicalName": "newprocess",
+    "MaxGetRowsCount": 2000,
+    "Name": "New Process",
+    "NativeCDSDataSourceInfoNameMapping": {
+      "activestageid": "Active Stage",
+      "activestagestartedon": "Active Stage Started On",
+      "businessprocessflowinstanceid": "New Process Instance Id",
+      "completedon": "Completed On",
+      "createdbyname": "Created By",
+      "createdon": "Created On",
+      "createdonbehalfbyname": "Created By (Delegate)",
+      "duration": "Duration",
+      "exchangerate": "Exchange Rate",
+      "importsequencenumber": "Import Sequence Number",
+      "modifiedbyname": "Modified By",
+      "modifiedon": "Modified On",
+      "modifiedonbehalfbyname": "Modified By (Delegate)",
+      "name": "Process Name",
+      "NewProcess_ProcessSessions": "Process Sessions",
+      "NewProcess_SyncErrors": "Sync Errors",
+      "organizationid": "Organization Id",
+      "overriddencreatedon": "Record Created On",
+      "processid": "Process",
+      "statecode": "Status",
+      "statuscode": "Status Reason",
+      "transactioncurrencyid": "Currency",
+      "traversedpath": "Comma delimited string of process stage ids that represent visited stages of the Business Process Flow instance.",
+      "versionnumber": "Version Number",
+      "workflowlogs_newprocess": "Process Logs"
+    },
+    "PreferredName": "New Process",
+    "Type": "NativeCDSDataSourceInfo"
+  },
+  {
+    "DisplayName": "New Process (Views)",
+    "Name": "_newprocess_views",
+    "RelatedEntityName": "New Process",
+    "TrimmedViewName": true,
+    "Type": "ViewInfo",
+    "ViewInfoNameMapping": {
+      "74df98b5-2443-4115-8f80-6a09e2c8b6cd": "All New Processes",
+      "757f2447-2ce6-437b-8d46-0d5f84cc2f03": "New Process Associated View",
+      "820684b1-e3bd-df11-a5a2-00155d2a9005": "Active New Process",
+      "957e4dd1-4446-4fe9-b84e-13bc8dc3a2e8": "Active New Processes on my Knowledge Articles",
+      "a0171193-26c5-44cd-897e-a4f535e6534a": "Inactive New Processes on my Knowledge Articles",
+      "b5539cbc-b865-4242-9c2e-6e9819f09d6b": "New Process Lookup View",
+      "e8935dc6-e3bd-df11-a5a2-00155d2a9005": "Inactive New Processes",
+      "f5b008ac-5c2e-4554-8509-2c05767bff51": "New Process Advanced Find View"
+    }
+  },
+  {
+    "DisplayName": "Status (New Process)",
+    "Name": "newprocess_statecode",
+    "OptionSetInfoNameMapping": {
+      "0": "Active",
+      "1": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statecode",
+        "OptionSetReferenceEntityName": "New Process"
+      }
+    },
+    "OptionSetTypeKey": "StateType",
+    "RelatedColumnInvariantName": "statecode",
+    "RelatedEntityName": "New Process",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status Reason (New Process)",
+    "Name": "newprocess_statuscode",
+    "OptionSetInfoNameMapping": {
+      "1": "Active",
+      "2": "Finished",
+      "3": "Aborted"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statuscode",
+        "OptionSetReferenceEntityName": "New Process"
+      }
+    },
+    "OptionSetTypeKey": "StatusType",
+    "RelatedColumnInvariantName": "statuscode",
+    "RelatedEntityName": "New Process",
+    "Type": "OptionSetInfo"
+  }
+]

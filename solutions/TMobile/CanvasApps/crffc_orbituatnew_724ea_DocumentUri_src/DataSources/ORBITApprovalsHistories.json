@@ -1,0 +1,103 @@
+[
+  {
+    "CdsFCBContext": "{\"FileType\":true,\"ImageExternalStorage\":true}",
+    "EntitySetName": "cat_orbitapprovalshistories",
+    "IsHidden": false,
+    "IsSampleData": false,
+    "IsWritable": true,
+    "LogicalName": "cat_orbitapprovalshistory",
+    "MaxGetRowsCount": 2000,
+    "Name": "ORBITApprovalsHistories",
+    "NativeCDSDataSourceInfoNameMapping": {
+      "_ownerid_value": "Owner",
+      "cat_approvalstatusresponse": "ApprovalStatusResponse",
+      "cat_ApprovalUser": "ApprovalUser",
+      "cat_approvercomments": "ApproverComments",
+      "cat_gtmEntry": "gtmEntry",
+      "cat_name": "Name",
+      "cat_orbitapprovalshistory_AsyncOperations": "System Jobs",
+      "cat_orbitapprovalshistory_BulkDeleteFailures": "Bulk Delete Failures",
+      "cat_orbitapprovalshistory_DuplicateBaseRecord": "Duplicate Records (cat_orbitapprovalshistory_DuplicateBaseRecord)",
+      "cat_orbitapprovalshistory_DuplicateMatchingRecord": "Duplicate Records (cat_orbitapprovalshistory_DuplicateMatchingRecord)",
+      "cat_orbitapprovalshistory_MailboxTrackingFolders": "Mailbox Auto Tracking Folders",
+      "cat_orbitapprovalshistory_PrincipalObjectAttributeAccesses": "Field Sharing",
+      "cat_orbitapprovalshistory_ProcessSession": "Process Sessions",
+      "cat_orbitapprovalshistory_SyncErrors": "Sync Errors",
+      "cat_orbitapprovalshistoryid": "ORBITApprovalsHistory",
+      "cat_StageApprovalResponses": "StageApprovalResponses",
+      "cat_StageApprovalUsers": "StageApprovalUsers",
+      "createdby": "Created By",
+      "createdon": "Created On",
+      "createdonbehalfby": "Created By (Delegate)",
+      "importsequencenumber": "Import Sequence Number",
+      "modifiedby": "Modified By",
+      "modifiedon": "Modified On",
+      "modifiedonbehalfby": "Modified By (Delegate)",
+      "overriddencreatedon": "Record Created On",
+      "owningbusinessunit": "Owning Business Unit",
+      "owningteam": "Owning Team",
+      "owninguser": "Owning User",
+      "statecode": "Status",
+      "statuscode": "Status Reason",
+      "timezoneruleversionnumber": "Time Zone Rule Version Number",
+      "utcconversiontimezonecode": "UTC Conversion Time Zone Code",
+      "versionnumber": "Version Number"
+    },
+    "PreferredName": "ORBITApprovalsHistories",
+    "Type": "NativeCDSDataSourceInfo"
+  },
+  {
+    "DisplayName": "ORBITApprovalsHistories (Views)",
+    "Name": "_cat_orbitapprovalshistory_views",
+    "RelatedEntityName": "ORBITApprovalsHistories",
+    "TrimmedViewName": true,
+    "Type": "ViewInfo",
+    "ViewInfoNameMapping": {
+      "5dafed33-27e5-45a0-add0-c938ef1bb2f7": "Inactive ORBITApprovalsHistories",
+      "6de299ff-51b0-43e4-97fd-8a5a53c59e68": "ORBITApprovalsHistory Advanced Find View",
+      "9cd4a50c-90b5-4ab6-94a2-916c3f5d4aa5": "Active ORBITApprovalsHistories",
+      "d917bcd5-ef32-48e3-acfa-bbadcb4e9883": "ORBITApprovalsHistory Associated View",
+      "db502fcf-0754-4549-a8b4-e4e279b91cfc": "ORBITApprovalsHistory Lookup View"
+    }
+  },
+  {
+    "DisplayName": "Status (ORBITApprovalsHistories)",
+    "Name": "cat_orbitapprovalshistory_statecode",
+    "OptionSetInfoNameMapping": {
+      "0": "Active",
+      "1": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statecode",
+        "OptionSetReferenceEntityName": "ORBITApprovalsHistories"
+      }
+    },
+    "OptionSetTypeKey": "StateType",
+    "RelatedColumnInvariantName": "statecode",
+    "RelatedEntityName": "ORBITApprovalsHistories",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status Reason (ORBITApprovalsHistories)",
+    "Name": "cat_orbitapprovalshistory_statuscode",
+    "OptionSetInfoNameMapping": {
+      "1": "Active",
+      "2": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statuscode",
+        "OptionSetReferenceEntityName": "ORBITApprovalsHistories"
+      }
+    },
+    "OptionSetTypeKey": "StatusType",
+    "RelatedColumnInvariantName": "statuscode",
+    "RelatedEntityName": "ORBITApprovalsHistories",
+    "Type": "OptionSetInfo"
+  }
+]

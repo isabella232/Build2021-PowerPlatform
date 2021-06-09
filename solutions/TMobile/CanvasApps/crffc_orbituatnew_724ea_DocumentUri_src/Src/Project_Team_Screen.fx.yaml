@@ -1,0 +1,2568 @@
+Project_Team_Screen As screen:
+    Height: =Max(App.Height, App.DesignHeight)
+    LoadingSpinnerColor: =RGBA(105, 121, 126, 1)
+    OnHidden: =Reset(txt_ProjectUserSearchText_1);Set(NavScreenParam, Blank());
+    OnVisible: |-
+        =UpdateContext({showLoader:false});
+        UpdateContext({varLoadingDataMessage: Concatenate("Loading Project Team for ", varCurrentRecord.InitiativeName)});
+        
+        Concurrent(
+        Set(varProjectTeamPeoplePickerVisible, false),
+        Set(varProjectTeamPeoplePickerVisible2, false),
+        Set(varProjectTeamPeoplePickerVisible3, false),
+        Set(varTeamLeadSearchTextVisible, false)
+        );
+        
+        If(varInitiaitveUpdated, 
+        ClearCollect(colCurrentProjectTeamRolesOther, Filter(colProjectTeamRoles, !IsBlank(Name)));
+        ClearCollect(colCurrentProjectTeamRolesGeneral, Filter(colProjectTeamRoles, RoleType = [@RoleType].'Project Team'));
+        
+        Set(varEditAccessTeamID, Concatenate(varCurrentRecord.gtmEntry, "+", varEditTeamTemplateID));
+                        ClearCollect(colSponsorTeam, ["Sponsoring VP", "Business Owner", "Submitter"]);
+        
+                        //Set(varTemp, First(varCurrentRecord.cat_gtmentry_Teams).Users);
+                        //ClearCollect(colAccessTeams, varCurrentRecord.cat_gtmentry_Teams);
+                        //ClearCollect(colEditAccessTeam, Filter(colAccessTeams, 'Team Name' = varEditAccessTeamID));
+                        //UpdateContext({varEditTeamIDLocal: First(colEditAccessTeam).Team});
+                        //Set(varEditAccessTeamRecord, LookUp(Teams, Team = varEditTeamIDLocal));
+        
+                        //If(IsEmpty(colEditAccessTeam), Clear(colEditAccessTeamMembers), ClearCollect(colEditAccessTeamMembers, varEditAccessTeamRecord.Users));
+        
+        
+                        Set(vartest123, First(colProjectTeamRoles).TeamMember); // This needs to be here to make the AddColumns run properly. 
+        
+                        ClearCollect(colTeamRoles, Choices(RoleType));
+                        ClearCollect(colProjectTeamRoles, varCurrentRecord.ProjectTeamRoles);
+        
+                            ClearCollect(colCurrentProjectTeamRoles, 
+                            AddColumns(colTeamRoles, 
+                                "userName", 
+                                    LookUp(colProjectTeamRoles, RoleType = colTeamRoles[@Value]).TeamMember.Nickname,
+                                "userJobTitle", LookUp(colProjectTeamRoles, RoleType = colTeamRoles[@Value]).TeamMember.Title, 
+                                "userID", LookUp(colProjectTeamRoles, RoleType = colTeamRoles[@Value]).TeamMember.User,
+                                "roleName", LookUp(colProjectTeamRoles, RoleType = colTeamRoles[@Value]).Name,
+                                "recordID", LookUp(colProjectTeamRoles, RoleType = colTeamRoles[@Value]).ProjectTeamRoles
+                                )
+                            );
+                            
+        );
+        
+        
+        If(IsBlank(colEditAccessTeamMembers), 
+        Set(varEditAccessTeamID, Concatenate(varCurrentRecord.gtmEntry, "+", varEditTeamTemplateID));
+                        ClearCollect(colSponsorTeam, ["Sponsoring VP", "Business Owner", "Submitter"]);
+        
+                        Set(varTemp, First(varCurrentRecord.cat_gtmentry_Teams).Users);
+                        ClearCollect(colAccessTeams, varCurrentRecord.cat_gtmentry_Teams);
+                        ClearCollect(colEditAccessTeam, Filter(colAccessTeams, 'Team Name' = varEditAccessTeamID));
+        
+                        Set(varEditAccessTeamRecord, LookUp(Teams, Team = First(colEditAccessTeam).Team));
+                        If(IsEmpty(colEditAccessTeam), Clear(colEditAccessTeamMembers), ClearCollect(colEditAccessTeamMembers, varEditAccessTeamRecord.Users));
+        );
+        ClearCollect(colEditAccessTeamMembers, varEditAccessTeamRecord.Users);
+        UpdateContext({showLoader:true});
+        UpdateContext({varLoadingDataMessage: Concatenate("Loading Data for ", varCurrentRecord.InitiativeName)});
+        
+        
+        If(IsBlank(varRecordPermissions),
+                // get user edit permissions on record
+                Set(varRecordPermissions, GetRecordPermisionsforCurrentUser.Run(varCurrentUserRecord.User, varCurrentRecord.gtmEntry).recordpermissions);
+                Set(varRecordEditPermissions, !IsBlank(Find("WriteAccess", varRecordPermissions))));
+                
+        Reset(com_NavLeft_5);
+    Orientation: =If(Project_Team_Screen.Width < Project_Team_Screen.Height, Layout.Vertical, Layout.Horizontal)
+    Size: =1 + CountRows(App.SizeBreakpoints) - CountIf(App.SizeBreakpoints, Value >= Project_Team_Screen.Width)
+    Width: =Max(App.Width, App.DesignWidth)
+
+    com_InitiativeHeader_5 As com_InitiativeHeader:
+        LegacyGTMEntryID: =varCurrentRecord.legacyGTMEntryID
+        showButtons: =false
+        varInitiativeName: =Coalesce(LookUp(collFormValues, fieldID = "InitiativeName").fieldValue, varCurrentRecord.InitiativeName)
+        varInitiativeType: =varCurrentRecord.InitiativeType
+        varReqFieldsRemaining: =CountA(Filter(collFormValues, required="true" && IsBlank(fieldValue) || required="true" && fieldValue = "Please Select").fieldID)
+        varRequestType: =varCurrentRecord.InitiativeTypeGroup
+        Width: =App.Width - com_NavLeft_5.Width
+        X: =com_NavLeft_5.X + com_NavLeft_5.Width
+        Y: =com_NavTop_7.Height
+
+    com_NavTop_7 As com_NavTop:
+        AdminScreen: =Permissions_Team_Roles_Screen
+        Fill: =White
+        IsGTM: =varCurrentUserSecurityRole = "Administrator" Or varCurrentUserSecurityRole = "GTM"
+        Items: =colTopNavGalleryItems
+        UserFullName: =varCurrentUserNameFL
+        Width: =App.Width
+        ZIndex: =2
+
+    com_NavLeft_5 As com_NavLeft:
+        Height: =App.Height - com_NavTop_7.Height
+        Items: =colLeftNavGalleryItems
+        Width: =varSideNavWidth
+        Y: =com_NavTop_7.Height
+        ZIndex: =3
+
+    btn_ProjectTeamBackground As button:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =0
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        DisabledFill: =RGBA(244, 244, 244, 1)
+        DisplayMode: =DisplayMode.Disabled
+        Fill: =RGBA(105, 121, 126, 1)
+        FocusedBorderColor: =btn_ProjectTeamBackground.BorderColor
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =btn_SponsorLeadTeamBackground.Height
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverColor: =RGBA(255, 255, 255, 1)
+        HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+        PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+        PressedColor: =RGBA(255, 255, 255, 1)
+        PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =15
+        Text: =""
+        Width: =gal_ProjectTeamMembers.Width + 40
+        X: =gal_ProjectTeamMembers.X - 30
+        Y: =Label3_11.Y - 10
+        ZIndex: =4
+
+    btn_SponsorLeadTeamBackground As button:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =0
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        DisabledFill: =RGBA(244, 244, 244, 1)
+        DisplayMode: =DisplayMode.Disabled
+        Fill: =RGBA(105, 121, 126, 1)
+        FocusedBorderColor: =btn_SponsorLeadTeamBackground.BorderColor
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =880
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverColor: =RGBA(255, 255, 255, 1)
+        HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+        PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+        PressedColor: =RGBA(255, 255, 255, 1)
+        PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =15
+        Text: =""
+        Width: =gal_SponsorTeamMembers.Width + 40
+        X: =gal_SponsorTeamMembers.X - 21
+        Y: =Label3_9.Y - 10
+        ZIndex: =5
+
+    "gal_TeamLeadMembers As gallery.'BrowseLayout_Vertical_TwoTextVariant_ver4.0'":
+        BorderColor: =RGBA(166, 166, 166, 1)
+        DisabledBorderColor: =gal_TeamLeadMembers.BorderColor
+        DisabledFill: =gal_TeamLeadMembers.Fill
+        Height: =(gal_TeamLeadMembers.TemplateHeight + gal_TeamLeadMembers.TemplatePadding) * CountA(gal_TeamLeadMembers.AllItems.Value) + gal_TeamLeadMembers.TemplatePadding
+        HoverBorderColor: =gal_TeamLeadMembers.BorderColor
+        HoverFill: =gal_TeamLeadMembers.Fill
+        Items: =Filter(colCurrentProjectTeamRoles, Value <> RoleType.'Project Team' And Value <> RoleType.Other)
+        Layout: =Layout.Vertical
+        LoadingSpinnerColor: =gal_TeamLeadMembers.BorderColor
+        OnSelect: |-
+            =Set(varRoleTypeDefaultMain, ThisItem.Value);
+            
+            Set(varRoleTypeDefaultID, // used for patching to ProjectTeamRoles Entity through API
+            Switch( ThisItem.Value,
+            RoleType.'Care Lead', 809060000,
+            RoleType.'EPO Lead', 809060005,
+            RoleType.'GTM Lead', 809060001,
+            RoleType.'Legal Lead', 809060004,
+            RoleType.'Marketing Lead', 809060006,
+            RoleType.'P&T Lead', 809060003,
+            RoleType.'PR Lead', 809060007,
+            RoleType.'Project Team', 809060009,
+            RoleType.'Sales Lead', 809060002,
+            RoleType.'Solution Captain', 809060008,
+            809060010))
+        PressedBorderColor: =gal_TeamLeadMembers.BorderColor
+        PressedFill: =gal_TeamLeadMembers.Fill
+        TemplatePadding: =8
+        TemplateSize: =30
+        Width: =gal_SponsorTeamMembers.Width
+        X: =gal_SponsorTeamMembers.X
+        Y: =gal_SponsorTeamMembers.Y + gal_SponsorTeamMembers.Height + 70
+        ZIndex: =6
+
+        lbl_ProjectTeamRole As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =lbl_ProjectTeamRole.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Height: =gal_TeamLeadMembers.TemplateHeight - 4
+            HoverBorderColor: =lbl_ProjectTeamRole.BorderColor
+            HoverColor: =lbl_ProjectTeamRole.Color
+            HoverFill: =lbl_ProjectTeamRole.Fill
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =lbl_ProjectTeamRole.BorderColor
+            PressedColor: =lbl_ProjectTeamRole.Color
+            PressedFill: =lbl_ProjectTeamRole.Fill
+            Size: =12
+            Text: =If(ThisItem.Value = RoleType.Other, ThisItem.roleName, ThisItem.Value)
+            Width: =gal_TeamLeadMembers.TemplateWidth * .2
+            Y: =2
+            ZIndex: =1
+
+        lbl_ProjectTeamMemberName As label:
+            BorderColor: =RGBA(230, 230, 230, 1)
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =lbl_ProjectTeamMemberName.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =gal_TeamLeadMembers.TemplateHeight - 4
+            HoverBorderColor: =lbl_ProjectTeamMemberName.BorderColor
+            HoverColor: =lbl_ProjectTeamMemberName.Color
+            HoverFill: =lbl_ProjectTeamMemberName.Fill
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =lbl_ProjectTeamMemberName.BorderColor
+            PressedColor: =lbl_ProjectTeamMemberName.Color
+            PressedFill: =lbl_ProjectTeamMemberName.Fill
+            Size: =11
+            Text: =ThisItem.userName
+            Width: =gal_TeamLeadMembers.TemplateWidth * .35
+            X: =lbl_ProjectTeamRole.X + lbl_ProjectTeamRole.Width + 5
+            Y: =2
+            ZIndex: =2
+
+        Separator4 As rectangle:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.Dashed
+            DisabledFill: =Separator4.Fill
+            Fill: =RGBA(230, 230, 230, 1)
+            FocusedBorderColor: =Separator4.BorderColor
+            Height: =1
+            HoverFill: =Separator4.Fill
+            OnSelect: =Select(Parent)
+            PressedFill: =Separator4.Fill
+            Visible: =false
+            Width: =Parent.TemplateWidth
+            Y: =Parent.TemplateHeight - 1
+            ZIndex: =3
+
+        lbl_ProjectTeamMemberJobTitle As label:
+            BorderColor: =RGBA(230, 230, 230, 1)
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =lbl_ProjectTeamMemberJobTitle.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =gal_TeamLeadMembers.TemplateHeight - 4
+            HoverBorderColor: =lbl_ProjectTeamMemberJobTitle.BorderColor
+            HoverColor: =lbl_ProjectTeamMemberJobTitle.Color
+            HoverFill: =lbl_ProjectTeamMemberJobTitle.Fill
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =lbl_ProjectTeamMemberJobTitle.BorderColor
+            PressedColor: =lbl_ProjectTeamMemberJobTitle.Color
+            PressedFill: =lbl_ProjectTeamMemberJobTitle.Fill
+            Size: =11
+            Text: =ThisItem.userJobTitle
+            Width: =gal_TeamLeadMembers.TemplateWidth * .3
+            X: =lbl_ProjectTeamMemberName.X + lbl_ProjectTeamMemberName.Width + 5
+            Y: =2
+            ZIndex: =4
+
+        tgl_TeamLeadViewEditControl As toggleSwitch:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            Color: =RGBA(51, 51, 51, 1)
+            Default: =!IsBlank(LookUp(colEditAccessTeamMembers, User = ThisItem.userID).User)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisplayMode: =If(varRecordEditTrue Or varDevMode Or varRecordEditPermissions, DisplayMode.Edit, DisplayMode.Disabled)
+            FalseFill: =RGBA(102, 102, 102, 1)
+            FalseHoverFill: =RGBA(33, 33, 33, 1)
+            FocusedBorderColor: =tgl_TeamLeadViewEditControl.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            HandleFill: =RGBA(255, 255, 255, 1)
+            Height: =23
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            OnCheck: =
+            OnSelect: |-
+                =Select(Parent);
+                //Patch(colEditAccessTeamMembers, Defaults(colEditAccessTeamMembers), {User: ThisItem.userID});
+                //RemoveIf(colEditAccessTeamMembers, User = ThisItem.userID);
+                If(tgl_TeamLeadViewEditControl.Value, 
+                'CDS-GtmEntries'.AddUserToAccessTeamTemplate(ThisItem.userID, {
+                    '@odata.type': "Microsoft.Dynamics.CRM.cat_gtmentry",
+                    cat_gtmentryid: varCurrentRecord.gtmEntry
+                  },
+                {
+                    '@odata.type': "Microsoft.Dynamics.CRM.teamtemplate",
+                    teamtemplateid: varEditTeamTemplateID
+                  }
+                );
+                
+                Patch(colEditAccessTeamMembers, Defaults(colEditAccessTeamMembers), {User: ThisItem.userID}), 
+                
+                
+                'CDS-GtmEntries'.RemoveUserFromAccessTeamTeamplate(ThisItem.userID, {
+                    '@odata.type': "Microsoft.Dynamics.CRM.cat_gtmentry",
+                    cat_gtmentryid: varCurrentRecord.gtmEntry
+                  },
+                {
+                   '@odata.type': "Microsoft.Dynamics.CRM.teamtemplate",
+                    teamtemplateid: varEditTeamTemplateID
+                  }
+                );
+                
+                
+                RemoveIf(colEditAccessTeamMembers, User = ThisItem.userID))
+            OnUncheck: =
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            ShowLabel: =false
+            Size: =13
+            TextPosition: =TextPosition.Left
+            TrueFill: =Magenta
+            TrueHoverFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            Visible: =!IsBlank(ThisItem.userName)
+            X: =gal_TeamLeadMembers.TemplateWidth - 130
+            Y: =(Parent.TemplateHeight - tgl_TeamLeadViewEditControl.Height) / 2
+            ZIndex: =5
+
+        Icon7_1 As icon.Trash:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            Color: =RGBA(179, 179, 179, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(220, 220, 220, 1)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            FocusedBorderColor: =Icon7_1.BorderColor
+            FocusedBorderThickness: =4
+            Height: =25
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            Icon: =Icon.Trash
+            OnSelect: |-
+                =Remove(ProjectTeamRoles, LookUp(ProjectTeamRoles, ProjectTeamRoles = GUID(ThisItem.recordID)));
+                Set(varUserID, Text(ThisItem.userID));
+                Patch(colCurrentProjectTeamRoles, ThisItem,{
+                userName: Blank(),
+                userJobTitle: Blank(),
+                userID: Blank()
+                });
+                
+                'CDS-GtmEntries'.RemoveUserFromAccessTeamTeamplate(varUserID, {
+                    '@odata.type': "Microsoft.Dynamics.CRM.cat_gtmentry",
+                    cat_gtmentryid: varCurrentRecord.gtmEntry
+                  },
+                {
+                   '@odata.type': "Microsoft.Dynamics.CRM.teamtemplate",
+                    teamtemplateid: varReadOnlyTeamTemplateID
+                  }
+                );
+                'CDS-GtmEntries'.RemoveUserFromAccessTeamTeamplate(varUserID, {
+                    '@odata.type': "Microsoft.Dynamics.CRM.cat_gtmentry",
+                    cat_gtmentryid: varCurrentRecord.gtmEntry
+                  },
+                {
+                   '@odata.type': "Microsoft.Dynamics.CRM.teamtemplate",
+                    teamtemplateid: varEditTeamTemplateID
+                  }
+                );
+                RemoveIf(colEditAccessTeamMembers, User = ThisItem.userID);
+                Set(varUserID, Blank());
+                Set(
+                    varResetProjectTeamPeoplePicker,
+                    true
+                );
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Visible: =!IsBlank(ThisItem.userName) And varRecordEditTrue
+            Width: =25
+            X: =gal_TeamLeadMembers.TemplateWidth - 30
+            Y: =(Parent.TemplateHeight - Icon7_1.Height) / 2
+            ZIndex: =6
+
+        Icon8_1 As icon.Add:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            Color: =Magenta
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(220, 220, 220, 1)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            DisplayMode: =If(varRecordEditTrue Or varDevMode Or varRecordEditPermissions, DisplayMode.Edit, DisplayMode.Disabled)
+            FocusedBorderColor: =Icon8_1.BorderColor
+            FocusedBorderThickness: =4
+            Height: =gal_TeamLeadMembers.TemplateHeight - 6
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            Icon: =Icon.Add
+            OnSelect: |-
+                =Select(Parent);
+                Set(varEditProjectTeamMember, ThisItem.Value);
+                Set(varTeamLeadSearchTextVisible, true);
+                Set(varProjectTeamPeoplePickerHeight, (
+                    Switch(ThisItem.Value,
+                        RoleType.'Care Lead', 1,
+                        RoleType.'GTM Lead', 2,
+                        RoleType.'Sales Lead', 3,
+                        RoleType.'P&T Lead', 4,
+                        RoleType.'Legal Lead', 5,
+                        RoleType.'EPO Lead', 6,
+                        RoleType.'Marketing Lead', 7,
+                        RoleType.'PR Lead', 8,
+                        RoleType.'Solution Captain', 9,
+                        0)*(gal_TeamLeadMembers.TemplateHeight + gal_TeamLeadMembers.TemplatePadding) + gal_TeamLeadMembers.Y))
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Visible: =IsBlank(lbl_ProjectTeamMemberName)
+            Width: =gal_TeamLeadMembers.TemplateHeight - 6
+            X: =lbl_ProjectTeamMemberName.X - 3
+            Y: =3
+            ZIndex: =7
+
+        txt_ProjectUserSearchText As text:
+            BorderColor: =Magenta
+            Color: =RGBA(51, 51, 51, 1)
+            Default: =""
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            FocusedBorderColor: =txt_ProjectUserSearchText.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            Height: =gal_TeamLeadMembers.TemplateHeight - 4
+            HintText: ="Search User"
+            HoverBorderColor: =Magenta
+            HoverColor: =RGBA(0, 0, 0, 1)
+            HoverFill: =ColorFade(Magenta, 80%)
+            OnSelect: |-
+                =Select(Parent);
+                Set(varProjectTeamPeoplePickerVisible3, true)
+            PressedBorderColor: =RGBA(105, 121, 126, 1)
+            PressedColor: =RGBA(51, 51, 51, 1)
+            PressedFill: =RGBA(255, 255, 255, 1)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Reset: =varResetProjectTeamPeoplePicker
+            Size: =10
+            Visible: =IsBlank(ThisItem.userName) And varEditProjectTeamMember = ThisItem.Value And varTeamLeadSearchTextVisible
+            Width: =lbl_ProjectTeamMemberName.Width
+            X: =lbl_ProjectTeamMemberName.X
+            Y: =2
+            ZIndex: =8
+
+        Icon10 As icon.Cancel:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            Color: =Magenta
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(220, 220, 220, 1)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            FocusedBorderColor: =Icon10.BorderColor
+            FocusedBorderThickness: =4
+            Height: =Parent.TemplateHeight - 10
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            Icon: =Icon.Cancel
+            OnSelect: =Set(varProjectTeamAddUsers, false); Set(varTeamLeadSearchTextVisible, false); Set(varProjectTeamPeoplePickerVisible3, false); Reset(txt_ProjectUserSearchText)
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Tooltip: ="Cancel"
+            Visible: =IsBlank(ThisItem.userName) And varEditProjectTeamMember = ThisItem.Value And varTeamLeadSearchTextVisible
+            Width: =Icon10.Height
+            X: =txt_ProjectUserSearchText.X + txt_ProjectUserSearchText.Width - Icon10.Width - 2
+            Y: =5
+            ZIndex: =9
+
+    "gal_SponsorTeamMembers As gallery.'BrowseLayout_Vertical_TwoTextVariant_ver4.0'":
+        BorderColor: =RGBA(166, 166, 166, 1)
+        DisabledBorderColor: =gal_SponsorTeamMembers.BorderColor
+        DisabledFill: =gal_SponsorTeamMembers.Fill
+        Height: =124
+        HoverBorderColor: =gal_SponsorTeamMembers.BorderColor
+        HoverFill: =gal_SponsorTeamMembers.Fill
+        Items: =colSponsorTeam
+        Layout: =Layout.Vertical
+        LoadingSpinnerColor: =gal_SponsorTeamMembers.BorderColor
+        PressedBorderColor: =gal_SponsorTeamMembers.BorderColor
+        PressedFill: =gal_SponsorTeamMembers.Fill
+        TemplatePadding: =0
+        TemplateSize: =35
+        Width: =950
+        X: =320
+        Y: =Label3.Y + Label3.Height
+        ZIndex: =7
+
+        lbl_ProjectTeamRole_1 As label:
+            BorderColor: =RGBA(230, 230, 230, 1)
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =lbl_ProjectTeamRole_1.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Height: =gal_SponsorTeamMembers.TemplateHeight - 4
+            HoverBorderColor: =lbl_ProjectTeamRole_1.BorderColor
+            HoverColor: =lbl_ProjectTeamRole_1.Color
+            HoverFill: =lbl_ProjectTeamRole_1.Fill
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =lbl_ProjectTeamRole_1.BorderColor
+            PressedColor: =lbl_ProjectTeamRole_1.Color
+            PressedFill: =lbl_ProjectTeamRole_1.Fill
+            Size: =12
+            Text: =ThisItem.Value
+            Width: =gal_SponsorTeamMembers.TemplateWidth * .2
+            Y: =2
+            ZIndex: =1
+
+        lbl_ProjectTeamMemberName_1 As label:
+            BorderColor: =RGBA(230, 230, 230, 1)
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =lbl_ProjectTeamMemberName_1.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =gal_SponsorTeamMembers.TemplateHeight - 4
+            HoverBorderColor: =lbl_ProjectTeamMemberName_1.BorderColor
+            HoverColor: =lbl_ProjectTeamMemberName_1.Color
+            HoverFill: =lbl_ProjectTeamMemberName_1.Fill
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =lbl_ProjectTeamMemberName_1.BorderColor
+            PressedColor: =lbl_ProjectTeamMemberName_1.Color
+            PressedFill: =lbl_ProjectTeamMemberName_1.Fill
+            Size: =11
+            Text: |-
+                =Switch(ThisItem.Value,
+                "Sponsoring VP", Coalesce(varCurrentRecord.'Sponsoring VP'.Nickname, LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).'Sponsoring VP'.Nickname),
+                "Business Owner", Coalesce(varCurrentRecord.'Business Owner'.Nickname, LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).'Business Owner'.Nickname),
+                "Submitter", Coalesce(varCurrentRecord.OriginalCreatedByUser.Nickname, LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).OriginalCreatedByUser.Nickname, varCurrentRecord.'Created By'.Nickname, LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).'Created By'.Nickname),
+                "")
+            Width: =gal_SponsorTeamMembers.TemplateWidth * .35
+            X: =200
+            Y: =2
+            ZIndex: =2
+
+        Separator4_1 As rectangle:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.Dashed
+            DisabledFill: =Separator4_1.Fill
+            Fill: =RGBA(230, 230, 230, 1)
+            FocusedBorderColor: =Separator4_1.BorderColor
+            Height: =1
+            HoverFill: =Separator4_1.Fill
+            OnSelect: =Select(Parent)
+            PressedFill: =Separator4_1.Fill
+            Visible: =false
+            Width: =Parent.TemplateWidth
+            Y: =Parent.TemplateHeight - 1
+            ZIndex: =4
+
+        lbl_ProjectTeamMemberJobTitle_1 As label:
+            BorderColor: =RGBA(230, 230, 230, 1)
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =lbl_ProjectTeamMemberJobTitle_1.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =gal_SponsorTeamMembers.TemplateHeight - 4
+            HoverBorderColor: =lbl_ProjectTeamMemberJobTitle_1.BorderColor
+            HoverColor: =lbl_ProjectTeamMemberJobTitle_1.Color
+            HoverFill: =lbl_ProjectTeamMemberJobTitle_1.Fill
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =lbl_ProjectTeamMemberJobTitle_1.BorderColor
+            PressedColor: =lbl_ProjectTeamMemberJobTitle_1.Color
+            PressedFill: =lbl_ProjectTeamMemberJobTitle_1.Fill
+            Size: =11
+            Text: |-
+                =Switch(ThisItem.Value,
+                "Sponsoring VP", Coalesce(varCurrentRecord.'Sponsoring VP'.Title, LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).'Sponsoring VP'.Title),
+                "Business Owner", Coalesce(varCurrentRecord.'Business Owner'.Title, LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).'Business Owner'.Title),
+                "Submitter", Coalesce(varCurrentRecord.OriginalCreatedByUser.Title, LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).OriginalCreatedByUser.Title,varCurrentRecord.'Created By'.Title,LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).'Created By'.Title),
+                "")
+            Width: =gal_SponsorTeamMembers.TemplateWidth * .3
+            X: =lbl_ProjectTeamMemberName_1.X + lbl_ProjectTeamMemberName_1.Width + 5
+            Y: =2
+            ZIndex: =5
+
+        Toggle2_1 As toggleSwitch:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            Color: =RGBA(51, 51, 51, 1)
+            Default: =!IsBlank(LookUp(colEditAccessTeamMembers, User = GUID(lbl_UserID.Text)).User)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisplayMode: =If(varRecordEditTrue Or varDevMode Or varRecordEditPermissions, DisplayMode.Edit, DisplayMode.Disabled)
+            FalseFill: =RGBA(102, 102, 102, 1)
+            FalseHoverFill: =RGBA(33, 33, 33, 1)
+            FocusedBorderColor: =Toggle2_1.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            HandleFill: =RGBA(255, 255, 255, 1)
+            Height: =23
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            OnChange: =
+            OnCheck: =
+            OnSelect: |-
+                =If(Toggle2_1.Value, 
+                
+                'CDS-GtmEntries'.AddUserToAccessTeamTemplate(GUID(lbl_UserID.Text), {
+                    '@odata.type': "Microsoft.Dynamics.CRM.cat_gtmentry",
+                    cat_gtmentryid: varCurrentRecord.gtmEntry
+                  },
+                {
+                    '@odata.type': "Microsoft.Dynamics.CRM.teamtemplate",
+                    teamtemplateid: varEditTeamTemplateID
+                  }
+                )
+                ,
+                'CDS-GtmEntries'.RemoveUserFromAccessTeamTeamplate(GUID(lbl_UserID.Text), {
+                    '@odata.type': "Microsoft.Dynamics.CRM.cat_gtmentry",
+                    cat_gtmentryid: varCurrentRecord.gtmEntry
+                  },
+                {
+                    '@odata.type': "Microsoft.Dynamics.CRM.teamtemplate",
+                    teamtemplateid: varEditTeamTemplateID
+                  }
+                )
+                
+                );
+                
+                If(Toggle2_2.Value, 
+                    Patch(colEditAccessTeamMembers, Defaults(colEditAccessTeamMembers), {User: GUID(lbl_UserID.Text)}), 
+                    RemoveIf(colEditAccessTeamMembers, User = GUID(lbl_UserID.Text)))
+            OnUncheck: =
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            ShowLabel: =false
+            Size: =13
+            TextPosition: =TextPosition.Left
+            TrueFill: =Magenta
+            TrueHoverFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            Visible: =!IsBlank(lbl_ProjectTeamMemberName_1.Text)
+            X: =gal_SponsorTeamMembers.TemplateWidth - 130
+            Y: =(Parent.TemplateHeight - Toggle2_1.Height) / 2
+            ZIndex: =6
+
+        lbl_UserID As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            Fill: =RGBA(255, 255, 255, 1)
+            FocusedBorderColor: =lbl_UserID.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            Height: =35
+            HoverBorderColor: =lbl_UserID.BorderColor
+            HoverColor: =lbl_UserID.Color
+            HoverFill: =lbl_UserID.Fill
+            OnSelect: =Select(Parent)
+            PressedBorderColor: =lbl_UserID.BorderColor
+            PressedColor: =lbl_UserID.Color
+            PressedFill: =lbl_UserID.Fill
+            Size: =13
+            Text: |-
+                =Switch(ThisItem.Value,
+                "Sponsoring VP", Coalesce(varCurrentRecord.'Sponsoring VP'.User, LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).'Sponsoring VP'.User),
+                "Business Owner", Coalesce(varCurrentRecord.'Business Owner'.User, LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).'Business Owner'.User),
+                "Submitter", Coalesce(varCurrentRecord.OriginalCreatedByUser.User, LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).OriginalCreatedByUser.User, varCurrentRecord.'Created By'.User, LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).'Created By'.User),
+                "")
+            Visible: =varDevMode
+            Width: =361
+            X: =241
+            ZIndex: =7
+
+    "gal_ProjectTeamMembers As gallery.'BrowseLayout_Vertical_TwoTextVariant_ver4.0'":
+        BorderColor: =RGBA(166, 166, 166, 1)
+        DisabledBorderColor: =gal_ProjectTeamMembers.BorderColor
+        DisabledFill: =gal_ProjectTeamMembers.Fill
+        Height: =770
+        HoverBorderColor: =gal_ProjectTeamMembers.BorderColor
+        HoverFill: =gal_ProjectTeamMembers.Fill
+        Items: =colCurrentProjectTeamRolesGeneral
+        Layout: =Layout.Vertical
+        LoadingSpinnerColor: =gal_ProjectTeamMembers.BorderColor
+        PressedBorderColor: =gal_ProjectTeamMembers.BorderColor
+        PressedFill: =gal_ProjectTeamMembers.Fill
+        TemplatePadding: =0
+        TemplateSize: =42
+        Width: =541
+        X: =gal_TeamLeadMembers.Width + gal_TeamLeadMembers.X + 70
+        Y: =gal_SponsorTeamMembers.Y + 20
+        ZIndex: =8
+
+        lbl_ProjectTeamMemberName_2 As label:
+            BorderColor: =RGBA(230, 230, 230, 1)
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =lbl_ProjectTeamMemberName_2.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =(gal_ProjectTeamMembers.TemplateHeight / 2) + 2
+            HoverBorderColor: =lbl_ProjectTeamMemberName_2.BorderColor
+            HoverColor: =lbl_ProjectTeamMemberName_2.Color
+            HoverFill: =lbl_ProjectTeamMemberName_2.Fill
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =lbl_ProjectTeamMemberName_2.BorderColor
+            PressedColor: =lbl_ProjectTeamMemberName_2.Color
+            PressedFill: =lbl_ProjectTeamMemberName_2.Fill
+            Size: =11
+            Text: =ThisItem.TeamMember.Nickname//Concatenate(ThisItem.TeamMember.'Last Name', ", ", ThisItem.TeamMember.'First Name')
+            Width: =gal_ProjectTeamMembers.TemplateWidth * .7
+            X: =5
+            Y: =2
+            ZIndex: =2
+
+        Separator4_2 As rectangle:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.Dashed
+            DisabledFill: =Separator4_2.Fill
+            Fill: =RGBA(230, 230, 230, 1)
+            FocusedBorderColor: =Separator4_2.BorderColor
+            Height: =1
+            HoverFill: =Separator4_2.Fill
+            OnSelect: =Select(Parent)
+            PressedFill: =Separator4_2.Fill
+            Visible: =false
+            Width: =Parent.TemplateWidth
+            Y: =Parent.TemplateHeight - 1
+            ZIndex: =4
+
+        lbl_ProjectTeamMemberJobTitle_2 As label:
+            BorderColor: =RGBA(230, 230, 230, 1)
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =lbl_ProjectTeamMemberJobTitle_2.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =(gal_ProjectTeamMembers.TemplateHeight / 2) - 1
+            HoverBorderColor: =lbl_ProjectTeamMemberJobTitle_2.BorderColor
+            HoverColor: =lbl_ProjectTeamMemberJobTitle_2.Color
+            HoverFill: =lbl_ProjectTeamMemberJobTitle_2.Fill
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =lbl_ProjectTeamMemberJobTitle_2.BorderColor
+            PressedColor: =lbl_ProjectTeamMemberJobTitle_2.Color
+            PressedFill: =lbl_ProjectTeamMemberJobTitle_2.Fill
+            Size: =10
+            Text: =ThisItem.TeamMember.Title
+            Width: =gal_ProjectTeamMembers.TemplateWidth * .7
+            Y: =21
+            ZIndex: =5
+
+        Toggle2_2 As toggleSwitch:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            Color: =RGBA(51, 51, 51, 1)
+            Default: |-
+                =!IsBlank(LookUp(colEditAccessTeamMembers, User = ThisItem.TeamMember.User).User)
+                //!IsBlank(LookUp(gal_EditAccessTeamMembers.AllItems, User = ThisItem.TeamMember.User).User)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisplayMode: =If(varRecordEditTrue Or varDevMode Or varRecordEditPermissions, DisplayMode.Edit, DisplayMode.Disabled)
+            FalseFill: =RGBA(102, 102, 102, 1)
+            FalseHoverFill: =RGBA(33, 33, 33, 1)
+            FocusedBorderColor: =Toggle2_2.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            HandleFill: =RGBA(255, 255, 255, 1)
+            Height: =23
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            OnCheck: =
+            OnSelect: |-
+                =Select(Parent);
+                If(Toggle2_2.Value, 
+                
+                Patch(colEditAccessTeamMembers, Defaults(colEditAccessTeamMembers), {User: ThisItem.TeamMember.User});
+                
+                'CDS-GtmEntries'.AddUserToAccessTeamTemplate(ThisItem.TeamMember.User, {
+                    '@odata.type': "Microsoft.Dynamics.CRM.cat_gtmentry",
+                    cat_gtmentryid: varCurrentRecord.gtmEntry
+                  },
+                {
+                    '@odata.type': "Microsoft.Dynamics.CRM.teamtemplate",
+                    teamtemplateid: varEditTeamTemplateID
+                  }
+                )
+                , 
+                
+                'CDS-GtmEntries'.RemoveUserFromAccessTeamTeamplate(ThisItem.TeamMember.User, {
+                    '@odata.type': "Microsoft.Dynamics.CRM.cat_gtmentry",
+                    cat_gtmentryid: varCurrentRecord.gtmEntry
+                  },
+                {
+                    '@odata.type': "Microsoft.Dynamics.CRM.teamtemplate",
+                    teamtemplateid: varEditTeamTemplateID
+                  }
+                );
+                
+                RemoveIf(colEditAccessTeamMembers, User = ThisItem.TeamMember.User))
+            OnUncheck: =
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            ShowLabel: =false
+            Size: =13
+            TextPosition: =TextPosition.Left
+            TrueFill: =Magenta
+            TrueHoverFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            Visible: =!IsBlank(ThisItem.TeamMember)
+            X: =gal_ProjectTeamMembers.TemplateWidth - 150
+            Y: =(Parent.TemplateHeight - Toggle2_2.Height) / 2
+            ZIndex: =6
+
+        Icon7_2 As icon.Trash:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            Color: =RGBA(179, 179, 179, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(220, 220, 220, 1)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            FocusedBorderColor: =Icon7_2.BorderColor
+            FocusedBorderThickness: =4
+            Height: =25
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            Icon: =Icon.Trash
+            OnSelect: |-
+                =Remove([@ProjectTeamRoles], LookUp([@ProjectTeamRoles], ProjectTeamRoles = ThisItem.ProjectTeamRoles));
+                Remove(colCurrentProjectTeamRolesGeneral, ThisItem);
+                Set(varUserID, ThisItem.TeamMember.User);
+                'CDS-GtmEntries'.RemoveUserFromAccessTeamTeamplate(varUserID, {
+                    '@odata.type': "Microsoft.Dynamics.CRM.cat_gtmentry",
+                    cat_gtmentryid: varCurrentRecord.gtmEntry
+                  },
+                {
+                    '@odata.type': "Microsoft.Dynamics.CRM.teamtemplate",
+                    teamtemplateid: varReadOnlyTeamTemplateID
+                  }
+                );
+                'CDS-GtmEntries'.RemoveUserFromAccessTeamTeamplate(varUserID, {
+                    '@odata.type': "Microsoft.Dynamics.CRM.cat_gtmentry",
+                    cat_gtmentryid: varCurrentRecord.gtmEntry
+                  },
+                {
+                    '@odata.type': "Microsoft.Dynamics.CRM.teamtemplate",
+                    teamtemplateid: varEditTeamTemplateID
+                  }
+                );
+                
+                RemoveIf(colEditAccessTeamMembers, User = ThisItem.TeamMember.User);
+                
+                Set(varUserID, Blank());
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Visible: =!IsBlank(ThisItem.TeamMember) And varRecordEditTrue
+            Width: =25
+            X: =gal_ProjectTeamMembers.TemplateWidth - 50
+            Y: =(Parent.TemplateHeight - Icon7_2.Height) / 2
+            ZIndex: =7
+
+    Label3 As label:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Color: =Magenta
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =Label3.BorderColor
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Bold
+        Height: =35
+        HoverBorderColor: =Label3.BorderColor
+        HoverColor: =Label3.Color
+        HoverFill: =Label3.Fill
+        PaddingLeft: =0
+        PressedBorderColor: =Label3.BorderColor
+        PressedColor: =Label3.Color
+        PressedFill: =Label3.Fill
+        Size: =13
+        Text: ="Role"
+        Width: =lbl_ProjectTeamRole.Width
+        X: =gal_SponsorTeamMembers.X
+        Y: =220
+        ZIndex: =9
+
+    Label3_2 As label:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Color: =Magenta
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =Label3_2.BorderColor
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Bold
+        Height: =35
+        HoverBorderColor: =Label3_2.BorderColor
+        HoverColor: =Label3_2.Color
+        HoverFill: =Label3_2.Fill
+        PaddingLeft: =0
+        PressedBorderColor: =Label3_2.BorderColor
+        PressedColor: =Label3_2.Color
+        PressedFill: =Label3_2.Fill
+        Size: =13
+        Text: ="Name"
+        Width: =lbl_ProjectTeamRole.Width
+        X: =lbl_ProjectTeamMemberName.X + gal_TeamLeadMembers.X
+        Y: =Label3.Y
+        ZIndex: =10
+
+    Label3_3 As label:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Color: =Magenta
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =Label3_3.BorderColor
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Bold
+        Height: =35
+        HoverBorderColor: =Label3_3.BorderColor
+        HoverColor: =Label3_3.Color
+        HoverFill: =Label3_3.Fill
+        PaddingLeft: =0
+        PressedBorderColor: =Label3_3.BorderColor
+        PressedColor: =Label3_3.Color
+        PressedFill: =Label3_3.Fill
+        Size: =13
+        Text: ="Job Title"
+        Width: =lbl_ProjectTeamRole.Width
+        X: =lbl_ProjectTeamMemberJobTitle.X + gal_TeamLeadMembers.X + 5
+        Y: =Label3.Y
+        ZIndex: =11
+
+    Label3_4 As label:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Color: =Magenta
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =Label3_4.BorderColor
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Bold
+        Height: =35
+        HoverBorderColor: =Label3_4.BorderColor
+        HoverColor: =Label3_4.Color
+        HoverFill: =Label3_4.Fill
+        PressedBorderColor: =Label3_4.BorderColor
+        PressedColor: =Label3_4.Color
+        PressedFill: =Label3_4.Fill
+        Size: =13
+        Text: ="View / Edit"
+        Width: =110
+        X: =gal_SponsorTeamMembers.Width + gal_SponsorTeamMembers.X - Label3_4.Width
+        Y: =Label3.Y
+        ZIndex: =12
+
+    Label3_5 As label:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Color: =Magenta
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =Label3_5.BorderColor
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Bold
+        Height: =35
+        HoverBorderColor: =Label3_5.BorderColor
+        HoverColor: =Label3_5.Color
+        HoverFill: =Label3_5.Fill
+        PaddingLeft: =0
+        PressedBorderColor: =Label3_5.BorderColor
+        PressedColor: =Label3_5.Color
+        PressedFill: =Label3_5.Fill
+        Size: =13
+        Text: ="Role"
+        Width: =lbl_ProjectTeamRole.Width
+        X: =gal_SponsorTeamMembers.X
+        Y: =gal_TeamLeadMembers.Y - Label3_5.Height
+        ZIndex: =13
+
+    Label3_6 As label:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Color: =Magenta
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =Label3_6.BorderColor
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Bold
+        Height: =35
+        HoverBorderColor: =Label3_6.BorderColor
+        HoverColor: =Label3_6.Color
+        HoverFill: =Label3_6.Fill
+        PaddingLeft: =0
+        PressedBorderColor: =Label3_6.BorderColor
+        PressedColor: =Label3_6.Color
+        PressedFill: =Label3_6.Fill
+        Size: =13
+        Text: ="Name"
+        Width: =lbl_ProjectTeamRole.Width
+        X: =lbl_ProjectTeamMemberName.X + gal_TeamLeadMembers.X
+        Y: =gal_TeamLeadMembers.Y - Label3_5.Height
+        ZIndex: =14
+
+    Label3_7 As label:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Color: =Magenta
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =Label3_7.BorderColor
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Bold
+        Height: =35
+        HoverBorderColor: =Label3_7.BorderColor
+        HoverColor: =Label3_7.Color
+        HoverFill: =Label3_7.Fill
+        PaddingLeft: =0
+        PressedBorderColor: =Label3_7.BorderColor
+        PressedColor: =Label3_7.Color
+        PressedFill: =Label3_7.Fill
+        Size: =13
+        Text: ="Job Title"
+        Width: =lbl_ProjectTeamRole.Width
+        X: =lbl_ProjectTeamMemberJobTitle.X + gal_TeamLeadMembers.X
+        Y: =gal_TeamLeadMembers.Y - Label3_5.Height
+        ZIndex: =15
+
+    Label3_8 As label:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Color: =Magenta
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =Label3_8.BorderColor
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Bold
+        Height: =35
+        HoverBorderColor: =Label3_8.BorderColor
+        HoverColor: =Label3_8.Color
+        HoverFill: =Label3_8.Fill
+        PressedBorderColor: =Label3_8.BorderColor
+        PressedColor: =Label3_8.Color
+        PressedFill: =Label3_8.Fill
+        Size: =13
+        Text: ="View / Edit"
+        Width: =110
+        X: =gal_TeamLeadMembers.Width + gal_TeamLeadMembers.X - Label3_4.Width
+        Y: =gal_TeamLeadMembers.Y - Label3_5.Height
+        ZIndex: =16
+
+    Label3_9 As label:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Color: =RGBA(81, 81, 81, 1)
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =Label3_9.BorderColor
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Bold
+        Height: =35
+        HoverBorderColor: =Label3_9.BorderColor
+        HoverColor: =Label3_9.Color
+        HoverFill: =Label3_9.Fill
+        PressedBorderColor: =Label3_9.BorderColor
+        PressedColor: =Label3_9.Color
+        PressedFill: =Label3_9.Fill
+        Size: =16
+        Text: ="Sponsors"
+        Width: =lbl_ProjectTeamRole.Width
+        X: =gal_SponsorTeamMembers.X - 20
+        Y: =Label3.Y - Label3.Height
+        ZIndex: =17
+
+    Label3_10 As label:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Color: =RGBA(81, 81, 81, 1)
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =Label3_10.BorderColor
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Bold
+        Height: =35
+        HoverBorderColor: =Label3_10.BorderColor
+        HoverColor: =Label3_10.Color
+        HoverFill: =Label3_10.Fill
+        PressedBorderColor: =Label3_10.BorderColor
+        PressedColor: =Label3_10.Color
+        PressedFill: =Label3_10.Fill
+        Size: =16
+        Text: ="Team Leads"
+        Width: =lbl_ProjectTeamRole.Width
+        X: =gal_SponsorTeamMembers.X - 20
+        Y: =Label3_5.Y - Label3_5.Height
+        ZIndex: =18
+
+    Label3_11 As label:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Color: =RGBA(81, 81, 81, 1)
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =Label3_11.BorderColor
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Bold
+        Height: =35
+        HoverBorderColor: =Label3_11.BorderColor
+        HoverColor: =Label3_11.Color
+        HoverFill: =Label3_11.Fill
+        PressedBorderColor: =Label3_11.BorderColor
+        PressedColor: =Label3_11.Color
+        PressedFill: =Label3_11.Fill
+        Size: =16
+        Text: ="Project Team"
+        Width: =lbl_ProjectTeamRole.Width
+        X: =gal_ProjectTeamMembers.X - 20
+        Y: =Label3_12.Y - Label3_11.Height - 20
+        ZIndex: =19
+
+    Label3_12 As label:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Color: =Magenta
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =Label3_12.BorderColor
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Bold
+        Height: =35
+        HoverBorderColor: =Label3_12.BorderColor
+        HoverColor: =Label3_12.Color
+        HoverFill: =Label3_12.Fill
+        PaddingLeft: =0
+        PressedBorderColor: =Label3_12.BorderColor
+        PressedColor: =Label3_12.Color
+        PressedFill: =Label3_12.Fill
+        Size: =13
+        Text: ="Team Member"
+        Width: =lbl_ProjectTeamRole.Width
+        X: =gal_ProjectTeamMembers.X
+        Y: =gal_ProjectTeamMembers.Y - Label3_12.Height
+        ZIndex: =20
+
+    Label3_13 As label:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Color: =Magenta
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =Label3_13.BorderColor
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Bold
+        Height: =35
+        HoverBorderColor: =Label3_13.BorderColor
+        HoverColor: =Label3_13.Color
+        HoverFill: =Label3_13.Fill
+        PressedBorderColor: =Label3_13.BorderColor
+        PressedColor: =Label3_13.Color
+        PressedFill: =Label3_13.Fill
+        Size: =13
+        Text: ="View / Edit"
+        Width: =110
+        X: =gal_ProjectTeamMembers.X + gal_ProjectTeamMembers.Width - Label3_13.Width
+        Y: =gal_ProjectTeamMembers.Y - Label3_13.Height
+        ZIndex: =21
+
+    Rectangle1_1 As rectangle:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        DisabledFill: =RGBA(166, 166, 166, 1)
+        Fill: =Magenta
+        FocusedBorderColor: =Rectangle1_1.BorderColor
+        FocusedBorderThickness: =4
+        Height: =2
+        HoverFill: =RGBA(105, 121, 126, 1)
+        PressedFill: =RGBA(105, 121, 126, 1)
+        Width: =gal_SponsorTeamMembers.Width
+        X: =gal_SponsorTeamMembers.X
+        Y: =gal_SponsorTeamMembers.Y + gal_SponsorTeamMembers.Height - 10
+        ZIndex: =22
+
+    txt_ProjectUserSearchText_1 As text:
+        BorderColor: =Magenta
+        Color: =RGBA(51, 51, 51, 1)
+        Default: =""
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        DisabledFill: =RGBA(244, 244, 244, 1)
+        FocusedBorderColor: =txt_ProjectUserSearchText_1.BorderColor
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        Height: =gal_TeamLeadMembers.TemplateHeight - 4
+        HintText: ="Search User"
+        HoverBorderColor: =Magenta
+        HoverColor: =RGBA(51, 51, 51, 1)
+        HoverFill: =ColorFade(Magenta, 80%)
+        OnSelect: =Set(varProjectTeamPeoplePickerVisible, true)
+        PressedBorderColor: =RGBA(105, 121, 126, 1)
+        PressedColor: =RGBA(51, 51, 51, 1)
+        PressedFill: =RGBA(255, 255, 255, 1)
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Reset: =varResetProjectTeamPeoplePicker
+        Size: =10
+        Visible: =varRecordEditTrue Or varDevMode Or varRecordEditPermissions
+        Width: =250
+        X: =gal_ProjectTeamMembers.X + gal_ProjectTeamMembers.Width - txt_ProjectUserSearchText_1.Width
+        Y: =Label3_11.Y
+        ZIndex: =23
+
+    icn_ResetProjectTeamUserSearch As icon.Cancel:
+        BorderColor: =RGBA(166, 166, 166, 1)
+        Color: =Magenta
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(220, 220, 220, 1)
+        DisabledFill: =RGBA(0, 0, 0, 0)
+        FocusedBorderColor: =icn_ResetProjectTeamUserSearch.BorderColor
+        FocusedBorderThickness: =4
+        Height: =txt_ProjectUserSearchText_1.Height
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+        HoverFill: =RGBA(0, 0, 0, 0)
+        Icon: =Icon.Cancel
+        OnSelect: =Set(varProjectTeamPeoplePickerVisible, false);Reset(txt_ProjectUserSearchText_1)
+        PressedBorderColor: =RGBA(0, 0, 0, 0)
+        PressedColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+        PressedFill: =RGBA(0, 0, 0, 0)
+        Tooltip: ="Cancel"
+        Visible: =varProjectTeamPeoplePickerVisible
+        Width: =icn_ResetProjectTeamUserSearch.Height
+        X: =txt_ProjectUserSearchText_1.X + txt_ProjectUserSearchText_1.Width - icn_ResetProjectTeamUserSearch.Width
+        Y: =txt_ProjectUserSearchText_1.Y
+        ZIndex: =24
+
+    "gal_EditAccessTeamMembers As gallery.'BrowseLayout_Vertical_OneTextVariant_ver4.0'":
+        BorderColor: =RGBA(166, 166, 166, 1)
+        DisabledBorderColor: =gal_EditAccessTeamMembers.BorderColor
+        DisabledFill: =gal_EditAccessTeamMembers.Fill
+        Height: =191
+        HoverBorderColor: =gal_EditAccessTeamMembers.BorderColor
+        HoverFill: =gal_EditAccessTeamMembers.Fill
+        Items: =gal_EditTeamTemplate.Selected.Users
+        Layout: =Layout.Vertical
+        LoadingSpinnerColor: =gal_EditAccessTeamMembers.BorderColor
+        PressedBorderColor: =gal_EditAccessTeamMembers.BorderColor
+        PressedFill: =gal_EditAccessTeamMembers.Fill
+        TemplatePadding: =0
+        TemplateSize: =72
+        Visible: =varDevMode
+        Width: =511
+        X: =1320
+        Y: =782
+        ZIndex: =25
+
+        Title5 As label:
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =Title5.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =43
+            HoverBorderColor: =Title5.BorderColor
+            HoverColor: =Title5.Color
+            HoverFill: =Title5.Fill
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =Title5.BorderColor
+            PressedColor: =Title5.Color
+            PressedFill: =Title5.Fill
+            Size: =10
+            Text: =ThisItem.'Primary Email'
+            VerticalAlign: =VerticalAlign.Top
+            Width: =479
+            X: =32
+            ZIndex: =1
+
+        Separator5 As rectangle:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            DisabledFill: =Separator5.Fill
+            Fill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            FocusedBorderColor: =Separator5.BorderColor
+            Height: =1
+            HoverFill: =Separator5.Fill
+            OnSelect: =Select(Parent)
+            PressedFill: =Separator5.Fill
+            Width: =Parent.TemplateWidth
+            Y: =Parent.TemplateHeight - 1
+            ZIndex: =3
+
+        Label8 As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =Label8.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            Height: =29
+            HoverBorderColor: =Label8.BorderColor
+            HoverColor: =Label8.Color
+            HoverFill: =Label8.Fill
+            OnSelect: =Select(Parent)
+            PressedBorderColor: =Label8.BorderColor
+            PressedColor: =Label8.Color
+            PressedFill: =Label8.Fill
+            Size: =13
+            Text: =ThisItem.'Full Name'
+            Width: =378
+            X: =40
+            Y: =43
+            ZIndex: =4
+
+    "gal_AdditionalTeamLeadMembers As gallery.'BrowseLayout_Vertical_TwoTextVariant_ver4.0'":
+        BorderColor: =RGBA(166, 166, 166, 1)
+        DisabledBorderColor: =gal_AdditionalTeamLeadMembers.BorderColor
+        DisabledFill: =gal_AdditionalTeamLeadMembers.Fill
+        Height: =210
+        HoverBorderColor: =gal_AdditionalTeamLeadMembers.BorderColor
+        HoverFill: =gal_AdditionalTeamLeadMembers.Fill
+        Items: =colCurrentProjectTeamRolesOther
+        Layout: =Layout.Vertical
+        LoadingSpinnerColor: =gal_AdditionalTeamLeadMembers.BorderColor
+        OnSelect: =Set(varRoleTypeDefault, ThisItem.RoleType)
+        PressedBorderColor: =gal_AdditionalTeamLeadMembers.BorderColor
+        PressedFill: =gal_AdditionalTeamLeadMembers.Fill
+        TemplatePadding: =8
+        TemplateSize: =30
+        Visible: =!IsEmpty(Filter(colCurrentProjectTeamRoles, Value = RoleType.Other))
+        Width: =gal_TeamLeadMembers.Width
+        X: =gal_SponsorTeamMembers.X
+        Y: =gal_TeamLeadMembers.Y + gal_TeamLeadMembers.Height + gal_TeamLeadMembers.TemplateHeight
+        ZIndex: =26
+
+        lbl_ProjectTeamRole_2 As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =lbl_ProjectTeamRole_2.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Height: =gal_AdditionalTeamLeadMembers.TemplateHeight - 4
+            HoverBorderColor: =lbl_ProjectTeamRole_2.BorderColor
+            HoverColor: =lbl_ProjectTeamRole_2.Color
+            HoverFill: =lbl_ProjectTeamRole_2.Fill
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =lbl_ProjectTeamRole_2.BorderColor
+            PressedColor: =lbl_ProjectTeamRole_2.Color
+            PressedFill: =lbl_ProjectTeamRole_2.Fill
+            Size: =12
+            Text: =ThisItem.Name
+            Width: =gal_AdditionalTeamLeadMembers.TemplateWidth * .2
+            Y: =2
+            ZIndex: =1
+
+        lbl_ProjectTeamMemberName_3 As label:
+            BorderColor: =RGBA(230, 230, 230, 1)
+            Color: =If(IsBlank(ThisItem.Name), Gray, RGBA(0, 0, 0, 1))
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =lbl_ProjectTeamMemberName_3.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =gal_AdditionalTeamLeadMembers.TemplateHeight - 4
+            HoverBorderColor: =lbl_ProjectTeamMemberName_3.BorderColor
+            HoverColor: =lbl_ProjectTeamMemberName_3.Color
+            HoverFill: =lbl_ProjectTeamMemberName_3.Fill
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =lbl_ProjectTeamMemberName_3.BorderColor
+            PressedColor: =lbl_ProjectTeamMemberName_3.Color
+            PressedFill: =lbl_ProjectTeamMemberName_3.Fill
+            Size: =11
+            Text: =ThisItem.TeamMember.Nickname//Concatenate(ThisItem.TeamMember.'Last Name',", ", ThisItem.TeamMember.'First Name')
+            Width: =gal_AdditionalTeamLeadMembers.TemplateWidth * .35
+            X: =lbl_ProjectTeamRole_2.X + lbl_ProjectTeamRole_2.Width + 5
+            Y: =2
+            ZIndex: =2
+
+        Separator4_3 As rectangle:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.Dashed
+            DisabledFill: =Separator4_3.Fill
+            Fill: =RGBA(230, 230, 230, 1)
+            FocusedBorderColor: =Separator4_3.BorderColor
+            Height: =1
+            HoverFill: =Separator4_3.Fill
+            OnSelect: =Select(Parent)
+            PressedFill: =Separator4_3.Fill
+            Width: =Parent.TemplateWidth
+            Y: =Parent.TemplateHeight - 1
+            ZIndex: =3
+
+        lbl_ProjectTeamMemberJobTitle_3 As label:
+            BorderColor: =RGBA(230, 230, 230, 1)
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =lbl_ProjectTeamMemberJobTitle_3.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =gal_AdditionalTeamLeadMembers.TemplateHeight - 4
+            HoverBorderColor: =lbl_ProjectTeamMemberJobTitle_3.BorderColor
+            HoverColor: =lbl_ProjectTeamMemberJobTitle_3.Color
+            HoverFill: =lbl_ProjectTeamMemberJobTitle_3.Fill
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =lbl_ProjectTeamMemberJobTitle_3.BorderColor
+            PressedColor: =lbl_ProjectTeamMemberJobTitle_3.Color
+            PressedFill: =lbl_ProjectTeamMemberJobTitle_3.Fill
+            Size: =11
+            Text: =ThisItem.TeamMember.Title
+            Width: =gal_AdditionalTeamLeadMembers.TemplateWidth * .3
+            X: =lbl_ProjectTeamMemberName_3.X + lbl_ProjectTeamMemberName_3.Width + 5
+            Y: =2
+            ZIndex: =4
+
+        Toggle2_3 As toggleSwitch:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            Color: =RGBA(51, 51, 51, 1)
+            Default: |-
+                =!IsBlank(LookUp(colEditAccessTeamMembers, User = ThisItem.TeamMember.User).User)
+                //!IsBlank(LookUp(gal_EditAccessTeamMembers.AllItems, User = ThisItem.TeamMember.User).User)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisplayMode: =If(varRecordEditTrue Or varDevMode Or varRecordEditPermissions, DisplayMode.Edit, DisplayMode.Disabled)
+            FalseFill: =RGBA(102, 102, 102, 1)
+            FalseHoverFill: =RGBA(33, 33, 33, 1)
+            FocusedBorderColor: =Toggle2_3.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            HandleFill: =RGBA(255, 255, 255, 1)
+            Height: =23
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            OnCheck: =
+            OnSelect: |-
+                =Select(Parent);
+                If(Toggle2_3.Value, 
+                Patch(colEditAccessTeamMembers, Defaults(colEditAccessTeamMembers), {User: ThisItem.TeamMember.User});
+                
+                'CDS-GtmEntries'.AddUserToAccessTeamTemplate(ThisItem.TeamMember.User, {
+                    '@odata.type': "Microsoft.Dynamics.CRM.cat_gtmentry",
+                    cat_gtmentryid: varCurrentRecord.gtmEntry
+                  },
+                {
+                    '@odata.type': "Microsoft.Dynamics.CRM.teamtemplate",
+                    teamtemplateid: varEditTeamTemplateID
+                  }
+                )
+                
+                , 
+                
+                'CDS-GtmEntries'.RemoveUserFromAccessTeamTeamplate(ThisItem.TeamMember.User, {
+                    '@odata.type': "Microsoft.Dynamics.CRM.cat_gtmentry",
+                    cat_gtmentryid: varCurrentRecord.gtmEntry
+                  },
+                {
+                   '@odata.type': "Microsoft.Dynamics.CRM.teamtemplate",
+                    teamtemplateid: varEditTeamTemplateID
+                  }
+                );
+                
+                RemoveIf(colEditAccessTeamMembers, User = ThisItem.TeamMember.User))
+            OnUncheck: =
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            ShowLabel: =false
+            Size: =13
+            TextPosition: =TextPosition.Left
+            TrueFill: =Magenta
+            TrueHoverFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            Visible: =!IsBlank(ThisItem.Name)
+            X: =gal_AdditionalTeamLeadMembers.TemplateWidth - 130
+            Y: =(Parent.TemplateHeight - Toggle2_3.Height) / 2
+            ZIndex: =5
+
+        Icon7_3 As icon.Trash:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            Color: =RGBA(179, 179, 179, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(220, 220, 220, 1)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            FocusedBorderColor: =Icon7_3.BorderColor
+            FocusedBorderThickness: =4
+            Height: =25
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            Icon: =Icon.Trash
+            OnSelect: |-
+                =RemoveIf([@ProjectTeamRoles], TeamMember.User = ThisItem.TeamMember.User);
+                Remove(colCurrentProjectTeamRolesOther, ThisItem);
+                Set(varUserID, ThisItem.TeamMember.User);
+                'CDS-GtmEntries'.RemoveUserFromAccessTeamTeamplate(varUserID, {
+                    '@odata.type': "Microsoft.Dynamics.CRM.cat_gtmentry",
+                    cat_gtmentryid: varCurrentRecord.gtmEntry
+                  },
+                {
+                    '@odata.type': "Microsoft.Dynamics.CRM.teamtemplate",
+                    teamtemplateid: varReadOnlyTeamTemplateID
+                  }
+                );
+                'CDS-GtmEntries'.RemoveUserFromAccessTeamTeamplate(varUserID, {
+                    '@odata.type': "Microsoft.Dynamics.CRM.cat_gtmentry",
+                    cat_gtmentryid: varCurrentRecord.gtmEntry
+                  },
+                {
+                    '@odata.type': "Microsoft.Dynamics.CRM.teamtemplate",
+                    teamtemplateid: varEditTeamTemplateID
+                  }
+                );
+                
+                RemoveIf(colEditAccessTeamMembers, User = ThisItem.TeamMember.User);
+                
+                Set(varUserID, Blank());
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Visible: =!IsBlank(ThisItem.Name) And varRecordEditTrue
+            Width: =25
+            X: =gal_AdditionalTeamLeadMembers.TemplateWidth - 30
+            Y: =(Parent.TemplateHeight - Icon7_3.Height) / 2
+            ZIndex: =6
+
+        Icon8_2 As icon.Add:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            Color: =RGBA(226, 0, 116, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(220, 220, 220, 1)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            FocusedBorderColor: =Icon8_2.BorderColor
+            FocusedBorderThickness: =4
+            Height: =gal_AdditionalTeamLeadMembers.TemplateHeight - 6
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            Icon: =Icon.Add
+            OnSelect: |-
+                =Set(varEditProjectTeamMemberOther, ThisItem.RoleType);
+                Set(varTeamLeadSearchTextVisible, true);
+                /*
+                Set(varProjectTeamPeoplePickerHeightOther, (Switch(ThisItem.RoleType,
+                RoleType.'Care Lead', 1,
+                RoleType.'GTM Lead', 2,
+                RoleType.'Sales Lead', 3,
+                RoleType.'P&T Lead', 4,
+                RoleType.'Legal Lead', 5,
+                RoleType.'EPO Lead', 6,
+                RoleType.'Marketing Lead', 7,
+                RoleType.'PR Lead', 8,
+                RoleType.'Solution Captain', 9,
+                0)*gal_AdditionalTeamLeadMembers.TemplateHeight + gal_AdditionalTeamLeadMembers.Y))
+                */
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Visible: =IsBlank(ThisItem.Name)
+            Width: =gal_AdditionalTeamLeadMembers.TemplateHeight - 6
+            X: =lbl_ProjectTeamMemberName_3.X - 5
+            Y: =3
+            ZIndex: =7
+
+        txt_ProjectUserSearchText_2 As text:
+            BorderColor: =Magenta
+            Color: =RGBA(51, 51, 51, 1)
+            Default: =""
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            DisplayMode: =If(IsBlank(txt_ProjectUserSearchText_3.Text), DisplayMode.Disabled, DisplayMode.Edit)
+            FocusedBorderColor: =txt_ProjectUserSearchText_2.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            Height: =gal_AdditionalTeamLeadMembers.TemplateHeight - 4
+            HintText: =If(IsBlank(txt_ProjectUserSearchText_3.Text), "", "Search User")
+            HoverBorderColor: =Magenta
+            HoverColor: =RGBA(0, 0, 0, 1)
+            HoverFill: =ColorFade(Magenta, 80%)
+            OnSelect: |-
+                =Select(Parent);
+                Set(varProjectTeamPeoplePickerVisible2, true);
+                Set(varProjectTeamPeoplePickerHeight2, txt_ProjectUserSearchText_2.Y + gal_AdditionalTeamLeadMembers.Y - gal_AdditionalTeamLeadMembers.TemplatePadding - gal_TeamLeadPeoplePicker.Height)
+            PressedBorderColor: =RGBA(105, 121, 126, 1)
+            PressedColor: =RGBA(51, 51, 51, 1)
+            PressedFill: =RGBA(255, 255, 255, 1)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Reset: =varResetProjectTeamPeoplePicker
+            Size: =10
+            Visible: =IsBlank(ThisItem.Name)
+            Width: =lbl_ProjectTeamMemberName_3.Width
+            X: =lbl_ProjectTeamMemberName_3.X
+            Y: =2
+            ZIndex: =8
+
+        icn_ClearOtherTeamLeadUserSearch As icon.Cancel:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            Color: =Magenta
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(220, 220, 220, 1)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            FocusedBorderColor: =icn_ClearOtherTeamLeadUserSearch.BorderColor
+            FocusedBorderThickness: =4
+            Height: =Parent.TemplateHeight - 10
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            Icon: =Icon.Cancel
+            OnSelect: =Set(varProjectTeamAddUsers, false); Set(varProjectTeamPeoplePickerVisible2, false); Reset(txt_ProjectUserSearchText_2)
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Tooltip: ="Cancel"
+            Visible: =!IsBlank(txt_ProjectUserSearchText_3.Text)
+            Width: =icn_ClearOtherTeamLeadUserSearch.Height
+            X: =txt_ProjectUserSearchText_2.X + txt_ProjectUserSearchText_2.Width - icn_ClearOtherTeamLeadUserSearch.Width - 2
+            Y: =5
+            ZIndex: =9
+
+        txt_ProjectUserSearchText_3 As text:
+            BorderColor: =Magenta
+            Color: =RGBA(51, 51, 51, 1)
+            Default: =""
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            FocusedBorderColor: =txt_ProjectUserSearchText_3.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            Height: =gal_AdditionalTeamLeadMembers.TemplateHeight - 4
+            HintText: ="Enter Lead Title"
+            HoverBorderColor: =Magenta
+            HoverColor: =RGBA(0, 0, 0, 1)
+            HoverFill: =ColorFade(Magenta, 80%)
+            OnChange: =If(IsBlank(txt_ProjectUserSearchText_3.Text), RemoveIf(colCurrentProjectTeamRolesOther, IsBlank(cat_name)));
+            OnSelect: |-
+                =Select(Parent);
+                Set(varProjectTeamAddUsers, true)
+            PressedBorderColor: =RGBA(105, 121, 126, 1)
+            PressedColor: =RGBA(51, 51, 51, 1)
+            PressedFill: =RGBA(255, 255, 255, 1)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Reset: =varResetProjectTeamPeoplePicker
+            Size: =10
+            Visible: =IsBlank(ThisItem.Name)
+            Width: =lbl_ProjectTeamRole_2.Width
+            Y: =2
+            ZIndex: =10
+
+    Icon8_3 As icon.Add:
+        BorderColor: =RGBA(166, 166, 166, 1)
+        Color: =Magenta
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(220, 220, 220, 1)
+        DisabledFill: =RGBA(0, 0, 0, 0)
+        DisplayMode: =If(varRecordEditTrue Or varDevMode Or varRecordEditPermissions, DisplayMode.Edit, DisplayMode.Disabled)
+        FocusedBorderColor: =Icon8_3.BorderColor
+        FocusedBorderThickness: =4
+        Height: =gal_AdditionalTeamLeadMembers.TemplateHeight - 6
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverFill: =RGBA(0, 0, 0, 0)
+        Icon: =Icon.Add
+        OnSelect: |-
+            =Patch(colCurrentProjectTeamRolesOther, Defaults(colCurrentProjectTeamRolesOther), {cat_roletype: RoleType.Other});
+        PressedBorderColor: =RGBA(0, 0, 0, 0)
+        PressedColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+        PressedFill: =RGBA(0, 0, 0, 0)
+        Width: =gal_AdditionalTeamLeadMembers.TemplateHeight - 6
+        X: =gal_TeamLeadMembers.X
+        Y: =gal_TeamLeadMembers.Y + gal_TeamLeadMembers.Height + 3
+        ZIndex: =27
+
+    Label7 As label:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Color: =Grey
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        DisplayMode: =DisplayMode.View
+        FocusedBorderColor: =Label7.BorderColor
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        Height: =24
+        HoverBorderColor: =Label7.BorderColor
+        HoverColor: =Label7.Color
+        HoverFill: =Label7.Fill
+        PressedBorderColor: =Label7.BorderColor
+        PressedColor: =Label7.Color
+        PressedFill: =Label7.Fill
+        Size: =13
+        Text: ="Add Team Lead"
+        Visible: =If(varRecordEditTrue Or varDevMode Or varRecordEditPermissions, true, false)
+        X: =Icon8_3.X + Icon8_3.Width
+        Y: =Icon8_3.Y
+        ZIndex: =28
+
+    "gal_EditTeamTemplate As gallery.'BrowseLayout_Vertical_ThreeTextVariant_ver4.0'":
+        BorderColor: =RGBA(166, 166, 166, 1)
+        DisabledBorderColor: =gal_EditTeamTemplate.BorderColor
+        DisabledFill: =gal_EditTeamTemplate.Fill
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =85
+        HoverBorderColor: =gal_EditTeamTemplate.BorderColor
+        HoverFill: =gal_EditTeamTemplate.Fill
+        Items: =Filter(colAccessTeams, 'Team Template Identifier'.'Primary key for team template' = GUID(varEditTeamTemplateID))
+        Layout: =Layout.Vertical
+        LoadingSpinnerColor: =gal_EditTeamTemplate.BorderColor
+        PressedBorderColor: =gal_EditTeamTemplate.BorderColor
+        PressedFill: =gal_EditTeamTemplate.Fill
+        TemplatePadding: =0
+        TemplateSize: =102
+        Visible: =varDevMode
+        X: =1250
+        Y: =952
+        ZIndex: =29
+
+        Title6 As label:
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =Title6.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =Title6.Size * 1.8
+            HoverBorderColor: =Title6.BorderColor
+            HoverColor: =Title6.Color
+            HoverFill: =Title6.Fill
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =Title6.BorderColor
+            PressedColor: =Title6.Color
+            PressedFill: =Title6.Fill
+            Size: =20
+            Text: =ThisItem.Description
+            VerticalAlign: =VerticalAlign.Top
+            Width: =Parent.TemplateWidth - 104
+            X: =32
+            Y: =16
+            ZIndex: =1
+
+        Body2 As label:
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =Body2.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =37
+            HoverBorderColor: =Body2.BorderColor
+            HoverColor: =Body2.Color
+            HoverFill: =Body2.Fill
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =Body2.BorderColor
+            PressedColor: =Body2.Color
+            PressedFill: =Body2.Fill
+            Size: =16
+            Text: =ThisItem.Email
+            VerticalAlign: =VerticalAlign.Top
+            Width: =Parent.TemplateWidth - 104
+            X: =32
+            Y: =52
+            ZIndex: =3
+
+    Label19 As label:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Color: =RGBA(51, 51, 51, 1)
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =Label19.BorderColor
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        Height: =22
+        HoverBorderColor: =Label19.BorderColor
+        HoverColor: =Label19.Color
+        HoverFill: =Label19.Fill
+        PressedBorderColor: =Label19.BorderColor
+        PressedColor: =Label19.Color
+        PressedFill: =Label19.Fill
+        Size: =9
+        Text: ="Add Project Member"
+        Visible: =varRecordEditTrue Or varDevMode Or varRecordEditPermissions
+        Width: =250
+        X: =1631
+        Y: =txt_ProjectUserSearchText_1.Y + txt_ProjectUserSearchText_1.Height
+        ZIndex: =30
+
+    "gal_TeamLeadPeoplePicker_2 As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver4.0'":
+        BorderColor: =RGBA(166, 166, 166, 1)
+        BorderThickness: =2
+        DisabledBorderColor: =gal_TeamLeadPeoplePicker_2.BorderColor
+        DisabledFill: =gal_TeamLeadPeoplePicker_2.Fill
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =250
+        HoverBorderColor: =gal_TeamLeadPeoplePicker_2.BorderColor
+        HoverFill: =gal_TeamLeadPeoplePicker_2.Fill
+        Items: =If(!IsBlank(txt_ProjectUserSearchText_2.Text), Sort(Search(Users, txt_ProjectUserSearchText_2.Text, "nickname"), Nickname, Ascending))
+        Layout: =Layout.Vertical
+        LoadingSpinnerColor: =gal_TeamLeadPeoplePicker_2.BorderColor
+        OnSelect: |-
+            =//UpdateContext({varSelectedUser: LookUp(Users, 'Azure AD Object ID' = GUID(ThisItem.Id))});
+            Set(varRoleTypeDefaultOther, gal_TeamLeadMembers.Selected.Value);
+            Set(varProjectTeamUserSelected, ThisItem);
+            Set(varTeamLeadSearchTextVisible, false);
+            Set(varUserID, Concatenate("systemusers(",ThisItem.User,")"));
+            Set(varProjectTeamPeoplePickerVisible2, false);
+            
+            'CDS-GtmEntries'.PostToProjectTeamRoles(
+            { 
+               cat_roletype:Value(809060010),
+               'cat_gtmEntry@odata.bind':varGTMEntryID,
+               'cat_TeamMember@odata.bind':varUserID,
+               cat_name: gal_AdditionalTeamLeadMembers.Selected.txt_ProjectUserSearchText_3.Text
+            });
+            
+            
+            Patch(colCurrentProjectTeamRolesOther, Defaults(colCurrentProjectTeamRolesOther), {
+                //userName: Concatenate(ThisItem.'Last Name', ", ",ThisItem.'First Name'),
+                //userJobTitle: ThisItem.Title,
+                cat_TeamMember: ThisItem,
+                cat_roletype: RoleType.Other,
+                cat_name: gal_AdditionalTeamLeadMembers.Selected.txt_ProjectUserSearchText_3.Text
+                });
+            
+            
+            Set(varProjectTeamAddUsers, false);
+            'CDS-GtmEntries'.AddUserToAccessTeamTemplate(ThisItem.User, {
+                '@odata.type': "Microsoft.Dynamics.CRM.cat_gtmentry",
+                cat_gtmentryid: varCurrentRecord.gtmEntry
+              },
+            {
+                '@odata.type': "Microsoft.Dynamics.CRM.teamtemplate",
+                teamtemplateid: varReadOnlyTeamTemplateID
+              }
+            );
+            Set(varResetProjectTeamPeoplePicker, true); Set(varResetProjectTeamPeoplePicker, false);
+            RemoveIf(colCurrentProjectTeamRolesOther, IsBlank(Name));
+        PressedBorderColor: =gal_TeamLeadPeoplePicker_2.BorderColor
+        PressedFill: =gal_TeamLeadPeoplePicker_2.Fill
+        TemplatePadding: =3
+        TemplateSize: =50
+        Visible: =varProjectTeamPeoplePickerVisible2
+        Width: =txt_ProjectUserSearchText.Width
+        X: =txt_ProjectUserSearchText.X + gal_TeamLeadMembers.X + gal_TeamLeadMembers.TemplatePadding
+        Y: |-
+            =//gal_AdditionalTeamLeadMembers.Y - gal_TeamLeadPeoplePicker_2.Height + CountA(colCurrentProjectTeamRolesOther.Name) * (gal_AdditionalTeamLeadMembers.TemplateHeight + gal_AdditionalTeamLeadMembers.TemplatePadding) + gal_AdditionalTeamLeadMembers.TemplatePadding
+            
+            gal_AdditionalTeamLeadMembers.Y - gal_TeamLeadPeoplePicker_2.Height + ((gal_AdditionalTeamLeadMembers.TemplatePadding + gal_AdditionalTeamLeadMembers.TemplateHeight) * (CountRows(colCurrentProjectTeamRolesOther) - 1) + 7)
+        ZIndex: =31
+
+        Title2_14 As label:
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =Title2_14.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =18
+            HoverBorderColor: =Title2_14.BorderColor
+            HoverColor: =Title2_14.Color
+            HoverFill: =Title2_14.Fill
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =Title2_14.BorderColor
+            PressedColor: =Title2_14.Color
+            PressedFill: =Title2_14.Fill
+            Size: =10
+            Text: =ThisItem.Nickname  //Concatenate(ThisItem.Surname, ", ",ThisItem.GivenName)
+            Tooltip: =ThisItem.Title
+            VerticalAlign: =VerticalAlign.Top
+            Width: =Parent.TemplateWidth - 30
+            ZIndex: =2
+
+        Subtitle2_13 As label:
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =Subtitle2_13.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =16
+            HoverBorderColor: =Subtitle2_13.BorderColor
+            HoverColor: =Subtitle2_13.Color
+            HoverFill: =Subtitle2_13.Fill
+            OnSelect: =Select(Parent)
+            PaddingBottom: =3
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =Subtitle2_13.BorderColor
+            PressedColor: =Subtitle2_13.Color
+            PressedFill: =Subtitle2_13.Fill
+            Size: =8
+            Text: =ThisItem.Title
+            Tooltip: =ThisItem.Title
+            VerticalAlign: =VerticalAlign.Bottom
+            Width: =Parent.TemplateWidth - 30
+            Y: =Title2_14.Height + Title2_14.Y
+            ZIndex: =3
+
+        Separator2_14 As rectangle:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            DisabledFill: =Separator2_14.Fill
+            Fill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            FocusedBorderColor: =Separator2_14.BorderColor
+            Height: =1
+            HoverFill: =Separator2_14.Fill
+            OnSelect: =Select(Parent)
+            PressedFill: =Separator2_14.Fill
+            Visible: =false
+            Width: =Parent.TemplateWidth
+            Y: =Parent.TemplateHeight - 1
+            ZIndex: =5
+
+        Icon9_2 As icon.ChevronRight:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            Color: =Magenta
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(220, 220, 220, 1)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            FocusedBorderColor: =Icon9_2.BorderColor
+            FocusedBorderThickness: =4
+            Height: =25
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            Icon: =Icon.ChevronRight
+            OnSelect: =Select(Parent)
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Visible: =false
+            Width: =Parent.TemplateHeight -10
+            X: =Parent.TemplateWidth - 55
+            Y: =13
+            ZIndex: =6
+
+        Subtitle2_15 As label:
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =Subtitle2_15.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =16
+            HoverBorderColor: =Subtitle2_15.BorderColor
+            HoverColor: =Subtitle2_15.Color
+            HoverFill: =Subtitle2_15.Fill
+            OnSelect: =Select(Parent)
+            PaddingBottom: =3
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =Subtitle2_15.BorderColor
+            PressedColor: =Subtitle2_15.Color
+            PressedFill: =Subtitle2_15.Fill
+            Size: =8
+            Text: =ThisItem.'Primary Email'
+            Tooltip: =ThisItem.Title
+            VerticalAlign: =VerticalAlign.Bottom
+            Width: =Parent.TemplateWidth - 30
+            Y: =Subtitle2_13.Height + Subtitle2_13.Y
+            ZIndex: =7
+
+    "gal_TeamLeadPeoplePicker As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver4.0'":
+        BorderColor: =RGBA(166, 166, 166, 1)
+        BorderThickness: =2
+        DisabledBorderColor: =gal_TeamLeadPeoplePicker.BorderColor
+        DisabledFill: =gal_TeamLeadPeoplePicker.Fill
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =250
+        HoverBorderColor: =gal_TeamLeadPeoplePicker.BorderColor
+        HoverFill: =gal_TeamLeadPeoplePicker.Fill
+        Items: |-
+            =If(!IsBlank(txt_ProjectUserSearchText.Text), Sort(Search(Users, txt_ProjectUserSearchText.Text, "nickname"), Nickname , Ascending))
+            
+            /*
+            If(
+                !IsBlank(txt_ProjectUserSearchText.Text),
+                Sort(
+                    Filter(
+                        Office365Users.SearchUser({searchTerm: txt_ProjectUserSearchText.Text})
+                        ,AccountEnabled = true && !IsBlank(CompanyName)
+                    )
+                    ,
+                    DisplayName
+                )
+            )
+            */
+        Layout: =Layout.Vertical
+        LoadingSpinnerColor: =gal_TeamLeadPeoplePicker.BorderColor
+        OnSelect: |-
+            =//UpdateContext({varSelectedUser: LookUp(Users, 'Azure AD Object ID' = GUID(ThisItem.Id))});
+            Set(
+                varRoleTypeDefaultMain,
+                gal_TeamLeadMembers.Selected.Value
+            );
+            Set(
+                varProjectTeamUserSelected,
+                ThisItem
+            );
+            
+            Set(
+                varProjectTeamPeoplePickerVisible3,
+                false
+            );
+            Set(
+                varUserID,
+                Concatenate(
+                    "systemusers(",
+                    ThisItem.User,
+                    ")"
+                )
+            );
+            'CDS-GtmEntries'.PostToProjectTeamRoles(
+                {
+                    cat_roletype: varRoleTypeDefaultID,
+                    'cat_gtmEntry@odata.bind': varGTMEntryID,
+                    'cat_TeamMember@odata.bind': varUserID
+                }
+            );
+            Patch(
+                colCurrentProjectTeamRoles,
+                gal_TeamLeadMembers.Selected,
+                {
+                    userName: ThisItem.Nickname, 
+                    userJobTitle: ThisItem.Title,
+                    userID: ThisItem.User,
+                    Value: gal_TeamLeadMembers.Selected.Value
+                }
+            );
+            Set(
+                varProjectTeamAddUsers,
+                false
+            );
+            'CDS-GtmEntries'.AddUserToAccessTeamTemplate(
+                ThisItem.User,
+                {
+                    '@odata.type': "Microsoft.Dynamics.CRM.cat_gtmentry",
+                    cat_gtmentryid: varCurrentRecord.gtmEntry
+                },
+                {
+                    '@odata.type': "Microsoft.Dynamics.CRM.teamtemplate",
+                    teamtemplateid: varReadOnlyTeamTemplateID
+                }
+            );
+            Set(
+                varResetProjectTeamPeoplePicker,
+                true
+            );
+            Set(
+                varResetProjectTeamPeoplePicker,
+                false
+            );
+            Reset(txt_ProjectUserSearchText)
+        PressedBorderColor: =gal_TeamLeadPeoplePicker.BorderColor
+        PressedFill: =gal_TeamLeadPeoplePicker.Fill
+        TemplatePadding: =3
+        TemplateSize: =50
+        Visible: =varProjectTeamPeoplePickerVisible3
+        Width: =txt_ProjectUserSearchText.Width
+        X: =txt_ProjectUserSearchText.X + gal_TeamLeadMembers.X + 10
+        Y: =varProjectTeamPeoplePickerHeight
+        ZIndex: =32
+
+        Title2_12 As label:
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =Title2_12.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =18
+            HoverBorderColor: =Title2_12.BorderColor
+            HoverColor: =Title2_12.Color
+            HoverFill: =Title2_12.Fill
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =Title2_12.BorderColor
+            PressedColor: =Title2_12.Color
+            PressedFill: =Title2_12.Fill
+            Size: =10
+            Text: =ThisItem.Nickname  //Concatenate(ThisItem.Surname, ", ",ThisItem.GivenName)
+            Tooltip: =ThisItem.Title
+            VerticalAlign: =VerticalAlign.Top
+            Width: =Parent.TemplateWidth - 30
+            ZIndex: =2
+
+        Subtitle2_11 As label:
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =Subtitle2_11.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =16
+            HoverBorderColor: =Subtitle2_11.BorderColor
+            HoverColor: =Subtitle2_11.Color
+            HoverFill: =Subtitle2_11.Fill
+            OnSelect: =Select(Parent)
+            PaddingBottom: =3
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =Subtitle2_11.BorderColor
+            PressedColor: =Subtitle2_11.Color
+            PressedFill: =Subtitle2_11.Fill
+            Size: =8
+            Text: =ThisItem.'Primary Email'
+            Tooltip: =ThisItem.Title
+            VerticalAlign: =VerticalAlign.Bottom
+            Width: =Parent.TemplateWidth - 30
+            Y: =Subtitle2_14.Y + Subtitle2_14.Height
+            ZIndex: =3
+
+        Separator2_12 As rectangle:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            DisabledFill: =Separator2_12.Fill
+            Fill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            FocusedBorderColor: =Separator2_12.BorderColor
+            Height: =1
+            HoverFill: =Separator2_12.Fill
+            OnSelect: =Select(Parent)
+            PressedFill: =Separator2_12.Fill
+            Visible: =false
+            Width: =Parent.TemplateWidth
+            Y: =Parent.TemplateHeight - 1
+            ZIndex: =5
+
+        Icon9 As icon.ChevronRight:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            Color: =Magenta
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(220, 220, 220, 1)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            FocusedBorderColor: =Icon9.BorderColor
+            FocusedBorderThickness: =4
+            Height: =Parent.TemplateHeight / 2
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            Icon: =Icon.ChevronRight
+            OnSelect: =Select(Parent)
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Visible: =false
+            Width: =Parent.TemplateHeight -10
+            X: =Parent.Width - 55
+            Y: =13
+            ZIndex: =6
+
+        Subtitle2_14 As label:
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =Subtitle2_14.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =16
+            HoverBorderColor: =Subtitle2_14.BorderColor
+            HoverColor: =Subtitle2_14.Color
+            HoverFill: =Subtitle2_14.Fill
+            OnSelect: =Select(Parent)
+            PaddingBottom: =3
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =Subtitle2_14.BorderColor
+            PressedColor: =Subtitle2_14.Color
+            PressedFill: =Subtitle2_14.Fill
+            Size: =8
+            Text: =ThisItem.Title
+            Tooltip: =ThisItem.Title
+            VerticalAlign: =VerticalAlign.Bottom
+            Width: =Parent.TemplateWidth - 30
+            Y: =Title2_12.Height
+            ZIndex: =7
+
+    "gal_TeamLeadPeoplePicker_1 As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver4.0'":
+        BorderColor: =RGBA(166, 166, 166, 1)
+        BorderThickness: =2
+        DisabledBorderColor: =gal_TeamLeadPeoplePicker_1.BorderColor
+        DisabledFill: =gal_TeamLeadPeoplePicker_1.Fill
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =250
+        HoverBorderColor: =gal_TeamLeadPeoplePicker_1.BorderColor
+        HoverFill: =gal_TeamLeadPeoplePicker_1.Fill
+        Items: =If(!IsBlank(txt_ProjectUserSearchText_1.Text), Sort(Search(Users, txt_ProjectUserSearchText_1.Text, "nickname"), Nickname, Ascending))
+        Layout: =Layout.Vertical
+        LoadingSpinnerColor: =gal_TeamLeadPeoplePicker_1.BorderColor
+        OnSelect: |-
+            =Set(varRoleTypeDefaultProjectTeam, RoleType.'Project Team');
+            Set(varProjectTeamUserSelected, ThisItem);
+            Set(varProjectTeamPeoplePickerVisible, false);
+            //SubmitForm(Form3_1);ResetForm(Form3_1);
+            
+            Set(varUserID, Concatenate("systemusers(",ThisItem.User,")")); 
+            
+            'CDS-GtmEntries'.PostToProjectTeamRoles(
+            { 
+               cat_roletype:Value(809060009),
+               'cat_gtmEntry@odata.bind':varGTMEntryID,
+               'cat_TeamMember@odata.bind':varUserID
+            });
+            
+            'CDS-GtmEntries'.AddUserToAccessTeamTemplate(ThisItem.User, {
+                '@odata.type': "Microsoft.Dynamics.CRM.cat_gtmentry",
+                cat_gtmentryid: varCurrentRecord.gtmEntry
+              },
+            {
+                '@odata.type': "Microsoft.Dynamics.CRM.teamtemplate",
+                teamtemplateid: varReadOnlyTeamTemplateID
+              }
+            );
+            
+            Patch(colCurrentProjectTeamRolesGeneral, Defaults(colCurrentProjectTeamRolesGeneral), {
+                //userName: Concatenate(ThisItem.'Last Name', ", ",ThisItem.'First Name'),
+                //userJobTitle: ThisItem.Title,
+                cat_TeamMember: ThisItem,
+                cat_roletype: RoleType.'Project Team'
+                //cat_name: gal_AdditionalTeamLeadMembers.Selected.txt_ProjectUserSearchText_3.Text
+                });
+            
+            Reset(txt_ProjectUserSearchText_1);
+        PressedBorderColor: =gal_TeamLeadPeoplePicker_1.BorderColor
+        PressedFill: =gal_TeamLeadPeoplePicker_1.Fill
+        TemplatePadding: =3
+        TemplateSize: =50
+        Visible: =varProjectTeamPeoplePickerVisible
+        Width: =txt_ProjectUserSearchText_1.Width
+        X: =txt_ProjectUserSearchText_1.X
+        Y: =txt_ProjectUserSearchText_1.Y + txt_ProjectUserSearchText.Height
+        ZIndex: =33
+
+        Title2_13 As label:
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =Title2_13.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =16
+            HoverBorderColor: =Title2_13.BorderColor
+            HoverColor: =Title2_13.Color
+            HoverFill: =Title2_13.Fill
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =Title2_13.BorderColor
+            PressedColor: =Title2_13.Color
+            PressedFill: =Title2_13.Fill
+            Size: =10
+            Text: =ThisItem.Nickname  //Concatenate(ThisItem.Surname, ", ",ThisItem.GivenName)
+            Tooltip: =ThisItem.Title
+            VerticalAlign: =VerticalAlign.Top
+            Width: =Parent.TemplateWidth - 30
+            ZIndex: =2
+
+        Subtitle2_12 As label:
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =Subtitle2_12.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =16
+            HoverBorderColor: =Subtitle2_12.BorderColor
+            HoverColor: =Subtitle2_12.Color
+            HoverFill: =Subtitle2_12.Fill
+            OnSelect: =Select(Parent)
+            PaddingBottom: =3
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =Subtitle2_12.BorderColor
+            PressedColor: =Subtitle2_12.Color
+            PressedFill: =Subtitle2_12.Fill
+            Size: =8
+            Text: =ThisItem.Title
+            Tooltip: =ThisItem.Title
+            VerticalAlign: =VerticalAlign.Bottom
+            Width: =Parent.TemplateWidth - 30
+            Y: =Title2_13.Height + Title2_13.Y
+            ZIndex: =3
+
+        Separator2_13 As rectangle:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            DisabledFill: =Separator2_13.Fill
+            Fill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            FocusedBorderColor: =Separator2_13.BorderColor
+            Height: =1
+            HoverFill: =Separator2_13.Fill
+            OnSelect: =Select(Parent)
+            PressedFill: =Separator2_13.Fill
+            Visible: =false
+            Width: =Parent.TemplateWidth
+            Y: =Parent.TemplateHeight - 1
+            ZIndex: =5
+
+        Icon9_1 As icon.ChevronRight:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            Color: =Magenta
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(220, 220, 220, 1)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            FocusedBorderColor: =Icon9_1.BorderColor
+            FocusedBorderThickness: =4
+            Height: =25
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            Icon: =Icon.ChevronRight
+            OnSelect: =Select(Parent)
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Visible: =false
+            Width: =Parent.TemplateHeight -10
+            X: =Parent.Width - 55
+            Y: =11
+            ZIndex: =6
+
+        Subtitle2_16 As label:
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =Subtitle2_16.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =16
+            HoverBorderColor: =Subtitle2_16.BorderColor
+            HoverColor: =Subtitle2_16.Color
+            HoverFill: =Subtitle2_16.Fill
+            OnSelect: =Select(Parent)
+            PaddingBottom: =3
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =Subtitle2_16.BorderColor
+            PressedColor: =Subtitle2_16.Color
+            PressedFill: =Subtitle2_16.Fill
+            Size: =8
+            Text: =ThisItem.'Primary Email'
+            Tooltip: =ThisItem.Title
+            VerticalAlign: =VerticalAlign.Bottom
+            Width: =Parent.TemplateWidth - 30
+            Y: =Subtitle2_12.Height + Subtitle2_12.Y
+            ZIndex: =7
+
+    com_LoadingSpinner_7 As com_LoadingSpinner:
+        Height: =App.Height - com_NavTop_7.Height - com_InitiativeHeader_5.Height
+        SpinnerText: =varLoadingDataMessage
+        Visible: =!showLoader Or !com_NavLeft_5.LoadingScreen
+        Width: =App.Width - com_NavLeft_5.Width
+        X: =com_NavLeft_5.Width
+        Y: =com_InitiativeHeader_5.Height + com_InitiativeHeader_5.Y
+        ZIndex: =34
+
+    Label2_5 As label:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Color: =RGBA(51, 51, 51, 1)
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =Label2_5.BorderColor
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        HoverBorderColor: =Label2_5.BorderColor
+        HoverColor: =Label2_5.Color
+        HoverFill: =Label2_5.Fill
+        PressedBorderColor: =Label2_5.BorderColor
+        PressedColor: =Label2_5.Color
+        PressedFill: =Label2_5.Fill
+        Size: =13
+        Text: =First(colProjectTeamRoles).TeamMember.'Last Name'
+        Visible: =varDevMode
+        Y: =607
+        ZIndex: =35
+
+    Label2_6 As label:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Color: =RGBA(51, 51, 51, 1)
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =Label2_6.BorderColor
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        HoverBorderColor: =Label2_6.BorderColor
+        HoverColor: =Label2_6.Color
+        HoverFill: =Label2_6.Fill
+        PressedBorderColor: =Label2_6.BorderColor
+        PressedColor: =Label2_6.Color
+        PressedFill: =Label2_6.Fill
+        Size: =13
+        Text: =First(colProjectTeamRoles).RoleType
+        Visible: =varDevMode
+        Y: =647
+        ZIndex: =36
+
+    Label2_7 As label:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Color: =RGBA(51, 51, 51, 1)
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =Label2_7.BorderColor
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        HoverBorderColor: =Label2_7.BorderColor
+        HoverColor: =Label2_7.Color
+        HoverFill: =Label2_7.Fill
+        PressedBorderColor: =Label2_7.BorderColor
+        PressedColor: =Label2_7.Color
+        PressedFill: =Label2_7.Fill
+        Size: =13
+        Text: =First(colProjectTeamRoles).TeamMember.'First Name'
+        Visible: =varDevMode
+        Y: =572
+        ZIndex: =37
+
+    Label2_8 As label:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Color: =RGBA(51, 51, 51, 1)
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =Label2_8.BorderColor
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        HoverBorderColor: =Label2_8.BorderColor
+        HoverColor: =Label2_8.Color
+        HoverFill: =Label2_8.Fill
+        PressedBorderColor: =Label2_8.BorderColor
+        PressedColor: =Label2_8.Color
+        PressedFill: =Label2_8.Fill
+        Size: =13
+        Text: =First(colProjectTeamRoles).TeamMember.Title
+        Visible: =varDevMode
+        Y: =687
+        ZIndex: =38
+
+    Label2_10 As label:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Color: =RGBA(51, 51, 51, 1)
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =Label2_10.BorderColor
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        HoverBorderColor: =Label2_10.BorderColor
+        HoverColor: =Label2_10.Color
+        HoverFill: =Label2_10.Fill
+        PressedBorderColor: =Label2_10.BorderColor
+        PressedColor: =Label2_10.Color
+        PressedFill: =Label2_10.Fill
+        Size: =13
+        Text: =First(colAccessTeams).'Team Name'
+        Visible: =varDevMode
+        Y: =742
+        ZIndex: =39
+
+    btn_TeamDevMode As button:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        Color: =RGBA(204, 204, 204, 1)
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        DisabledFill: =RGBA(244, 244, 244, 1)
+        Fill: =RGBA(255, 255, 255, 1)
+        FocusedBorderColor: =btn_TeamDevMode.BorderColor
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =30
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverColor: =RGBA(255, 255, 255, 1)
+        HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+        OnSelect: =Set(varDevMode, !varDevMode)
+        PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+        PressedColor: =RGBA(255, 255, 255, 1)
+        PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =9
+        Text: ="DM"
+        Visible: =varCurrentUserSecurityRole = "Administrator"
+        Width: =38
+        Y: =1050
+        ZIndex: =40
+

@@ -1,0 +1,2288 @@
+"New_Project_Screen As screen.'phoneLayout_FluidGridWithHeaderPageLayout_ver3.0'":
+    BackgroundImage: =
+    Height: =Max(App.Height, App.DesignHeight)
+    LoadingSpinner: =LoadingSpinner.Data
+    LoadingSpinnerColor: =RGBA(105, 121, 126, 1)
+    OnHidden: |-
+        =/*Set(NavScreenParam, Blank());
+        Set(varInitiativeType, Blank());
+        SetFocus(btn_SetCanvasFocus_1);
+        Reset(com_NavTop_Details_1);
+        Reset(com_Dialogue_Details_1);
+        Reset(com_NavLeft_Details_1);
+        Reset(com_FormSection_6); 
+        Reset(com_FormSection_7); 
+        Reset(com_FormSection_8); 
+        Reset(com_FormSection_10); 
+        Reset(com_FormSection_9);
+        Set(varAddAttachmentDialogue, false);
+        Set(varBlurBackground, false);
+        UpdateContext({varShowChangeRequestForm: false})*/
+        true
+    OnVisible: |-
+        =UpdateContext({showLoader:false});
+        NewForm(NewGtmEntryForm);
+        ResetForm(NewGtmEntryForm);
+        UpdateContext({varShowSaveDialogue: false});
+        UpdateContext({varLoadingDataMessage: If(varIsNewInitiative, "Loading Details", Concatenate("Loading Details for ", varCurrentRecord.InitiativeName))});
+        
+        //SetFocus(btn_SetCanvasFocus_1);
+        
+        UpdateContext({varResetComponent: false});UpdateContext({varResetComponent: true});
+        
+        UpdateContext({showLoader:true});
+        /*
+        If(varInitiaitveUpdated, 
+        If(varIsDraftInitiative, 
+            ClearCollect(collFormValues, If(varCurrentRecord.Brand = Brand.Metro And varCurrentRecord.InitiativeType = InitiativeType.'Device Promotion' Or varCurrentRecord.Brand = Brand.Metro And varCurrentRecord.InitiativeType = InitiativeType.'Service Offer', Filter(ComponentFieldDetails, formID = Concatenate(Text(varCurrentRecord.InitiativeType), " - Metro") And isOnIntake = true), Filter(ComponentFieldDetails, formID = Text(varCurrentRecord.InitiativeType) And isOnIntake = true)))
+            ,
+            ClearCollect(collFormValues, If(varCurrentRecord.Brand = Brand.Metro And varCurrentRecord.InitiativeType = InitiativeType.'Device Promotion' Or varCurrentRecord.Brand = Brand.Metro And varCurrentRecord.InitiativeType = InitiativeType.'Service Offer', Filter(ComponentFieldDetails, formID = Concatenate(Text(varCurrentRecord.InitiativeType), " - Metro")), Filter(ComponentFieldDetails, formID = Text(varCurrentRecord.InitiativeType)))));
+        
+                    Set(varRecordEditTrue, varRecordEditPermissions Or varCurrentUserSecurityRole = "GTM" Or varCurrentUserSecurityRole = "Administrator");
+        			Patch(collFormValues, LookUp(collFormValues, fieldID = "GALiftType"),{fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).GALiftType, Value & "*")});
+                    Patch(collFormValues, LookUp(collFormValues, fieldID = "Testing"), {fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).Testing, Value & "*")});
+                    Patch(collFormValues, LookUp(collFormValues, fieldID = "AdditionalEligibilityRequirements"), {fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).AdditionalEligibilityRequirements, Value & "*")});
+                    Patch(collFormValues, LookUp(collFormValues, fieldID = "Channels"),{fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).Channels, Value & "*")});
+                    Patch(collFormValues, LookUp(collFormValues, fieldID = "CustomerSegment"),{fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).CustomerSegment, Value & "*")});
+                    Patch(collFormValues, LookUp(collFormValues, fieldID = "DeviceFulfillmentInScope"),{fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).DeviceFulfillmentInScope, Value & "*")});
+                    Patch(collFormValues, LookUp(collFormValues, fieldID = "MobileInternetPlanRequirements"),{fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).MobileInternetPlanRequirements, Value & "*")});
+                    Patch(collFormValues, LookUp(collFormValues, fieldID = "PlanAndFeatureRequirementsBuild"),{fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).PlanAndFeatureRequirementsBuild, Value & "*")});
+                    Patch(collFormValues, LookUp(collFormValues, fieldID = "PurchaseTypeFinancing"),{fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).PurchaseTypeFinancing, Value & "*")});
+                    Patch(collFormValues, LookUp(collFormValues, fieldID = "VoiceRatePlanRequirements"),{fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).VoiceRatePlanRequirements, Value & "*")});
+                    Patch(collFormValues, LookUp(collFormValues, fieldID = "WearablePlanRequirements"),{fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).WearablePlanRequirements, Value & "*")});
+                    Patch(collFormValues, LookUp(collFormValues, fieldID = "RatePlanRequirements"),{fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).RatePlanRequirements, Value & "*")}), 
+            
+            If(!(varCurrentRecord.gtmEntry = varCurrentRecordIDDetails) And !varIsNewInitiative Or varInitiaitveUpdated And !varIsNewInitiative Or IsEmpty(collFormValues) And !varIsNewInitiative, // run if new initiative selected from project picker or was updated in summary
+                
+                If(varInitiaitveUpdated, 
+                    Set(varCurrentRecordIDDetails, varCurrentRecord.gtmEntry);
+        			Set(varInitiaitveUpdated, false);  // reset identifier for update record
+                    ClearCollect(collFormValues, If(varCurrentRecord.Brand = Brand.Metro And varCurrentRecord.InitiativeType = InitiativeType.'Device Promotion' Or varCurrentRecord.Brand = Brand.Metro And varCurrentRecord.InitiativeType = InitiativeType.'Service Offer', Filter(ComponentFieldDetails, formID = Concatenate(Text(varCurrentRecord.InitiativeType), " - Metro")), Filter(ComponentFieldDetails, formID = Text(varCurrentRecord.InitiativeType))));
+        
+                    // get user edit permissions on record
+                    Set(varRecordPermissions, GetRecordPermisionsforCurrentUser.Run(varCurrentUserRecord.User, varCurrentRecord.gtmEntry).recordpermissions);
+                    Set(varRecordEditPermissions, !IsBlank(Find("WriteAccess", varRecordPermissions)));
+        
+        
+                    Set(varGTMEntryID, Concatenate("cat_gtmentries(",varCurrentRecord.gtmEntry,")")); // used on people pickers for gtmEntryID value to patch over API
+                    
+                    If(Text(varCurrentRecord.gtmEntry) <> varCurrentRecordIDSummary, //check if these values are already queried
+                        Set(varEditAccessTeamID, Concatenate(varCurrentRecord.gtmEntry, "+", varEditTeamTemplateID));
+                        ClearCollect(colSponsorTeam, ["Sponsoring VP", "Business Owner", "Submitter"]);
+        
+                        //Set(varTemp, First(varCurrentRecord.cat_gtmentry_Teams).Users);
+                        //ClearCollect(colAccessTeams, varCurrentRecord.cat_gtmentry_Teams);
+                        //ClearCollect(colEditAccessTeam, Filter(colAccessTeams, 'Team Name' = varEditAccessTeamID));
+                        ////ClearCollect(colViewAccessTeam, Filter(colAccessTeams, associatedteamtemplateid.teamtemplatename = "ORBIT - Read Only"));
+        
+                        //Set(varEditAccessTeamRecord, LookUp(Teams, Team = First(colEditAccessTeam).Team));
+                        //If(IsEmpty(colEditAccessTeam), Clear(colEditAccessTeamMembers), ClearCollect(colEditAccessTeamMembers, varEditAccessTeamRecord.Users));
+        
+        
+                        Set(vartest123, First(colProjectTeamRoles).TeamMember); // This needs to be here to make the AddColumns run properly. 
+                        //ClearCollect(colTeamRoles, Filter(Choices(RoleType), !(Value = RoleType.Other)));
+                        ClearCollect(colTeamRoles, Choices(RoleType));
+                        ClearCollect(colProjectTeamRoles, varCurrentRecord.ProjectTeamRoles);
+        
+                        ClearCollect(colCurrentProjectTeamRoles, 
+                            AddColumns(colTeamRoles, 
+                                "userName",// If(!IsBlank(LookUp(colProjectTeamRoles, RoleType = colTeamRoles[@Value]).TeamMember.Nickname),
+                                    //Concatenate(LookUp(colProjectTeamRoles, RoleType = colTeamRoles[@Value]).TeamMember.'Last Name', ", ", 
+                                    //LookUp(colProjectTeamRoles, RoleType = colTeamRoles[@Value]).TeamMember.'First Name')
+                                    LookUp(colProjectTeamRoles, RoleType = colTeamRoles[@Value]).TeamMember.Nickname,
+                                "userJobTitle", LookUp(colProjectTeamRoles, RoleType = colTeamRoles[@Value]).TeamMember.Title, 
+                                "userID", LookUp(colProjectTeamRoles, RoleType = colTeamRoles[@Value]).TeamMember.User,
+                                "roleName", LookUp(colProjectTeamRoles, RoleType = colTeamRoles[@Value]).Name,
+                                "recordID", LookUp(colProjectTeamRoles, RoleType = colTeamRoles[@Value]).ProjectTeamRoles
+                                )
+                            );
+                        );
+                        ClearCollect(colCurrentProjectTeamRolesOther, Filter(colProjectTeamRoles, !IsBlank(Name)));
+                        ClearCollect(colCurrentProjectTeamRolesGeneral, Filter(colProjectTeamRoles, Text(RoleType) = "Project Team"));
+        
+                        Set(varRecordEditTrue, varRecordEditPermissions Or varCurrentUserSecurityRole = "GTM" Or varCurrentUserSecurityRole = "Administrator");
+        
+                        ClearCollect(colBeneficiaryLOB, Filter(BeneficiaryLOBApprovers, Status = 'Status (BeneficiaryLOBApprovers)'.Active));
+                    );
+                );
+        //);
+        
+                    Patch(collFormValues, LookUp(collFormValues, fieldID = "GALiftType"),{fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).GALiftType, Value & "*")});
+                    Patch(collFormValues, LookUp(collFormValues, fieldID = "Testing"), {fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).Testing, Value & "*")});
+                    Patch(collFormValues, LookUp(collFormValues, fieldID = "AdditionalEligibilityRequirements"), {fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).AdditionalEligibilityRequirements, Value & "*")});
+                    Patch(collFormValues, LookUp(collFormValues, fieldID = "Channels"),{fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).Channels, Value & "*")});
+                    Patch(collFormValues, LookUp(collFormValues, fieldID = "CustomerSegment"),{fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).CustomerSegment, Value & "*")});
+                    Patch(collFormValues, LookUp(collFormValues, fieldID = "DeviceFulfillmentInScope"),{fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).DeviceFulfillmentInScope, Value & "*")});
+                    Patch(collFormValues, LookUp(collFormValues, fieldID = "MobileInternetPlanRequirements"),{fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).MobileInternetPlanRequirements, Value & "*")});
+                    Patch(collFormValues, LookUp(collFormValues, fieldID = "PlanAndFeatureRequirementsBuild"),{fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).PlanAndFeatureRequirementsBuild, Value & "*")});
+                    Patch(collFormValues, LookUp(collFormValues, fieldID = "PurchaseTypeFinancing"),{fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).PurchaseTypeFinancing, Value & "*")});
+                    Patch(collFormValues, LookUp(collFormValues, fieldID = "VoiceRatePlanRequirements"),{fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).VoiceRatePlanRequirements, Value & "*")});
+                    Patch(collFormValues, LookUp(collFormValues, fieldID = "WearablePlanRequirements"),{fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).WearablePlanRequirements, Value & "*")});
+                    Patch(collFormValues, LookUp(collFormValues, fieldID = "RatePlanRequirements"),{fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).RatePlanRequirements, Value & "*")});
+                    Patch(collFormValues, LookUp(collFormValues, fieldID = "AddALineTypes"),{fieldValue: Concat(LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry).AddALineTypes, Value & "*")});
+        
+            Set(varActiveProcessStage, LookUp(ORBIT_Initiative_Approval_Process, Cat_Gtmentry.gtmEntry = varCurrentRecord.gtmEntry).'Active Stage'.'Process Stage');
+            Set(BpfInstance, LookUp(ORBIT_Initiative_Approval_Process, Cat_Gtmentry.gtmEntry = varCurrentRecord.gtmEntry)); //get BPF instance from Orbit_Initiative_Approval_Process Entity
+            ClearCollect(BpfStages, 'CDS-GtmEntries'.GetBPFActivePath(BpfInstance.ORBIT_Initiative_Approval_Process).value); //get active path stages from custom API connector
+        
+            Clear(colBPFStagesIndexed); //Get indexed collection of BPF active path stages
+            ForAll(BpfStages, 
+                Collect(colBPFStagesIndexed,
+                        Last(FirstN(AddColumns(BpfStages,
+                                            "Index",
+                                            CountRows(colBPFStagesIndexed)+1
+                                    ), 
+                                    CountRows(colBPFStagesIndexed)+1
+                                )
+                        )    
+                )
+            );
+        
+            ClearCollect(colPreviousBPFStages, FirstN(colBPFStagesIndexed, LookUp(colBPFStagesIndexed, processstageid = lbl_ActiveProcessStageID.Text).Index)); // Get collection of BPF active path stages to current
+            ClearCollect(colStageApprovalUsers, Filter(StageApprovalUsers, OrbitBPF.ORBIT_Initiative_Approval_Process = BpfInstance.ORBIT_Initiative_Approval_Process));
+        
+            
+        );
+        
+        If(IsBlank(varRecordPermissions),
+                // get user edit permissions on record
+                Set(varRecordPermissions, GetRecordPermisionsforCurrentUser.Run(varCurrentUserRecord.User, varCurrentRecord.gtmEntry).recordpermissions);
+                Set(varRecordEditPermissions, !IsBlank(Find("WriteAccess", varRecordPermissions))));
+        
+        ClearCollect(colChangeRequests, Filter(varCurrentRecord.'ChangeRequests (cat_ChangeRequest_gtmEntry_cat_gtmEntry)', CRApprovalStage = ApprovalStatus.Pending));
+        
+        UpdateContext({showLoader:true});
+        UpdateContext({varLoadingDataMessage: Concatenate("Loading Data for ", varCurrentRecord.InitiativeName)});
+        Reset(com_NavTop_Details_1);//Reset(com_Dialogue_Details_1);Reset(com_NavLeft_Details_1)*/
+    Orientation: =If(New_Project_Screen.Width < New_Project_Screen.Height, Layout.Vertical, Layout.Horizontal)
+    Size: =1 + CountRows(App.SizeBreakpoints) - CountIf(App.SizeBreakpoints, Value >= New_Project_Screen.Width)
+    Width: =Max(App.Width, App.DesignWidth)
+
+    GalleryBackground_2 As button:
+        BorderColor: =ColorFade(GalleryBackground_2.Fill, -15%)
+        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        DisabledFill: =RGBA(237, 237, 237, 1)
+        DisplayMode: =DisplayMode.Disabled
+        Fill: =RGBA(237, 237, 237, 1)
+        FocusedBorderColor: =GalleryBackground_2.BorderColor
+        FontWeight: =FontWeight.Semibold
+        Height: =836
+        HoverBorderColor: =ColorFade(GalleryBackground_2.BorderColor, 20%)
+        HoverColor: =RGBA(255, 255, 255, 1)
+        HoverFill: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+        PressedBorderColor: =GalleryBackground_2.Fill
+        PressedColor: =GalleryBackground_2.Fill
+        PressedFill: =GalleryBackground_2.Color
+        Size: =15
+        Text: =""
+        Width: =1865
+        X: =30
+        Y: =216
+        ZIndex: =1
+
+    com_NavTop_Details_1 As com_NavTop:
+        AdminScreen: =Permissions_Team_Roles_Screen
+        Fill: =White
+        FormEditMode: |-
+            =//(com_FormSection_6.FormValuesChanged Or com_FormSection_7.FormValuesChanged Or com_FormSection_8.FormValuesChanged Or com_FormSection_10.FormValuesChanged Or com_FormSection_9.FormValuesChanged)
+            true
+        IsGTM: =varCurrentUserSecurityRole = "Administrator" Or varCurrentUserSecurityRole = "GTM"
+        Items: =colTopNavGalleryItems
+        ResetComponent: |-
+            =//com_Dialogue_Details_1.RightButtonAction
+            false
+        UserFullName: =varCurrentUserNameFL
+        Width: =App.Width
+        ZIndex: =2
+
+    com_InitiativeHeader_Details_1 As com_InitiativeHeader:
+        AppID: =varCurrentAppID
+        BOEmailAddress: =varCurrentRecord.'Business Owner'.'Primary Email'
+        FormValuesChanged: |-
+            =//com_FormSection_6.FormValuesChanged Or com_FormSection_7.FormValuesChanged Or com_FormSection_8.FormValuesChanged Or com_FormSection_10.FormValuesChanged Or com_FormSection_9.FormValuesChanged
+            true
+        GTMEntryID: =varCurrentRecord.gtmEntry
+        isNewInitiative: =varIsNewInitiative
+        LegacyGTMEntryID: =If(varCurrentRecord.legacyGTMEntryID = 9999999, "Draft", varCurrentRecord.legacyGTMEntryID)
+        resetComponent: =varResetComponent
+        showButtons: =varRecordEditTrue Or varIsNewInitiative Or varDevMode Or varIsDraftInitiative Or varRecordEditPermissions
+        varInitiativeName: =If(varIsNewInitiative, Concatenate("ORBIT > ", varRequestType, " > ", Coalesce(varInitiativeType, Text(varCurrentRecord.InitiativeType))), Coalesce(LookUp(collFormValues, fieldID = "InitiativeName").fieldValue, varCurrentRecord.InitiativeName))
+        varInitiativeType: =Text(varCurrentRecord.InitiativeType)
+        varReqFieldsRemaining: |-
+            =//lbl_RequiredFieldsRemainingCount_1.Text
+            ""
+        varRequestType: =If(varIsNewInitiative, "GO TO MARKET", varCurrentRecord.InitiativeTypeGroup)
+        Width: |-
+            =//App.Width - com_NavLeft_Details_1.Width
+            App.Width
+        Y: =53
+        ZIndex: =3
+
+    Rectangle6_1 As rectangle:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        DisabledFill: =RGBA(166, 166, 166, 1)
+        Fill: =RGBA(255, 255, 255, .8)
+        FocusedBorderColor: =Rectangle6_1.BorderColor
+        FocusedBorderThickness: =4
+        Height: =1027
+        HoverFill: =RGBA(105, 121, 126, 1)
+        PressedFill: =RGBA(105, 121, 126, 1)
+        Visible: =varAddAttachmentDialogue And !varDevMode
+        Width: =App.Width
+        Y: =53
+        ZIndex: =6
+
+    com_LoadingSpinner_Details_1 As com_LoadingSpinner:
+        Height: =930
+        SpinnerText: =varLoadingDataMessage
+        Visible: |-
+            =//!showLoader Or IsEmpty(collFormValues)
+            !showLoader
+        Width: =Parent.Width
+        Y: =150
+        ZIndex: =7
+
+    ctr_SubmitCompleteDialogue_1 As groupContainer:
+        DisplayMode: =DisplayMode.Edit
+        Height: =350
+        Visible: =varAddAttachmentDialogue
+        Width: =770
+        X: =App.Width/2 - ctr_SubmitCompleteDialogue_1.Width/2
+        Y: =App.Height/2 - ctr_SubmitCompleteDialogue_1.Height/2
+        ZIndex: =8
+
+        HtmlText4_2 As htmlViewer:
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =Parent.Height
+            HoverBorderColor: =HtmlText4_2.BorderColor
+            HtmlText: |-
+                ="<div style='margin:0px;width:"& HtmlText4_2.Width - 35 &"px;height:"& HtmlText4_2.Height - 35 &"px;background-color:#;box-shadow:0 1px 10px 15px  #ccc; border-radius:15px'></div>"
+            PressedBorderColor: =HtmlText4_2.BorderColor
+            Width: =Parent.Width
+            ZIndex: =1
+
+        Button29_1 As button:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =3
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            DisplayMode: =DisplayMode.Disabled
+            Fill: =RGBA(237, 237, 237, 1)
+            FocusedBorderColor: =Button29_1.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =Parent.Height - 30
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+            PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            RadiusBottomLeft: =15
+            RadiusBottomRight: =15
+            RadiusTopLeft: =15
+            RadiusTopRight: =15
+            Size: =15
+            Text: =""
+            Width: =740
+            ZIndex: =2
+
+        btn_Button_Done_1 As button:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =1
+            Color: =White
+            DisabledBorderColor: =DarkGrey
+            DisabledColor: =White
+            DisabledFill: =Grey
+            Fill: =Magenta
+            FocusedBorderColor: =btn_Button_Done_1.BorderColor
+            FocusedBorderThickness: =1
+            Font: =FontStyle
+            FontWeight: =FontWeight.Semibold
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =White
+            HoverFill: =ColorFade(Magenta, -20%)
+            OnSelect: |
+                =Navigate(Project_Picker_Screen, Transition.None);
+                Set(varIsNewInitiative, false);
+                
+                UpdateContext({varLoadingDataMessage: "Navigating to Initiatives List"});
+                UpdateContext({showLoader:false});
+            PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =Text3Size
+            Text: ="No"
+            Visible: =!(Text(varDraft) = "Yes")
+            Width: =180
+            X: =Button29_1.Width / 2 - (btn_Button_Done_1.Width / 2) + 120
+            Y: =lbl_Attachments_Header_1.Y + lbl_Attachments_Header_1.Height + 180
+            ZIndex: =3
+
+        btn_Button_Upload_1 As button:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =1
+            Color: =White
+            DisabledBorderColor: =DarkGrey
+            DisabledColor: =White
+            DisabledFill: =Grey
+            Fill: =Magenta
+            FocusedBorderColor: =btn_Button_Upload_1.BorderColor
+            FocusedBorderThickness: =1
+            Font: =FontStyle
+            FontWeight: =FontWeight.Semibold
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =White
+            HoverFill: =ColorFade(Magenta, -20%)
+            OnSelect: |-
+                =//Set(varCurrentRecord, varLastRecordSubmit);
+                UpdateContext({showLoader:true});
+                UpdateContext({varLoadingDataMessage: "Navigating to Attachments Screen"});
+                Set(varInitiaitveUpdated, true);
+                Set(varAddAttachmentDialogue, false);
+                Set(varBlurBackground, false);
+                
+                
+                If(varIsNewInitiative, Set(varCurrentRecord, LookUp(gtmEntries, gtmEntry = varLastRecordSubmit.gtmEntry)), Set(varCurrentRecord, LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry)));
+                Set(varIsDraftInitiative, false);
+                
+                Clear(colStageApprovalUsers);
+                
+                Set(varIsNewInitiative, false);
+                Navigate(Attachments_Screen, Transition.None);
+            PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =Text3Size
+            Text: ="Yes"
+            Visible: =!(Text(varDraft) = "Yes")
+            Width: =180
+            X: =Button29_1.Width / 2 - (btn_Button_Upload_1.Width / 2) - 120
+            Y: =lbl_Attachments_Header_1.Y + lbl_Attachments_Header_1.Height + 180
+            ZIndex: =4
+
+        lbl_ProjectName_2 As label:
+            Align: =Center
+            AutoHeight: =true
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =DarkGray
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisplayMode: =DisplayMode.View
+            FocusedBorderColor: =lbl_ProjectName_2.BorderColor
+            FocusedBorderThickness: =4
+            Font: =FontStyle
+            FontWeight: =Semibold
+            HoverBorderColor: =lbl_ProjectName_2.BorderColor
+            HoverColor: =lbl_ProjectName_2.Color
+            HoverFill: =lbl_ProjectName_2.Fill
+            PressedBorderColor: =lbl_ProjectName_2.BorderColor
+            PressedColor: =lbl_ProjectName_2.Color
+            PressedFill: =lbl_ProjectName_2.Fill
+            Text: =Concatenate(Coalesce(Text(varCurrentRecord.InitiativeTypeGroup), Text(varLastRecordSubmit.InitiativeTypeGroup)), " > ", Coalesce(Text(varCurrentRecord.InitiativeType), Text(varLastRecordSubmit.InitiativeType)))
+            VerticalAlign: =VerticalAlign.Bottom
+            Width: =Button29_1.Width
+            Y: =lbl_Attachments_SubHeader_1.Y + lbl_Attachments_SubHeader_1.Height
+            ZIndex: =5
+
+        lbl_Attachments_SubHeader_1 As label:
+            Align: =Center
+            AutoHeight: =true
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =DarkGrey
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisplayMode: =DisplayMode.View
+            FocusedBorderColor: =lbl_Attachments_SubHeader_1.BorderColor
+            FocusedBorderThickness: =4
+            Font: =FontStyle
+            FontWeight: =FontWeight.Bold
+            Height: =Text1Height
+            HoverBorderColor: =lbl_Attachments_SubHeader_1.BorderColor
+            HoverColor: =lbl_Attachments_SubHeader_1.Color
+            HoverFill: =lbl_Attachments_SubHeader_1.Fill
+            PaddingTop: =10
+            PressedBorderColor: =lbl_Attachments_SubHeader_1.BorderColor
+            PressedColor: =lbl_Attachments_SubHeader_1.Color
+            PressedFill: =lbl_Attachments_SubHeader_1.Fill
+            Size: =20
+            Text: =Coalesce(varCurrentRecord.InitiativeName,varLastRecordSubmit.InitiativeName, "Your Initiaitive")
+            Width: =Button29_1.Width
+            Y: =lbl_Attachments_Header_1.Y + lbl_Attachments_Header_1.Height
+            ZIndex: =6
+
+        lbl_Attachments_Header_1 As label:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =lbl_Attachments_Header_1.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Height: =70
+            HoverBorderColor: =lbl_Attachments_Header_1.BorderColor
+            HoverColor: =lbl_Attachments_Header_1.Color
+            HoverFill: =lbl_Attachments_Header_1.Fill
+            PaddingBottom: =10
+            PressedBorderColor: =lbl_Attachments_Header_1.BorderColor
+            PressedColor: =lbl_Attachments_Header_1.Color
+            PressedFill: =lbl_Attachments_Header_1.Fill
+            Size: =20
+            Text: =If((Text(varDraft) = "Yes"), "Your Initiative Draft has been Successfully Saved!", "Your Initiative has been Successfully Submitted!")
+            VerticalAlign: =VerticalAlign.Bottom
+            Width: =Button29_1.Width
+            ZIndex: =7
+
+        btn_OK_1 As button:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =1
+            Color: =White
+            DisabledBorderColor: =DarkGrey
+            DisabledColor: =White
+            DisabledFill: =Grey
+            Fill: =Magenta
+            FocusedBorderColor: =btn_OK_1.BorderColor
+            FocusedBorderThickness: =1
+            Font: =FontStyle
+            FontWeight: =FontWeight.Semibold
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =White
+            HoverFill: =ColorFade(Magenta, -20%)
+            OnSelect: |-
+                =Navigate(Project_Picker_Screen, Transition.None);
+                Set(varIsNewInitiative, false);
+                Set(varAddAttachmentDialogue, false);
+                Set(varBlurBackground, false);
+                UpdateContext({varIsDraft: false});
+                UpdateContext({showLoader:true});
+                UpdateContext({varLoadingDataMessage: "Navigating to Initiatives List"});
+            PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =Text3Size
+            Text: ="OK"
+            Visible: =Text(varDraft) = "Yes"
+            Width: =180
+            X: =Button29_1.Width / 2 - (btn_OK_1.Width / 2)
+            Y: =lbl_ProjectName_2.Y + lbl_ProjectName_2.Height + 40
+            ZIndex: =8
+
+        lbl_ProjectName_3 As label:
+            Align: =Center
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =Magenta
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisplayMode: =DisplayMode.View
+            FocusedBorderColor: =lbl_ProjectName_3.BorderColor
+            FocusedBorderThickness: =4
+            Font: =FontStyle
+            Height: =50
+            HoverBorderColor: =lbl_ProjectName_3.BorderColor
+            HoverColor: =lbl_ProjectName_3.Color
+            HoverFill: =lbl_ProjectName_3.Fill
+            PressedBorderColor: =lbl_ProjectName_3.BorderColor
+            PressedColor: =lbl_ProjectName_3.Color
+            PressedFill: =lbl_ProjectName_3.Fill
+            Size: =16
+            Text: ="Do you want to load attachments?"
+            Visible: =!(Text(varDraft) = "Yes")
+            Width: =Button29_1.Width
+            Y: =lbl_Attachments_Header_1.Y + lbl_Attachments_Header_1.Height + 115
+            ZIndex: =9
+
+    NewGtmEntryForm As form:
+        BorderColor: =RGBA(166, 166, 166, 1)
+        DataSource: =gtmEntries
+        DefaultMode: =FormMode.New
+        Height: =792
+        OnSuccess: =Navigate([@Project_Picker_Screen])
+        SnapToColumns: =false
+        Width: =1831
+        X: =60
+        Y: =238
+        ZIndex: =9
+
+        InitiativeName_DataCard2 As typedDataCard.textualEditCard:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="cat_initiativename"
+            Default: =ThisItem.InitiativeName
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: ="Initiative Name *"
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            MaxLength: =DataSourceInfo([@gtmEntries], DataSourceInfo.MaxLength, "cat_initiativename")
+            Required: =false
+            Update: =DataCardValue76.Text
+            Width: =800
+            X: =0
+            Y: =0
+            ZIndex: =1
+
+            DataCardKey86 As label:
+                AutoHeight: =true
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =34
+                PaddingLeft: =0
+                Size: =13
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue76 As text:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                BorderThickness: =2
+                Color: =RGBA(51, 51, 51, 1)
+                Default: =Parent.Default
+                DelayOutput: =true
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                DisabledFill: =RGBA(244, 244, 244, 1)
+                DisplayMode: =Parent.DisplayMode
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                HoverBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                HoverColor: =RGBA(51, 51, 51, 1)
+                HoverFill: =RGBA(255, 255, 255, 1)
+                MaxLength: =Parent.MaxLength
+                PaddingLeft: =5
+                PressedBorderColor: =RGBA(105, 121, 126, 1)
+                PressedColor: =RGBA(51, 51, 51, 1)
+                PressedFill: =RGBA(255, 255, 255, 1)
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Size: =13
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey86.Y + DataCardKey86.Height + 5
+                ZIndex: =2
+
+            ErrorMessage45 As label:
+                AutoHeight: =true
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(168, 0, 0, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(168, 0, 0, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =13
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =36
+                Y: =DataCardValue76.Y + DataCardValue76.Height
+                ZIndex: =3
+
+            StarVisible40 As label:
+                Align: =Align.Center
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =DataCardKey86.Height
+                PaddingLeft: =0
+                Size: =13
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey86.Y
+                ZIndex: =4
+
+        DarkStatus_DataCard3 As typedDataCard.comboBoxOptionSetSingleEditCard:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="cat_darkstatus"
+            Default: |-
+                =//ThisItem.DarkStatus
+                'DarkStatus (gtmEntries)'.'Not Dark'
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: ="DarkStatus"
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            Required: =false
+            Update: =DataCardValue86.Selected.Value
+            Width: =400
+            X: =1
+            Y: =0
+            ZIndex: =1
+
+            DataCardKey96 As label:
+                AutoHeight: =true
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =34
+                PaddingLeft: =0
+                Size: =13
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue86 As combobox:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                ChevronBackground: =RGBA(255, 255, 255, 1)
+                ChevronDisabledBackground: =RGBA(244, 244, 244, 1)
+                ChevronDisabledFill: =RGBA(166, 166, 166, 1)
+                ChevronFill: =RGBA(33, 33, 33, 1)
+                ChevronHoverBackground: =RGBA(212, 212, 212, 1)
+                ChevronHoverFill: =RGBA(33, 33, 33, 1)
+                Color: =RGBA(51, 51, 51, 1)
+                DefaultSelectedItems: =[Parent.Default]
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                DisabledFill: =RGBA(244, 244, 244, 1)
+                DisplayFields: =["Value"]
+                DisplayMode: =Parent.DisplayMode
+                Font: =Font.'Segoe UI'
+                HoverBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                HoverColor: =RGBA(51, 51, 51, 1)
+                HoverFill: =RGBA(212, 212, 212, 1)
+                IsSearchable: =false
+                Items: =Choices('DarkStatus (gtmEntries)')
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                PressedColor: =RGBA(255, 255, 255, 1)
+                PressedFill: =RGBA(105, 121, 126, 1)
+                SearchItems: =[]
+                SelectionFill: =RGBA(105, 121, 126, 1)
+                SelectMultiple: =false
+                Size: =13
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey96.Y + DataCardKey96.Height + 5
+                ZIndex: =2
+
+            ErrorMessage55 As label:
+                AutoHeight: =true
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(168, 0, 0, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(168, 0, 0, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =13
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue86.Y + DataCardValue86.Height
+                ZIndex: =3
+
+            StarVisible50 As label:
+                Align: =Align.Center
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =DataCardKey96.Height
+                PaddingLeft: =0
+                Size: =13
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey96.Y
+                ZIndex: =4
+
+        "'Sponsoring VP_DataCard1' As typedDataCard.comboBoxEditCard":
+            BorderColor: =RGBA(166, 166, 166, 1)
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="cat_Sponsor"
+            Default: |-
+                =//ThisItem.'Sponsoring VP'
+                LookUp(Users, 'Full Name' = "Charles Lamanna")
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: ="Sponsoring VP"
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            Required: =false
+            Update: =DataCardValue92.Selected
+            Width: =600
+            X: =2
+            Y: =0
+            ZIndex: =1
+
+            DataCardKey102 As label:
+                AutoHeight: =true
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =34
+                PaddingLeft: =0
+                Size: =13
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue92 As combobox:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                ChevronBackground: =RGBA(255, 255, 255, 1)
+                ChevronDisabledBackground: =RGBA(244, 244, 244, 1)
+                ChevronDisabledFill: =RGBA(166, 166, 166, 1)
+                ChevronFill: =RGBA(33, 33, 33, 1)
+                ChevronHoverBackground: =RGBA(212, 212, 212, 1)
+                ChevronHoverFill: =RGBA(33, 33, 33, 1)
+                Color: =RGBA(51, 51, 51, 1)
+                DefaultSelectedItems: =Parent.Default
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                DisabledFill: =RGBA(244, 244, 244, 1)
+                DisplayFields: =["fullname"]
+                DisplayMode: =Parent.DisplayMode
+                Font: =Font.'Segoe UI'
+                HoverBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                HoverColor: =RGBA(51, 51, 51, 1)
+                HoverFill: =RGBA(212, 212, 212, 1)
+                Items: =Choices([@gtmEntries].'Sponsoring VP')
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                PressedColor: =RGBA(255, 255, 255, 1)
+                PressedFill: =RGBA(105, 121, 126, 1)
+                SearchFields: =["fullname"]
+                SearchItems: =Search(Choices([@gtmEntries].'Sponsoring VP'),DataCardValue92.SearchText,"fullname")
+                SelectionFill: =RGBA(105, 121, 126, 1)
+                SelectMultiple: =false
+                Size: =13
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey102.Y + DataCardKey102.Height + 5
+                ZIndex: =2
+
+            ErrorMessage61 As label:
+                AutoHeight: =true
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(168, 0, 0, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(168, 0, 0, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =13
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue92.Y + DataCardValue92.Height
+                ZIndex: =3
+
+            StarVisible56 As label:
+                Align: =Align.Center
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =DataCardKey102.Height
+                PaddingLeft: =0
+                Size: =13
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey102.Y
+                ZIndex: =4
+
+        Description_DataCard5 As typedDataCard.textualMultiLineEditCard:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="cat_description"
+            Default: =ThisItem.Description
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: ="Description *"
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =300
+            Required: =false
+            Update: =DataCardValue84.Text
+            Width: =800
+            X: =0
+            Y: =1
+            ZIndex: =1
+
+            DataCardKey94 As label:
+                AutoHeight: =true
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =34
+                PaddingLeft: =0
+                Size: =13
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue84 As text:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                BorderThickness: =2
+                Color: =RGBA(51, 51, 51, 1)
+                Default: =Parent.Default
+                DelayOutput: =true
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                DisabledFill: =RGBA(244, 244, 244, 1)
+                DisplayMode: =Parent.DisplayMode
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                Height: =231
+                HoverBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                HoverColor: =RGBA(51, 51, 51, 1)
+                HoverFill: =RGBA(255, 255, 255, 1)
+                Mode: =TextMode.MultiLine
+                PaddingLeft: =5
+                PressedBorderColor: =RGBA(105, 121, 126, 1)
+                PressedColor: =RGBA(51, 51, 51, 1)
+                PressedFill: =RGBA(255, 255, 255, 1)
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Size: =13
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey94.Y + DataCardKey94.Height + 5
+                ZIndex: =2
+
+            ErrorMessage53 As label:
+                AutoHeight: =true
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(168, 0, 0, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(168, 0, 0, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =13
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue84.Y + DataCardValue84.Height
+                ZIndex: =3
+
+            StarVisible48 As label:
+                Align: =Align.Center
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =DataCardKey94.Height
+                PaddingLeft: =0
+                Size: =13
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey94.Y
+                ZIndex: =4
+
+        RequestedLaunchDate_DataCard4 As typedDataCard.dateEditCard:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="cat_requestedlaunchdate"
+            Default: =ThisItem.RequestedLaunchDate
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: ="RequestedLaunchDate"
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =115
+            Required: =false
+            Update: =DataCardValue82.SelectedDate
+            Width: =400
+            X: =1
+            Y: =1
+            ZIndex: =1
+
+            DataCardKey92 As label:
+                AutoHeight: =true
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =34
+                PaddingLeft: =0
+                Size: =13
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue82 As datepicker:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                CalendarHeaderFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                Color: =RGBA(51, 51, 51, 1)
+                DefaultDate: =Parent.Default
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                DisabledFill: =RGBA(244, 244, 244, 1)
+                DisplayMode: =Parent.DisplayMode
+                EndYear: =Year(Today())+100
+                Font: =Font.'Segoe UI'
+                HoverDateFill: =RGBA(200, 200, 200, 1)
+                IconBackground: =RGBA(105, 121, 126, 1)
+                IsEditable: =true
+                PaddingBottom: =0
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                SelectedDateFill: =RGBA(105, 121, 126, 1)
+                Size: =13
+                StartYear: =1899
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey92.Y + DataCardKey92.Height + 5
+                ZIndex: =2
+
+            ErrorMessage51 As label:
+                AutoHeight: =true
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(168, 0, 0, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(168, 0, 0, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =13
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue82.Y + DataCardValue82.Height
+                ZIndex: =3
+
+            StarVisible46 As label:
+                Align: =Align.Center
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =DataCardKey92.Height
+                PaddingLeft: =0
+                Size: =13
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey92.Y
+                ZIndex: =4
+
+        "'Business Owner_DataCard3' As typedDataCard.comboBoxEditCard":
+            BorderColor: =RGBA(166, 166, 166, 1)
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="cat_BusinessOwner"
+            Default: |-
+                =//ThisItem.'Business Owner'
+                LookUp(Users, 'Full Name' = "Debraj Ghosh")
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: ="Business Owner"
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            Required: =false
+            Update: =DataCardValue93.Selected
+            Width: =600
+            X: =2
+            Y: =1
+            ZIndex: =1
+
+            DataCardKey103 As label:
+                AutoHeight: =true
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =34
+                PaddingLeft: =0
+                Size: =13
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue93 As combobox:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                ChevronBackground: =RGBA(255, 255, 255, 1)
+                ChevronDisabledBackground: =RGBA(244, 244, 244, 1)
+                ChevronDisabledFill: =RGBA(166, 166, 166, 1)
+                ChevronFill: =RGBA(33, 33, 33, 1)
+                ChevronHoverBackground: =RGBA(212, 212, 212, 1)
+                ChevronHoverFill: =RGBA(33, 33, 33, 1)
+                Color: =RGBA(51, 51, 51, 1)
+                DefaultSelectedItems: =Parent.Default
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                DisabledFill: =RGBA(244, 244, 244, 1)
+                DisplayFields: =["fullname"]
+                DisplayMode: =Parent.DisplayMode
+                Font: =Font.'Segoe UI'
+                HoverBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                HoverColor: =RGBA(51, 51, 51, 1)
+                HoverFill: =RGBA(212, 212, 212, 1)
+                Items: =Choices([@gtmEntries].'Business Owner')
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                PressedColor: =RGBA(255, 255, 255, 1)
+                PressedFill: =RGBA(105, 121, 126, 1)
+                SearchFields: =["fullname"]
+                SearchItems: =Search(Choices([@gtmEntries].'Business Owner'),DataCardValue93.SearchText,"fullname")
+                SelectionFill: =RGBA(105, 121, 126, 1)
+                SelectMultiple: =false
+                Size: =13
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey103.Y + DataCardKey103.Height + 5
+                ZIndex: =2
+
+            ErrorMessage62 As label:
+                AutoHeight: =true
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(168, 0, 0, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(168, 0, 0, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =13
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue93.Y + DataCardValue93.Height
+                ZIndex: =3
+
+            StarVisible57 As label:
+                Align: =Align.Center
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =DataCardKey103.Height
+                PaddingLeft: =0
+                Size: =13
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey103.Y
+                ZIndex: =4
+
+        GoalKPI_DataCard2 As typedDataCard.textualMultiLineEditCard:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="cat_goalkpi"
+            Default: =ThisItem.GoalKPI
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: ="Opportunity, Goals & High Level KPIs"
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =380
+            Required: =false
+            Update: =DataCardValue90.Text
+            Width: =800
+            X: =0
+            Y: =2
+            ZIndex: =1
+
+            DataCardKey100 As label:
+                AutoHeight: =true
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =34
+                PaddingLeft: =0
+                Size: =13
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue90 As text:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                BorderThickness: =2
+                Color: =RGBA(51, 51, 51, 1)
+                Default: =Parent.Default
+                DelayOutput: =true
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                DisabledFill: =RGBA(244, 244, 244, 1)
+                DisplayMode: =Parent.DisplayMode
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                Height: =316
+                HoverBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                HoverColor: =RGBA(51, 51, 51, 1)
+                HoverFill: =RGBA(255, 255, 255, 1)
+                Mode: =TextMode.MultiLine
+                PaddingLeft: =5
+                PressedBorderColor: =RGBA(105, 121, 126, 1)
+                PressedColor: =RGBA(51, 51, 51, 1)
+                PressedFill: =RGBA(255, 255, 255, 1)
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Size: =13
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey100.Y + DataCardKey100.Height + 5
+                ZIndex: =2
+
+            ErrorMessage59 As label:
+                AutoHeight: =true
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(168, 0, 0, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(168, 0, 0, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =13
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue90.Y + DataCardValue90.Height
+                ZIndex: =3
+
+            StarVisible54 As label:
+                Align: =Align.Center
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =DataCardKey100.Height
+                PaddingLeft: =0
+                Size: =13
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey100.Y
+                ZIndex: =4
+
+        PreOrderDate_DataCard1 As typedDataCard.dateEditCard:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="cat_preorderdate"
+            Default: =ThisItem.PreOrderDate
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: ="PreOrderDate"
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            Required: =false
+            Update: =DataCardValue94.SelectedDate
+            Width: =400
+            X: =1
+            Y: =2
+            ZIndex: =1
+
+            DataCardKey104 As label:
+                AutoHeight: =true
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =34
+                PaddingLeft: =0
+                Size: =13
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue94 As datepicker:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                CalendarHeaderFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                Color: =RGBA(51, 51, 51, 1)
+                DefaultDate: =Parent.Default
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                DisabledFill: =RGBA(244, 244, 244, 1)
+                DisplayMode: =Parent.DisplayMode
+                EndYear: =Year(Today())+100
+                Font: =Font.'Segoe UI'
+                HoverDateFill: =RGBA(200, 200, 200, 1)
+                IconBackground: =RGBA(105, 121, 126, 1)
+                IsEditable: =true
+                PaddingBottom: =0
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                SelectedDateFill: =RGBA(105, 121, 126, 1)
+                Size: =13
+                StartYear: =1899
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey104.Y + DataCardKey104.Height + 5
+                ZIndex: =2
+
+            ErrorMessage63 As label:
+                AutoHeight: =true
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(168, 0, 0, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(168, 0, 0, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =13
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue94.Y + DataCardValue94.Height
+                ZIndex: =3
+
+            StarVisible58 As label:
+                Align: =Align.Center
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =DataCardKey104.Height
+                PaddingLeft: =0
+                Size: =13
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey104.Y
+                ZIndex: =4
+
+        LOBChannelHorizontal_DataCard3 As typedDataCard.comboBoxOptionSetSingleEditCard:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="cat_lobchannelhorizontal"
+            Default: |-
+                =//ThisItem.LOBChannelHorizontal
+                LOBChannelHorizontal.Digital
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: ="LOBChannelHorizontal"
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            Required: =false
+            Update: =DataCardValue89.Selected.Value
+            Width: =600
+            X: =2
+            Y: =2
+            ZIndex: =1
+
+            DataCardKey99 As label:
+                AutoHeight: =true
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =34
+                PaddingLeft: =0
+                Size: =13
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue89 As combobox:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                ChevronBackground: =RGBA(255, 255, 255, 1)
+                ChevronDisabledBackground: =RGBA(244, 244, 244, 1)
+                ChevronDisabledFill: =RGBA(166, 166, 166, 1)
+                ChevronFill: =RGBA(33, 33, 33, 1)
+                ChevronHoverBackground: =RGBA(212, 212, 212, 1)
+                ChevronHoverFill: =RGBA(33, 33, 33, 1)
+                Color: =RGBA(51, 51, 51, 1)
+                DefaultSelectedItems: =[Parent.Default]
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                DisabledFill: =RGBA(244, 244, 244, 1)
+                DisplayFields: =["Value"]
+                DisplayMode: =Parent.DisplayMode
+                Font: =Font.'Segoe UI'
+                HoverBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                HoverColor: =RGBA(51, 51, 51, 1)
+                HoverFill: =RGBA(212, 212, 212, 1)
+                IsSearchable: =false
+                Items: =Choices(LOBChannelHorizontal)
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                PressedColor: =RGBA(255, 255, 255, 1)
+                PressedFill: =RGBA(105, 121, 126, 1)
+                SearchItems: =[]
+                SelectionFill: =RGBA(105, 121, 126, 1)
+                SelectMultiple: =false
+                Size: =13
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey99.Y + DataCardKey99.Height + 5
+                ZIndex: =2
+
+            ErrorMessage58 As label:
+                AutoHeight: =true
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(168, 0, 0, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(168, 0, 0, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =13
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue89.Y + DataCardValue89.Height
+                ZIndex: =3
+
+            StarVisible53 As label:
+                Align: =Align.Center
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =DataCardKey99.Height
+                PaddingLeft: =0
+                Size: =13
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey99.Y
+                ZIndex: =4
+
+        InitiativeTypeGroup_DataCard2 As typedDataCard.comboBoxOptionSetSingleEditCard:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="cat_initiativetypegroup"
+            Default: |-
+                =//ThisItem.InitiativeTypeGroup
+                InitiativeTypeGroup.Business
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: ="InitiativeTypeGroup"
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            Required: =false
+            Update: =DataCardValue78.Selected.Value
+            Visible: =false
+            Width: =150
+            X: =3
+            Y: =2
+            ZIndex: =1
+
+            DataCardKey88 As label:
+                AutoHeight: =true
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =34
+                PaddingLeft: =0
+                Size: =13
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue78 As combobox:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                ChevronBackground: =RGBA(255, 255, 255, 1)
+                ChevronDisabledBackground: =RGBA(244, 244, 244, 1)
+                ChevronDisabledFill: =RGBA(166, 166, 166, 1)
+                ChevronFill: =RGBA(33, 33, 33, 1)
+                ChevronHoverBackground: =RGBA(212, 212, 212, 1)
+                ChevronHoverFill: =RGBA(33, 33, 33, 1)
+                Color: =RGBA(51, 51, 51, 1)
+                DefaultSelectedItems: =[Parent.Default]
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                DisabledFill: =RGBA(244, 244, 244, 1)
+                DisplayFields: =["Value"]
+                DisplayMode: =Parent.DisplayMode
+                Font: =Font.'Segoe UI'
+                HoverBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                HoverColor: =RGBA(51, 51, 51, 1)
+                HoverFill: =RGBA(212, 212, 212, 1)
+                IsSearchable: =false
+                Items: =Choices(InitiativeTypeGroup)
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                PressedColor: =RGBA(255, 255, 255, 1)
+                PressedFill: =RGBA(105, 121, 126, 1)
+                SearchItems: =[]
+                SelectionFill: =RGBA(105, 121, 126, 1)
+                SelectMultiple: =false
+                Size: =13
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey88.Y + DataCardKey88.Height + 5
+                ZIndex: =2
+
+            ErrorMessage47 As label:
+                AutoHeight: =true
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(168, 0, 0, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(168, 0, 0, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =13
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue78.Y + DataCardValue78.Height
+                ZIndex: =3
+
+            StarVisible42 As label:
+                Align: =Align.Center
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =DataCardKey88.Height
+                PaddingLeft: =0
+                Size: =13
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey88.Y
+                ZIndex: =4
+
+        Brand_DataCard1 As typedDataCard.comboBoxOptionSetSingleEditCard:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="cat_brand"
+            Default: |-
+                =//ThisItem.Brand
+                Brand.Metro
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: ="Brand"
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            Required: =false
+            Update: =DataCardValue91.Selected.Value
+            Visible: =false
+            Width: =300
+            X: =4
+            Y: =2
+            ZIndex: =1
+
+            DataCardKey101 As label:
+                AutoHeight: =true
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =34
+                PaddingLeft: =0
+                Size: =13
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue91 As combobox:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                ChevronBackground: =RGBA(255, 255, 255, 1)
+                ChevronDisabledBackground: =RGBA(244, 244, 244, 1)
+                ChevronDisabledFill: =RGBA(166, 166, 166, 1)
+                ChevronFill: =RGBA(33, 33, 33, 1)
+                ChevronHoverBackground: =RGBA(212, 212, 212, 1)
+                ChevronHoverFill: =RGBA(33, 33, 33, 1)
+                Color: =RGBA(51, 51, 51, 1)
+                DefaultSelectedItems: =[Parent.Default]
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                DisabledFill: =RGBA(244, 244, 244, 1)
+                DisplayFields: =["Value"]
+                DisplayMode: =Parent.DisplayMode
+                Font: =Font.'Segoe UI'
+                HoverBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                HoverColor: =RGBA(51, 51, 51, 1)
+                HoverFill: =RGBA(212, 212, 212, 1)
+                IsSearchable: =false
+                Items: =Choices(Brand)
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                PressedColor: =RGBA(255, 255, 255, 1)
+                PressedFill: =RGBA(105, 121, 126, 1)
+                SearchItems: =[]
+                SelectionFill: =RGBA(105, 121, 126, 1)
+                SelectMultiple: =false
+                Size: =13
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey101.Y + DataCardKey101.Height + 5
+                ZIndex: =2
+
+            ErrorMessage60 As label:
+                AutoHeight: =true
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(168, 0, 0, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(168, 0, 0, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =13
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue91.Y + DataCardValue91.Height
+                ZIndex: =3
+
+            StarVisible55 As label:
+                Align: =Align.Center
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =DataCardKey101.Height
+                PaddingLeft: =0
+                Size: =13
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey101.Y
+                ZIndex: =4
+
+        InitiativeType_DataCard2 As typedDataCard.comboBoxOptionSetSingleEditCard:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="cat_initiativetype"
+            Default: |-
+                =//ThisItem.InitiativeType
+                InitiativeType.'Device Launch'
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: ="InitiativeType"
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            Required: =false
+            Update: =DataCardValue79.Selected.Value
+            Visible: =false
+            Width: =800
+            X: =0
+            Y: =3
+            ZIndex: =1
+
+            DataCardKey89 As label:
+                AutoHeight: =true
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =34
+                PaddingLeft: =0
+                Size: =13
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue79 As combobox:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                ChevronBackground: =RGBA(255, 255, 255, 1)
+                ChevronDisabledBackground: =RGBA(244, 244, 244, 1)
+                ChevronDisabledFill: =RGBA(166, 166, 166, 1)
+                ChevronFill: =RGBA(33, 33, 33, 1)
+                ChevronHoverBackground: =RGBA(212, 212, 212, 1)
+                ChevronHoverFill: =RGBA(33, 33, 33, 1)
+                Color: =RGBA(51, 51, 51, 1)
+                DefaultSelectedItems: =[Parent.Default]
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                DisabledFill: =RGBA(244, 244, 244, 1)
+                DisplayFields: =["Value"]
+                DisplayMode: =Parent.DisplayMode
+                Font: =Font.'Segoe UI'
+                HoverBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                HoverColor: =RGBA(51, 51, 51, 1)
+                HoverFill: =RGBA(212, 212, 212, 1)
+                IsSearchable: =false
+                Items: =Choices(InitiativeType)
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                PressedColor: =RGBA(255, 255, 255, 1)
+                PressedFill: =RGBA(105, 121, 126, 1)
+                SearchItems: =[]
+                SelectionFill: =RGBA(105, 121, 126, 1)
+                SelectMultiple: =false
+                Size: =13
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey89.Y + DataCardKey89.Height + 5
+                ZIndex: =2
+
+            ErrorMessage48 As label:
+                AutoHeight: =true
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(168, 0, 0, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(168, 0, 0, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =13
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue79.Y + DataCardValue79.Height
+                ZIndex: =3
+
+            StarVisible43 As label:
+                Align: =Align.Center
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =DataCardKey89.Height
+                PaddingLeft: =0
+                Size: =13
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey89.Y
+                ZIndex: =4
+
+        PreSaleDate_DataCard1 As typedDataCard.dateEditCard:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="cat_presaledate"
+            Default: =ThisItem.PreSaleDate
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: ="PreSaleDate"
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            Required: =false
+            Update: =DataCardValue95.SelectedDate
+            Visible: =false
+            Width: =400
+            X: =1
+            Y: =3
+            ZIndex: =1
+
+            DataCardKey105 As label:
+                AutoHeight: =true
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =34
+                PaddingLeft: =0
+                Size: =13
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue95 As datepicker:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                CalendarHeaderFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                Color: =RGBA(51, 51, 51, 1)
+                DefaultDate: =Parent.Default
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                DisabledFill: =RGBA(244, 244, 244, 1)
+                DisplayMode: =Parent.DisplayMode
+                EndYear: =Year(Today())+100
+                Font: =Font.'Segoe UI'
+                HoverDateFill: =RGBA(200, 200, 200, 1)
+                IconBackground: =RGBA(105, 121, 126, 1)
+                IsEditable: =true
+                PaddingBottom: =0
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                SelectedDateFill: =RGBA(105, 121, 126, 1)
+                Size: =13
+                StartYear: =1899
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey105.Y + DataCardKey105.Height + 5
+                ZIndex: =2
+
+            ErrorMessage64 As label:
+                AutoHeight: =true
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(168, 0, 0, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(168, 0, 0, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =13
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue95.Y + DataCardValue95.Height
+                ZIndex: =3
+
+            StarVisible59 As label:
+                Align: =Align.Center
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =DataCardKey105.Height
+                PaddingLeft: =0
+                Size: =13
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey105.Y
+                ZIndex: =4
+
+        Phase_DataCard2 As typedDataCard.comboBoxOptionSetSingleEditCard:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            BorderStyle: =BorderStyle.Solid
+            DataField: ="cat_phase"
+            Default: |-
+                =//ThisItem.Phase
+                Phase.New
+            DisplayMode: =Parent.DisplayMode
+            DisplayName: ="Phase"
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =50
+            Required: =false
+            Update: =DataCardValue80.Selected.Value
+            Visible: =false
+            Width: =600
+            X: =2
+            Y: =3
+            ZIndex: =1
+
+            DataCardKey90 As label:
+                AutoHeight: =true
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =34
+                PaddingLeft: =0
+                Size: =13
+                Text: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                Wrap: =false
+                X: =30
+                Y: =10
+                ZIndex: =1
+
+            DataCardValue80 As combobox:
+                BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                ChevronBackground: =RGBA(255, 255, 255, 1)
+                ChevronDisabledBackground: =RGBA(244, 244, 244, 1)
+                ChevronDisabledFill: =RGBA(166, 166, 166, 1)
+                ChevronFill: =RGBA(33, 33, 33, 1)
+                ChevronHoverBackground: =RGBA(212, 212, 212, 1)
+                ChevronHoverFill: =RGBA(33, 33, 33, 1)
+                Color: =RGBA(51, 51, 51, 1)
+                DefaultSelectedItems: =[Parent.Default]
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                DisabledFill: =RGBA(244, 244, 244, 1)
+                DisplayFields: =["Value"]
+                DisplayMode: =Parent.DisplayMode
+                Font: =Font.'Segoe UI'
+                HoverBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                HoverColor: =RGBA(51, 51, 51, 1)
+                HoverFill: =RGBA(212, 212, 212, 1)
+                IsSearchable: =false
+                Items: =Choices(Phase)
+                PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                PressedColor: =RGBA(255, 255, 255, 1)
+                PressedFill: =RGBA(105, 121, 126, 1)
+                SearchItems: =[]
+                SelectionFill: =RGBA(105, 121, 126, 1)
+                SelectMultiple: =false
+                Size: =13
+                Tooltip: =Parent.DisplayName
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardKey90.Y + DataCardKey90.Height + 5
+                ZIndex: =2
+
+            ErrorMessage49 As label:
+                AutoHeight: =true
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(168, 0, 0, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(168, 0, 0, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =10
+                Live: =Live.Assertive
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =13
+                Text: =Parent.Error
+                Visible: =Parent.DisplayMode=DisplayMode.Edit
+                Width: =Parent.Width - 60
+                X: =30
+                Y: =DataCardValue80.Y + DataCardValue80.Height
+                ZIndex: =3
+
+            StarVisible44 As label:
+                Align: =Align.Center
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =DataCardKey90.Height
+                PaddingLeft: =0
+                Size: =13
+                Text: ="*"
+                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                Width: =30
+                Wrap: =false
+                Y: =DataCardKey90.Y
+                ZIndex: =4
+
+    SectionTitle_2 As label:
+        BorderColor: =RGBA(0, 18, 107, 1)
+        Color: =RGBA(226, 0, 116, 1)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =SectionTitle_2.BorderColor
+        Height: =30
+        HoverBorderColor: =SectionTitle_2.BorderColor
+        HoverColor: =SectionTitle_2.Color
+        HoverFill: =SectionTitle_2.Fill
+        PressedBorderColor: =SectionTitle_2.BorderColor
+        PressedColor: =SectionTitle_2.Color
+        PressedFill: =SectionTitle_2.Fill
+        Size: =18
+        Text: ="Basics"
+        VerticalAlign: =VerticalAlign.Bottom
+        Width: =731
+        X: =30
+        Y: =180
+        ZIndex: =10
+
+    grp_PatchButtons_1 As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =53
+
+        btn_Submit_4 As button:
+            BorderColor: =ColorFade(btn_Submit_4.Fill, -15%)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =1
+            Color: =White
+            DisabledBorderColor: =RGBA(83, 83, 83, 1)
+            DisabledColor: =White
+            DisabledFill: =RGBA(166, 166, 166, 1)
+            DisplayMode: |-
+                =/*If(
+                (Value(lbl_RequiredFieldsRemainingCount_1.Text) < 1 And varRecordEditTrue And (com_FormSection_6.FormValuesChanged Or com_FormSection_7.FormValuesChanged Or com_FormSection_8.FormValuesChanged Or com_FormSection_10.FormValuesChanged Or com_FormSection_9.FormValuesChanged)) Or 
+                
+                (Value(lbl_RequiredFieldsRemainingCount_1.Text) < 1 And varIsNewInitiative And (com_FormSection_6.FormValuesChanged Or com_FormSection_7.FormValuesChanged Or com_FormSection_8.FormValuesChanged Or com_FormSection_10.FormValuesChanged Or com_FormSection_9.FormValuesChanged)) Or 
+                
+                varDevMode Or 
+                
+                varGTMOverrideMode Or
+                
+                (Value(lbl_RequiredFieldsRemainingCount_1.Text) < 1 And 
+                varIsDraftInitiative
+                //!IsBlank(Find("WriteAccess", varRecordPermissions.recordpermissions))
+                //varRecordEditPermissions 
+                //And (com_FormSection_1.FormValuesChanged Or com_FormSection_2.FormValuesChanged Or com_FormSection_3.FormValuesChanged Or com_FormSection_4.FormValuesChanged Or com_FormSection_5.FormValuesChanged)
+                ),   
+                    
+                    DisplayMode.Edit, 
+                    DisplayMode.Disabled)*/
+                If(NewGtmEntryForm.Unsaved,DisplayMode.Edit,DisplayMode.Disabled)
+            Fill: =RGBA(226, 0, 116, 1)
+            FocusedBorderColor: =btn_Submit_4.BorderColor
+            FocusedBorderThickness: =1
+            Font: ='Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =30
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =White
+            HoverFill: =ColorFade(btn_Submit_4.Fill, -20%)
+            OnSelect: |-
+                =UpdateContext({showLoader:false});
+                SubmitForm(NewGtmEntryForm);
+                UpdateContext({showLoader:true});
+            PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =10
+            Text: ="Submit"
+            Visible: =varIsNewInitiative Or varIsDraftInitiative Or varRecordEditTrue Or varDevMode Or varRecordEditPermissions
+            Width: =128
+            X: =1724
+            Y: =70
+            ZIndex: =4
+
+        btn_Cancel_2 As button:
+            BorderColor: =ColorFade(btn_Cancel_2.Fill, -15%)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =1
+            Color: =White
+            DisabledBorderColor: =RGBA(83, 83, 83, 1)
+            DisabledColor: =White
+            DisabledFill: =RGBA(166, 166, 166, 1)
+            DisplayMode: |-
+                =DisplayMode.Edit
+                //If(BDL_RequiredFields_Number.Text = "0",DisplayMode.Edit,DisplayMode.Disabled)
+            Fill: =RGBA(149, 149, 149, 1)
+            FocusedBorderColor: =btn_Cancel_2.BorderColor
+            FocusedBorderThickness: =1
+            Font: ='Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =30
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =White
+            HoverFill: =ColorFade(btn_Cancel_2.Fill, -20%)
+            OnSelect: =Back()
+            PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =10
+            Text: ="Cancel"
+            Visible: =varIsNewInitiative Or varIsDraftInitiative Or varRecordEditTrue Or varDevMode Or varRecordEditPermissions
+            Width: =135
+            X: =1572
+            Y: =70
+            ZIndex: =5
+

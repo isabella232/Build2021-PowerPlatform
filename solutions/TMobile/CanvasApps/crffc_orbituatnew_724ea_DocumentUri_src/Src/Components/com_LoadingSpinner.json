@@ -1,0 +1,43 @@
+{
+  "ComponentAllowCustomization": true,
+  "ComponentChangedSinceFileImport": true,
+  "ComponentManifest": {
+    "AllowAccessToGlobals": false,
+    "AllowCustomization": true,
+    "Description": "",
+    "Name": "com_LoadingSpinner",
+    "TemplateGuid": "45b53e71c12240caa5feb0ea785fde9c"
+  },
+  "ComponentType": "CanvasComponent",
+  "CustomGroupControlTemplateName": "",
+  "CustomProperties": [
+    {
+      "Category": 0,
+      "DisplayName": "SpinnerText",
+      "Hidden": false,
+      "Name": "SpinnerText",
+      "PropertyDataTypeKey": "String",
+      "Tooltip": "Spinner Text",
+      "Type": "{\"Version\":\"1.309\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"String\",\"EnumString\":\"\",\"Type\":[]}}"
+    },
+    {
+      "Category": 0,
+      "DisplayName": "SubtleLoader",
+      "Hidden": false,
+      "Name": "SubtleLoader",
+      "PropertyDataTypeKey": "Boolean",
+      "Tooltip": "SubtleLoader",
+      "Type": "{\"Version\":\"1.309\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"_MinPrimitive\",\"EnumString\":\"\",\"Type\":[]}}"
+    }
+  ],
+  "FirstParty": true,
+  "Id": "http://microsoft.com/appmagic/Component",
+  "IsComponentLocked": false,
+  "IsComponentTemplate": true,
+  "IsCustomGroupControlTemplate": false,
+  "IsPremiumPcfControl": false,
+  "LastModifiedTimestamp": "637556503002970251",
+  "Name": "45b53e71c12240caa5feb0ea785fde9c",
+  "OverridableProperties": {},
+  "Version": "637556506220936354"
+}

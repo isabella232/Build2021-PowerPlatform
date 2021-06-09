@@ -1,0 +1,146 @@
+com_NavLeft As CanvasComponent:
+    Fill: =RGBA(0, 0, 0, 0)
+    FormEditMode: =false
+    Height: =500
+    HideGallery: =false
+    Items: |-
+        =Table(
+            {Label:"One",LaunchLink:"https://web.powerapps.com/apps/f9044a12-0c2c-465e-8bb3-a82b0de9424a",Screen:App.ActiveScreen,InitiativeType:"",IsVisible:true},
+            {Label:"Two",LaunchLink:"",Screen:App.ActiveScreen,InitiativeType:"",IsVisible:true}
+        )
+    LoadingScreen: =varLoadingSpinner
+    OnReset: |-
+        =Set(varLoadingSpinner, true);
+        Set(varEditMode, false);
+        Set(varResetComponent, false)
+    ResetComponent: =
+    Width: =130
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    Group2 As groupContainer:
+        DisplayMode: =DisplayMode.Edit
+        Height: =CountRows(com_NavLeft.Items) * gal_NavLeft_Buttons.TemplateHeight
+        Visible: =!com_NavLeft.HideGallery
+        Width: =com_NavLeft.Width
+        Y: =30
+        ZIndex: =5
+
+        gal_NavLeft_Buttons As gallery.galleryVertical:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            DisabledBorderColor: =gal_NavLeft_Buttons.BorderColor
+            DisabledFill: =gal_NavLeft_Buttons.Fill
+            Height: =CountRows(com_NavLeft.Items) * gal_NavLeft_Buttons.TemplateHeight
+            HoverBorderColor: =gal_NavLeft_Buttons.BorderColor
+            HoverFill: =gal_NavLeft_Buttons.Fill
+            Items: =com_NavLeft.Items
+            Layout: =Layout.Vertical
+            LoadingSpinnerColor: =gal_NavLeft_Buttons.BorderColor
+            PressedBorderColor: =gal_NavLeft_Buttons.BorderColor
+            PressedFill: =gal_NavLeft_Buttons.Fill
+            TemplatePadding: =0
+            TemplateSize: =LookUp(StyleGuide,Key="NavHeight").Value + 2
+            Width: =com_NavLeft.Width
+            ZIndex: =1
+
+            btn_NavLeft As button:
+                Align: =Align.Left
+                BorderColor: =
+                BorderStyle: =
+                BorderThickness: =
+                Color: =ColorValue(LookUp(StyleGuide,Key="Magenta").Value)
+                DisabledBorderColor: =
+                DisabledColor: =btn_NavLeft.Fill
+                DisabledFill: =btn_NavLeft.Color
+                DisplayMode: |-
+                    =//If(ThisItem.Label = "One",
+                    If(App.ActiveScreen = ThisItem.Screen,
+                    	DisplayMode.Disabled, 
+                    	DisplayMode.Edit
+                    )
+                Fill: =ColorValue(LookUp(StyleGuide,Key="White").Value)
+                FocusedBorderColor: =
+                FocusedBorderThickness: =
+                Font: =LookUp(StyleGuide,Key="Font").Value
+                FontWeight: =Normal
+                Height: =60
+                HoverBorderColor: =
+                HoverColor: =btn_NavLeft.Color
+                HoverFill: =ColorValue(LookUp(StyleGuide,Key="LightMagenta2").Value)
+                OnSelect: |-
+                    =If(IsBlank(ThisItem.LaunchLink),
+                        Navigate(ThisItem.Screen, ScreenTransition.None);
+                        Set(varLoadingSpinner, false),
+                        Launch(ThisItem.LaunchLink)
+                    );
+                PaddingBottom: =LookUp(StyleGuide,Key="Padding").Value
+                PaddingLeft: =LookUp(StyleGuide,Key="Padding").Value + 10
+                PaddingRight: =LookUp(StyleGuide,Key="Padding").Value
+                PaddingTop: =LookUp(StyleGuide,Key="Padding").Value
+                PressedBorderColor: =
+                PressedColor: =btn_NavLeft.Fill
+                PressedFill: =ColorValue(LookUp(StyleGuide,Key="LightMagenta").Value)
+                RadiusBottomLeft: =
+                RadiusBottomRight: =
+                RadiusTopLeft: =
+                RadiusTopRight: =
+                Size: =12
+                Text: =ThisItem.Label
+                VerticalAlign: =Middle
+                Visible: =ThisItem.IsVisible
+                Width: =Parent.Width
+                ZIndex: =1
+
+            icn_NavLeft_Arrow As icon.ChevronRight:
+                BorderColor: =RGBA(0, 18, 107, 1)
+                Color: =RGBA(255, 255, 255, 1)
+                DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                DisabledColor: =RGBA(244, 244, 244, 1)
+                DisabledFill: =icn_NavLeft_Arrow.Fill
+                FocusedBorderColor: =icn_NavLeft_Arrow.BorderColor
+                Height: =btn_NavLeft.Height
+                HoverBorderColor: =ColorFade(icn_NavLeft_Arrow.BorderColor, 20%)
+                HoverColor: =ColorFade(icn_NavLeft_Arrow.Color, 20%)
+                HoverFill: =icn_NavLeft_Arrow.Fill
+                Icon: =Icon.ChevronRight
+                PressedBorderColor: =ColorFade(icn_NavLeft_Arrow.BorderColor, -20%)
+                PressedColor: =ColorFade(icn_NavLeft_Arrow.Color, -20%)
+                PressedFill: =icn_NavLeft_Arrow.Fill
+                Visible: =If(btn_NavLeft.DisplayMode = Disabled, true, false)
+                Width: =19
+                X: =Parent.Width - icn_NavLeft_Arrow.Width - 2
+                ZIndex: =3
+
+            icn_NavLeft_Magenta_Line As rectangle:
+                BorderColor: =RGBA(0, 18, 107, 1)
+                DisabledFill: =icn_NavLeft_Magenta_Line.Fill
+                Fill: =ColorValue(LookUp(StyleGuide,Key="Magenta").Value)
+                FocusedBorderColor: =icn_NavLeft_Magenta_Line.BorderColor
+                Height: =btn_NavLeft.Height
+                HoverFill: =icn_NavLeft_Magenta_Line.Fill
+                PressedFill: =icn_NavLeft_Magenta_Line.Fill
+                Visible: =ThisItem.IsVisible
+                Width: =6
+                X: =Parent.Width - icn_NavLeft_Magenta_Line.Width
+                ZIndex: =4
+
+    Image3_2 As image:
+        BorderColor: =RGBA(0, 18, 107, 1)
+        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+        DisabledFill: =RGBA(244, 244, 244, 1)
+        Fill: =RGBA(255, 255, 255, 1)
+        FocusedBorderColor: =Image3_2.BorderColor
+        Height: =Image3_2.Width
+        HoverBorderColor: =ColorFade(Image3_2.BorderColor, 20%)
+        HoverFill: =ColorFade(Image3_2.Fill, 20%)
+        Image: ='TMO Logo'
+        ImagePosition: =ImagePosition.Fill
+        PressedBorderColor: =ColorFade(Image3_2.BorderColor, -20%)
+        PressedFill: =ColorFade(Image3_2.Fill, -20%)
+        Transparency: =.8
+        Width: =com_NavLeft.Width
+        X: =com_NavLeft.Width * .05
+        Y: =com_NavLeft.Height - Image3_2.Height - 15
+        ZIndex: =6
+

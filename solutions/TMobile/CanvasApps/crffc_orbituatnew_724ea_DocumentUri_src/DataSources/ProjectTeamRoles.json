@@ -1,0 +1,129 @@
+[
+  {
+    "CdsFCBContext": "{\"FileType\":true,\"ImageExternalStorage\":true}",
+    "EntitySetName": "cat_projectteamroleses",
+    "IsHidden": false,
+    "IsSampleData": false,
+    "IsWritable": true,
+    "LogicalName": "cat_projectteamroles",
+    "MaxGetRowsCount": 2000,
+    "Name": "ProjectTeamRoles",
+    "NativeCDSDataSourceInfoNameMapping": {
+      "_ownerid_value": "Owner",
+      "cat_gtmEntry": "gtmEntry",
+      "cat_name": "Name",
+      "cat_projectteamroles_AsyncOperations": "System Jobs",
+      "cat_projectteamroles_BulkDeleteFailures": "Bulk Delete Failures",
+      "cat_projectteamroles_DuplicateBaseRecord": "Duplicate Records (cat_projectteamroles_DuplicateBaseRecord)",
+      "cat_projectteamroles_DuplicateMatchingRecord": "Duplicate Records (cat_projectteamroles_DuplicateMatchingRecord)",
+      "cat_projectteamroles_MailboxTrackingFolders": "Mailbox Auto Tracking Folders",
+      "cat_projectteamroles_PrincipalObjectAttributeAccesses": "Field Sharing",
+      "cat_projectteamroles_ProcessSession": "Process Sessions",
+      "cat_projectteamroles_SyncErrors": "Sync Errors",
+      "cat_projectteamrolesid": "ProjectTeamRoles",
+      "cat_roletype": "RoleType",
+      "cat_TeamMember": "TeamMember",
+      "createdby": "Created By",
+      "createdon": "Created On",
+      "createdonbehalfby": "Created By (Delegate)",
+      "importsequencenumber": "Import Sequence Number",
+      "modifiedby": "Modified By",
+      "modifiedon": "Modified On",
+      "modifiedonbehalfby": "Modified By (Delegate)",
+      "overriddencreatedon": "Record Created On",
+      "owningbusinessunit": "Owning Business Unit",
+      "owningteam": "Owning Team",
+      "owninguser": "Owning User",
+      "statecode": "Status",
+      "statuscode": "Status Reason",
+      "timezoneruleversionnumber": "Time Zone Rule Version Number",
+      "utcconversiontimezonecode": "UTC Conversion Time Zone Code",
+      "versionnumber": "Version Number"
+    },
+    "PreferredName": "ProjectTeamRoles",
+    "Type": "NativeCDSDataSourceInfo"
+  },
+  {
+    "DisplayName": "ProjectTeamRoles (Views)",
+    "Name": "_cat_projectteamroles_views",
+    "RelatedEntityName": "ProjectTeamRoles",
+    "TrimmedViewName": true,
+    "Type": "ViewInfo",
+    "ViewInfoNameMapping": {
+      "25587f21-611b-486a-9985-e6bf24696af8": "ProjectTeamRoles Advanced Find View",
+      "5e6a4185-1e89-42f7-a0d8-0c99cab19ec5": "Active ProjectTeamRoles",
+      "690e5f8d-cf8b-4f15-b0da-521f6f36df5c": "ProjectTeamRoles Associated View",
+      "6e9b6176-9755-4084-9bbc-49755d352764": "ProjectTeamRoles Lookup View",
+      "cb6f261e-7a39-4d9f-9240-baec987c590e": "Inactive ProjectTeamRoles"
+    }
+  },
+  {
+    "DisplayName": "Status (ProjectTeamRoles)",
+    "Name": "cat_projectteamroles_statecode",
+    "OptionSetInfoNameMapping": {
+      "0": "Active",
+      "1": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statecode",
+        "OptionSetReferenceEntityName": "ProjectTeamRoles"
+      }
+    },
+    "OptionSetTypeKey": "StateType",
+    "RelatedColumnInvariantName": "statecode",
+    "RelatedEntityName": "ProjectTeamRoles",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status Reason (ProjectTeamRoles)",
+    "Name": "cat_projectteamroles_statuscode",
+    "OptionSetInfoNameMapping": {
+      "1": "Active",
+      "2": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statuscode",
+        "OptionSetReferenceEntityName": "ProjectTeamRoles"
+      }
+    },
+    "OptionSetTypeKey": "StatusType",
+    "RelatedColumnInvariantName": "statuscode",
+    "RelatedEntityName": "ProjectTeamRoles",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "RoleType",
+    "Name": "cat_roletype",
+    "OptionSetInfoNameMapping": {
+      "809060000": "Care Lead",
+      "809060001": "GTM Lead",
+      "809060002": "Sales Lead",
+      "809060003": "P&T Lead",
+      "809060004": "Legal Lead",
+      "809060005": "EPO Lead",
+      "809060006": "Marketing Lead",
+      "809060007": "PR Lead",
+      "809060008": "Solution Captain",
+      "809060009": "Project Team",
+      "809060010": "Other"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_roletype",
+        "OptionSetReferenceEntityName": "ProjectTeamRoles"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "cat_roletype",
+    "RelatedEntityName": "ProjectTeamRoles",
+    "Type": "OptionSetInfo"
+  }
+]

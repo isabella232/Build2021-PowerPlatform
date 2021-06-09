@@ -1,0 +1,2934 @@
+Project_Approvals_Screen As screen:
+    Height: =Max(App.Height, App.DesignHeight)
+    LoadingSpinner: =LoadingSpinner.Controls
+    LoadingSpinnerColor: =RGBA(105, 121, 126, 1)
+    OnHidden: =Set(NavScreenParam, Blank());
+    OnVisible: |-
+        =UpdateContext({showLoader:false});
+        UpdateContext({varLoadingDataMessage: Concatenate("Loading Approvals for ", varCurrentRecord.InitiativeName)});
+        UpdateContext({varShowApprovalSpinner: false});
+        
+        If(IsEmpty(BpfStages), 
+            ClearCollect(BpfStages, 'CDS-GtmEntries'.GetBPFActivePath(BpfInstance.ORBIT_Initiative_Approval_Process).value); //get active path stages from custom API connector
+            Clear(colBPFStagesIndexed); //Get indexed collection of BPF active path stages
+            ForAll(BpfStages, 
+                Collect(colBPFStagesIndexed,
+                        Last(FirstN(AddColumns(BpfStages,
+                                        "Index",
+                                        CountRows(colBPFStagesIndexed)+1
+                                    ), 
+                                    CountRows(colBPFStagesIndexed)+1
+                            )
+                        )    
+                )
+            );
+            ClearCollect(colPreviousBPFStages, FirstN(colBPFStagesIndexed, LookUp(colBPFStagesIndexed, processstageid = lbl_ActiveProcessStageID.Text).Index)); // Get collection of BPF active path stages to current
+        );
+        
+        If(IsEmpty(colStageApprovalUsers) Or IsEmpty(BpfStages) Or IsEmpty(Filter(StageApprovalResponses, StageApprovalUsers.StageApprovalUsers = GUID(lbl_StageApprovalUsersID.Text) And ApprovalStatus <> [@ApprovalStatus].Canceled)), 
+            UpdateContext({varStartApprovalRefreshTimer: true}), 
+            UpdateContext({showLoader:true})
+            );
+        
+        
+        If(IsBlank(varRecordPermissions),
+                // get user edit permissions on record
+                Set(varRecordPermissions, GetRecordPermisionsforCurrentUser.Run(varCurrentUserRecord.User, varCurrentRecord.gtmEntry).recordpermissions);
+                Set(varRecordEditPermissions, !IsBlank(Find("WriteAccess", varRecordPermissions))));
+        
+        Reset(com_NavLeft_4);
+    Orientation: =If(Project_Approvals_Screen.Width < Project_Approvals_Screen.Height, Layout.Vertical, Layout.Horizontal)
+    Size: =1 + CountRows(App.SizeBreakpoints) - CountIf(App.SizeBreakpoints, Value >= Project_Approvals_Screen.Width)
+    Width: =Max(App.Width, App.DesignWidth)
+
+    imgBackgroundImage_3 As image:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledFill: =RGBA(0, 0, 0, 0)
+        FocusedBorderColor: =imgBackgroundImage_3.BorderColor
+        FocusedBorderThickness: =4
+        Height: =920
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverFill: =RGBA(0, 0, 0, 0)
+        Image: ='TMO_Logo_RGB_M-on-W'
+        PressedBorderColor: =RGBA(0, 0, 0, 0)
+        PressedFill: =RGBA(0, 0, 0, 0)
+        Transparency: =0.95
+        Visible: =varCurrentUserSecurityRole = "Administrator"
+        Width: =1719
+        X: =180
+        Y: =160
+        ZIndex: =1
+
+    Canvas2_1 As fluidGrid.fluidGridWithBlankCard:
+        BorderThickness: =0
+        Height: =Parent.Height - Canvas2_1.Y
+        Width: =App.Width - gal_BpfGallery.X - com_NavLeft_4.Width - 20
+        X: =com_NavLeft_4.Width + 20
+        Y: =com_InitiativeHeader_4.Y + com_InitiativeHeader_4.Height
+        ZIndex: =2
+
+        DataCard8_1 As dataCard:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            BorderStyle: =BorderStyle.Solid
+            BorderThickness: =0
+            DisplayMode: =DisplayMode.Edit
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =Parent.Height
+            Width: =Parent.Width
+            X: =0
+            Y: =0
+            ZIndex: =1
+
+            gal_BpfGallery As gallery.galleryHorizontal:
+                BorderColor: =RGBA(166, 166, 166, 1)
+                DisabledBorderColor: =gal_BpfGallery.BorderColor
+                DisabledFill: =gal_BpfGallery.Fill
+                Height: =Max(gal_BpfGallery.AllItems, Value(lbl_ApprovalColumnHeight.Text))
+                HoverBorderColor: =gal_BpfGallery.BorderColor
+                HoverFill: =gal_BpfGallery.Fill
+                Items: =Filter(BpfStages, !(stagecategory = 0) And !(stagecategory = 3) And !(stagecategory = 1))
+                LoadingSpinnerColor: =gal_BpfGallery.BorderColor
+                OnSelect: =Set(varCurrentApprovalRecordID, LookUp(StageApprovalUsers, InstanceStageId = ThisItem.processstageid && OrbitBPF.ORBIT_Initiative_Approval_Process = BpfInstance.ORBIT_Initiative_Approval_Process).Approval.Approval)
+                PressedBorderColor: =gal_BpfGallery.BorderColor
+                PressedFill: =gal_BpfGallery.Fill
+                ShowScrollbar: =false
+                TemplatePadding: =2
+                TemplateSize: |-
+                    =//gal_BpfGallery.Width / CountRows(gal_BpfGallery.AllItems) - 2
+                    (gal_BpfGallery.Width - 10) / 5
+                Width: =Parent.Width - 20
+                Y: =
+                ZIndex: =1
+
+                lbl_StageApprovalUsersID As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    Fill: =RGBA(0, 0, 0, 1)
+                    FocusedBorderColor: =lbl_StageApprovalUsersID.BorderColor
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    Height: =47
+                    HoverBorderColor: =lbl_StageApprovalUsersID.BorderColor
+                    HoverColor: =lbl_StageApprovalUsersID.Color
+                    HoverFill: =lbl_StageApprovalUsersID.Fill
+                    OnSelect: =Select(Parent)
+                    PressedBorderColor: =lbl_StageApprovalUsersID.BorderColor
+                    PressedColor: =lbl_StageApprovalUsersID.Color
+                    PressedFill: =lbl_StageApprovalUsersID.Fill
+                    Size: =13
+                    Text: |
+                        =LookUp(colStageApprovalUsers, InstanceStageId = ThisItem.processstageid).StageApprovalUsers
+                    Visible: =varDevMode
+                    Width: =gal_BpfGallery.TemplateWidth
+                    Y: =837
+                    ZIndex: =1
+
+                lbl_ApprovalColumnHeight As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderColor: =lbl_ApprovalColumnHeight.BorderColor
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    HoverBorderColor: =lbl_ApprovalColumnHeight.BorderColor
+                    HoverColor: =lbl_ApprovalColumnHeight.Color
+                    HoverFill: =lbl_ApprovalColumnHeight.Fill
+                    OnSelect: =Select(Parent)
+                    PressedBorderColor: =lbl_ApprovalColumnHeight.BorderColor
+                    PressedColor: =lbl_ApprovalColumnHeight.Color
+                    PressedFill: =lbl_ApprovalColumnHeight.Fill
+                    Size: =13
+                    Text: =gal_RejectionCommentsDisplay.Height + gal_RejectionCommentsDisplay.Y + 20
+                    Visible: =varDevMode
+                    X: =133
+                    Y: =799
+                    ZIndex: =2
+
+                lbl_AllItemsApproved As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderColor: =lbl_AllItemsApproved.BorderColor
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    Height: =54
+                    HoverBorderColor: =lbl_AllItemsApproved.BorderColor
+                    HoverColor: =lbl_AllItemsApproved.Color
+                    HoverFill: =lbl_AllItemsApproved.Fill
+                    OnSelect: =Select(Parent)
+                    PressedBorderColor: =lbl_AllItemsApproved.BorderColor
+                    PressedColor: =lbl_AllItemsApproved.Color
+                    PressedFill: =lbl_AllItemsApproved.Fill
+                    Size: =12
+                    Text: |-
+                        =//IsEmpty(Filter(gal_ApprovalUsersList.AllItems, cat_approvalstatus = [@ApprovalStatus].Rejected Or cat_approvalstatus = [@ApprovalStatus].Pending Or IsBlank(cat_approvalstatus)))
+                        ""
+                    Visible: =varDevMode
+                    Width: =gal_BpfGallery.TemplateWidth - 20
+                    X: =4
+                    Y: =792
+                    ZIndex: =3
+
+                lbl_IsBPFStageApprovalActive As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderColor: =lbl_IsBPFStageApprovalActive.BorderColor
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    Height: =32
+                    HoverBorderColor: =lbl_IsBPFStageApprovalActive.BorderColor
+                    HoverColor: =lbl_IsBPFStageApprovalActive.Color
+                    HoverFill: =lbl_IsBPFStageApprovalActive.Fill
+                    OnSelect: =Select(Parent)
+                    PressedBorderColor: =lbl_IsBPFStageApprovalActive.BorderColor
+                    PressedColor: =lbl_IsBPFStageApprovalActive.Color
+                    PressedFill: =lbl_IsBPFStageApprovalActive.Fill
+                    Size: =13
+                    Text: =!IsBlank(LookUp(colPreviousBPFStages, processstageid = ThisItem.processstageid))
+                    Visible: =varDevMode
+                    Width: =272
+                    X: =5
+                    Y: =659
+                    ZIndex: =4
+
+                "gal_ApprovedUserGallery As gallery.'BrowseLayout_Vertical_TwoTextVariant_ver4.0'":
+                    BorderColor: =RGBA(166, 166, 166, 1)
+                    DisabledBorderColor: =gal_ApprovedUserGallery.BorderColor
+                    DisabledFill: =gal_ApprovedUserGallery.Fill
+                    Height: =179
+                    HoverBorderColor: =gal_ApprovedUserGallery.BorderColor
+                    HoverFill: =gal_ApprovedUserGallery.Fill
+                    Items: =Filter('Approval Responses', 'Approval Id Index' = lbl_ApprovalID.Text)
+                    Layout: =Layout.Vertical
+                    LoadingSpinnerColor: =gal_ApprovedUserGallery.BorderColor
+                    PressedBorderColor: =gal_ApprovedUserGallery.BorderColor
+                    PressedFill: =gal_ApprovedUserGallery.Fill
+                    TemplatePadding: =0
+                    TemplateSize: =95
+                    Visible: =varDevMode
+                    Width: =gal_BpfGallery.TemplateWidth
+                    Y: =604
+                    ZIndex: =6
+
+                    ApprovedUserId As label:
+                        Color: =RGBA(51, 51, 51, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        FocusedBorderColor: =ApprovedUserId.BorderColor
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =22
+                        HoverBorderColor: =ApprovedUserId.BorderColor
+                        HoverColor: =ApprovedUserId.Color
+                        HoverFill: =ApprovedUserId.Fill
+                        OnSelect: =Select(Parent)
+                        PaddingBottom: =0
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        PressedBorderColor: =ApprovedUserId.BorderColor
+                        PressedColor: =ApprovedUserId.Color
+                        PressedFill: =ApprovedUserId.Fill
+                        Size: =8
+                        Text: =LookUp('Approval Responses', 'Approval Response' = ThisItem.'Approval Response').'Owning User Index'
+                        VerticalAlign: =VerticalAlign.Top
+                        Width: =gal_BpfGallery.TemplateWidth
+                        Y: =40
+                        ZIndex: =1
+
+                    Subtitle2_1 As label:
+                        Color: =RGBA(51, 51, 51, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        FocusedBorderColor: =Subtitle2_1.BorderColor
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =Semibold
+                        Height: =Subtitle2_1.Size * 1.8
+                        HoverBorderColor: =Subtitle2_1.BorderColor
+                        HoverColor: =Subtitle2_1.Color
+                        HoverFill: =Subtitle2_1.Fill
+                        OnSelect: =Select(Parent)
+                        PaddingBottom: =0
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        PressedBorderColor: =Subtitle2_1.BorderColor
+                        PressedColor: =Subtitle2_1.Color
+                        PressedFill: =Subtitle2_1.Fill
+                        Size: =18
+                        Text: =LookUp(Users, User = GUID(ApprovedUserId.Text)).Nickname
+                        VerticalAlign: =VerticalAlign.Top
+                        Width: =Parent.TemplateWidth - 104
+                        X: =1
+                        Y: =6
+                        ZIndex: =2
+
+                    Separator5_1 As rectangle:
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledFill: =Separator5_1.Fill
+                        Fill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                        FocusedBorderColor: =Separator5_1.BorderColor
+                        Height: =1
+                        HoverFill: =Separator5_1.Fill
+                        OnSelect: =Select(Parent)
+                        PressedFill: =Separator5_1.Fill
+                        Width: =Parent.TemplateWidth
+                        Y: =Parent.TemplateHeight - 1
+                        ZIndex: =4
+
+                    Label15 As label:
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        BorderStyle: =BorderStyle.None
+                        BorderThickness: =2
+                        Color: =RGBA(51, 51, 51, 1)
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        FocusedBorderColor: =Label15.BorderColor
+                        FocusedBorderThickness: =4
+                        Font: =Font.'Segoe UI'
+                        Height: =19
+                        HoverBorderColor: =Label15.BorderColor
+                        HoverColor: =Label15.Color
+                        HoverFill: =Label15.Fill
+                        OnSelect: =Select(Parent)
+                        PressedBorderColor: =Label15.BorderColor
+                        PressedColor: =Label15.Color
+                        PressedFill: =Label15.Fill
+                        Size: =13
+                        Text: =LookUp('Approval Responses', 'Approval Response' = ThisItem.'Approval Response').Response
+                        Width: =gal_BpfGallery.TemplateWidth
+                        Y: =56
+                        ZIndex: =5
+
+                lbl_ApprovalID As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderColor: =lbl_ApprovalID.BorderColor
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    Height: =23
+                    HoverBorderColor: =lbl_ApprovalID.BorderColor
+                    HoverColor: =lbl_ApprovalID.Color
+                    HoverFill: =lbl_ApprovalID.Fill
+                    OnSelect: =Select(Parent)
+                    PressedBorderColor: =lbl_ApprovalID.BorderColor
+                    PressedColor: =lbl_ApprovalID.Color
+                    PressedFill: =lbl_ApprovalID.Fill
+                    Size: =12
+                    Text: =LookUp(StageApprovalUsers, InstanceStageId = ThisItem.processstageid && OrbitBPF.ORBIT_Initiative_Approval_Process = BpfInstance.ORBIT_Initiative_Approval_Process).Approval.Approval
+                    Visible: =varDevMode
+                    Width: =gal_BpfGallery.TemplateWidth - 20
+                    X: =1
+                    Y: =784
+                    ZIndex: =7
+
+                gal_RejectionCommentsDisplay As gallery.variableTemplateHeightGallery:
+                    BorderColor: =RGBA(166, 166, 166, 1)
+                    DisabledBorderColor: =gal_RejectionCommentsDisplay.BorderColor
+                    DisabledFill: =gal_RejectionCommentsDisplay.Fill
+                    DisplayMode: =DisplayMode.View
+                    Height: =CountRows(gal_RejectionCommentsDisplay.AllItems) * gal_RejectionCommentsDisplay.TemplateHeight
+                    HoverBorderColor: =gal_RejectionCommentsDisplay.BorderColor
+                    HoverFill: =gal_RejectionCommentsDisplay.Fill
+                    Items: |-
+                        =If(
+                            !IsBlank(lbl_StageApprovalUsersID.Text),Filter(StageApprovalResponses, StageApprovalUsers.StageApprovalUsers = GUID(lbl_StageApprovalUsersID.Text) And ApprovalStatus = [@ApprovalStatus].Rejected))
+                    Layout: =Layout.Vertical
+                    LoadingSpinnerColor: =gal_RejectionCommentsDisplay.BorderColor
+                    PressedBorderColor: =gal_RejectionCommentsDisplay.BorderColor
+                    PressedFill: =gal_RejectionCommentsDisplay.Fill
+                    ShowNavigation: =true
+                    ShowScrollbar: =false
+                    TemplateSize: =370
+                    Visible: =!IsBlank(lbl_RejectionCommentsLabel.Text)
+                    Width: =338
+                    Y: =If(txt_UserSearchText.Visible, txt_UserSearchText.Y + txt_UserSearchText.Height, gal_ApprovalUsersList.Y + gal_ApprovalUsersList.Height)
+                    ZIndex: =14
+
+                    btn_RejectionCommentsBackground As button:
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        BorderStyle: =BorderStyle.None
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(244, 244, 244, 1)
+                        DisplayMode: =DisplayMode.Disabled
+                        Fill: =RGBA(105, 121, 126, 1)
+                        FocusedBorderColor: =btn_RejectionCommentsBackground.BorderColor
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =lbl_RejectionCommentsLabel.Height + lbl_ApproverName.Height + lbl_RejectionDate.Height + lbl_RejectionComments.Height + 10
+                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                        HoverColor: =RGBA(255, 255, 255, 1)
+                        HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+                        OnSelect: =Select(Parent)
+                        PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+                        PressedColor: =RGBA(255, 255, 255, 1)
+                        PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                        RadiusBottomLeft: =20
+                        RadiusBottomRight: =20
+                        RadiusTopLeft: =20
+                        RadiusTopRight: =20
+                        Size: =15
+                        Text: =""
+                        Width: =328
+                        Y: =5
+                        ZIndex: =1
+
+                    lbl_RejectionComments As label:
+                        AutoHeight: =true
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        BorderStyle: =BorderStyle.None
+                        BorderThickness: =2
+                        Color: =RGBA(51, 51, 51, 1)
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        FocusedBorderColor: =lbl_RejectionComments.BorderColor
+                        FocusedBorderThickness: =4
+                        Font: =Font.'Segoe UI'
+                        Height: =30
+                        HoverBorderColor: =lbl_RejectionComments.BorderColor
+                        HoverColor: =lbl_RejectionComments.Color
+                        HoverFill: =lbl_RejectionComments.Fill
+                        OnSelect: =Select(Parent)
+                        PressedBorderColor: =lbl_RejectionComments.BorderColor
+                        PressedColor: =lbl_RejectionComments.Color
+                        PressedFill: =lbl_RejectionComments.Fill
+                        Size: =13
+                        Text: =ThisItem.ApproverComments
+                        Width: =Parent.Width - 20
+                        X: =8
+                        Y: =lbl_RejectionDate.Y + lbl_RejectionDate.Height
+                        ZIndex: =2
+
+                    lbl_RejectionDate As label:
+                        AutoHeight: =true
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        BorderStyle: =BorderStyle.None
+                        BorderThickness: =2
+                        Color: =RGBA(51, 51, 51, 1)
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        FocusedBorderColor: =lbl_RejectionDate.BorderColor
+                        FocusedBorderThickness: =4
+                        Font: =Font.'Segoe UI'
+                        Height: =30
+                        HoverBorderColor: =lbl_RejectionDate.BorderColor
+                        HoverColor: =lbl_RejectionDate.Color
+                        HoverFill: =lbl_RejectionDate.Fill
+                        OnSelect: =Select(Parent)
+                        PressedBorderColor: =lbl_RejectionDate.BorderColor
+                        PressedColor: =lbl_RejectionDate.Color
+                        PressedFill: =lbl_RejectionDate.Fill
+                        Size: =13
+                        Text: =ThisItem.'Created On'
+                        Width: =Parent.Width - 20
+                        X: =8
+                        Y: =lbl_ApproverName.Y + lbl_ApproverName.Height
+                        ZIndex: =3
+
+                    lbl_ApproverName As label:
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        BorderStyle: =BorderStyle.None
+                        BorderThickness: =2
+                        Color: =RGBA(51, 51, 51, 1)
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        FocusedBorderColor: =lbl_ApproverName.BorderColor
+                        FocusedBorderThickness: =4
+                        Font: =Font.'Segoe UI'
+                        Height: =30
+                        HoverBorderColor: =lbl_ApproverName.BorderColor
+                        HoverColor: =lbl_ApproverName.Color
+                        HoverFill: =lbl_ApproverName.Fill
+                        OnSelect: =Select(Parent)
+                        PressedBorderColor: =lbl_ApproverName.BorderColor
+                        PressedColor: =lbl_ApproverName.Color
+                        PressedFill: =lbl_ApproverName.Fill
+                        Size: =13
+                        Text: =ThisItem.ApprovalUser.Nickname
+                        Width: =Parent.Width - 20
+                        X: =8
+                        Y: =40
+                        ZIndex: =4
+
+                    lbl_RejectionCommentsLabel As label:
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        BorderStyle: =BorderStyle.None
+                        BorderThickness: =2
+                        Color: =RGBA(51, 51, 51, 1)
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        FocusedBorderColor: =lbl_RejectionCommentsLabel.BorderColor
+                        FocusedBorderThickness: =4
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =30
+                        HoverBorderColor: =lbl_RejectionCommentsLabel.BorderColor
+                        HoverColor: =lbl_RejectionCommentsLabel.Color
+                        HoverFill: =lbl_RejectionCommentsLabel.Fill
+                        OnSelect: =Select(Parent)
+                        PressedBorderColor: =lbl_RejectionCommentsLabel.BorderColor
+                        PressedColor: =lbl_RejectionCommentsLabel.Color
+                        PressedFill: =lbl_RejectionCommentsLabel.Fill
+                        Size: =13
+                        Text: |-
+                            ="Rejection Comments:"
+                        Width: =Parent.Width - 20
+                        X: =8
+                        Y: =10
+                        ZIndex: =5
+
+                    shp_DividerBar As rectangle:
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        BorderStyle: =BorderStyle.None
+                        BorderThickness: =2
+                        DisabledFill: =RGBA(166, 166, 166, 1)
+                        DisplayMode: =DisplayMode.Disabled
+                        Fill: =RGBA(105, 121, 126, 1)
+                        FocusedBorderColor: =shp_DividerBar.BorderColor
+                        FocusedBorderThickness: =4
+                        Height: =3
+                        HoverFill: =RGBA(105, 121, 126, 1)
+                        OnSelect: =Select(Parent)
+                        PressedFill: =RGBA(105, 121, 126, 1)
+                        Width: =Parent.Width - 40
+                        X: =15
+                        Y: =lbl_ApproverName.Y
+                        ZIndex: =6
+
+                txt_UserSearchText As text:
+                    BorderColor: =RGBA(166, 166, 166, 1)
+                    BorderThickness: =2
+                    Clear: =true
+                    Color: =RGBA(51, 51, 51, 1)
+                    Default: =
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    DisabledFill: =RGBA(244, 244, 244, 1)
+                    FocusedBorderColor: =txt_UserSearchText.BorderColor
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    HintText: ="Type to Add User"
+                    HoverBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                    HoverColor: =RGBA(51, 51, 51, 1)
+                    HoverFill: =RGBA(255, 255, 255, 1)
+                    OnSelect: =Select(Parent)
+                    PressedBorderColor: =RGBA(105, 121, 126, 1)
+                    PressedColor: =RGBA(51, 51, 51, 1)
+                    PressedFill: =RGBA(255, 255, 255, 1)
+                    RadiusBottomLeft: =0
+                    RadiusBottomRight: =0
+                    RadiusTopLeft: =0
+                    RadiusTopRight: =0
+                    Reset: =varResetTextInputControls
+                    Size: =13
+                    Visible: |-
+                        =lbl_IsBPFStageApprovalActive.Text = "true" And lbl_IsCurrentProcessStage.Text = "true" And varCurrentUserSecurityRole = "GTM" Or 
+                        lbl_IsBPFStageApprovalActive.Text = "true" And lbl_IsCurrentProcessStage.Text = "true" And varCurrentUserSecurityRole = "Administrator" Or
+                        lbl_IsBPFStageApprovalActive.Text = "false" And varCurrentUserSecurityRole = "GTM" Or 
+                        lbl_IsBPFStageApprovalActive.Text = "false" And varCurrentUserSecurityRole = "Administrator"
+                    Width: =gal_BpfGallery.TemplateWidth - 20
+                    X: =10
+                    Y: =btn_ApprovalUsersBackground.Y + btn_ApprovalUsersBackground.Height + 10
+                    ZIndex: =15
+
+                "gal_ApprovalDashboardPeoplePIcker As gallery.'BrowseLayout_Vertical_TwoTextVariant_ver4.0'":
+                    BorderColor: =RGBA(166, 166, 166, 1)
+                    BorderThickness: =1
+                    DisabledBorderColor: =gal_ApprovalDashboardPeoplePIcker.BorderColor
+                    DisabledFill: =gal_ApprovalDashboardPeoplePIcker.Fill
+                    Fill: =White
+                    Height: =220
+                    HoverBorderColor: =gal_ApprovalDashboardPeoplePIcker.BorderColor
+                    HoverFill: =gal_ApprovalDashboardPeoplePIcker.Fill
+                    Items: |-
+                        =If(
+                            !IsBlank(txt_UserSearchText.Text),
+                            Sort(
+                                Filter(
+                                    Office365Users.SearchUser({searchTerm: txt_UserSearchText.Text})
+                                    ,AccountEnabled = true
+                                )
+                                ,
+                                DisplayName
+                            )
+                        )
+                    Layout: =Layout.Vertical
+                    LoadingSpinnerColor: =gal_ApprovalDashboardPeoplePIcker.BorderColor
+                    OnSelect: |-
+                        =UpdateContext({varSelectedUser: LookUp(Users, 'Azure AD Object ID' = GUID(ThisItem.Id))});
+                        
+                        If(lbl_ActiveProcessStageID.Text = lbl_ProcessStageID.Text And lbl_IsCurrentProcessStage.Text,
+                        Patch(StageApprovalResponses, Defaults(StageApprovalResponses), {
+                        Name: varCurrentRecord.InitiativeName,
+                        ApprovalUser: varSelectedUser,
+                        gtmEntry: varCurrentRecord,
+                        ApprovalStatus: ApprovalStatus.Pending,
+                        StageApprovalUsers: LookUp(colStageApprovalUsers, InstanceStageId = lbl_ProcessStageID.Text)
+                        }),
+                        Patch(StageApprovalResponses, Defaults(StageApprovalResponses), {
+                        Name: varCurrentRecord.InitiativeName,
+                        ApprovalUser: varSelectedUser,
+                        gtmEntry: varCurrentRecord,
+                        StageApprovalUsers: LookUp(colStageApprovalUsers, InstanceStageId = lbl_ProcessStageID.Text)
+                        }));
+                        UpdateContext({varResetTextInputControls: true});UpdateContext({varResetTextInputControls: false});
+                        
+                        'CDS-GtmEntries'.AddUserToAccessTeamTemplate(varSelectedUser.User, {
+                            '@odata.type': "Microsoft.Dynamics.CRM.cat_gtmentry",
+                            cat_gtmentryid: varCurrentRecord.gtmEntry
+                          },
+                        {
+                            '@odata.type': "Microsoft.Dynamics.CRM.teamtemplate",
+                            teamtemplateid: varReadOnlyTeamTemplateID
+                          }
+                        );
+                    PressedBorderColor: =gal_ApprovalDashboardPeoplePIcker.BorderColor
+                    PressedFill: =gal_ApprovalDashboardPeoplePIcker.Fill
+                    TemplatePadding: =0
+                    TemplateSize: =74
+                    Visible: =!IsBlank(txt_UserSearchText.Text)
+                    Width: =txt_UserSearchText.Width
+                    X: =txt_UserSearchText.X
+                    Y: =txt_UserSearchText.Y - gal_ApprovalDashboardPeoplePIcker.Height
+                    ZIndex: =17
+
+                    lbl_ApprovalDashboardPeoplePickerName As label:
+                        Color: =RGBA(51, 51, 51, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        FocusedBorderColor: =lbl_ApprovalDashboardPeoplePickerName.BorderColor
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =lbl_ApprovalDashboardPeoplePickerName.Size * 1.8
+                        HoverBorderColor: =lbl_ApprovalDashboardPeoplePickerName.BorderColor
+                        HoverColor: =lbl_ApprovalDashboardPeoplePickerName.Color
+                        HoverFill: =lbl_ApprovalDashboardPeoplePickerName.Fill
+                        OnSelect: =Select(Parent)
+                        PaddingBottom: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        PressedBorderColor: =lbl_ApprovalDashboardPeoplePickerName.BorderColor
+                        PressedColor: =lbl_ApprovalDashboardPeoplePickerName.Color
+                        PressedFill: =lbl_ApprovalDashboardPeoplePickerName.Fill
+                        Size: =12
+                        Text: =ThisItem.DisplayName
+                        Tooltip: =ThisItem.JobTitle
+                        VerticalAlign: =VerticalAlign.Top
+                        Width: =Parent.TemplateWidth
+                        Y: =8
+                        ZIndex: =1
+
+                    lbl_ApprovalDashboardPeoplePickerTitle As label:
+                        Color: =RGBA(51, 51, 51, 1)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        FocusedBorderColor: =lbl_ApprovalDashboardPeoplePickerTitle.BorderColor
+                        Font: =Font.'Segoe UI'
+                        Height: =lbl_ApprovalDashboardPeoplePickerTitle.Size * 2.3
+                        HoverBorderColor: =lbl_ApprovalDashboardPeoplePickerTitle.BorderColor
+                        HoverColor: =lbl_ApprovalDashboardPeoplePickerTitle.Color
+                        HoverFill: =lbl_ApprovalDashboardPeoplePickerTitle.Fill
+                        OnSelect: =Select(Parent)
+                        PaddingBottom: =0
+                        PaddingRight: =0
+                        PaddingTop: =3
+                        PressedBorderColor: =lbl_ApprovalDashboardPeoplePickerTitle.BorderColor
+                        PressedColor: =lbl_ApprovalDashboardPeoplePickerTitle.Color
+                        PressedFill: =lbl_ApprovalDashboardPeoplePickerTitle.Fill
+                        Size: =10
+                        Text: =ThisItem.JobTitle
+                        Tooltip: =ThisItem.JobTitle
+                        VerticalAlign: =VerticalAlign.Top
+                        Width: =Parent.TemplateWidth
+                        Y: =28
+                        ZIndex: =2
+
+                    icn_ApprovalDashboardPeoplePickerSelectArrow As icon.ChevronRight:
+                        AccessibleLabel: =icn_ApprovalDashboardPeoplePickerSelectArrow.Tooltip
+                        BorderColor: =RGBA(166, 166, 166, 1)
+                        Color: =RGBA(105, 121, 126, 1)
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(220, 220, 220, 1)
+                        DisabledFill: =RGBA(0, 0, 0, 0)
+                        FocusedBorderColor: =icn_ApprovalDashboardPeoplePickerSelectArrow.BorderColor
+                        FocusedBorderThickness: =4
+                        Height: =40
+                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                        HoverColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                        HoverFill: =RGBA(0, 0, 0, 0)
+                        Icon: =Icon.ChevronRight
+                        OnSelect: =Select(Parent)
+                        PaddingBottom: =10
+                        PaddingLeft: =10
+                        PaddingRight: =10
+                        PaddingTop: =10
+                        PressedBorderColor: =RGBA(0, 0, 0, 0)
+                        PressedColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                        PressedFill: =RGBA(0, 0, 0, 0)
+                        TabIndex: =0
+                        Tooltip: ="View item details"
+                        Width: =40
+                        X: =gal_ApprovalDashboardPeoplePIcker.TemplateWidth - icn_ApprovalDashboardPeoplePickerSelectArrow.Width - 10
+                        Y: =(Parent.TemplateHeight / 2) - (icn_ApprovalDashboardPeoplePickerSelectArrow.Height / 2)
+                        ZIndex: =3
+
+                    shp_ApprovalDashboardPeoplePickerSeparater As rectangle:
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledFill: =shp_ApprovalDashboardPeoplePickerSeparater.Fill
+                        Fill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                        FocusedBorderColor: =shp_ApprovalDashboardPeoplePickerSeparater.BorderColor
+                        Height: =1
+                        HoverFill: =shp_ApprovalDashboardPeoplePickerSeparater.Fill
+                        OnSelect: =Select(Parent)
+                        PressedFill: =shp_ApprovalDashboardPeoplePickerSeparater.Fill
+                        Width: =Parent.TemplateWidth
+                        Y: =Parent.TemplateHeight - 1
+                        ZIndex: =4
+
+                    lbl_ApprovalDashboardEmailAddress As label:
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        BorderStyle: =BorderStyle.None
+                        BorderThickness: =2
+                        Color: =RGBA(51, 51, 51, 1)
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        FocusedBorderColor: =lbl_ApprovalDashboardEmailAddress.BorderColor
+                        FocusedBorderThickness: =4
+                        Font: =Font.'Segoe UI'
+                        Height: =28
+                        HoverBorderColor: =lbl_ApprovalDashboardEmailAddress.BorderColor
+                        HoverColor: =lbl_ApprovalDashboardEmailAddress.Color
+                        HoverFill: =lbl_ApprovalDashboardEmailAddress.Fill
+                        OnSelect: =Select(Parent)
+                        PressedBorderColor: =lbl_ApprovalDashboardEmailAddress.BorderColor
+                        PressedColor: =lbl_ApprovalDashboardEmailAddress.Color
+                        PressedFill: =lbl_ApprovalDashboardEmailAddress.Fill
+                        Size: =9
+                        Text: |-
+                            =Substitute(ThisItem.UserPrincipalName, "_sprint.com#EXT#@TMobileUSA.onmicrosoft.com", "@sprint.com")
+                        Tooltip: =ThisItem.JobTitle
+                        Width: =Parent.TemplateWidth
+                        Y: =46
+                        ZIndex: =6
+
+                lbl_ProcessStageID As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderColor: =lbl_ProcessStageID.BorderColor
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    Height: =47
+                    HoverBorderColor: =lbl_ProcessStageID.BorderColor
+                    HoverColor: =lbl_ProcessStageID.Color
+                    HoverFill: =lbl_ProcessStageID.Fill
+                    OnSelect: =Select(Parent)
+                    PressedBorderColor: =lbl_ProcessStageID.BorderColor
+                    PressedColor: =lbl_ProcessStageID.Color
+                    PressedFill: =lbl_ProcessStageID.Fill
+                    Size: =13
+                    Text: =ThisItem.processstageid
+                    Visible: =varDevMode
+                    Width: =gal_BpfGallery.TemplateWidth
+                    Y: =10
+                    ZIndex: =21
+
+                lbl_IsCurrentProcessStage As label:
+                    BorderColor: =RGBA(0, 0, 0, 0)
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =2
+                    Color: =RGBA(51, 51, 51, 1)
+                    DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    FocusedBorderColor: =lbl_IsCurrentProcessStage.BorderColor
+                    FocusedBorderThickness: =4
+                    Font: =Font.'Segoe UI'
+                    HoverBorderColor: =lbl_IsCurrentProcessStage.BorderColor
+                    HoverColor: =lbl_IsCurrentProcessStage.Color
+                    HoverFill: =lbl_IsCurrentProcessStage.Fill
+                    OnSelect: =Select(Parent)
+                    PressedBorderColor: =lbl_IsCurrentProcessStage.BorderColor
+                    PressedColor: =lbl_IsCurrentProcessStage.Color
+                    PressedFill: =lbl_IsCurrentProcessStage.Fill
+                    Size: =13
+                    Text: =Text(ThisItem.processstageid) = Text(varActiveProcessStage)
+                    Visible: =varDevMode
+                    X: =163
+                    Y: =80
+                    ZIndex: =22
+
+                grp_StageApprovalUsers As group:
+                    Height: =5
+                    Width: =5
+                    X: =40
+                    Y: =40
+                    ZIndex: =30
+
+                    btn_ApprovalUsersBackground As button:
+                        BorderColor: =RGBA(128, 128, 128, 1)
+                        DisabledBorderColor: =RGBA(204, 204, 204, 1)
+                        DisabledColor: =RGBA(0, 0, 0, 1)
+                        DisabledFill: =RGBA(244, 244, 244, .7)
+                        DisplayMode: =DisplayMode.Disabled
+                        Fill: =RGBA(105, 121, 126, 1)
+                        FocusedBorderColor: =btn_ApprovalUsersBackground.BorderColor
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =gal_ApprovalUsersList.Height + 50
+                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                        HoverColor: =RGBA(255, 255, 255, 1)
+                        HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+                        OnSelect: =Select(Parent)
+                        PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+                        PressedColor: =RGBA(255, 255, 255, 1)
+                        PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                        RadiusBottomLeft: =20
+                        RadiusBottomRight: =20
+                        RadiusTopLeft: =20
+                        RadiusTopRight: =20
+                        Size: =15
+                        Text: ="Approvals"
+                        VerticalAlign: =VerticalAlign.Top
+                        Width: =gal_ApprovalUsersList.Width
+                        X: =gal_ApprovalUsersList.X
+                        Y: =btn_WYAMBackground.Y + btn_WYAMBackground.Height + 10
+                        ZIndex: =5
+
+                    icn_ApprovalDividerBar As rectangle:
+                        BorderColor: =
+                        BorderStyle: =BorderStyle.None
+                        BorderThickness: =2
+                        DisabledFill: =RGBA(166, 166, 166, 1)
+                        Fill: =RGBA(128, 128, 128, 1)
+                        FocusedBorderColor: =icn_ApprovalDividerBar.BorderColor
+                        FocusedBorderThickness: =4
+                        Height: =2
+                        HoverFill: =RGBA(105, 121, 126, 1)
+                        OnSelect: =Select(Parent)
+                        PressedFill: =RGBA(105, 121, 126, 1)
+                        Width: =gal_ApprovalUsersList.Width - 40
+                        X: =gal_ApprovalUsersList.X + 20
+                        Y: =gal_ApprovalUsersList.Y - 10
+                        ZIndex: =9
+
+                    icn_SendStageEmail As icon.Mail:
+                        BorderColor: =RGBA(166, 166, 166, 1)
+                        Color: =Gray
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(220, 220, 220, 1)
+                        DisabledFill: =RGBA(0, 0, 0, 0)
+                        FocusedBorderColor: =icn_SendStageEmail.BorderColor
+                        FocusedBorderThickness: =4
+                        Height: =30
+                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                        HoverColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                        HoverFill: =RGBA(0, 0, 0, 0)
+                        Icon: =Icon.Mail
+                        OnSelect: |-
+                            =Select(Parent);
+                            
+                            //Set(varCurrSummaryDeepLinkURL, Concatenate("https://web.powerapps.com/webplayer/iframeapp?source=iframe&RecordID=", Text(varCurrentRecord.gtmEntry), "&NavScreen=Summary&appId=/providers/Microsoft.PowerApps/apps/", Text(varCurrentAppID)));
+                            //Set(varCurrDetailsDeepLinkURL, Concatenate("https://web.powerapps.com/webplayer/iframeapp?source=iframe&RecordID=", Text(varCurrentRecord.gtmEntry), "&NavScreen=Details&appId=/providers/Microsoft.PowerApps/apps/", Text(varCurrentAppID)));
+                            //Set(varCurrAttachmentsDeepLinkURL, Concatenate("https://web.powerapps.com/webplayer/iframeapp?source=iframe&RecordID=", Text(varCurrentRecord.gtmEntry), "&NavScreen=Attachments&appId=/providers/Microsoft.PowerApps/apps/", Text(varCurrentAppID)));
+                            Set(varCurrApprovalsDeepLinkURL, Concatenate("<a href=""https://web.powerapps.com/webplayer/iframeapp?source=iframe&tenantId=be0f980b-dd99-4b19-bd7b-bc71a09b026c&RecordID=", Text(varCurrentRecord.gtmEntry), "&NavScreen=UserApprovals&appId=/providers/Microsoft.PowerApps/apps/", Text(varCurrentAppID), """>Click Here for Approval Dashboard</a>"));
+                            
+                            /*ClearCollect(colEmailToRecipients,
+                                ForAll( gal_ApprovalUsersList.AllItems, ApprovalUser
+                                )
+                            );*/
+                            
+                            ClearCollect(colEmailCCRecipients, varCurrentRecord.'Business Owner');
+                            UpdateContext({varEmailDialogueVis: true});
+                            
+                            ClearCollect(colActiveRecordEmailFields, 
+                            	{i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_initiativename""><xsl:value-of select=""cat_gtmentry/cat_initiativename"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                                    value: varCurrentRecord.InitiativeName},
+                                {i: "]]>", 
+                                    value: ""},
+                                {i: "<![CDATA[", 
+                                    value: ""},
+                                {i: "<xsl:choose><xsl:when test=""systemuser/fullname""><xsl:value-of select=""systemuser/fullname"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                                    value: varCurrentUserNameFL},
+                                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_prcode""><xsl:value-of select=""cat_gtmentry/cat_prcode"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                                    value: Coalesce(varCurrentRecord.PRCode, "Not Assigned")},
+                                
+                            	{i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_sponsor/@firstname""><xsl:value-of select=""cat_gtmentry/cat_sponsor/@firstname"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                                    value: Right(varCurrentRecord.'Sponsoring VP'.Nickname, (Len(varCurrentRecord.'Sponsoring VP'.Nickname) - Find(",", varCurrentRecord.'Sponsoring VP'.Nickname, 1)) - 1)},
+                                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_sponsor/@fullname""><xsl:value-of select=""cat_gtmentry/cat_sponsor/@fullname"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                                    value: Concatenate(Right(varCurrentRecord.'Sponsoring VP'.Nickname, (Len(varCurrentRecord.'Sponsoring VP'.Nickname) - Find(",", varCurrentRecord.'Sponsoring VP'.Nickname, 1)) - 1), " ", Left(varCurrentRecord.'Sponsoring VP'.Nickname, Find(",", varCurrentRecord.'Sponsoring VP'.Nickname, 1) - 1))},
+                                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_sponsor/@'Last Name'""><xsl:value-of select=""cat_gtmentry/cat_sponsor/@'Last Name'"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                                value: Left(varCurrentRecord.'Sponsoring VP'.Nickname, Find(",", varCurrentRecord.'Sponsoring VP'.Nickname, 1) - 1)},
+                            	{i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_sponsor/@lastname""><xsl:value-of select=""cat_gtmentry/cat_sponsor/@lastname"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                                    value: Left(varCurrentRecord.'Sponsoring VP'.Nickname, Find(",", varCurrentRecord.'Sponsoring VP'.Nickname, 1) - 1)},
+                            	
+                            	{i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_businessowner/@'Last Name'""><xsl:value-of select=""cat_gtmentry/cat_businessowner/@'Last Name'"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                                    value: Left(varCurrentRecord.'Sponsoring VP'.Nickname, Find(",", varCurrentRecord.'Sponsoring VP'.Nickname, 1) - 1)},
+                                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_businessowner/@'First Name'""><xsl:value-of select=""cat_gtmentry/cat_businessowner/@'First Name'"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                                    value: Right(varCurrentRecord.'Business Owner'.Nickname, (Len(varCurrentRecord.'Business Owner'.Nickname) - Find(",", varCurrentRecord.'Business Owner'.Nickname, 1)) - 1)},
+                                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_businessowner/@fullname""><xsl:value-of select=""cat_gtmentry/cat_businessowner/@fullname"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                                    value: Concatenate(Right(varCurrentRecord.'Business Owner'.Nickname, (Len(varCurrentRecord.'Business Owner'.Nickname) - Find(",", varCurrentRecord.'Business Owner'.Nickname, 1)) - 1), " ", Left(varCurrentRecord.'Business Owner'.Nickname, Find(",", varCurrentRecord.'Business Owner'.Nickname, 1) - 1))},
+                                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_businessowner/@lastname""><xsl:value-of select=""cat_gtmentry/cat_businessowner/@lastname"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                                    value: Left(varCurrentRecord.'Business Owner'.Nickname, Find(",", varCurrentRecord.'Business Owner'.Nickname, 1) - 1)},
+                                
+                                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_lobchannelhorizontal/@name""><xsl:value-of select=""cat_gtmentry/cat_lobchannelhorizontal/@name"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                                    value: Text(varCurrentRecord.LOBChannelHorizontal)},
+                            
+                                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_description""><xsl:value-of select=""cat_gtmentry/cat_description"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                                    value: Coalesce(varCurrentRecord.Description, "Not Assigned")},
+                                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_requestedlaunchdate""><xsl:value-of select=""cat_gtmentry/cat_requestedlaunchdate"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                                    value: Coalesce(Text(varCurrentRecord.RequestedLaunchDate, DateTimeFormat.ShortDate), "Not Assigned")},
+                                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_enddate""><xsl:value-of select=""cat_gtmentry/cat_enddate"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                                    value: Coalesce(Text(varCurrentRecord.EndDate, ShortDate), "Not Assigned")},
+                                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_goalkpi""><xsl:value-of select=""cat_gtmentry/cat_goalkpi"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                                    value: Coalesce(varCurrentRecord.GoalKPI, "Not Assigned")},
+                                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_situation""><xsl:value-of select=""cat_gtmentry/cat_situation"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                                    value: Coalesce(varCurrentRecord.Situation, "Not Assigned")},
+                                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_eligibilitysummary""><xsl:value-of select=""cat_gtmentry/cat_eligibilitysummary"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                                    value: Coalesce(varCurrentRecord.EligibilitySummary, "Not Assigned")},
+                                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_eligibledevices""><xsl:value-of select=""cat_gtmentry/cat_eligibledevices"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                                    value: Coalesce(varCurrentRecord.EligibleDevices, "Not Assigned")},
+                            
+                                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_initiativetype/@name""><xsl:value-of select=""cat_gtmentry/cat_initiativetype/@name"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                                    value: Text(varCurrentRecord.InitiativeType)},
+                                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_initiativetypegroup/@name""><xsl:value-of select=""cat_gtmentry/cat_initiativetypegroup/@name"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                                    value: Text(varCurrentRecord.InitiativeTypeGroup)},
+                                {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_legacygtmentryid""><xsl:value-of select=""cat_gtmentry/cat_legacygtmentryid"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                                    value: Text(varCurrApprovalsDeepLinkURL)},
+                                {i: "&lt;SolutionCaptain.FullName&gt;",
+                                    value: Coalesce(LookUp([@colCurrentProjectTeamRoles], Value = [@RoleType].'Solution Captain').userName, "Not Assigned")},
+                                {i: "&lt;Approver(s)&gt;",
+                                    value: Concat(colEmailToRecipients, 'First Name' & " " & 'Last Name' & ", ")},
+                                {i: "&lt;ApprovalsDeepLink&gt;",
+                                    value: Text(varCurrApprovalsDeepLinkURL)}
+                                );
+                            
+                            ClearCollect(varSelectedEmailTemplateBody, 
+                            	{ID: 1, value: Dropdown2_1.Selected.Body});
+                            
+                            ClearCollect(varSelectedEmailTemplateSubject, 
+                            	{ID: 1, value: Dropdown2_1.Selected.Subject});
+                            
+                            ForAll(colActiveRecordEmailFields, 
+                            	Patch(varSelectedEmailTemplateBody,LookUp(varSelectedEmailTemplateBody, ID = 1),	
+                                    {value: Substitute(
+                                        LookUp(varSelectedEmailTemplateBody, ID = 1).value, 
+                                    colActiveRecordEmailFields[@i], 
+                                    colActiveRecordEmailFields[@value])}));
+                                    
+                            ForAll(colActiveRecordEmailFields, 
+                            	Patch(varSelectedEmailTemplateSubject,LookUp(varSelectedEmailTemplateSubject, ID = 1),	
+                                    {value: Substitute(
+                                        LookUp(varSelectedEmailTemplateSubject, ID = 1).value, 
+                                    colActiveRecordEmailFields[@i], 
+                                    colActiveRecordEmailFields[@value])}));
+                        PressedBorderColor: =RGBA(0, 0, 0, 0)
+                        PressedColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                        PressedFill: =RGBA(0, 0, 0, 0)
+                        Visible: =varCurrentUserSecurityRole = "GTM" Or varCurrentUserSecurityRole = "Administrator" Or varDevMode
+                        Width: =30
+                        X: =icn_ApprovalDividerBar.X + icn_ApprovalDividerBar.Width - icn_SendStageEmail.Width
+                        Y: =icn_ApprovalDividerBar.Y - icn_SendStageEmail.Height - 5
+                        ZIndex: =10
+
+                    "gal_ApprovalUsersList As gallery.'BrowseLayout_Vertical_OneTextVariant_ver4.0'":
+                        BorderColor: =RGBA(166, 166, 166, 1)
+                        DisabledBorderColor: =gal_ApprovalUsersList.BorderColor
+                        DisabledFill: =gal_ApprovalUsersList.Fill
+                        Height: =If(CountRows(gal_ApprovalUsersList.AllItems) = 0, gal_ApprovalUsersList.TemplateHeight + 10, CountRows(gal_ApprovalUsersList.AllItems) * gal_ApprovalUsersList.TemplateHeight + 10)
+                        HoverBorderColor: =gal_ApprovalUsersList.BorderColor
+                        HoverFill: =gal_ApprovalUsersList.Fill
+                        Items: |-
+                            =If(!IsBlank(lbl_StageApprovalUsersID.Text), Sort(Filter(StageApprovalResponses, StageApprovalUsers.StageApprovalUsers = GUID(lbl_StageApprovalUsersID.Text) And Status = 'Status (StageApprovalResponses)'.Active And ApprovalStatus <> [@ApprovalStatus].Canceled), ApprovalUser.'Full Name', Ascending))
+                            /*Table({Name:"Megan Bowen",ApprovalStatus:"Assigned",ApprovalPending:"Pending"}, {Name:"Alex Tran",ApprovalStatus:"Assigned",ApprovalPending:"Pending"}, {Name:"Nick Gill",ApprovalStatus:"Assigned",ApprovalPending:"Pending"})*/
+                        Layout: =Layout.Vertical
+                        LoadingSpinnerColor: =gal_ApprovalUsersList.BorderColor
+                        PressedBorderColor: =gal_ApprovalUsersList.BorderColor
+                        PressedFill: =gal_ApprovalUsersList.Fill
+                        TemplatePadding: =0
+                        TemplateSize: =50
+                        Width: =gal_BpfGallery.TemplateWidth - 10
+                        X: =5
+                        Y: =btn_ApprovalUsersBackground.Y + 50
+                        ZIndex: =16
+
+                        icn_RemoveApprovalUser As icon.Trash:
+                            BorderColor: =RGBA(166, 166, 166, 1)
+                            Color: =LightGrey
+                            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                            DisabledColor: =RGBA(220, 220, 220, 1)
+                            DisabledFill: =RGBA(0, 0, 0, 0)
+                            DisplayMode: =If(IsBlank(lbl_ApprovalID.Text) Or !(lbl_ProcessStageID.Text = lbl_ActiveProcessStageID.Text), DisplayMode.Edit, DisplayMode.View)
+                            FocusedBorderColor: =icn_RemoveApprovalUser.BorderColor
+                            FocusedBorderThickness: =4
+                            Height: =20
+                            HoverBorderColor: =RGBA(0, 0, 0, 0)
+                            HoverColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                            HoverFill: =RGBA(0, 0, 0, 0)
+                            Icon: =Icon.Cancel
+                            OnSelect: |-
+                                =Select(Parent);
+                                /*Patch([@StageApprovalResponses], ThisItem, {
+                                    Status: 'Status (StageApprovalResponses)'.Inactive
+                                    })*/
+                            PressedBorderColor: =RGBA(0, 0, 0, 0)
+                            PressedColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                            PressedFill: =RGBA(0, 0, 0, 0)
+                            Tooltip: ="Remove This Approver"
+                            Visible: =!(lbl_AllItemsApproved.Text = "true" And lbl_IsCurrentProcessStage.Text = "false") And varCurrentUserSecurityRole = "GTM" Or !(lbl_AllItemsApproved.Text = "true" And lbl_IsCurrentProcessStage.Text = "false") And varCurrentUserSecurityRole = "Administrator"
+                            Width: =20
+                            X: =7
+                            Y: =(gal_ApprovalUsersList.TemplateHeight / 2) - (icn_RemoveApprovalUser.Height / 2)
+                            ZIndex: =2
+
+                        lbl_ApprovalUserFullName As label:
+                            Color: =RGBA(51, 51, 51, 1)
+                            DisabledColor: =RGBA(166, 166, 166, 1)
+                            FocusedBorderColor: =lbl_ApprovalUserFullName.BorderColor
+                            Font: ='Open Sans'
+                            FontWeight: =FontWeight.Semibold
+                            Height: =gal_ApprovalUsersList.TemplateHeight
+                            HoverBorderColor: =lbl_ApprovalUserFullName.BorderColor
+                            HoverColor: =lbl_ApprovalUserFullName.Color
+                            HoverFill: =lbl_ApprovalUserFullName.Fill
+                            OnSelect: =Select(Parent)
+                            PaddingBottom: =0
+                            PaddingLeft: =0
+                            PaddingRight: =0
+                            PaddingTop: =0
+                            PressedBorderColor: =lbl_ApprovalUserFullName.BorderColor
+                            PressedColor: =lbl_ApprovalUserFullName.Color
+                            PressedFill: =lbl_ApprovalUserFullName.Fill
+                            Size: =12
+                            Text: |-
+                                =Switch(ThisItem.ApprovalUser.'Primary Email',
+                                "ORBITGTM@T-Mobile.com", "Quarterly Planning", 
+                                "SVC_PRD_SingleIntake@T-Mobile.com", "Offers Steering",
+                                ThisItem.ApprovalUser.'Full Name')
+                                //ThisItem.Name
+                            Tooltip: |-
+                                =//ThisItem.ApprovalUser.'Primary Email'
+                                ThisItem.Name
+                            Width: =gal_BpfGallery.TemplateWidth - 50
+                            X: =If(icn_RemoveApprovalUser.Visible, icn_RemoveApprovalUser.X + icn_RemoveApprovalUser.Width + 5, icn_RemoveApprovalUser.X + icn_RemoveApprovalUser.Width - 10)
+                            Y: =0//(gal_ApprovalUsersList.TemplateHeight / 2) - (lbl_ApprovalUserFullName.Height / 2)
+                            ZIndex: =3
+
+                        grp_ApproveUserButton As group:
+                            Height: =5
+                            Width: =5
+                            X: =60
+                            Y: =50
+                            ZIndex: =10
+
+                            Circle3 As circle:
+                                BorderColor: =RGBA(166, 166, 166, 1)
+                                BorderStyle: =BorderStyle.None
+                                BorderThickness: =2
+                                DisabledFill: =RGBA(105, 121, 126, 1)
+                                DisplayMode: |-
+                                    =DisplayMode.Disabled
+                                    /*If(
+                                    !(IsBlank(lbl_ApprovalID.Text)) And 
+                                    //lbl_ProcessStageID.Text = lbl_ActiveProcessStageID.Text And 
+                                    lbl_IsBPFStageApprovalActive.Text = "true" And
+                                    Lower(varCurUserEmail) = Lower(ThisItem.ApprovalUser.'Primary Email'), 
+                                        DisplayMode.Edit, 
+                                        DisplayMode.Disabled)*/
+                                Fill: =If(ThisItem.ApprovalStatus = [@ApprovalStatus].Approved, RGBA(127, 178, 57, 1), RGBA(0, 0, 0, 0))
+                                FocusedBorderColor: =Circle3.BorderColor
+                                Height: =Circle1.Height
+                                HoverFill: =RGBA(105, 121, 126, 1)
+                                OnSelect: =Select(Parent);
+                                PressedFill: =RGBA(105, 121, 126, 1)
+                                Tooltip: ="Approve"
+                                Width: =Circle1.Width
+                                X: =Circle1.X
+                                Y: =Circle1.Y
+                                ZIndex: =6
+
+                            Icon6 As icon.Check:
+                                BorderColor: =RGBA(166, 166, 166, 1)
+                                Color: |-
+                                    =If(Text(ThisItem.ApprovalStatus) = "Pending", LightGrey, White)
+                                    //If(Text(ThisItem.ApprovalPending) = "Pending", LightGrey, White)
+                                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                DisabledColor: =RGBA(220, 220, 220, 1)
+                                DisabledFill: =RGBA(0, 0, 0, 0)
+                                DisplayMode: |-
+                                    =DisplayMode.Disabled
+                                    /*If(
+                                    !(IsBlank(lbl_ApprovalID.Text)) And 
+                                    //lbl_ProcessStageID.Text = lbl_ActiveProcessStageID.Text And 
+                                    lbl_IsBPFStageApprovalActive.Text = "true" And
+                                    Lower(varCurUserEmail) = Lower(ThisItem.ApprovalUser.'Primary Email'), 
+                                        DisplayMode.Edit, 
+                                        DisplayMode.Disabled)*/
+                                FocusedBorderColor: =Icon6.BorderColor
+                                FocusedBorderThickness: =4
+                                Height: =20
+                                HoverBorderColor: =RGBA(0, 0, 0, 0)
+                                HoverColor: =Magenta
+                                HoverFill: =RGBA(0, 0, 0, 0)
+                                Icon: =Icon.Check
+                                OnSelect: =Select(Parent);
+                                PressedBorderColor: =RGBA(0, 0, 0, 0)
+                                PressedColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                                PressedFill: =RGBA(0, 0, 0, 0)
+                                Tooltip: ="Approve"
+                                Width: =20
+                                X: =Circle1.X + (Circle1.Width / 2) - Icon6.Width / 2
+                                Y: =Circle1.Y + (Circle1.Height / 2) - Icon6.Height / 2
+                                ZIndex: =7
+
+                            Circle1 As circle:
+                                BorderColor: =LightGrey
+                                BorderThickness: =2
+                                DisabledFill: =RGBA(0, 120, 212, 0)
+                                DisplayMode: |-
+                                    =DisplayMode.Disabled
+                                    /*If(
+                                        lbl_IsBPFStageApprovalActive.Text = "true" And
+                                        Lower(varCurUserEmail) = Lower(ThisItem.ApprovalUser.'Primary Email') Or
+                                        varCurrentUserSecurityRole = "Administrator" Or varCurrentUserSecurityRole = "GTM", 
+                                            DisplayMode.Edit, 
+                                            DisplayMode.Disabled)*/
+                                Fill: =RGBA(0, 0, 0, 0)
+                                FocusedBorderColor: =Circle1.BorderColor
+                                Height: =30
+                                HoverFill: |-
+                                    =RGBA(54, 176, 75, 0)
+                                    /*If(!(IsBlank(lbl_ApprovalID.Text)) And lbl_ProcessStageID.Text = lbl_ActiveProcessStageID.Text And Lower(varCurUserEmail) = Lower(ThisItem.ApprovalUser.'Primary Email'), RGBA(54, 176, 75, .5), RGBA(54, 176, 75, .0))*/
+                                OnSelect: |-
+                                    =Select(Parent);
+                                    //UpdateContext({varShowApprovalSpinner: true});
+                                    /*Patch([@StageApprovalResponses], ThisItem, {
+                                        ApprovalStatus: [@ApprovalStatus].Approved
+                                        }); */
+                                    //Notify("You Have Successfully Approved The Initiative.", NotificationType.Success);
+                                PressedFill: =ColorFade(RGBA(127, 178, 57, 1), 50%)
+                                Tooltip: ="Approve"
+                                Width: =30
+                                X: =gal_BpfGallery.TemplateWidth - Icon6.Width - Icon6.Width - 40
+                                Y: =(gal_ApprovalUsersList.TemplateHeight / 2) - (Circle1.Height / 2)
+                                ZIndex: =8
+
+                            Image6 As image:
+                                BorderColor: =RGBA(0, 0, 0, 0)
+                                BorderStyle: =BorderStyle.None
+                                BorderThickness: =2
+                                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                DisabledFill: =RGBA(0, 0, 0, 0)
+                                FocusedBorderColor: =Image6.BorderColor
+                                FocusedBorderThickness: =4
+                                Height: =30
+                                HoverBorderColor: =RGBA(0, 0, 0, 0)
+                                HoverFill: =RGBA(0, 0, 0, 0)
+                                Image: =ApprovalLoader
+                                OnSelect: =Select(Parent);
+                                PressedBorderColor: =RGBA(0, 0, 0, 0)
+                                PressedFill: =RGBA(0, 0, 0, 0)
+                                Tooltip: ="Approve"
+                                Visible: =false
+                                Width: =30
+                                X: =Circle1.X
+                                Y: =Circle1.Y
+                                ZIndex: =9
+
+                        icn_ClearApprovalStatusAdminOnly As icon.Erase:
+                            BorderColor: =RGBA(166, 166, 166, 1)
+                            Color: =RGBA(179, 179, 179, 1)
+                            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                            DisabledColor: =RGBA(220, 220, 220, 1)
+                            DisabledFill: =RGBA(0, 0, 0, 0)
+                            FocusedBorderColor: =icn_ClearApprovalStatusAdminOnly.BorderColor
+                            FocusedBorderThickness: =4
+                            Height: =30
+                            HoverBorderColor: =RGBA(0, 0, 0, 0)
+                            HoverColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                            HoverFill: =RGBA(0, 0, 0, 0)
+                            Icon: =Icon.Erase
+                            OnSelect: |-
+                                =Select(Parent);
+                                UpdateContext({varShowApprovalSpinner: true});
+                                /*Patch([@StageApprovalResponses], ThisItem, {
+                                    ApprovalStatus: Blank()
+                                    }) */
+                            PressedBorderColor: =RGBA(0, 0, 0, 0)
+                            PressedColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                            PressedFill: =RGBA(0, 0, 0, 0)
+                            Tooltip: ="Reset"
+                            Visible: =varCurrentUserSecurityRole = "Administrator" Or varCurrentUserSecurityRole = "GTM"
+                            Width: =30
+                            X: =220
+                            Y: =10
+                            ZIndex: =11
+
+                        grp_RejectUserButton As group:
+                            Height: =5
+                            Width: =5
+                            X: =40
+                            Y: =40
+                            ZIndex: =11
+
+                            Circle4 As circle:
+                                BorderColor: =RGBA(166, 166, 166, 1)
+                                BorderStyle: =BorderStyle.None
+                                BorderThickness: =2
+                                DisabledFill: =RGBA(105, 121, 126, 1)
+                                DisplayMode: |-
+                                    =/*If(
+                                    !(IsBlank(lbl_ApprovalID.Text)) And 
+                                    //lbl_ProcessStageID.Text = lbl_ActiveProcessStageID.Text And 
+                                    lbl_IsBPFStageApprovalActive.Text = "true" And
+                                    Lower(varCurUserEmail) = Lower(ThisItem.ApprovalUser.'Primary Email'), 
+                                        DisplayMode.Edit, 
+                                        DisplayMode.Disabled)*/
+                                    DisplayMode.Disabled
+                                Fill: =If(ThisItem.ApprovalStatus = [@ApprovalStatus].Rejected, Red, RGBA(0, 0, 0, 0))
+                                FocusedBorderColor: =Circle4.BorderColor
+                                Height: =Circle2.Height
+                                HoverFill: =RGBA(105, 121, 126, 1)
+                                OnSelect: =true
+                                PressedFill: =RGBA(105, 121, 126, 1)
+                                Tooltip: ="Reject"
+                                Visible: =
+                                Width: =Circle2.Width
+                                X: =Circle2.X
+                                Y: =Circle2.Y
+                                ZIndex: =1
+
+                            Icon5 As icon.Cancel:
+                                BorderColor: =RGBA(166, 166, 166, 1)
+                                Color: =If(Text(ThisItem.ApprovalStatus) = "Assigned", LightGrey, White)
+                                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                DisabledColor: =RGBA(220, 220, 220, 1)
+                                DisabledFill: =RGBA(0, 0, 0, 0)
+                                DisplayMode: |-
+                                    =DisplayMode.Disabled
+                                    /*If(
+                                    !(IsBlank(lbl_ApprovalID.Text)) And 
+                                    //lbl_ProcessStageID.Text = lbl_ActiveProcessStageID.Text And 
+                                    lbl_IsBPFStageApprovalActive.Text = "true" And
+                                    Lower(varCurUserEmail) = Lower(ThisItem.ApprovalUser.'Primary Email'), 
+                                        DisplayMode.Edit, 
+                                        DisplayMode.Disabled)*/
+                                FocusedBorderColor: =Icon5.BorderColor
+                                FocusedBorderThickness: =4
+                                Height: =20
+                                HoverBorderColor: =RGBA(0, 0, 0, 0)
+                                HoverColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                                HoverFill: =RGBA(0, 0, 0, 0)
+                                Icon: =Icon.Cancel
+                                OnSelect: =true
+                                PressedBorderColor: =RGBA(0, 0, 0, 0)
+                                PressedColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                                PressedFill: =RGBA(0, 0, 0, 0)
+                                Tooltip: ="Reject"
+                                Visible: =
+                                Width: =20
+                                X: =Circle2.X + (Circle2.Width / 2) - Icon5.Width / 2
+                                Y: =Circle2.Y + (Circle2.Width / 2) - Icon6.Height / 2
+                                ZIndex: =4
+
+                            Circle2 As circle:
+                                BorderColor: =LightGrey
+                                BorderThickness: =2
+                                DisabledFill: =RGBA(0, 0, 0, 0)
+                                DisplayMode: |-
+                                    =DisplayMode.Disabled
+                                    /*If(
+                                        lbl_IsBPFStageApprovalActive.Text = "true" And
+                                        Lower(varCurUserEmail) = Lower(ThisItem.ApprovalUser.'Primary Email') Or
+                                        varCurrentUserSecurityRole = "Administrator" Or varCurrentUserSecurityRole = "GTM", 
+                                            DisplayMode.Edit, 
+                                            DisplayMode.Disabled)*/
+                                Fill: =RGBA(0, 0, 0, 0)
+                                FocusedBorderColor: =Circle2.BorderColor
+                                Height: =30
+                                HoverFill: |-
+                                    =RGBA(54, 176, 75, 0)
+                                    /*If(!(IsBlank(lbl_ApprovalID.Text)) And lbl_ProcessStageID.Text = lbl_ActiveProcessStageID.Text And Lower(varCurUserEmail) = Lower(ThisItem.ApprovalUser.'Primary Email'), RGBA(255, 0, 0, .5), RGBA(54, 176, 75, .0))*/
+                                OnSelect: =true
+                                PressedFill: =RGBA(105, 121, 126, 1)
+                                Tooltip: ="Reject"
+                                Visible: =
+                                Width: =30
+                                X: =gal_BpfGallery.TemplateWidth - Icon6.Width - 25
+                                Y: =(gal_ApprovalUsersList.TemplateHeight / 2) - (Circle2.Height / 2)
+                                ZIndex: =5
+
+                            Image7 As image:
+                                BorderColor: =RGBA(0, 0, 0, 0)
+                                BorderStyle: =BorderStyle.None
+                                BorderThickness: =2
+                                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                                DisabledFill: =RGBA(0, 0, 0, 0)
+                                FocusedBorderColor: =Image7.BorderColor
+                                FocusedBorderThickness: =4
+                                Height: =30
+                                HoverBorderColor: =RGBA(0, 0, 0, 0)
+                                HoverFill: =RGBA(0, 0, 0, 0)
+                                Image: =ApprovalLoader
+                                OnSelect: =true
+                                PressedBorderColor: =RGBA(0, 0, 0, 0)
+                                PressedFill: =RGBA(0, 0, 0, 0)
+                                Tooltip: ="Reject"
+                                Visible: =false
+                                Width: =30
+                                X: =Circle2.X
+                                Y: =Circle2.Y
+                                ZIndex: =10
+
+                grp_WYAM As group:
+                    Height: =5
+                    Width: =5
+                    X: =40
+                    Y: =40
+                    ZIndex: =34
+
+                    btn_WYAMBackground As button:
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        BorderStyle: =BorderStyle.None
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        DisabledFill: =RGBA(244, 244, 244, 1)
+                        DisplayMode: =DisplayMode.Disabled
+                        Fill: =RGBA(105, 121, 126, 1)
+                        FocusedBorderColor: =btn_WYAMBackground.BorderColor
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =lbl_WYAMTitle.Height + lbl_WYAMText.Height + 20
+                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                        HoverColor: =RGBA(255, 255, 255, 1)
+                        HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+                        OnSelect: =Select(Parent)
+                        PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+                        PressedColor: =RGBA(255, 255, 255, 1)
+                        PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                        RadiusBottomLeft: =20
+                        RadiusBottomRight: =20
+                        RadiusTopLeft: =20
+                        RadiusTopRight: =20
+                        Size: =15
+                        Text: =""
+                        Width: =Parent.TemplateWidth - 10
+                        X: =5
+                        Y: =btn_ApprovalStageHeaderBackground.Y + btn_ApprovalStageHeaderBackground.Height + 20
+                        ZIndex: =11
+
+                    lbl_WYAMTitle As label:
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        BorderStyle: =BorderStyle.None
+                        BorderThickness: =2
+                        Color: =RGBA(51, 51, 51, 1)
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        FocusedBorderColor: =lbl_WYAMTitle.BorderColor
+                        FocusedBorderThickness: =4
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =35
+                        HoverBorderColor: =lbl_WYAMTitle.BorderColor
+                        HoverColor: =lbl_WYAMTitle.Color
+                        HoverFill: =lbl_WYAMTitle.Fill
+                        OnSelect: =Select(Parent)
+                        PaddingTop: =0
+                        PressedBorderColor: =lbl_WYAMTitle.BorderColor
+                        PressedColor: =lbl_WYAMTitle.Color
+                        PressedFill: =lbl_WYAMTitle.Fill
+                        Size: =13
+                        Text: ="What Your Approval Means"
+                        Visible: =!IsBlank(lbl_WYAMTitle.Text)
+                        Width: =btn_WYAMBackground.Width - 30
+                        X: =20
+                        Y: =btn_WYAMBackground.Y + 10
+                        ZIndex: =12
+
+                    lbl_WYAMText As label:
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        BorderStyle: =BorderStyle.None
+                        BorderThickness: =2
+                        Color: =RGBA(51, 51, 51, 1)
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        FocusedBorderColor: =lbl_WYAMText.BorderColor
+                        FocusedBorderThickness: =4
+                        Font: =Font.'Segoe UI'
+                        Height: =150
+                        HoverBorderColor: =lbl_WYAMText.BorderColor
+                        HoverColor: =lbl_WYAMText.Color
+                        HoverFill: =lbl_WYAMText.Fill
+                        OnSelect: =Select(Parent)
+                        PaddingTop: =0
+                        PressedBorderColor: =lbl_WYAMText.BorderColor
+                        PressedColor: =lbl_WYAMText.Color
+                        PressedFill: =lbl_WYAMText.Fill
+                        Size: =13
+                        Text: =LookUp(WYAM_Text, InitiativeType = Text(varCurrentRecord.InitiativeType) And Phase = ThisItem.stagename).Verbiage
+                        VerticalAlign: =VerticalAlign.Top
+                        Width: =btn_WYAMBackground.Width - 30
+                        X: =lbl_WYAMTitle.X
+                        Y: =lbl_WYAMTitle.Y + lbl_WYAMTitle.Height
+                        ZIndex: =13
+
+                grp_StageHeader As group:
+                    Height: =5
+                    Width: =5
+                    X: =40
+                    Y: =40
+                    ZIndex: =34
+
+                    btn_ApprovalStageHeaderBackground As button:
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        BorderStyle: =BorderStyle.None
+                        DisabledBorderColor: =RGBA(209, 232, 178, 1)
+                        DisabledColor: =White
+                        DisabledFill: =If(lbl_AllItemsApproved.Text = "true" And !IsEmpty(gal_ApprovalUsersList.AllItems), RGBA(127, 178, 57, 1), If(lbl_ActiveProcessStageID.Text = ThisItem.processstageid And lbl_IsCurrentProcessStage.Text, Magenta, LightGrey))
+                        DisplayMode: =DisplayMode.Disabled
+                        Fill: =If(lbl_ActiveProcessStageID.Text = ThisItem.processstageid, RGBA(139, 194, 74, 1), RGBA(166, 166, 166, 1))
+                        FocusedBorderColor: =btn_ApprovalStageHeaderBackground.BorderColor
+                        Font: =Font.'Segoe UI'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =120
+                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                        HoverColor: =RGBA(255, 255, 255, 1)
+                        HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+                        OnSelect: =Select(Parent)
+                        PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+                        PressedColor: =RGBA(255, 255, 255, 1)
+                        PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                        RadiusBottomLeft: =20
+                        RadiusBottomRight: =20
+                        RadiusTopLeft: =20
+                        RadiusTopRight: =20
+                        Size: =15
+                        Text: =ThisItem.stagename
+                        Width: =gal_BpfGallery.TemplateWidth - 10
+                        X: =5
+                        Y: =5
+                        ZIndex: =8
+
+                    Circle6 As circle:
+                        BorderColor: =RGBA(255, 255, 255, 1)
+                        BorderStyle: =BorderStyle.None
+                        BorderThickness: =3
+                        DisabledFill: =RGBA(105, 121, 126, 1)
+                        Fill: =RGBA(0, 0, 0, 0)
+                        FocusedBorderColor: =Circle6.BorderColor
+                        Height: =30
+                        HoverFill: =RGBA(105, 121, 126, 1)
+                        OnSelect: =Select(Parent)
+                        PressedFill: =RGBA(105, 121, 126, 1)
+                        Visible: =If(lbl_AllItemsApproved.Text = "true" And !IsEmpty(gal_ApprovalUsersList.AllItems), true, If(lbl_ActiveProcessStageID.Text = ThisItem.processstageid And lbl_IsCurrentProcessStage.Text, false, false))
+                        Width: =30
+                        X: =20
+                        Y: =20
+                        ZIndex: =18
+
+                    Icon13 As icon.Check:
+                        BorderColor: =RGBA(166, 166, 166, 1)
+                        Color: =RGBA(255, 255, 255, 1)
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(220, 220, 220, 1)
+                        DisabledFill: =RGBA(0, 0, 0, 0)
+                        FocusedBorderColor: =Icon13.BorderColor
+                        FocusedBorderThickness: =4
+                        Height: =30
+                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                        HoverColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                        HoverFill: =RGBA(0, 0, 0, 0)
+                        Icon: =Icon.Check
+                        OnSelect: =Select(Parent)
+                        PressedBorderColor: =RGBA(0, 0, 0, 0)
+                        PressedColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                        PressedFill: =RGBA(0, 0, 0, 0)
+                        Visible: =If(lbl_AllItemsApproved.Text = "true" And !IsEmpty(gal_ApprovalUsersList.AllItems), true, If(lbl_ActiveProcessStageID.Text = ThisItem.processstageid And lbl_IsCurrentProcessStage.Text, false, false))
+                        Width: =30
+                        X: =25
+                        Y: =15
+                        ZIndex: =19
+
+                    lbl_StagedApprovedLabel As label:
+                        BorderColor: =RGBA(0, 0, 0, 0)
+                        BorderStyle: =BorderStyle.None
+                        BorderThickness: =2
+                        Color: =RGBA(255, 255, 255, 1)
+                        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                        DisabledColor: =RGBA(166, 166, 166, 1)
+                        FocusedBorderColor: =lbl_StagedApprovedLabel.BorderColor
+                        FocusedBorderThickness: =4
+                        Font: =Font.'Segoe UI'
+                        HoverBorderColor: =lbl_StagedApprovedLabel.BorderColor
+                        HoverColor: =lbl_StagedApprovedLabel.Color
+                        HoverFill: =lbl_StagedApprovedLabel.Fill
+                        OnSelect: =Select(Parent)
+                        PressedBorderColor: =lbl_StagedApprovedLabel.BorderColor
+                        PressedColor: =lbl_StagedApprovedLabel.Color
+                        PressedFill: =lbl_StagedApprovedLabel.Fill
+                        Size: =13
+                        Text: ="Approved"
+                        Visible: =If(lbl_AllItemsApproved.Text = "true" And !IsEmpty(gal_ApprovalUsersList.AllItems), true, If(lbl_ActiveProcessStageID.Text = ThisItem.processstageid And lbl_IsCurrentProcessStage.Text, false, false))
+                        X: =55
+                        Y: =15
+                        ZIndex: =20
+
+    com_InitiativeHeader_4 As com_InitiativeHeader:
+        AppID: =varCurrentAppID
+        BOEmailAddress: =varCurrentRecord.'Business Owner'.'Primary Email'
+        CurrentRecord: =varCurrentRecord
+        GTMEntryID: =varCurrentRecord.gtmEntry
+        LegacyGTMEntryID: =varCurrentRecord.legacyGTMEntryID
+        showButtons: =false
+        varFormValues: =
+        varInitiativeName: =Coalesce(LookUp(collFormValues, fieldID = "InitiativeName").fieldValue, varCurrentRecord.InitiativeName)
+        varInitiativeType: =varCurrentRecord.InitiativeType
+        varReqFieldsRemaining: =
+        varRequestType: =varCurrentRecord.InitiativeTypeGroup
+        Width: =App.Width - com_NavLeft_4.Width
+        X: =com_NavLeft_4.X + com_NavLeft_4.Width
+        Y: =com_NavTop_6.Height
+        ZIndex: =3
+
+    com_NavTop_6 As com_NavTop:
+        AdminScreen: =Permissions_Team_Roles_Screen
+        IsGTM: =varCurrentUserSecurityRole = "Administrator" Or varCurrentUserSecurityRole = "GTM"
+        Items: =colTopNavGalleryItems
+        UserFullName: =varCurrentUserNameFL
+        Width: =App.Width
+        ZIndex: =4
+
+    com_NavLeft_4 As com_NavLeft:
+        Height: =App.Height - com_NavTop_6.Height
+        Items: |-
+            =If(varCurrentUserSecurityRole = "GTM" Or varCurrentUserSecurityRole = "Administrator", 
+                Table({Label:"Summary",LaunchLink:"",Screen:Project_Summary_Screen,InitiativeType:"Project",IsVisible:true},
+                    {Label:"Details",LaunchLink:"",Screen:Project_Details_Screen,InitiativeType:"Project",IsVisible:true},
+                    {Label:"Approvals",LaunchLink:"",Screen:Project_Approvals_Screen,InitiativeType:"Project",IsVisible:true},
+                    {Label:"Team",LaunchLink:"",Screen:Project_Team_Screen,InitiativeType:"Project",IsVisible:true},
+                    //{Label:"Change Log",LaunchLink:"",Screen:Change_Log_Screen,InitiativeType:"Project",IsVisible:true},
+                    {Label:"Attachments",LaunchLink:"",Screen:Attachments_Screen,InitiativeType:"Project",IsVisible:true}
+                    //{Label:"Launch CDS",LaunchLink:Text(Concatenate("https://org86cd876f.crm.dynamics.com/main.aspx?cmdbar=true&navbar=off&newWindow=true&pagetype=entityrecord&etn=cat_gtmentry&id=",Text(varCurrentRecord.gtmEntry))),Screen:Loading_Screen,InitiativeType:"Project",IsVisible:true}
+                ),
+                Table({Label:"Summary",LaunchLink:"",Screen:Project_Summary_Screen,InitiativeType:"Project",IsVisible:true},
+                    {Label:"Details",LaunchLink:"",Screen:Project_Details_Screen,InitiativeType:"Project",IsVisible:true},
+                    {Label:"Approvals",LaunchLink:"",Screen:Project_Approvals_Screen,InitiativeType:"Project",IsVisible:true},
+                    {Label:"Team",LaunchLink:"",Screen:Project_Team_Screen,InitiativeType:"Project",IsVisible:true},
+                    //{Label:"Change Log",LaunchLink:"",Screen:Change_Log_Screen,InitiativeType:"Project",IsVisible:true},
+                    {Label:"Attachments",LaunchLink:"",Screen:Attachments_Screen,InitiativeType:"Project",IsVisible:true}
+                    //{Label:"Launch CDS",LaunchLink:Concatenate("https://org86cd876f.crm.dynamics.com/main.aspx?cmdbar=true&navbar=off&newWindow=true&pagetype=entityrecord&etn=cat_gtmentry&id=",Text(varCurrentRecord.gtmEntry)),Screen:Attachments_Screen,InitiativeType:"Project",IsVisible:true}
+                )
+            )
+        Width: =varSideNavWidth
+        Y: =com_NavTop_6.Height
+        ZIndex: =5
+
+    lbl_ActiveProcessStageID As label:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Color: =RGBA(51, 51, 51, 1)
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =lbl_ActiveProcessStageID.BorderColor
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        Height: =50
+        HoverBorderColor: =lbl_ActiveProcessStageID.BorderColor
+        HoverColor: =lbl_ActiveProcessStageID.Color
+        HoverFill: =lbl_ActiveProcessStageID.Fill
+        PressedBorderColor: =lbl_ActiveProcessStageID.BorderColor
+        PressedColor: =lbl_ActiveProcessStageID.Color
+        PressedFill: =lbl_ActiveProcessStageID.Fill
+        Size: =13
+        Text: =varActiveProcessStage
+        Visible: =varDevMode
+        Width: =453
+        X: =762
+        Y: =1030
+        ZIndex: =6
+
+    btn_LaunchCDS As button:
+        BorderColor: =ColorFade(btn_LaunchCDS.Fill, -15%)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =1
+        Color: =White
+        DisabledBorderColor: =RGBA(83, 83, 83, 1)
+        DisabledColor: =White
+        DisabledFill: =RGBA(166, 166, 166, 1)
+        DisplayMode: |-
+            =DisplayMode.Edit
+            //If(BDL_RequiredFields_Number.Text = "0",DisplayMode.Edit,DisplayMode.Disabled)
+        Fill: =RGBA(226, 0, 116, 1)
+        FocusedBorderColor: =btn_LaunchCDS.BorderColor
+        FocusedBorderThickness: =1
+        Font: ='Open Sans'
+        FontWeight: =FontWeight.Semibold
+        Height: =43
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverColor: =White
+        HoverFill: =ColorFade(btn_LaunchCDS.Fill, -20%)
+        OnSelect: =Launch(Concatenate(varCurrentCDSURL,"/main.aspx?cmdbar=true&navbar=off&newWindow=true&pagetype=entityrecord&etn=cat_gtmentry&id=",Text(varCurrentRecord.gtmEntry)))
+        PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+        PressedColor: =RGBA(255, 255, 255, 1)
+        PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =11
+        Text: ="Launch CDS"
+        Visible: =varCurrentUserSecurityRole = "GTM" Or varCurrentUserSecurityRole = "Administrator" Or varDevMode
+        Width: =128
+        X: =26
+        Y: =426
+        ZIndex: =14
+
+    com_LoadingSpinner_2 As com_LoadingSpinner:
+        Height: =App.Height - com_NavTop_6.Height - com_InitiativeHeader_4.Height
+        SpinnerText: =varLoadingDataMessage
+        Visible: =IsEmpty(BpfStages)//IsEmpty(colStageApprovalUsers) Or IsEmpty(StageApprovalResponses)
+        Width: =App.Width - com_NavLeft_4.Width
+        X: =com_NavLeft_4.Width
+        Y: =com_InitiativeHeader_4.Y + com_InitiativeHeader_4.Height
+        ZIndex: =15
+
+    img_RefreshApprovals As image:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledFill: =RGBA(0, 0, 0, 0)
+        FocusedBorderColor: =img_RefreshApprovals.BorderColor
+        FocusedBorderThickness: =4
+        Height: =35
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverFill: =RGBA(0, 0, 0, 0)
+        Image: =LogoMakr_9O7x3H
+        OnSelect: |-
+            =UpdateContext({showLoader: false});
+            UpdateContext({varLoadingDataMessage: Concatenate("Refreshing Approvals for ", varCurrentRecord.InitiativeName)});
+            
+            Set(varActiveProcessStage, LookUp(ORBIT_Initiative_Approval_Process, Cat_Gtmentry.gtmEntry = varCurrentRecord.gtmEntry).'Active Stage'.'Process Stage');
+            Set(BpfInstance, LookUp(ORBIT_Initiative_Approval_Process, Cat_Gtmentry.gtmEntry = varCurrentRecord.gtmEntry)); //get BPF instance from Orbit_Initiative_Approval_Process Entity
+            ClearCollect(BpfStages, 'CDS-GtmEntries'.GetBPFActivePath(BpfInstance.ORBIT_Initiative_Approval_Process).value); //get active path stages from custom API connector
+            
+            Clear(colBPFStagesIndexed); //Get indexed collection of BPF active path stages
+            ForAll(BpfStages, 
+                Collect(colBPFStagesIndexed,
+                        Last(FirstN(AddColumns(BpfStages,
+                                            "Index",
+                                            CountRows(colBPFStagesIndexed)+1
+                                    ), 
+                                    CountRows(colBPFStagesIndexed)+1
+                                )
+                        )    
+                )
+            );
+            ClearCollect(colPreviousBPFStages, FirstN(colBPFStagesIndexed, LookUp(colBPFStagesIndexed, processstageid = lbl_ActiveProcessStageID.Text).Index)); // Get collection of BPF active path stages to current
+            ClearCollect(colStageApprovalUsers, Filter(StageApprovalUsers, OrbitBPF.ORBIT_Initiative_Approval_Process = BpfInstance.ORBIT_Initiative_Approval_Process));
+            
+            If(!IsEmpty(colStageApprovalUsers), 
+                UpdateContext({varStartApprovalRefreshTimer: false});
+                UpdateContext({showLoader: true})
+                );
+                
+            UpdateContext({showLoader: true});
+        PressedBorderColor: =RGBA(0, 0, 0, 0)
+        PressedFill: =RGBA(0, 0, 0, 0)
+        Tooltip: ="Refresh"
+        Transparency: =.5
+        Width: =35
+        X: =1824
+        Y: =68
+        ZIndex: =16
+
+    Container1_1 As groupContainer:
+        DisplayMode: =DisplayMode.Edit
+        Fill: =RGBA(255, 255, 255, .8)
+        Height: =App.Height
+        Visible: =varEmailDialogueVis
+        Width: =App.Width
+        ZIndex: =17
+
+        Button5_1 As button:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            DisplayMode: =DisplayMode.Disabled
+            Fill: =RGBA(105, 121, 126, 1)
+            FocusedBorderColor: =Button5_1.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =826
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+            PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =15
+            Text: =""
+            Width: =If(IsBlank(varEditEmailRecipients), 1081, 1400)
+            X: =App.Width / 2 - Button5_1.Width / 2
+            Y: =App.Height / 2 - Button5_1.Height / 2
+            ZIndex: =1
+
+        "gal_EmailRecipientMembers_1 As gallery.'BrowseLayout_Vertical_OneTextVariant_ver4.0'":
+            BorderColor: =RGBA(166, 166, 166, 1)
+            BorderThickness: =1
+            DisabledBorderColor: =gal_EmailRecipientMembers_1.BorderColor
+            DisabledFill: =gal_EmailRecipientMembers_1.Fill
+            Height: =rte_EmailBodyContent_1.Height
+            HoverBorderColor: =gal_EmailRecipientMembers_1.BorderColor
+            HoverFill: =gal_EmailRecipientMembers_1.Fill
+            Items: =If(varEditEmailRecipients = "To", colEmailToRecipients, colEmailCCRecipients)
+            Layout: =Layout.Vertical
+            LoadingSpinnerColor: =gal_EmailRecipientMembers_1.BorderColor
+            PressedBorderColor: =gal_EmailRecipientMembers_1.BorderColor
+            PressedFill: =gal_EmailRecipientMembers_1.Fill
+            TemplatePadding: =0
+            TemplateSize: =41
+            Visible: =!IsBlank(varEditEmailRecipients)
+            Width: =txt_EmailRecipientSearchText_1.Width
+            X: =txt_EmailRecipientSearchText_1.X
+            Y: =Label17_2.Y + Label17_2.Height
+            ZIndex: =2
+
+            Title12_1 As label:
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderColor: =Title12_1.BorderColor
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                HoverBorderColor: =Title12_1.BorderColor
+                HoverColor: =Title12_1.Color
+                HoverFill: =Title12_1.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =10
+                PaddingRight: =0
+                PaddingTop: =0
+                PressedBorderColor: =Title12_1.BorderColor
+                PressedColor: =Title12_1.Color
+                PressedFill: =Title12_1.Fill
+                Size: =11
+                Text: =ThisItem.'Primary Email'
+                Width: =Parent.Width
+                ZIndex: =1
+
+            NextArrow13_1 As icon.ChevronRight:
+                AccessibleLabel: =NextArrow13_1.Tooltip
+                BorderColor: =RGBA(166, 166, 166, 1)
+                Color: =RGBA(105, 121, 126, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(220, 220, 220, 1)
+                DisabledFill: =RGBA(0, 0, 0, 0)
+                FocusedBorderColor: =NextArrow13_1.BorderColor
+                FocusedBorderThickness: =4
+                Height: =41
+                HoverBorderColor: =RGBA(0, 0, 0, 0)
+                HoverColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                HoverFill: =RGBA(0, 0, 0, 0)
+                Icon: =Icon.Trash
+                OnSelect: =If(varEditEmailRecipients = "To", Remove(colEmailToRecipients, ThisItem), Remove(colEmailCCRecipients, ThisItem))
+                PaddingBottom: =1
+                PaddingLeft: =1
+                PaddingRight: =1
+                PaddingTop: =1
+                PressedBorderColor: =RGBA(0, 0, 0, 0)
+                PressedColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                PressedFill: =RGBA(0, 0, 0, 0)
+                TabIndex: =0
+                Tooltip: ="View item details"
+                Width: =30
+                X: =Parent.Width - NextArrow13_1.Width
+                ZIndex: =2
+
+            Separator14_1 As rectangle:
+                BorderColor: =RGBA(0, 0, 0, 0)
+                DisabledFill: =Separator14_1.Fill
+                Fill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                FocusedBorderColor: =Separator14_1.BorderColor
+                Height: =2
+                HoverFill: =Separator14_1.Fill
+                OnSelect: =Select(Parent)
+                PressedFill: =Separator14_1.Fill
+                Width: =Parent.TemplateWidth
+                Y: =Parent.TemplateHeight - 2
+                ZIndex: =3
+
+        btn_AD_EN_Submit_1 As button:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(255, 255, 255, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            DisplayMode: =If(IsBlank(txt_EmailToRecipients_1.Text), DisplayMode.Disabled, DisplayMode.Edit)
+            Fill: =ColorValue(LookUp(StyleGuide, Key = "Magenta").Value)
+            FocusedBorderColor: =btn_AD_EN_Submit_1.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =35
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+            OnSelect: |-
+                =//CreateEmailRecord.Run("Custom Message", rte_EmailBodyContent_1.HtmlText, varCurrentRecord.gtmEntry, varCurrentUserRecord.'Primary Email', varCurrentRecord.gtmEntry, varCurrentRecord.gtmEntry, txt_EmailToRecipients_1.Text, txt_EmailSubject_1.Text, txt_EmailCCRecipients_1.Text);
+                
+                Patch(ORBITEmails, Defaults(ORBITEmails), {
+                    MessageBody: rte_EmailBodyContent_1.HtmlText, 
+                    Subject: txt_EmailSubject_1.Text, 
+                    gtmEntry: varCurrentRecord,
+                    ToRecipients: txt_EmailToRecipients_1.Text,
+                    CCRecipients: txt_EmailCCRecipients_1.Text,
+                    Description: "Approval Dashboard Email"
+                    });
+                
+                UpdateContext({varEditEmailRecipients: Blank()});
+                UpdateContext({varEmailDialogueVis: false});
+                //Notify( "Your Email Has Been Successfully Sent");
+                
+                /*
+                Patch('Email Messages', Defaults('Email Messages'), {
+                    Description: RichTextEditor1.HtmlText, 
+                    Subject: txt_EmailSubject.Text, 
+                    GTMInitiative: varCurrentRecord,
+                    Sender: varCurUserFullRecord,
+                    torecipients: txt_EmailToRecipients.Text,
+                    From: varCurUserEmail,
+                    'Email Tracking Id': varCurrentRecord.gtmEntry, 
+                    'ID for template used.': LookUp('Email Templates', title = Dropdown2.Selected.title),
+                    'Tracking Token': varCurrentRecord.gtmEntry,
+                    'Delivery Priority': 'Delivery Priority'.High})
+                */
+            PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =15
+            Text: ="Send"
+            Width: =130
+            X: =rte_EmailBodyContent_1.X + (rte_EmailBodyContent_1.Width / 2) + 100 - 65
+            Y: =Button5_1.Y + Button5_1.Height - 60
+            ZIndex: =3
+
+        btn_AD_EN_Cancel_5 As button:
+            BorderColor: =ColorValue(LookUp(StyleGuide, Key = "Grey").Value)
+            BorderStyle: =BorderStyle.None
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            Fill: =RGBA(105, 121, 126, 1)
+            FocusedBorderColor: =btn_AD_EN_Cancel_5.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =35
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =ColorValue(LookUp(StyleGuide, Key = "Magenta").Value)
+            HoverFill: =ColorValue(LookUp(StyleGuide, Key = "White").Value)
+            OnSelect: |-
+                =UpdateContext({varEditEmailRecipients: Blank()});UpdateContext({varEmailDialogueVis: false});
+                Reset(txt_EmailRecipientSearchText_1)
+            PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =ColorValue(LookUp(StyleGuide, Key = "Magenta").Value)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =15
+            Text: ="Cancel"
+            Width: =130
+            X: =rte_EmailBodyContent_1.X + (rte_EmailBodyContent_1.Width / 2) - 100 - 65
+            Y: =Button5_1.Y + Button5_1.Height - 60
+            ZIndex: =4
+
+        lbl_AD_EN_Body_1 As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =lbl_AD_EN_Body_1.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            HoverBorderColor: =lbl_AD_EN_Body_1.BorderColor
+            HoverColor: =lbl_AD_EN_Body_1.Color
+            HoverFill: =lbl_AD_EN_Body_1.Fill
+            PaddingLeft: =0
+            PressedBorderColor: =lbl_AD_EN_Body_1.BorderColor
+            PressedColor: =lbl_AD_EN_Body_1.Color
+            PressedFill: =lbl_AD_EN_Body_1.Fill
+            Size: =13
+            Text: |-
+                ="Body:"
+            Width: =80
+            X: =Button5_1.X + 40
+            Y: =lbl_AD_EN_Subject_1.Y + 40
+            ZIndex: =5
+
+        lbl_AD_EN_Subject_1 As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =lbl_AD_EN_Subject_1.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            HoverBorderColor: =lbl_AD_EN_Subject_1.BorderColor
+            HoverColor: =lbl_AD_EN_Subject_1.Color
+            HoverFill: =lbl_AD_EN_Subject_1.Fill
+            PaddingLeft: =0
+            PressedBorderColor: =lbl_AD_EN_Subject_1.BorderColor
+            PressedColor: =lbl_AD_EN_Subject_1.Color
+            PressedFill: =lbl_AD_EN_Subject_1.Fill
+            Size: =13
+            Text: |-
+                ="Subject:"
+            Width: =80
+            X: =Button5_1.X + 40
+            Y: =lbl_AD_EN_CC_1.Y + 60
+            ZIndex: =6
+
+        lbl_AD_EN_CC_1 As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =lbl_AD_EN_CC_1.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            HoverBorderColor: =lbl_AD_EN_CC_1.BorderColor
+            HoverColor: =lbl_AD_EN_CC_1.Color
+            HoverFill: =lbl_AD_EN_CC_1.Fill
+            PaddingLeft: =0
+            PressedBorderColor: =lbl_AD_EN_CC_1.BorderColor
+            PressedColor: =lbl_AD_EN_CC_1.Color
+            PressedFill: =lbl_AD_EN_CC_1.Fill
+            Size: =13
+            Text: |-
+                ="CC:"
+            Width: =80
+            X: =Button5_1.X + 40
+            Y: =lbl_AD_EN_To_3.Y + 60
+            ZIndex: =7
+
+        lbl_AD_EN_To_3 As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =lbl_AD_EN_To_3.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            HoverBorderColor: =lbl_AD_EN_To_3.BorderColor
+            HoverColor: =lbl_AD_EN_To_3.Color
+            HoverFill: =lbl_AD_EN_To_3.Fill
+            PaddingLeft: =0
+            PressedBorderColor: =lbl_AD_EN_To_3.BorderColor
+            PressedColor: =lbl_AD_EN_To_3.Color
+            PressedFill: =lbl_AD_EN_To_3.Fill
+            Size: =13
+            Text: |-
+                ="To:"
+            Width: =80
+            X: =Button5_1.X + 40
+            Y: =lbl_AD_EN_Title_1.Y + lbl_AD_EN_Title_1.Height + 40
+            ZIndex: =8
+
+        lbl_AD_EN_Title_1 As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =lbl_AD_EN_Title_1.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            HoverBorderColor: =lbl_AD_EN_Title_1.BorderColor
+            HoverColor: =lbl_AD_EN_Title_1.Color
+            HoverFill: =lbl_AD_EN_Title_1.Fill
+            PaddingLeft: =0
+            PressedBorderColor: =lbl_AD_EN_Title_1.BorderColor
+            PressedColor: =lbl_AD_EN_Title_1.Color
+            PressedFill: =lbl_AD_EN_Title_1.Fill
+            Size: =13
+            Text: ="Email Notification"
+            Width: =400
+            X: =Button5_1.X + 40
+            Y: =Button5_1.Y + 20
+            ZIndex: =9
+
+        txt_EmailToRecipients_1 As text:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            BorderThickness: =2
+            Color: =RGBA(51, 51, 51, 1)
+            Default: =Concat(colEmailToRecipients, 'Primary Email' & ";")
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(0, 0, 0, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            DisplayMode: =DisplayMode.Disabled
+            FocusedBorderColor: =txt_EmailToRecipients_1.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.Arial
+            Height: =47
+            HoverBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            HoverColor: =RGBA(51, 51, 51, 1)
+            HoverFill: =RGBA(255, 255, 255, 1)
+            Mode: =TextMode.MultiLine
+            PaddingBottom: =0
+            PaddingLeft: =10
+            PaddingTop: =6
+            PressedBorderColor: =RGBA(105, 121, 126, 1)
+            PressedColor: =RGBA(51, 51, 51, 1)
+            PressedFill: =RGBA(255, 255, 255, 1)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =12
+            Width: =rte_EmailBodyContent_1.Width - 160
+            X: =lbl_AD_EN_To_3.X + 80
+            Y: =lbl_AD_EN_To_3.Y
+            ZIndex: =10
+
+        txt_EmailCCRecipients_1 As text:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            BorderThickness: =2
+            Color: =RGBA(51, 51, 51, 1)
+            Default: =Concat(colEmailCCRecipients, 'Primary Email' & ";")
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(0, 0, 0, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            DisplayMode: =DisplayMode.Disabled
+            FocusedBorderColor: =txt_EmailCCRecipients_1.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.Arial
+            Height: =47
+            HoverBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            HoverColor: =RGBA(51, 51, 51, 1)
+            HoverFill: =RGBA(255, 255, 255, 1)
+            Mode: =TextMode.MultiLine
+            PaddingBottom: =0
+            PaddingLeft: =10
+            PaddingTop: =6
+            PressedBorderColor: =RGBA(105, 121, 126, 1)
+            PressedColor: =RGBA(51, 51, 51, 1)
+            PressedFill: =RGBA(255, 255, 255, 1)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =12
+            Width: =rte_EmailBodyContent_1.Width - 160
+            X: =lbl_AD_EN_CC_1.X + 80
+            Y: =lbl_AD_EN_CC_1.Y
+            ZIndex: =11
+
+        txt_EmailSubject_1 As text:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            BorderThickness: =2
+            Color: =RGBA(51, 51, 51, 1)
+            Default: =PlainText(First(varSelectedEmailTemplateSubject).value)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(0, 0, 0, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            FocusedBorderColor: =txt_EmailSubject_1.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.Arial
+            HoverBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            HoverColor: =RGBA(51, 51, 51, 1)
+            HoverFill: =RGBA(255, 255, 255, 1)
+            PaddingBottom: =0
+            PaddingLeft: =10
+            PaddingTop: =0
+            PressedBorderColor: =RGBA(105, 121, 126, 1)
+            PressedColor: =RGBA(51, 51, 51, 1)
+            PressedFill: =RGBA(255, 255, 255, 1)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =12
+            Width: =rte_EmailBodyContent_1.Width - 80
+            X: =lbl_AD_EN_Subject_1.X + 80
+            Y: =lbl_AD_EN_Subject_1.Y
+            ZIndex: =12
+
+        rte_EmailBodyContent_1 As richTextEditor:
+            BorderColor: =DarkGray
+            Default: =First(varSelectedEmailTemplateBody).value
+            Height: =Button5_1.Height - 390
+            Width: =1000
+            X: =Button5_1.X + 40
+            Y: =lbl_AD_EN_Body_1.Y + 50
+            ZIndex: =13
+
+        btn_AD_EN_Cancel_4 As button:
+            AutoDisableOnSelect: =false
+            BorderColor: =ColorValue(LookUp(StyleGuide, Key = "Grey").Value)
+            BorderStyle: =BorderStyle.None
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            Fill: =RGBA(105, 121, 126, 1)
+            FocusedBorderColor: =btn_AD_EN_Cancel_4.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =35
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =ColorValue(LookUp(StyleGuide, Key = "Magenta").Value)
+            HoverFill: =ColorValue(LookUp(StyleGuide, Key = "White").Value)
+            OnSelect: |-
+                =If(varEditEmailRecipients = "CC", UpdateContext({varEditEmailRecipients: Blank()}), UpdateContext({varEditEmailRecipients: "CC"}));
+                Reset(txt_EmailRecipientSearchText_1)
+            PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =ColorValue(LookUp(StyleGuide, Key = "Magenta").Value)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =15
+            Text: ="Edit"
+            Width: =70
+            X: =txt_EmailCCRecipients_1.X + txt_EmailCCRecipients_1.Width + 10
+            Y: =txt_EmailCCRecipients_1.Y + 5
+            ZIndex: =14
+
+        btn_AD_EN_Cancel_3 As button:
+            AutoDisableOnSelect: =false
+            BorderColor: =ColorValue(LookUp(StyleGuide, Key = "Grey").Value)
+            BorderStyle: =BorderStyle.None
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            Fill: =RGBA(105, 121, 126, 1)
+            FocusedBorderColor: =btn_AD_EN_Cancel_3.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =35
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =ColorValue(LookUp(StyleGuide, Key = "Magenta").Value)
+            HoverFill: =ColorValue(LookUp(StyleGuide, Key = "White").Value)
+            OnSelect: |-
+                =If(varEditEmailRecipients = "To", UpdateContext({varEditEmailRecipients: Blank()}), UpdateContext({varEditEmailRecipients: "To"}));
+                Reset(txt_EmailRecipientSearchText_1)
+            PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =ColorValue(LookUp(StyleGuide, Key = "Magenta").Value)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =15
+            Text: ="Edit"
+            Width: =70
+            X: =txt_EmailToRecipients_1.X + txt_EmailToRecipients_1.Width + 10
+            Y: =txt_EmailToRecipients_1.Y + 5
+            ZIndex: =15
+
+        Dropdown2_1 As dropdown:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            ChevronBackground: =RGBA(255, 255, 255, 1)
+            ChevronDisabledBackground: =RGBA(244, 244, 244, 1)
+            ChevronDisabledFill: =RGBA(166, 166, 166, 1)
+            ChevronFill: =RGBA(33, 33, 33, 1)
+            ChevronHoverBackground: =RGBA(212, 212, 212, 1)
+            ChevronHoverFill: =RGBA(33, 33, 33, 1)
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            FocusedBorderColor: =Dropdown2_1.BorderColor
+            Font: =Font.'Segoe UI'
+            HoverBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            HoverColor: =RGBA(51, 51, 51, 1)
+            HoverFill: =RGBA(212, 212, 212, 1)
+            Items: =Filter('Email Templates', Left(Title, 5) = "ORBIT" And !(Title = "ORBIT | Access Request"))
+            OnChange: |-
+                =ClearCollect(colActiveRecordEmailFields, 
+                	{i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_initiativename""><xsl:value-of select=""cat_gtmentry/cat_initiativename"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                        value: varCurrentRecord.InitiativeName},
+                    {i: "]]>", 
+                        value: ""},
+                    {i: "<![CDATA[", 
+                        value: ""},
+                    {i: "<xsl:choose><xsl:when test=""systemuser/fullname""><xsl:value-of select=""systemuser/fullname"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                        value: varCurrentUserNameFL},
+                    {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_prcode""><xsl:value-of select=""cat_gtmentry/cat_prcode"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                        value: Coalesce(varCurrentRecord.PRCode, "Not Assigned")},
+                    
+                	{i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_sponsor/@firstname""><xsl:value-of select=""cat_gtmentry/cat_sponsor/@firstname"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                        value: Right(varCurrentRecord.'Sponsoring VP'.Nickname, (Len(varCurrentRecord.'Sponsoring VP'.Nickname) - Find(",", varCurrentRecord.'Sponsoring VP'.Nickname, 1)) - 1)},
+                    {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_sponsor/@fullname""><xsl:value-of select=""cat_gtmentry/cat_sponsor/@fullname"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                        value: Concatenate(Right(varCurrentRecord.'Sponsoring VP'.Nickname, (Len(varCurrentRecord.'Sponsoring VP'.Nickname) - Find(",", varCurrentRecord.'Sponsoring VP'.Nickname, 1)) - 1), " ", Left(varCurrentRecord.'Sponsoring VP'.Nickname, Find(",", varCurrentRecord.'Sponsoring VP'.Nickname, 1) - 1))},
+                    {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_sponsor/@'Last Name'""><xsl:value-of select=""cat_gtmentry/cat_sponsor/@'Last Name'"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: Left(varCurrentRecord.'Sponsoring VP'.Nickname, Find(",", varCurrentRecord.'Sponsoring VP'.Nickname, 1) - 1)},
+                	{i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_sponsor/@lastname""><xsl:value-of select=""cat_gtmentry/cat_sponsor/@lastname"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                        value: Left(varCurrentRecord.'Sponsoring VP'.Nickname, Find(",", varCurrentRecord.'Sponsoring VP'.Nickname, 1) - 1)},
+                	
+                	{i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_businessowner/@'Last Name'""><xsl:value-of select=""cat_gtmentry/cat_businessowner/@'Last Name'"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                        value: Left(varCurrentRecord.'Sponsoring VP'.Nickname, Find(",", varCurrentRecord.'Sponsoring VP'.Nickname, 1) - 1)},
+                    {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_businessowner/@'First Name'""><xsl:value-of select=""cat_gtmentry/cat_businessowner/@'First Name'"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                        value: Right(varCurrentRecord.'Business Owner'.Nickname, (Len(varCurrentRecord.'Business Owner'.Nickname) - Find(",", varCurrentRecord.'Business Owner'.Nickname, 1)) - 1)},
+                    {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_businessowner/@fullname""><xsl:value-of select=""cat_gtmentry/cat_businessowner/@fullname"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                        value: Concatenate(Right(varCurrentRecord.'Business Owner'.Nickname, (Len(varCurrentRecord.'Business Owner'.Nickname) - Find(",", varCurrentRecord.'Business Owner'.Nickname, 1)) - 1), " ", Left(varCurrentRecord.'Business Owner'.Nickname, Find(",", varCurrentRecord.'Business Owner'.Nickname, 1) - 1))},
+                    {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_businessowner/@lastname""><xsl:value-of select=""cat_gtmentry/cat_businessowner/@lastname"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                        value: Left(varCurrentRecord.'Business Owner'.Nickname, Find(",", varCurrentRecord.'Business Owner'.Nickname, 1) - 1)},
+                    
+                    {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_lobchannelhorizontal/@name""><xsl:value-of select=""cat_gtmentry/cat_lobchannelhorizontal/@name"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                        value: Text(varCurrentRecord.LOBChannelHorizontal)},
+                
+                    {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_description""><xsl:value-of select=""cat_gtmentry/cat_description"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                        value: Coalesce(varCurrentRecord.Description, "Not Assigned")},
+                    {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_requestedlaunchdate""><xsl:value-of select=""cat_gtmentry/cat_requestedlaunchdate"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                        value: Coalesce(Text(varCurrentRecord.RequestedLaunchDate, DateTimeFormat.ShortDate), "Not Assigned")},
+                    {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_enddate""><xsl:value-of select=""cat_gtmentry/cat_enddate"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                        value: Coalesce(Text(varCurrentRecord.EndDate, ShortDate), "Not Assigned")},
+                    {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_goalkpi""><xsl:value-of select=""cat_gtmentry/cat_goalkpi"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                        value: Coalesce(varCurrentRecord.GoalKPI, "Not Assigned")},
+                    {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_situation""><xsl:value-of select=""cat_gtmentry/cat_situation"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                        value: Coalesce(varCurrentRecord.Situation, "Not Assigned")},
+                    {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_eligibilitysummary""><xsl:value-of select=""cat_gtmentry/cat_eligibilitysummary"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                        value: Coalesce(varCurrentRecord.EligibilitySummary, "Not Assigned")},
+                    {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_eligibledevices""><xsl:value-of select=""cat_gtmentry/cat_eligibledevices"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                        value: Coalesce(varCurrentRecord.EligibleDevices, "Not Assigned")},
+                
+                    {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_initiativetype/@name""><xsl:value-of select=""cat_gtmentry/cat_initiativetype/@name"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                        value: Text(varCurrentRecord.InitiativeType)},
+                    {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_initiativetypegroup/@name""><xsl:value-of select=""cat_gtmentry/cat_initiativetypegroup/@name"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                        value: Text(varCurrentRecord.InitiativeTypeGroup)},
+                    {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_legacygtmentryid""><xsl:value-of select=""cat_gtmentry/cat_legacygtmentryid"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                        value: Text(varCurrApprovalsDeepLinkURL)},
+                    {i: "&lt;SolutionCaptain.FullName&gt;",
+                        value: Coalesce(LookUp([@colCurrentProjectTeamRoles], Value = [@RoleType].'Solution Captain').userName, "Not Assigned")},
+                    {i: "&lt;Approver(s)&gt;",
+                        value: Concat(colEmailToRecipients, 'First Name' & " " & 'Last Name' & ", ")},
+                    {i: "&lt;ApprovalsDeepLink&gt;",
+                        value: Text(varCurrApprovalsDeepLinkURL)}
+                    );
+                
+                ClearCollect(varSelectedEmailTemplateBody, 
+                	{ID: 1, value: Dropdown2_1.Selected.Body});
+                
+                ClearCollect(varSelectedEmailTemplateSubject, 
+                	{ID: 1, value: Dropdown2_1.Selected.Subject});
+                
+                ForAll(colActiveRecordEmailFields, 
+                	Patch(varSelectedEmailTemplateBody,LookUp(varSelectedEmailTemplateBody, ID = 1),	
+                        {value: Substitute(
+                            LookUp(varSelectedEmailTemplateBody, ID = 1).value, 
+                        colActiveRecordEmailFields[@i], 
+                        colActiveRecordEmailFields[@value])}));
+                        
+                ForAll(colActiveRecordEmailFields, 
+                	Patch(varSelectedEmailTemplateSubject,LookUp(varSelectedEmailTemplateSubject, ID = 1),	
+                        {value: Substitute(
+                            LookUp(varSelectedEmailTemplateSubject, ID = 1).value, 
+                        colActiveRecordEmailFields[@i], 
+                        colActiveRecordEmailFields[@value])}));
+            PaddingBottom: =5
+            PaddingLeft: =12
+            PaddingRight: =5
+            PaddingTop: =5
+            PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =RGBA(105, 121, 126, 1)
+            SelectionFill: =RGBA(105, 121, 126, 1)
+            Size: =13
+            Width: =537
+            X: =txt_EmailToRecipients_1.X + txt_EmailToRecipients_1.Width - Dropdown2_1.Width
+            Y: =txt_EmailToRecipients_1.Y - Dropdown2_1.Height - 20
+            ZIndex: =16
+
+        txt_EmailRecipientSearchText_1 As text:
+            BorderColor: =RGBA(153, 153, 153, 1)
+            BorderThickness: =2
+            Clear: =true
+            Color: =RGBA(51, 51, 51, 1)
+            Default: =""
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            FocusedBorderColor: =txt_EmailRecipientSearchText_1.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            HintText: ="Search User"
+            HoverBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            HoverColor: =RGBA(51, 51, 51, 1)
+            HoverFill: =RGBA(255, 255, 255, 1)
+            PressedBorderColor: =RGBA(105, 121, 126, 1)
+            PressedColor: =RGBA(51, 51, 51, 1)
+            PressedFill: =RGBA(255, 255, 255, 1)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =13
+            Visible: =!IsBlank(varEditEmailRecipients)
+            X: =rte_EmailBodyContent_1.X + rte_EmailBodyContent_1.Width + 20
+            Y: =If(varEditEmailRecipients = "To", txt_EmailToRecipients_1.Y, txt_EmailCCRecipients_1.Y)
+            ZIndex: =17
+
+        lbl_AD_EN_To_2 As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(128, 128, 128, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =lbl_AD_EN_To_2.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            Height: =30
+            HoverBorderColor: =lbl_AD_EN_To_2.BorderColor
+            HoverColor: =lbl_AD_EN_To_2.Color
+            HoverFill: =lbl_AD_EN_To_2.Fill
+            PaddingLeft: =0
+            PressedBorderColor: =lbl_AD_EN_To_2.BorderColor
+            PressedColor: =lbl_AD_EN_To_2.Color
+            PressedFill: =lbl_AD_EN_To_2.Fill
+            Size: =13
+            Text: |-
+                ="Email Template:"
+            Width: =160
+            X: =Dropdown2_1.X
+            Y: =Dropdown2_1.Y - lbl_AD_EN_To_2.Height
+            ZIndex: =18
+
+        ClearCollect_1 As button:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            Fill: =RGBA(105, 121, 126, 1)
+            FocusedBorderColor: =ClearCollect_1.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+            OnSelect: |-
+                =ClearCollect(colEmailToRecipients, Blank());
+                ClearCollect(colEmailCCRecipients, Blank());
+            PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =15
+            Text: ="ClearCollect"
+            Visible: =varDevMode
+            X: =130
+            Y: =776
+            ZIndex: =19
+
+        Label17_2 As label:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =Label17_2.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            HoverBorderColor: =Label17_2.BorderColor
+            HoverColor: =Label17_2.Color
+            HoverFill: =Label17_2.Fill
+            PressedBorderColor: =Label17_2.BorderColor
+            PressedColor: =Label17_2.Color
+            PressedFill: =Label17_2.Fill
+            Size: =13
+            Text: =Concatenate("Current ", varEditEmailRecipients, " Recipients")
+            Visible: =!IsBlank(varEditEmailRecipients)
+            Width: =txt_EmailRecipientSearchText_1.Width
+            X: =txt_EmailRecipientSearchText_1.X
+            Y: =rte_EmailBodyContent_1.Y - Label17_2.Height
+            ZIndex: =20
+
+        Label17_3 As label:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =Label17_3.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            HoverBorderColor: =Label17_3.BorderColor
+            HoverColor: =Label17_3.Color
+            HoverFill: =Label17_3.Fill
+            PressedBorderColor: =Label17_3.BorderColor
+            PressedColor: =Label17_3.Color
+            PressedFill: =Label17_3.Fill
+            Size: =13
+            Text: =Concatenate("Add ",varEditEmailRecipients, " Recipients")
+            Visible: =!IsBlank(varEditEmailRecipients)
+            Width: =txt_EmailRecipientSearchText_1.Width
+            X: =txt_EmailRecipientSearchText_1.X
+            Y: =txt_EmailRecipientSearchText_1.Y - Label17_3.Height
+            ZIndex: =21
+
+        gal_PeoplePicker_2 As gallery.galleryVertical:
+            BorderColor: =RGBA(226, 0, 116, 1)
+            BorderThickness: =1
+            DisabledBorderColor: =gal_PeoplePicker_2.BorderColor
+            DisabledFill: =gal_PeoplePicker_2.Fill
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =300
+            HoverBorderColor: =gal_PeoplePicker_2.BorderColor
+            HoverFill: =gal_PeoplePicker_2.Fill
+            Items: |-
+                =If(!IsBlank(txt_EmailRecipientSearchText_1.Text),
+                    Search(Users, txt_EmailRecipientSearchText_1.Text, "fullname"))
+            Layout: =Layout.Vertical
+            LoadingSpinnerColor: =gal_PeoplePicker_2.BorderColor
+            OnSelect: |-
+                =If(varEditEmailRecipients = "To", 
+                    If(IsEmpty(colEmailToRecipients), 
+                        ClearCollect(colEmailToRecipients, ThisItem),
+                        Patch(colEmailToRecipients,Defaults(colEmailToRecipients), ThisItem)
+                        )
+                        ,
+                        If(IsEmpty(colEmailCCRecipients), 
+                    ClearCollect(colEmailCCRecipients, ThisItem),
+                    Patch(colEmailCCRecipients,Defaults(colEmailCCRecipients), ThisItem)
+                    )
+                    );
+                Reset(txt_EmailRecipientSearchText_1);
+            PressedBorderColor: =gal_PeoplePicker_2.BorderColor
+            PressedFill: =gal_PeoplePicker_2.Fill
+            TemplatePadding: =0
+            TemplateSize: =82
+            Visible: =!IsBlank(txt_EmailRecipientSearchText_1.Text)
+            Width: =txt_EmailRecipientSearchText_1.Width
+            X: =txt_EmailRecipientSearchText_1.X
+            Y: =txt_EmailRecipientSearchText_1.Y + txt_EmailRecipientSearchText_1.Height
+            ZIndex: =22
+
+            BDL_PP_Line_2 As rectangle:
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                DisabledFill: =RGBA(166, 166, 166, 1)
+                DisplayMode: =DisplayMode.View
+                Fill: =RGBA(226, 0, 116, 1)
+                FocusedBorderColor: =BDL_PP_Line_2.BorderColor
+                FocusedBorderThickness: =4
+                Height: =1
+                HoverFill: =RGBA(105, 121, 126, 1)
+                PressedFill: =RGBA(105, 121, 126, 1)
+                Width: =Parent.Width
+                Y: =gal_PeoplePicker_2.TemplateHeight - 1
+                ZIndex: =1
+
+            BDL_PP_Email_2 As label:
+                BorderColor: =
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =Black
+                DisabledBorderColor: =
+                DisabledColor: =DimGrey
+                DisplayMode: =DisplayMode.View
+                FocusedBorderColor: =BDL_PP_Email_2.BorderColor
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                Height: =25
+                HoverBorderColor: =BDL_PP_Email_2.BorderColor
+                HoverColor: =BDL_PP_Email_2.Color
+                HoverFill: =BDL_PP_Email_2.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =20
+                PaddingTop: =0
+                PressedBorderColor: =BDL_PP_Email_2.BorderColor
+                PressedColor: =
+                PressedFill: =BDL_PP_Email_2.Fill
+                Size: =10
+                Text: =ThisItem.'Primary Email'
+                VerticalAlign: =VerticalAlign.Top
+                Width: =Parent.Width - 10
+                Y: =BDL_PP_Title_2.Y + BDL_PP_Title_2.Height
+                ZIndex: =2
+
+            BDL_PP_Title_2 As label:
+                BorderColor: =
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =Black
+                DisabledBorderColor: =
+                DisabledColor: =DimGrey
+                DisplayMode: =DisplayMode.View
+                FocusedBorderColor: =BDL_PP_Title_2.BorderColor
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                Height: =20
+                HoverBorderColor: =BDL_PP_Title_2.BorderColor
+                HoverColor: =BDL_PP_Title_2.Color
+                HoverFill: =BDL_PP_Title_2.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =20
+                PaddingTop: =0
+                PressedBorderColor: =BDL_PP_Title_2.BorderColor
+                PressedColor: =
+                PressedFill: =BDL_PP_Title_2.Fill
+                Size: =10
+                Text: =ThisItem.Title
+                VerticalAlign: =VerticalAlign.Top
+                Width: =Parent.Width - 10
+                Y: =BDL_PP_Name_2.Y + BDL_PP_Name_2.Height
+                ZIndex: =3
+
+            BDL_PP_Name_2 As label:
+                BorderColor: =
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =Black
+                DisabledBorderColor: =
+                DisabledColor: =DimGrey
+                DisplayMode: =DisplayMode.View
+                FocusedBorderColor: =BDL_PP_Name_2.BorderColor
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                FontWeight: =Semibold
+                Height: =30
+                HoverBorderColor: =BDL_PP_Name_2.BorderColor
+                HoverColor: =BDL_PP_Name_2.Color
+                HoverFill: =BDL_PP_Name_2.Fill
+                OnSelect: =Select(Parent)
+                PaddingLeft: =20
+                PaddingTop: =10
+                PressedBorderColor: =BDL_PP_Name_2.BorderColor
+                PressedColor: =
+                PressedFill: =BDL_PP_Name_2.Fill
+                Size: =12
+                Text: =Concatenate(ThisItem.'Last Name', ", ",ThisItem.'First Name')
+                VerticalAlign: =VerticalAlign.Top
+                Width: =Parent.Width - 10
+                ZIndex: =4
+
+            BDL_PP_Select_2 As button:
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =0
+                Color: =White
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                DisabledFill: =RGBA(244, 244, 244, 1)
+                Fill: =RGBA(0, 0, 0, 0)
+                FocusedBorderColor: =BDL_PP_Select_2.BorderColor
+                FocusedBorderThickness: =0
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =gal_PeoplePicker_2.TemplateHeight
+                HoverBorderColor: =RGBA(0, 0, 0, 0)
+                HoverColor: =RGBA(255, 255, 255, 1)
+                HoverFill: =RGBA(226, 0, 116, .30)
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+                PressedColor: =RGBA(255, 255, 255, 1)
+                PressedFill: =RGBA(226, 0, 116, .40)
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Size: =0
+                Text: =""
+                Width: =Parent.Width
+                ZIndex: =5
+
+    trm_ProjectApprovalsRefreshTimer As timer:
+        BorderColor: =RGBA(105, 121, 126, 1)
+        BorderStyle: =BorderStyle.None
+        DisabledBorderColor: =RGBA(244, 244, 244, 1)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        DisabledFill: =RGBA(244, 244, 244, 1)
+        Duration: =1000
+        Fill: =RGBA(105, 121, 126, 1)
+        FocusedBorderColor: =trm_ProjectApprovalsRefreshTimer.BorderColor
+        Font: =Font.'Segoe UI'
+        HoverBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+        HoverColor: =RGBA(255, 255, 255, 1)
+        HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+        OnSelect: |-
+            =UpdateContext({varStartApprovalRefreshTimer: true})
+        OnTimerEnd: |-
+            =/*
+            Refresh('Approval Responses');
+            Select(Refresh);
+            UpdateContext({varActiveProcessStage: LookUp(ORBIT_Initiative_Approval_Process, Cat_Gtmentry.gtmEntry = varCurrentRecord.gtmEntry).'Active Stage'.processstageid});
+            UpdateContext({approveProperties: {response:""}});
+            Set(varCurrentStageQueryRefresh, LookUp(StageApprovalUsers, InstanceStageId = gal_BpfGallery.Selected.processstageid && OrbitBPF.ORBIT_Initiative_Approval_Process = BpfInstance.ORBIT_Initiative_Approval_Process).Approval.Approval);
+            Patch(ApprovalRequestRejections, LookUp(ApprovalRequestRejections, Approval.msdyn_flow_approvalid = GUID(varCurrentApprovalRecord.msdyn_flow_approvalid)), {Status: 'Status (ApprovalRequestRejections)'.Inactive});
+            Refresh(ApprovalRequestRejections);
+            */
+            
+            
+            Set(varActiveProcessStage, LookUp(ORBIT_Initiative_Approval_Process, Cat_Gtmentry.gtmEntry = varCurrentRecord.gtmEntry).'Active Stage'.'Process Stage');
+            Set(BpfInstance, LookUp(ORBIT_Initiative_Approval_Process, Cat_Gtmentry.gtmEntry = varCurrentRecord.gtmEntry)); //get BPF instance from Orbit_Initiative_Approval_Process Entity
+            ClearCollect(BpfStages, 'CDS-GtmEntries'.GetBPFActivePath(BpfInstance.ORBIT_Initiative_Approval_Process).value); //get active path stages from custom API connector
+            
+            Clear(colBPFStagesIndexed); //Get indexed collection of BPF active path stages
+            ForAll(BpfStages, 
+                Collect(colBPFStagesIndexed,
+                        Last(FirstN(AddColumns(BpfStages,
+                                            "Index",
+                                            CountRows(colBPFStagesIndexed)+1
+                                    ), 
+                                    CountRows(colBPFStagesIndexed)+1
+                                )
+                        )    
+                )
+            );
+            ClearCollect(colPreviousBPFStages, FirstN(colBPFStagesIndexed, LookUp(colBPFStagesIndexed, processstageid = lbl_ActiveProcessStageID.Text).Index)); // Get collection of BPF active path stages to current
+            ClearCollect(colStageApprovalUsers, Filter(StageApprovalUsers, OrbitBPF.ORBIT_Initiative_Approval_Process = BpfInstance.ORBIT_Initiative_Approval_Process));
+            
+            If(!IsEmpty(colStageApprovalUsers) And !IsEmpty(Filter(StageApprovalResponses, StageApprovalUsers.StageApprovalUsers = GUID(lbl_StageApprovalUsersID.Text) And ApprovalStatus <> [@ApprovalStatus].Canceled)), 
+                UpdateContext({varStartApprovalRefreshTimer: false});
+                UpdateContext({showLoader: true})
+                );
+        PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+        PressedColor: =RGBA(255, 255, 255, 1)
+        PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+        Repeat: =true
+        Reset: =!varStartApprovalRefreshTimer
+        Start: =varStartApprovalRefreshTimer
+        Text: |-
+            =Text(Time(0, 0, trm_ProjectApprovalsRefreshTimer.Value/1000), "hh:mm:ss")
+        Visible: =varDevMode
+        X: =1565
+        Y: =63
+        ZIndex: =18
+
+    btn_ProjectApprovalsDevMode As button:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =0
+        Color: =RGBA(0, 0, 0, 0)
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(0, 0, 0, 0)
+        DisabledFill: =RGBA(244, 244, 244, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        FocusedBorderColor: =btn_ProjectApprovalsDevMode.BorderColor
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =30
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverColor: =RGBA(255, 255, 255, 1)
+        HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+        OnSelect: =Set(varDevMode, !varDevMode)
+        PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+        PressedColor: =RGBA(255, 255, 255, 1)
+        PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =9
+        Text: ="DM"
+        Visible: =varCurrentUserSecurityRole = "Administrator"
+        Width: =38
+        Y: =1050
+        ZIndex: =19
+
+    Label4 As label:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Color: =RGBA(51, 51, 51, 1)
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =Label4.BorderColor
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        HoverBorderColor: =Label4.BorderColor
+        HoverColor: =Label4.Color
+        HoverFill: =Label4.Fill
+        PressedBorderColor: =Label4.BorderColor
+        PressedColor: =Label4.Color
+        PressedFill: =Label4.Fill
+        Size: =13
+        Text: =LookUp(gal_BpfGallery.AllItems, Value(lbl_ApprovalColumnHeight.Text) > 500).lbl_ApprovalColumnHeight.Text
+        Visible: =varDevMode
+        Y: =632
+        ZIndex: =20
+
+    Label4_1 As label:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Color: =RGBA(51, 51, 51, 1)
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =Label4_1.BorderColor
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        HoverBorderColor: =Label4_1.BorderColor
+        HoverColor: =Label4_1.Color
+        HoverFill: =Label4_1.Fill
+        PressedBorderColor: =Label4_1.BorderColor
+        PressedColor: =Label4_1.Color
+        PressedFill: =Label4_1.Fill
+        Size: =13
+        Text: =Concat(gal_BpfGallery.AllItems, lbl_ApprovalColumnHeight.Text & ",")
+        Visible: =varDevMode
+        Y: =672
+        ZIndex: =21
+
+    Label4_2 As label:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Color: =RGBA(51, 51, 51, 1)
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =Label4_2.BorderColor
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        HoverBorderColor: =Label4_2.BorderColor
+        HoverColor: =Label4_2.Color
+        HoverFill: =Label4_2.Fill
+        PressedBorderColor: =Label4_2.BorderColor
+        PressedColor: =Label4_2.Color
+        PressedFill: =Label4_2.Fill
+        Size: =13
+        Text: =Max(gal_BpfGallery.AllItems, Value(lbl_ApprovalColumnHeight.Text))
+        Visible: =varDevMode
+        Y: =808
+        ZIndex: =22
+
+    grp_RejectionCommentsDialogue As group:
+        Height: =5
+        Width: =5
+        X: =120
+        Y: =120
+        ZIndex: =24
+
+        Button30 As button:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            DisplayMode: =DisplayMode.Disabled
+            Fill: =RGBA(105, 121, 126, 1)
+            FocusedBorderColor: =Button30.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =475
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+            OnSelect: =
+            PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =15
+            Text: =""
+            Visible: =varRejectionDialogueVisible
+            Width: =762
+            X: =669
+            Y: =265
+            ZIndex: =8
+
+        Label32 As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =Label32.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Height: =42
+            HoverBorderColor: =Label32.BorderColor
+            HoverColor: =Label32.Color
+            HoverFill: =Label32.Fill
+            PressedBorderColor: =Label32.BorderColor
+            PressedColor: =Label32.Color
+            PressedFill: =Label32.Fill
+            Size: =18
+            Text: ="Initiative Stage Rejected"
+            Visible: =varRejectionDialogueVisible
+            Width: =694
+            X: =700
+            Y: =292
+            ZIndex: =9
+
+        TextInput1 As text:
+            BorderColor: =RGBA(128, 128, 128, 1)
+            BorderThickness: =2
+            Color: =RGBA(51, 51, 51, 1)
+            Default: =""
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            FocusedBorderColor: =TextInput1.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            Height: =225
+            HintText: ="Please Enter Reason for Rejection. Max 500 Characters."
+            HoverBorderColor: =RGBA(128, 128, 128, 1)
+            HoverColor: =RGBA(51, 51, 51, 1)
+            HoverFill: =RGBA(255, 255, 255, 1)
+            MaxLength: =500
+            Mode: =TextMode.MultiLine
+            PressedBorderColor: =RGBA(105, 121, 126, 1)
+            PressedColor: =RGBA(51, 51, 51, 1)
+            PressedFill: =RGBA(255, 255, 255, 1)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Reset: =varResetRejectionText
+            Size: =13
+            Visible: =varRejectionDialogueVisible
+            Width: =691
+            X: =703
+            Y: =426
+            ZIndex: =10
+
+        HtmlText3 As htmlViewer:
+            Height: =92
+            HoverBorderColor: =HtmlText3.BorderColor
+            HtmlText: ="Please enter a reason for your rejection below. The Business Owner will be notified when you submit."
+            PressedBorderColor: =HtmlText3.BorderColor
+            Size: =14
+            Visible: =varRejectionDialogueVisible
+            Width: =691
+            X: =703
+            Y: =334
+            ZIndex: =11
+
+        AS_Button_Done_1 As button:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =1
+            Color: =White
+            DisabledBorderColor: =DarkGrey
+            DisabledColor: =White
+            DisabledFill: =Grey
+            DisplayMode: =If(IsBlank(TextInput1.Text), DisplayMode.Disabled, DisplayMode.Edit)
+            Fill: =Magenta
+            FocusedBorderColor: =AS_Button_Done_1.BorderColor
+            FocusedBorderThickness: =1
+            Font: =FontStyle
+            FontWeight: =FontWeight.Semibold
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =White
+            HoverFill: =ColorFade(Magenta, -20%)
+            OnSelect: |-
+                =/*Patch(StageApprovalResponses, varCurrentApprovalRecord, {
+                    ApprovalStatus: [@ApprovalStatus].Rejected, 
+                    ApproverComments: TextInput1.Text
+                    });*/
+                UpdateContext({varRejectionDialogueVisible: false});
+                UpdateContext({varResetRejectionText: true});UpdateContext({varResetRejectionText: false});
+                //Notify("You Have Successfully Rejected The Initiative.", NotificationType.Warning);
+            PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =14
+            Text: ="Submit"
+            Visible: =varRejectionDialogueVisible
+            Width: =180
+            X: =1091
+            Y: =672
+            ZIndex: =12
+
+        AS_Button_Upload_1 As button:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =1
+            Color: =RGBA(0, 0, 0, 1)
+            DisabledBorderColor: =DarkGrey
+            DisabledColor: =White
+            DisabledFill: =Grey
+            Fill: =RGBA(204, 204, 204, 1)
+            FocusedBorderColor: =AS_Button_Upload_1.BorderColor
+            FocusedBorderThickness: =1
+            Font: =FontStyle
+            FontWeight: =FontWeight.Semibold
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =White
+            HoverFill: =ColorFade(Magenta, -20%)
+            OnSelect: |-
+                =UpdateContext({varRejectionDialogueVisible: false});UpdateContext({varShowRejectionSpinner: false});
+            PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =14
+            Text: ="Cancel"
+            Visible: =varRejectionDialogueVisible
+            Width: =180
+            X: =851
+            Y: =672
+            ZIndex: =13
+

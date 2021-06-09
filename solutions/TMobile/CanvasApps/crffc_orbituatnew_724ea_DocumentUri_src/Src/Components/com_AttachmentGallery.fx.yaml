@@ -1,0 +1,249 @@
+com_AttachmentGallery As CanvasComponent:
+    attachmentTypes: |-
+        =Table({Name: "Name", Type: "Type"},{Name: "Name", Type: "Type"},{Name: "Name", Type: "Type"},{Name: "Name", Type: "Type"})
+    componentHeight: =600
+    componentWidth: =500
+    DeleteIconIsVisible: =false
+    deleteIsVisbile: =varDeleteRecord
+    downloadIsVisible: =varDownloadIsVisible
+    downloadIsVisibleReset: =true
+    Fill: =RGBA(0, 0, 0, 0)
+    gtmAttachments: =colAttachmentsRecords
+    Height: =640
+    HideHeader: =true
+    isOtherTypeDocuments: =true
+    OnReset: =Set(varDownloadIsVisible, false);Set(varDeleteRecord, false)
+    selectedRecord: =Attachments_Gallery.Selected
+    selectedRecordID: =Attachments_Gallery.Selected.gtmAttachments
+    selectedRecordValueURI: =Attachments_Gallery.Selected.gtmAttachments
+    Title: ="Text"
+    Width: =com_AttachmentGallery.componentWidth
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    "Attachment_Types_Gallery As gallery.'BrowseLayout_Vertical_OneTextVariant_ver4.0'":
+        BorderColor: =RGBA(0, 18, 107, 1)
+        DelayItemLoading: =true
+        DisabledBorderColor: =Attachment_Types_Gallery.BorderColor
+        DisabledFill: =Attachment_Types_Gallery.Fill
+        Height: =com_AttachmentGallery.componentHeight-Attachments_Gallery.Height-Rectangle2.Height
+        HoverBorderColor: =Attachment_Types_Gallery.BorderColor
+        HoverFill: =Attachment_Types_Gallery.Fill
+        Items: =Sort(Filter(com_AttachmentGallery.attachmentTypes, Not(Type in Attachments_Gallery.AllItems.Name)), Name, Ascending)
+        Layout: =Layout.Vertical
+        LoadingSpinnerColor: =ColorValue(LookUp(StyleGuide,Key="Magenta").Value)
+        PressedBorderColor: =Attachment_Types_Gallery.BorderColor
+        PressedFill: =Attachment_Types_Gallery.Fill
+        TemplatePadding: =0
+        TemplateSize: =47
+        Width: =com_AttachmentGallery.componentWidth
+        Y: =Attachments_Gallery.Height + Attachments_Gallery.Y
+        ZIndex: =1
+
+        icn_ListItemBackground As rectangle:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            DisabledFill: =icn_ListItemBackground.Fill
+            Fill: =RGBA(237, 237, 237, 1)
+            FocusedBorderColor: =icn_ListItemBackground.BorderColor
+            Height: =lbl_DocumentTypeTitle.Height - 12
+            HoverFill: =icn_ListItemBackground.Fill
+            OnSelect: =Select(Parent)
+            PressedFill: =icn_ListItemBackground.Fill
+            Width: =Parent.TemplateWidth
+            Y: =6
+            ZIndex: =1
+
+        lbl_DocumentTypeTitle As label:
+            Color: =RGBA(202, 202, 202, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =lbl_DocumentTypeTitle.BorderColor
+            Height: =51
+            HoverBorderColor: =lbl_DocumentTypeTitle.BorderColor
+            HoverColor: =lbl_DocumentTypeTitle.Color
+            HoverFill: =lbl_DocumentTypeTitle.Fill
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =45
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =lbl_DocumentTypeTitle.BorderColor
+            PressedColor: =lbl_DocumentTypeTitle.Color
+            PressedFill: =lbl_DocumentTypeTitle.Fill
+            Size: =11
+            Text: =ThisItem.Name
+            Width: =Parent.TemplateWidth - icn_AddDocumentIcon.Width - 20
+            ZIndex: =3
+
+        icn_DocumentNotAttachedIcon As icon.Document:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(202, 202, 202, 1)
+            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+            DisabledColor: =RGBA(244, 244, 244, 1)
+            DisabledFill: =icn_DocumentNotAttachedIcon.Fill
+            FocusedBorderColor: =icn_DocumentNotAttachedIcon.BorderColor
+            Height: =30
+            HoverBorderColor: =ColorFade(icn_DocumentNotAttachedIcon.BorderColor, 20%)
+            HoverColor: =ColorFade(icn_DocumentNotAttachedIcon.Color, 20%)
+            HoverFill: =icn_DocumentNotAttachedIcon.Fill
+            Icon: =Icon.Document
+            OnSelect: =Select(Parent)
+            PressedBorderColor: =ColorFade(icn_DocumentNotAttachedIcon.BorderColor, -20%)
+            PressedColor: =ColorFade(icn_DocumentNotAttachedIcon.Color, -20%)
+            PressedFill: =icn_DocumentNotAttachedIcon.Fill
+            Width: =30
+            X: =5
+            Y: =10
+            ZIndex: =4
+
+        icn_AddDocumentIcon As icon.Add:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(202, 202, 202, 1)
+            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+            DisabledColor: =RGBA(244, 244, 244, 1)
+            DisabledFill: =icn_AddDocumentIcon.Fill
+            FocusedBorderColor: =icn_AddDocumentIcon.BorderColor
+            Height: =30
+            HoverBorderColor: =ColorFade(icn_AddDocumentIcon.BorderColor, 20%)
+            HoverColor: =ColorFade(icn_AddDocumentIcon.Color, 20%)
+            HoverFill: =icn_AddDocumentIcon.Fill
+            Icon: =Icon.Add
+            OnSelect: =Select(Parent)
+            PressedBorderColor: =ColorFade(icn_AddDocumentIcon.BorderColor, -20%)
+            PressedColor: =ColorFade(icn_AddDocumentIcon.Color, -20%)
+            PressedFill: =icn_AddDocumentIcon.Fill
+            Visible: =false
+            Width: =30
+            X: =com_AttachmentGallery.componentWidth - 35
+            Y: =(Attachment_Types_Gallery.TemplateHeight - icn_AddDocumentIcon.Height) / 2
+            ZIndex: =5
+
+    "Attachments_Gallery As gallery.'BrowseLayout_Vertical_OneTextVariant_ver4.0'":
+        BorderColor: =RGBA(0, 18, 107, 1)
+        DelayItemLoading: =true
+        DisabledBorderColor: =Attachments_Gallery.BorderColor
+        DisabledFill: =Attachments_Gallery.Fill
+        Height: =If(CountA(com_AttachmentGallery.gtmAttachments.Name)*Title7_3.Height>com_AttachmentGallery.componentHeight,com_AttachmentGallery.componentHeight,CountA(com_AttachmentGallery.gtmAttachments.Name)*Title7_3.Height)
+        HoverBorderColor: =Attachments_Gallery.BorderColor
+        HoverFill: =Attachments_Gallery.Fill
+        Items: =Sort(com_AttachmentGallery.gtmAttachments, Name, Ascending)
+        Layout: =Layout.Vertical
+        LoadingSpinnerColor: =ColorValue(LookUp(StyleGuide,Key="Magenta").Value)
+        OnSelect: =ClearCollect(colActiveAttachmentRecord, ThisItem);
+        PressedBorderColor: =Attachments_Gallery.BorderColor
+        PressedFill: =Attachments_Gallery.Fill
+        TemplatePadding: =0
+        TemplateSize: =47
+        Width: =com_AttachmentGallery.componentWidth
+        Y: =txt_.Height
+        ZIndex: =2
+
+        Rectangle1 As rectangle:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            DisabledFill: =Rectangle1.Fill
+            Fill: =RGBA(115, 115, 115, 1)
+            FocusedBorderColor: =Rectangle1.BorderColor
+            Height: =Title7_3.Height - 12
+            HoverFill: =Rectangle1.Fill
+            OnSelect: =Select(Parent);Set(varDownloadIsVisible, true)
+            PressedFill: =Rectangle1.Fill
+            Width: =Parent.TemplateWidth
+            Y: =6
+            ZIndex: =1
+
+        Title7_3 As label:
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =Title7_3.BorderColor
+            Height: =51
+            HoverBorderColor: =Title7_3.BorderColor
+            HoverColor: =Title7_3.Color
+            HoverFill: =Title7_3.Fill
+            OnSelect: =Select(Parent);Set(varDownloadIsVisible, true)
+            PaddingBottom: =0
+            PaddingLeft: =45
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =Title7_3.BorderColor
+            PressedColor: =Title7_3.Color
+            PressedFill: =Title7_3.Fill
+            Size: =11
+            Text: =ThisItem.Name
+            Width: =Parent.TemplateWidth
+            ZIndex: =2
+
+        Icon1 As icon.Trash:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(204, 204, 204, 1)
+            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+            DisabledColor: =RGBA(244, 244, 244, 1)
+            DisabledFill: =Icon1.Fill
+            FocusedBorderColor: =Icon1.BorderColor
+            Height: =30
+            HoverBorderColor: =ColorFade(Icon1.BorderColor, 20%)
+            HoverColor: =ColorFade(Icon1.Color, 20%)
+            HoverFill: =Icon1.Fill
+            Icon: =Icon.Trash
+            OnSelect: =Select(Parent);Set(varDeleteRecord, true)
+            PressedBorderColor: =ColorFade(Icon1.BorderColor, -20%)
+            PressedColor: =ColorFade(Icon1.Color, -20%)
+            PressedFill: =Icon1.Fill
+            Visible: =false//com_AttachmentGallery.DeleteIconIsVisible
+            Width: =30
+            X: =402 - 35
+            Y: =10
+            ZIndex: =3
+
+        Icon2 As icon.DockCheckProperties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(230, 230, 230, 1)
+            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+            DisabledColor: =RGBA(244, 244, 244, 1)
+            DisabledFill: =Icon2.Fill
+            FocusedBorderColor: =Icon2.BorderColor
+            Height: =30
+            HoverBorderColor: =ColorFade(Icon2.BorderColor, 20%)
+            HoverColor: =ColorFade(Icon2.Color, 20%)
+            HoverFill: =Icon2.Fill
+            Icon: =Icon.DockCheckProperties
+            OnSelect: =Select(Parent);Set(varDownloadIsVisible, true)
+            PressedBorderColor: =ColorFade(Icon2.BorderColor, -20%)
+            PressedColor: =ColorFade(Icon2.Color, -20%)
+            PressedFill: =Icon2.Fill
+            Width: =30
+            X: =5
+            Y: =10
+            ZIndex: =4
+
+    txt_ As label:
+        BorderColor: =RGBA(0, 18, 107, 1)
+        Color: =RGBA(83, 83, 83, 1)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =txt_.BorderColor
+        FontWeight: =FontWeight.Semibold
+        Height: =If(com_AttachmentGallery.HideHeader, 0, 49)
+        HoverBorderColor: =txt_.BorderColor
+        HoverColor: =txt_.Color
+        HoverFill: =txt_.Fill
+        PressedBorderColor: =txt_.BorderColor
+        PressedColor: =txt_.Color
+        PressedFill: =txt_.Fill
+        Size: =18
+        Text: =com_AttachmentGallery.Title
+        Visible: =!com_AttachmentGallery.HideHeader
+        Width: =com_AttachmentGallery.componentWidth
+        ZIndex: =3
+
+    Rectangle2 As rectangle:
+        BorderColor: =ColorValue(LookUp(StyleGuide,Key="Magenta").Value)
+        DisabledFill: =Rectangle2.Fill
+        Fill: =ColorValue(LookUp(StyleGuide,Key="Magenta").Value)
+        FocusedBorderColor: =Rectangle2.BorderColor
+        Height: =3
+        HoverFill: =Rectangle2.Fill
+        PressedFill: =Rectangle2.Fill
+        Visible: =!com_AttachmentGallery.HideHeader
+        Width: =com_AttachmentGallery.Width
+        Y: =txt_.Height - 6
+        ZIndex: =4
+

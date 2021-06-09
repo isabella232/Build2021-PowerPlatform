@@ -1,0 +1,106 @@
+[
+  {
+    "CdsFCBContext": "{\"FileType\":true,\"ImageExternalStorage\":true}",
+    "EntitySetName": "msdyn_flow_approvalresponses",
+    "IsHidden": false,
+    "IsSampleData": false,
+    "IsWritable": true,
+    "LogicalName": "msdyn_flow_approvalresponse",
+    "MaxGetRowsCount": 2000,
+    "Name": "Approval Responses",
+    "NativeCDSDataSourceInfoNameMapping": {
+      "_ownerid_value": "Owner",
+      "createdby": "Created By",
+      "createdon": "Created On",
+      "createdonbehalfby": "Created By (Delegate)",
+      "importsequencenumber": "Import Sequence Number",
+      "modifiedby": "Modified By",
+      "modifiedon": "Modified On",
+      "modifiedonbehalfby": "Modified By (Delegate)",
+      "msdyn_flow_approvalresponse_approval": "Approval",
+      "msdyn_flow_approvalresponse_approvalstagekey": "Approval Stage Key",
+      "msdyn_flow_approvalresponse_AsyncOperations": "System Jobs",
+      "msdyn_flow_approvalresponse_BulkDeleteFailures": "Bulk Delete Failures",
+      "msdyn_flow_approvalresponse_comments": "Comments",
+      "msdyn_flow_approvalresponse_DuplicateBaseRecord": "Duplicate Records (msdyn_flow_approvalresponse_DuplicateBaseRecord)",
+      "msdyn_flow_approvalresponse_DuplicateMatchingRecord": "Duplicate Records (msdyn_flow_approvalresponse_DuplicateMatchingRecord)",
+      "msdyn_flow_approvalresponse_MailboxTrackingFolders": "Mailbox Auto Tracking Folders",
+      "msdyn_flow_approvalresponse_name": "Name",
+      "msdyn_flow_approvalresponse_PrincipalObjectAttributeAccesses": "Field Sharing",
+      "msdyn_flow_approvalresponse_ProcessSession": "Process Sessions",
+      "msdyn_flow_approvalresponse_response": "Response",
+      "msdyn_flow_approvalresponse_stage": "Stage",
+      "msdyn_flow_approvalresponse_SyncErrors": "Sync Errors",
+      "msdyn_flow_approvalresponseid": "Approval Response",
+      "msdyn_flow_approvalresponseidx_approvalid": "Approval Id Index",
+      "msdyn_flow_approvalresponseidx_owninguserid": "Owning User Index",
+      "msdyn_flow_approvalresponseidx_stage": "Stage Index",
+      "overriddencreatedon": "Record Created On",
+      "owningbusinessunit": "Owning Business Unit",
+      "owningteam": "Owning Team",
+      "owninguser": "Owning User",
+      "statecode": "Status",
+      "statuscode": "Status Reason",
+      "timezoneruleversionnumber": "Time Zone Rule Version Number",
+      "utcconversiontimezonecode": "UTC Conversion Time Zone Code",
+      "versionnumber": "Version Number"
+    },
+    "PreferredName": "Approval Responses",
+    "Type": "NativeCDSDataSourceInfo"
+  },
+  {
+    "DisplayName": "Approval Responses (Views)",
+    "Name": "_msdyn_flow_approvalresponse_views",
+    "RelatedEntityName": "Approval Responses",
+    "TrimmedViewName": true,
+    "Type": "ViewInfo",
+    "ViewInfoNameMapping": {
+      "118c95dc-558f-4a9f-a563-55b7ecdea7ec": "Active Approval Responses",
+      "869fac62-6784-40be-835e-4de533e9dc83": "Approval Response Associated View",
+      "a80fb33c-8ad7-476f-9f1f-eb4ae82613f7": "Inactive Approval Responses",
+      "ada6539f-ebbd-4b05-bbfe-d786d2ef1e8e": "Approval Response Lookup View",
+      "c56affb9-efb5-4d7e-9b6e-1d173bc05792": "Approval Response Advanced Find View"
+    }
+  },
+  {
+    "DisplayName": "Status (Approval Responses)",
+    "Name": "msdyn_flow_approvalresponse_statecode",
+    "OptionSetInfoNameMapping": {
+      "0": "Active",
+      "1": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statecode",
+        "OptionSetReferenceEntityName": "Approval Responses"
+      }
+    },
+    "OptionSetTypeKey": "StateType",
+    "RelatedColumnInvariantName": "statecode",
+    "RelatedEntityName": "Approval Responses",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status Reason (Approval Responses)",
+    "Name": "msdyn_flow_approvalresponse_statuscode",
+    "OptionSetInfoNameMapping": {
+      "192350000": "Reviewing",
+      "192350001": "Saved",
+      "192350002": "Committed"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statuscode",
+        "OptionSetReferenceEntityName": "Approval Responses"
+      }
+    },
+    "OptionSetTypeKey": "StatusType",
+    "RelatedColumnInvariantName": "statuscode",
+    "RelatedEntityName": "Approval Responses",
+    "Type": "OptionSetInfo"
+  }
+]

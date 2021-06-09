@@ -1,0 +1,252 @@
+<application xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:service="https://unitedstates-002.azure-apim.net/apim/powerbi" xmlns:siena="http://schemas.microsoft.com/MicrosoftProjectSiena/WADL/2014/11" siena:serviceId="PowerBI" xmlns="http://wadl.dev.java.net/2009/02">
+  <doc title="Power BI">Power BI is a suite of business analytics tools to analyze data and share insights. Connect to get easy access to the data in your Power BI dashboards, reports and datasets.</doc>
+  <grammars>
+    <jsonTypes targetNamespace="https://unitedstates-002.azure-apim.net/apim/powerbi" xmlns="http://schemas.microsoft.com/MicrosoftProjectSiena/WADL/2014/11">
+      <string name="EvaluatedAlert_alertTitle_def" />
+      <number name="EvaluatedAlert_alertThreshold_def" />
+      <boolean name="EvaluatedAlert_isAlertTriggered_def" />
+      <string name="EvaluatedAlert_tileUrl_def" />
+      <object name="EvaluatedAlert">
+        <property name="alertTitle" type="string" />
+        <property name="alertThreshold" type="number" />
+        <property name="isAlertTriggered" type="boolean" />
+        <property name="tileUrl" type="string" />
+      </object>
+      <string name="Alert_alertId_def" />
+      <string name="Alert_alertTitle_def" />
+      <string name="Alert_groupId_def" />
+      <object name="Alert">
+        <property name="alertId" type="string" />
+        <property name="alertTitle" type="string" />
+        <property name="groupId" type="string" />
+      </object>
+      <string name="Groups_value_def_items_def_id_def" />
+      <string name="Groups_value_def_items_def_name_def" />
+      <object name="Groups_value_def_items_def">
+        <property name="id" type="string" />
+        <property name="name" type="string" />
+      </object>
+      <array typeRef="Groups_value_def_items_def" name="Groups_value_def" />
+      <object name="Groups">
+        <property name="value" typeRef="Groups_value_def" />
+      </object>
+      <string name="Datasets_value_def_items_def_id_def" />
+      <string name="Datasets_value_def_items_def_name_def" />
+      <boolean name="Datasets_value_def_items_def_addRowsAPIEnabled_def" />
+      <object name="Datasets_value_def_items_def">
+        <property name="id" type="string" />
+        <property name="name" type="string" />
+        <property name="addRowsAPIEnabled" type="boolean" />
+      </object>
+      <array typeRef="Datasets_value_def_items_def" name="Datasets_value_def" />
+      <object name="Datasets">
+        <property name="value" typeRef="Datasets_value_def" />
+      </object>
+      <string name="Tables_value_def_items_def_name_def" />
+      <object name="Tables_value_def_items_def">
+        <property name="name" type="string" />
+      </object>
+      <array typeRef="Tables_value_def_items_def" name="Tables_value_def" />
+      <object name="Tables">
+        <property name="value" typeRef="Tables_value_def" />
+      </object>
+      <object isDynamicSchema="true" name="Payload" />
+      <string name="ExportPayloadPowerBIReport_format_def" />
+      <array typeRef="ExportFilter" name="ExportPayloadPowerBIReport_PowerBIReportExportConfiguration_def_reportLevelFilters_def" />
+      <array typeRef="ExportReportPage" name="ExportPayloadPowerBIReport_PowerBIReportExportConfiguration_def_pages_def" />
+      <array typeRef="EffectiveIdentity" name="ExportPayloadPowerBIReport_PowerBIReportExportConfiguration_def_identities_def" />
+      <object name="ExportPayloadPowerBIReport_PowerBIReportExportConfiguration_def">
+        <property name="settings" typeRef="ExportReportSettings" />
+        <property name="defaultBookmark" typeRef="PageBookmark" />
+        <property name="reportLevelFilters" typeRef="ExportPayloadPowerBIReport_PowerBIReportExportConfiguration_def_reportLevelFilters_def" />
+        <property name="pages" typeRef="ExportPayloadPowerBIReport_PowerBIReportExportConfiguration_def_pages_def" />
+        <property name="identities" typeRef="ExportPayloadPowerBIReport_PowerBIReportExportConfiguration_def_identities_def" />
+      </object>
+      <object name="ExportPayloadPowerBIReport">
+        <property name="format" type="string" />
+        <property name="PowerBIReportExportConfiguration" typeRef="ExportPayloadPowerBIReport_PowerBIReportExportConfiguration_def" />
+      </object>
+      <string name="ExportPayloadPaginatedReport_format_def" />
+      <array typeRef="EffectiveIdentity" name="ExportPayloadPaginatedReport_paginatedReportConfiguration_def_identities_def" />
+      <string name="ExportPayloadPaginatedReport_paginatedReportConfiguration_def_formatSettings_def_mapValues_def" />
+      <mapObject name="ExportPayloadPaginatedReport_paginatedReportConfiguration_def_formatSettings_def">
+        <values type="string" />
+      </mapObject>
+      <string name="ExportPayloadPaginatedReport_paginatedReportConfiguration_def_parameterValues_def_items_def_name_def" />
+      <string name="ExportPayloadPaginatedReport_paginatedReportConfiguration_def_parameterValues_def_items_def_value_def" />
+      <object name="ExportPayloadPaginatedReport_paginatedReportConfiguration_def_parameterValues_def_items_def">
+        <property name="name" type="string" />
+        <property name="value" type="string" />
+      </object>
+      <array typeRef="ExportPayloadPaginatedReport_paginatedReportConfiguration_def_parameterValues_def_items_def" name="ExportPayloadPaginatedReport_paginatedReportConfiguration_def_parameterValues_def" />
+      <object name="ExportPayloadPaginatedReport_paginatedReportConfiguration_def">
+        <property name="identities" typeRef="ExportPayloadPaginatedReport_paginatedReportConfiguration_def_identities_def" />
+        <property name="formatSettings" typeRef="ExportPayloadPaginatedReport_paginatedReportConfiguration_def_formatSettings_def" />
+        <property name="parameterValues" typeRef="ExportPayloadPaginatedReport_paginatedReportConfiguration_def_parameterValues_def" />
+      </object>
+      <object name="ExportPayloadPaginatedReport">
+        <property name="format" type="string" />
+        <property name="paginatedReportConfiguration" typeRef="ExportPayloadPaginatedReport_paginatedReportConfiguration_def" />
+      </object>
+      <string name="ExportReportSettings_locale_def" />
+      <boolean name="ExportReportSettings_includeHiddenPages_def" />
+      <object name="ExportReportSettings">
+        <property name="locale" type="string" />
+        <property name="includeHiddenPages" type="boolean" />
+      </object>
+      <string name="PageBookmark_name_def" />
+      <string name="PageBookmark_state_def" />
+      <object name="PageBookmark">
+        <property name="name" type="string" />
+        <property name="state" type="string" />
+      </object>
+      <string name="ExportFilter_filter_def" />
+      <object name="ExportFilter">
+        <property name="filter" type="string" />
+      </object>
+      <string name="ExportReportPage_pageName_def" />
+      <string name="ExportReportPage_visualName_def" />
+      <object name="ExportReportPage">
+        <property name="pageName" type="string" />
+        <property name="visualName" type="string" />
+        <property name="bookmark" typeRef="PageBookmark" />
+      </object>
+      <string name="EffectiveIdentity_username_def" />
+      <string name="EffectiveIdentity_datasets_def_items_def" />
+      <array type="string" name="EffectiveIdentity_datasets_def" />
+      <string name="EffectiveIdentity_roles_def_items_def" />
+      <array type="string" name="EffectiveIdentity_roles_def" />
+      <string name="EffectiveIdentity_customData_def" />
+      <string name="EffectiveIdentity_reports_def_items_def" />
+      <array type="string" name="EffectiveIdentity_reports_def" />
+      <object name="EffectiveIdentity">
+        <property name="username" type="string" />
+        <property name="datasets" typeRef="EffectiveIdentity_datasets_def" />
+        <property name="roles" typeRef="EffectiveIdentity_roles_def" />
+        <property name="customData" type="string" />
+        <property name="identityBlob" typeRef="IdentityBlob" />
+        <property name="reports" typeRef="EffectiveIdentity_reports_def" />
+      </object>
+      <string name="IdentityBlob_value_def" />
+      <object name="IdentityBlob">
+        <property name="value" type="string" />
+      </object>
+      <object name="Columns_schema_def" />
+      <object name="Columns">
+        <property name="schema" typeRef="Columns_schema_def" />
+      </object>
+      <object isDynamicSchema="true" name="DynamicPowerBiButtonClickedTriggerResult" />
+      <object name="PowerBiButtonClickedOutputs_PowerBiInputs_def" />
+      <object name="PowerBiButtonClickedOutputs">
+        <property name="PowerBiInputs" typeRef="PowerBiButtonClickedOutputs_PowerBiInputs_def" />
+      </object>
+      <string name="InitiateExportToFileForPbiReports_responses_200_def" />
+      <string name="InitiateExportToFileForPaginatedReports_responses_200_def" />
+    </jsonTypes>
+  </grammars>
+  <resources siena:authenticationProviderHref="#PowerAppAuth" base="https://unitedstates-002.azure-apim.net/apim/powerbi">
+    <resource path="/{connectionId}/v1.0/myorg/groups/{groupid}/datasets/{datasetid}/tables/{tablename}/rows">
+      <param style="template" name="connectionId" type="xs:string" required="true" />
+      <param style="template" name="groupid" type="xs:string" required="true">
+        <doc title="The unique identifier of the workspace." />
+      </param>
+      <param style="template" name="datasetid" type="xs:string" required="true">
+        <doc title="The unique identifier of the dataset." />
+      </param>
+      <param style="template" name="tablename" type="xs:string" required="true">
+        <doc title="The name of the table." />
+      </param>
+      <method siena:requiresAuthentication="true" name="POST" id="AddRows" visibility="important" siena:isDeprecated="false">
+        <doc title="Add rows to a dataset&#xA;Use Power BI REST API to add rows to a dataset." />
+        <request>
+          <param style="query" name="pbi_source" type="xs:string" default="powerAutomate">
+            <doc title="Source of the call for tracing" />
+          </param>
+          <representation mediaType="application/json" />
+        </request>
+      </method>
+    </resource>
+    <resource path="/{connectionId}/v1.0/myorg/groups/{groupid}/datasets/{datasetid}/refreshes">
+      <param style="template" name="connectionId" type="xs:string" required="true" />
+      <param style="template" name="groupid" type="xs:string" required="true">
+        <doc title="The unique identifier of the workspace." />
+      </param>
+      <param style="template" name="datasetid" type="xs:string" required="true">
+        <doc title="The unique identifier of the dataset." />
+      </param>
+      <method siena:requiresAuthentication="true" name="POST" id="RefreshDataset" visibility="important" siena:isDeprecated="false">
+        <doc title="Refresh a dataset&#xA;Use Power BI REST API to refresh a powerbi dataset." />
+        <request>
+          <param style="query" name="pbi_source" type="xs:string" default="powerAutomate">
+            <doc title="Source of the call for tracing" />
+          </param>
+        </request>
+      </method>
+    </resource>
+    <resource path="/{connectionId}/v1.0/myorg/groups/{groupid}/reports/{reportid}/ExportTo">
+      <param style="template" name="connectionId" type="xs:string" required="true" />
+      <param style="template" name="groupid" type="xs:string" required="true">
+        <doc title="The unique identifier of the workspace." />
+      </param>
+      <param style="template" name="reportid" type="xs:string" required="true">
+        <doc title="The unique identifier of a pbi report." />
+      </param>
+      <method siena:requiresAuthentication="true" name="POST" id="InitiateExportToFileForPbiReports" visibility="important" siena:isDeprecated="false">
+        <doc title="Export To File for Power BI Reports&#xA;Use Power BI Rest API to inititate export for Power BI reports" />
+        <request>
+          <representation mediaType="application/json">
+            <param style="plain" name="format" path="/format" type="xs:string" required="true" default="PDF">
+              <doc title="Export Format" />
+              <option value="PDF" />
+              <option value="PPTX" />
+              <option value="PNG" />
+            </param>
+            <param style="plain" name="PowerBIReportExportConfiguration" path="/PowerBIReportExportConfiguration" type="service:ExportPayloadPowerBIReport_PowerBIReportExportConfiguration_def" />
+          </representation>
+        </request>
+        <response>
+          <representation mediaType="application/octet-stream" />
+        </response>
+      </method>
+    </resource>
+    <resource path="/{connectionId}/v1.0/myorg/groups/{groupid}/reports/{reportid}/ExportToPaginatedReports">
+      <param style="template" name="connectionId" type="xs:string" required="true" />
+      <param style="template" name="groupid" type="xs:string" required="true">
+        <doc title="The unique identifier of the workspace." />
+      </param>
+      <param style="template" name="reportid" type="xs:string" required="true">
+        <doc title="The unique identifier of a paginated report." />
+      </param>
+      <method siena:requiresAuthentication="true" name="POST" id="InitiateExportToFileForPaginatedReports" visibility="important" siena:isDeprecated="false">
+        <doc title="Export To File for Paginated Reports&#xA;Use Power BI Rest API to inititate export for paginated reports" />
+        <request>
+          <representation mediaType="application/json">
+            <param style="plain" name="format" path="/format" type="xs:string" required="true" default="PDF">
+              <doc title="Export Format" />
+              <option value="PDF" />
+              <option value="CSV" />
+              <option value="DOCX" />
+              <option value="IMAGE" />
+              <option value="MHTML" />
+              <option value="PPTX" />
+              <option value="XLSX" />
+              <option value="XML" />
+            </param>
+            <param style="plain" name="paginatedReportConfiguration" path="/paginatedReportConfiguration" type="service:ExportPayloadPaginatedReport_paginatedReportConfiguration_def" />
+          </representation>
+        </request>
+        <response>
+          <representation mediaType="application/octet-stream" />
+        </response>
+      </method>
+    </resource>
+  </resources>
+  <authenticationProviders xmlns="http://schemas.microsoft.com/MicrosoftProjectSiena/WADL/2014/11">
+    <connectionProvider id="PowerAppAuth" siena:connectionProviderId="shared_powerbi" />
+  </authenticationProviders>
+  <template xmlns="http://schemas.microsoft.com/MicrosoftProjectSiena/WADL/2014/11">
+    <variable name="connectionId">
+      <modifyParams style="template" name="connectionId" attribute="fixed" />
+    </variable>
+  </template>
+</application>

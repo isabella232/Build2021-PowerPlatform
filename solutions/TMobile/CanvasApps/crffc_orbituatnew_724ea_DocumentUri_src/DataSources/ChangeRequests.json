@@ -1,0 +1,112 @@
+[
+  {
+    "CdsFCBContext": "{\"FileType\":true,\"ImageExternalStorage\":true}",
+    "EntitySetName": "cat_changerequests",
+    "IsHidden": false,
+    "IsSampleData": false,
+    "IsWritable": true,
+    "LogicalName": "cat_changerequest",
+    "MaxGetRowsCount": 2000,
+    "Name": "ChangeRequests",
+    "NativeCDSDataSourceInfoNameMapping": {
+      "_ownerid_value": "Owner",
+      "cat_changerequest_AsyncOperations": "System Jobs",
+      "cat_changerequest_BulkDeleteFailures": "Bulk Delete Failures",
+      "cat_changerequest_DuplicateBaseRecord": "Duplicate Records (cat_changerequest_DuplicateBaseRecord)",
+      "cat_changerequest_DuplicateMatchingRecord": "Duplicate Records (cat_changerequest_DuplicateMatchingRecord)",
+      "cat_changerequest_MailboxTrackingFolders": "Mailbox Auto Tracking Folders",
+      "cat_changerequest_PrincipalObjectAttributeAccesses": "Field Sharing",
+      "cat_changerequest_ProcessSession": "Process Sessions",
+      "cat_changerequest_SyncErrors": "Sync Errors",
+      "cat_changerequestid": "ChangeRequest",
+      "cat_crapprovalstage": "CRApprovalStage",
+      "cat_FieldChangeRecord": "FieldChangeRecord",
+      "cat_fieldid": "FieldID",
+      "cat_fieldname": "FieldName",
+      "cat_fieldnameother": "FieldNameOther",
+      "cat_gtmEntry": "gtmEntry",
+      "cat_justificationforchange": "JustificationForChange",
+      "cat_newvalue": "NewValue",
+      "cat_originalvalue": "OriginalValue",
+      "cat_T1Reviewer": "T1Reviewer",
+      "cat_t1reviewercomments": "T1ReviewerComments",
+      "cat_t1reviewerstatus": "T1ReviewerStatus",
+      "cat_T2Reviewer": "T2Reviewer",
+      "cat_t2reviewercomments": "T2ReviewerComments",
+      "cat_t2reviewerstatus": "T2ReviewerStatus",
+      "createdby": "Created By",
+      "createdon": "Created On",
+      "createdonbehalfby": "Created By (Delegate)",
+      "importsequencenumber": "Import Sequence Number",
+      "modifiedby": "Modified By",
+      "modifiedon": "Modified On",
+      "modifiedonbehalfby": "Modified By (Delegate)",
+      "overriddencreatedon": "Record Created On",
+      "owningbusinessunit": "Owning Business Unit",
+      "owningteam": "Owning Team",
+      "owninguser": "Owning User",
+      "statecode": "Status",
+      "statuscode": "Status Reason",
+      "timezoneruleversionnumber": "Time Zone Rule Version Number",
+      "utcconversiontimezonecode": "UTC Conversion Time Zone Code",
+      "versionnumber": "Version Number"
+    },
+    "PreferredName": "ChangeRequests",
+    "Type": "NativeCDSDataSourceInfo"
+  },
+  {
+    "DisplayName": "ChangeRequests (Views)",
+    "Name": "_cat_changerequest_views",
+    "RelatedEntityName": "ChangeRequests",
+    "TrimmedViewName": true,
+    "Type": "ViewInfo",
+    "ViewInfoNameMapping": {
+      "01a9a726-650c-44d8-a2fe-b519128779a2": "ChangeRequest Advanced Find View",
+      "104c09af-6305-46c8-a1e2-d01c875f7152": "ChangeRequest Associated View",
+      "1b91a253-76d6-ea11-a813-000d3a37ef43": "Pending ChangeRequests",
+      "2ded9ea8-eaec-4e73-8703-094d046c62a5": "Active ChangeRequests",
+      "40758087-dcf7-4394-b1dd-7de0aaee9a53": "Inactive ChangeRequests",
+      "7cffa640-91a2-465b-8aea-552a1a7af7d4": "ChangeRequest Lookup View"
+    }
+  },
+  {
+    "DisplayName": "Status (ChangeRequests)",
+    "Name": "cat_changerequest_statecode",
+    "OptionSetInfoNameMapping": {
+      "0": "Active",
+      "1": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statecode",
+        "OptionSetReferenceEntityName": "ChangeRequests"
+      }
+    },
+    "OptionSetTypeKey": "StateType",
+    "RelatedColumnInvariantName": "statecode",
+    "RelatedEntityName": "ChangeRequests",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status Reason (ChangeRequests)",
+    "Name": "cat_changerequest_statuscode",
+    "OptionSetInfoNameMapping": {
+      "1": "Active",
+      "2": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statuscode",
+        "OptionSetReferenceEntityName": "ChangeRequests"
+      }
+    },
+    "OptionSetTypeKey": "StatusType",
+    "RelatedColumnInvariantName": "statuscode",
+    "RelatedEntityName": "ChangeRequests",
+    "Type": "OptionSetInfo"
+  }
+]

@@ -1,0 +1,113 @@
+App As appinfo:
+    BackEnabled: =false
+    ConfirmExit: =varConfirmExitMessage
+    ConfirmExitMessage: ="Are you sure you wish to exit ORBIT? Any unsaved information will be lost."
+    OnStart: |+
+        =Set(NavScreenParam, Param("NavScreen"));
+        
+        //Colors=================
+            //Magenta
+            Set(Magenta,ColorValue(LookUp(StyleGuide,Key="Magenta").Value));
+            Set(DarkMagenta,ColorValue(LookUp(StyleGuide,Key="DarkMagenta").Value));
+            Set(LightMagenta,ColorValue(LookUp(StyleGuide,Key="LightMagenta").Value));
+            Set(LightMagenta2,ColorValue(LookUp(StyleGuide,Key="LightMagenta2").Value));
+        //
+        
+        Set(varCurrentUserProfile, Office365Users.MyProfile());
+        Set(varCurUserEmail, Lower(User().Email));
+        Set(varCurrentUserRecord, LookUp(Users, 'Azure AD Object ID' = GUID(varCurrentUserProfile.Id)));
+        Set(varCurrentUserNameLF,Concatenate(varCurrentUserProfile.Surname, ", ", varCurrentUserProfile.GivenName));
+        //Set(varCurrentUserNameFL,Concatenate(varCurrentUserProfile.GivenName, " ", varCurrentUserProfile.Surname));
+        Set(varCurrentUserNameFL,User().FullName);
+        Set(varCurrentUserCDSUserID, LookUp(Users, 'Primary Email' = varCurrentUserProfile.UserPrincipalName).User);
+        
+        ClearCollect(colLeftNavGalleryItems,
+            {Label:"Summary",LaunchLink:"",Screen:Project_Summary_Screen,InitiativeType:"Project",IsVisible:true},
+            {Label:"Details",LaunchLink:"",Screen:Project_Details_Screen,InitiativeType:"Project",IsVisible:true},
+            {Label:"Approvals",LaunchLink:"",Screen:Project_Approvals_Screen,InitiativeType:"Project",IsVisible:true},
+            {Label:"Team",LaunchLink:"",Screen:Project_Team_Screen,InitiativeType:"Project",IsVisible:true},
+            {Label:"Change Log",LaunchLink:"",Screen:Change_Log_Screen,InitiativeType:"Project",IsVisible:true},
+            {Label:"Attachments",LaunchLink:"",Screen:Attachments_Screen,InitiativeType:"Project",IsVisible:true}
+        );
+        
+        ClearCollect(colTopNavGalleryItems,
+            {Label:"New Initiative",LaunchLink:"",Screen:New_Intake_Screen,IsVisible:true},
+            {Label:"List View",LaunchLink:"",Screen:Project_Picker_Screen,IsVisible:true},
+            {Label:"My Approvals",LaunchLink:"",Screen:My_Approvals_Screen,IsVisible:true}
+        );
+        
+        Set(varDevMode, false);
+        Set(varGTMOverrideMode, false);
+        
+        Set(varEditTeamTemplateID, "4D4B0241-1DE3-EA11-A813-002248029F77");
+        Set(varReadOnlyTeamTemplateID, "4D4B0241-1DE3-EA11-A813-002248029F77");
+        
+        Set(varCurrentRecordIDSummary, Blank());
+        Set(varCurrentRecordIDDetails, Blank());
+        
+        //Set(varCurrentEnvironmentID, "5124ce66-c315-41af-a20e-a5d9e9d22564"); Set(varCurrentCDSURL, "https://orbit-dev.crm.dynamics.com"); Set(varCurrentAppID, "e3645de0-9195-435a-93fc-99d8654fa0e4"); // DEV
+        /*Set(varCurrentEnvironmentID, "393daea0-7c4c-4a8f-b42f-314071759928"); 
+        Set(varCurrentCDSURL, "https://org86cd876f.crm.dynamics.com"); 
+        Set(varCurrentAppID, "1cd203b9-0d91-4421-8859-70587c57fd2c");*/ // UAT
+        //Set(varCurrentEvnrionmentID, "a0bca32e-ad06-477e-92c9-035faf07843a"); Set(varCurrentCDSURL, "https://org830c4186.crm.dynamics.com/"); Set(varCurrentAppID, "040fb586-f590-4005-b924-a88b1688fab8");// PRD
+        
+        //PMGEVENTS Tenant===
+        Set(varCurrentEnvironmentID, "f0338e8c-750e-436b-9232-5e3382284f04"); 
+        Set(varCurrentCDSURL, "https://org6d1b2125.crm.dynamics.com"); 
+        Set(varCurrentAppID, "bfdc3e82-eddb-4231-b407-59a346da34d7");
+        
+        Set(varSideNavWidth, 180);
+        Set(varSummaryTextSize, 13);
+        Set(varSummaryTextBoxYVal, 40);
+        Set(varSummaryToggle, true);
+        Set(varSummaryToggle, false);
+        Set(varSummaryHeight, 90);
+        Set(varSummaryIndent, 15);
+        Set(varSummarySubIndent, 20);
+        Set(varsummarybox2YVal, 40);
+        Set(varsummarybox3YVal, 55);
+        Set(varSummaryHeaderFontSize, 14);
+        Set(varSummarySubFontSize, 11);
+        
+        //Colors=================
+            
+            //Grey
+            Set(Grey,ColorValue(LookUp(StyleGuide,Key="Grey").Value));
+            Set(DarkGrey,ColorValue(LookUp(StyleGuide,Key="DarkGrey").Value));
+            Set(LightGrey,ColorValue(LookUp(StyleGuide,Key="LightGrey").Value));
+            Set(LightGrey2,ColorValue(LookUp(StyleGuide,Key="LightGrey2").Value));
+            //White & Black
+            Set(White,ColorValue(LookUp(StyleGuide,Key="White").Value));
+            Set(Black,ColorValue(LookUp(StyleGuide,Key="Black").Value));
+        //Font===================
+            Set(FontStyle,LookUp(StyleGuide,Key="FontStyle").Value);
+            Set(Padding,LookUp(StyleGuide,Key="Padding").Value);
+        //Heading Styles=========
+            //Size
+            Set(Heading1Size,LookUp(StyleGuide,Key="Heading1Size").Value);
+            Set(Heading2Size,LookUp(StyleGuide,Key="Heading2Size").Value);
+            Set(Heading3Size,LookUp(StyleGuide,Key="Heading3Size").Value);
+            //Height
+            Set(Heading1Height,LookUp(StyleGuide,Key="Heading1Height").Value);
+            Set(Heading2Height,LookUp(StyleGuide,Key="Heading2Height").Value);
+            Set(Heading3Height,LookUp(StyleGuide,Key="Heading3Height").Value);
+        //Text Styles============
+            //Size
+            Set(Text1Size,LookUp(StyleGuide,Key="Text1Size").Value);
+            Set(Text2Size,LookUp(StyleGuide,Key="Text2Size").Value);
+            Set(Text3Size,LookUp(StyleGuide,Key="Text3Size").Value);
+            Set(Text4Size,LookUp(StyleGuide,Key="Text4Size").Value);
+            //Height
+            Set(Text1Height,LookUp(StyleGuide,Key="Text1Height").Value);
+            Set(Text2Height,LookUp(StyleGuide,Key="Text2Height").Value);
+            Set(Text3Height,LookUp(StyleGuide,Key="Text3Height").Value);
+            Set(Text4Height,LookUp(StyleGuide,Key="Text4Height").Value);
+        //Input Font Size========
+            Set(InputSize,LookUp(StyleGuide,Key="InputSize").Value);
+        //Nav Styles=============
+            Set(NavFontSize,LookUp(StyleGuide,Key="NavFontSize").Value);
+            Set(NavWidth,LookUp(StyleGuide,Key="NavWidth").Value);
+            Set(NavHeight,LookUp(StyleGuide,Key="NavHeight").Value);
+        
+        
+

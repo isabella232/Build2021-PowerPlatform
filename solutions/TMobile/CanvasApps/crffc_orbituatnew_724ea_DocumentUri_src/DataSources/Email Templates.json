@@ -1,0 +1,143 @@
+[
+  {
+    "CdsFCBContext": "{\"FileType\":true,\"ImageExternalStorage\":true}",
+    "EntitySetName": "templates",
+    "IsHidden": false,
+    "IsSampleData": false,
+    "IsWritable": true,
+    "LogicalName": "template",
+    "MaxGetRowsCount": 2000,
+    "Name": "Email Templates",
+    "NativeCDSDataSourceInfoNameMapping": {
+      "_ownerid_value": "Owner",
+      "body": "Body",
+      "componentstate": "Component State",
+      "createdby": "Created By",
+      "createdon": "Created On",
+      "createdonbehalfby": "Created By (Delegate)",
+      "description": "Description",
+      "Email_EmailTemplate": "Email Messages",
+      "entityimage": "Default Image",
+      "entityimageid": "EntityImageId",
+      "generationtypecode": "Generation Type Code",
+      "importsequencenumber": "Import Sequence Number",
+      "introducedversion": "Introduced Version",
+      "ismanaged": "Is Managed",
+      "ispersonal": "Viewable By",
+      "isrecommended": "Recommended",
+      "languagecode": "Language",
+      "mimetype": "Mime Type",
+      "modifiedby": "Modified By",
+      "modifiedon": "Modified On",
+      "modifiedonbehalfby": "Modified By (Delegate)",
+      "opencount": "Open Count",
+      "openrate": "Open Rate",
+      "overwritetime": "Record Overwrite Time",
+      "owningbusinessunit": "Owning Business Unit",
+      "owningteam": "Owning Team",
+      "owninguser": "Owning User",
+      "presentationxml": "Presentation XML",
+      "replycount": "Reply Count",
+      "replyrate": "Reply Rate",
+      "safehtml": "Safe HTML of email template",
+      "solutionid": "Solution",
+      "subject": "Subject",
+      "subjectpresentationxml": "Subject XML",
+      "subjectsafehtml": "Safe HTML of email template subject",
+      "template_activity_mime_attachments": "Attachments",
+      "Template_AsyncOperations": "System Jobs",
+      "Template_BulkDeleteFailures": "Bulk Delete Failures",
+      "Template_Organization": "Organizations",
+      "Template_ProcessSessions": "Process Sessions",
+      "Template_SyncErrors": "Sync Errors",
+      "templateid": "Email Template",
+      "templateidunique": "TemplateIdUnique",
+      "title": "Title",
+      "usedcount": "Sent email count",
+      "versionnumber": "Version Number"
+    },
+    "PreferredName": "Email Templates",
+    "Type": "NativeCDSDataSourceInfo"
+  },
+  {
+    "DisplayName": "Email Templates (Views)",
+    "Name": "_template_views",
+    "RelatedEntityName": "Email Templates",
+    "TrimmedViewName": true,
+    "Type": "ViewInfo",
+    "ViewInfoNameMapping": {
+      "21b8d323-06c2-4cde-b756-95b86f0b3ea1": "Email Templates Sorted View",
+      "226e313a-20c5-4f6d-a359-e30b843ca399": "Email Templates for Opportunity",
+      "40c2bf58-128d-4280-b972-dc3928372dc7": "Email Templates for Case",
+      "4c7be207-cc89-4bb7-bb61-bbd5076d05c0": "My Email Templates",
+      "4d5be2e9-6828-482b-99aa-2387afed7b37": "Global Email Templates",
+      "5096d5ce-1a3c-4856-b996-007e41199427": "All Email Templates",
+      "86e55d36-98ff-4e73-bd8e-0013ae58c452": "Email Templates Advanced Find View",
+      "cd9f98f9-028b-4332-825c-8d476276e559": "Email Templates for Lead",
+      "daf88706-1dad-4810-adc4-1517ed39f575": "All Language Email Templates",
+      "ec7f193e-2bcb-48bd-9f7f-337b80780f65": "Email Templates Lookup View"
+    }
+  },
+  {
+    "DisplayName": "Viewable By (Email Templates)",
+    "Name": "template_ispersonal",
+    "OptionSetInfoNameMapping": {
+      "0": "Organization",
+      "1": "Individual"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "ispersonal",
+        "OptionSetReferenceEntityName": "Email Templates"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "ispersonal",
+    "RelatedEntityName": "Email Templates",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Recommended (Email Templates)",
+    "Name": "template_isrecommended",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "isrecommended",
+        "OptionSetReferenceEntityName": "Email Templates"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "isrecommended",
+    "RelatedEntityName": "Email Templates",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Template Type (Email Templates)",
+    "Name": "template_templatetypecode",
+    "OptionSetInfoNameMapping": {
+      "1": "Account",
+      "2": "Contact",
+      "4700": "System Job",
+      "8": "User"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "templatetypecode",
+        "OptionSetReferenceEntityName": "Email Templates"
+      }
+    },
+    "OptionSetTypeKey": "EntityNameType",
+    "RelatedColumnInvariantName": "templatetypecode",
+    "RelatedEntityName": "Email Templates",
+    "Type": "OptionSetInfo"
+  }
+]

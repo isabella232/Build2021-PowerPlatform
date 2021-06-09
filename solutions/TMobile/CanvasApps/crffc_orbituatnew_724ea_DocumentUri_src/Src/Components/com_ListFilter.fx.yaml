@@ -1,0 +1,474 @@
+com_ListFilter As CanvasComponent:
+    ComponentHeight: =
+    ComponentSpecificOptionSetCollection: =colOptionSetTest
+    DatePicker: =false
+    Fill: =RGBA(0, 0, 0, 0)
+    Height: |-
+        =//If(com_ListFilter.DatePicker, 275, Coalesce(com_ListFilter.ComponentHeight, CountRows(LookUp(colOptionsSets, LogicalName = com_ListFilter.OptionSetName).OptionSet.Options)  * 40 + 155) + 30)
+        If(com_ListFilter.DatePicker, 275, Coalesce(com_ListFilter.ComponentHeight, CountRows(com_ListFilter.ComponentSpecificOptionSetCollection)  * 40 + 155) + 30)
+    MaxDate: |-
+        =//If(!IsBlank(DtP_IntakeDt_To_1.SelectedDate), Concatenate(" and ", com_ListFilter.OptionSetName, " lt ", Text(DateAdd(DtP_IntakeDt_To_1.SelectedDate, -8, Hours), "[$-en-US]yyyy-mm-ddThh:mm:ssZ")), "")
+        If(!IsBlank(DtP_IntakeDt_To_1.SelectedDate), Concatenate(" and ", com_ListFilter.OptionSetName, " le ", Text(DateAdd(DtP_IntakeDt_To_1.SelectedDate, 8, Hours), "[$-en-US]yyyy-mm-ddThh:mm:ssZ")), "")
+    MinDate: |-
+        =//If(!IsBlank(DtP_IntakeDt_From_1.SelectedDate), Concatenate(" and ", com_ListFilter.OptionSetName, " gt ", Text(DateAdd(DtP_IntakeDt_From_1.SelectedDate, -8, Hours), "[$-en-US]yyyy-mm-ddThh:mm:ssZ")), "")
+        If(!IsBlank(DtP_IntakeDt_From_1.SelectedDate), Concatenate(" and ", com_ListFilter.OptionSetName, " ge ", Text(DateAdd(DtP_IntakeDt_From_1.SelectedDate, 8, Hours), "[$-en-US]yyyy-mm-ddThh:mm:ssZ")), "")
+    OnReset: =Reset(DtP_IntakeDt_From_1);Reset(DtP_IntakeDt_To_1);Reset(gal_PP_Phase_Filter_1);Set(varFilterClearAll, true);Set(varFilterReset, !varFilterReset)
+    OptionSetName: ="cat_phase"
+    OptionSetValues: =colOptionSetTest
+    QueryString: |-
+        =If(!IsEmpty(Filter(gal_PP_Phase_Filter_1.AllItems, chk_ProjP_Filter_Stage_1.Value = true)),
+            Concatenate(" and (",Concat(Filter(gal_PP_Phase_Filter_1.AllItems, chk_ProjP_Filter_Stage_1.Value = true), 
+            Concatenate(com_ListFilter.OptionSetName, " eq ", Text(Value)), " or "), ")"))
+    Width: =280
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    htm_BackgroundShadow_1 As htmlViewer:
+        Fill: =RGBA(0, 0, 0, 0)
+        Height: =Parent.Height
+        HoverBorderColor: =htm_BackgroundShadow_1.BorderColor
+        HtmlText: |-
+            ="<div style='margin:0px;width:"& htm_BackgroundShadow_1.Width - 35 &"px;height:"& htm_BackgroundShadow_1.Height - 35 &"px;background-color:#;box-shadow:0 0px 10px 15px  #ccc; border-radius:1px'></div>"
+            //"<div style='margin:-5px;width:"& htm_BackgroundShadow_1.Width - 35 &"px;height:"& htm_BackgroundShadow_1.Height - 35 &"px;background-color:#;box-shadow:0 0px 9px 25px  #ccc; border-radius:0px'></div>"
+        PressedBorderColor: =htm_BackgroundShadow_1.BorderColor
+        Width: =Parent.Width
+        X: =-5
+        Y: =-5
+        ZIndex: =1
+
+    Rectangle5 As rectangle:
+        BorderColor: =ColorValue(LookUp(StyleGuide, Key = "Magenta").Value)
+        BorderThickness: =2
+        DisabledFill: =Rectangle5.Fill
+        Fill: =RGBA(255, 255, 255, 1)
+        FocusedBorderColor: =Rectangle5.BorderColor
+        Height: =Parent.Height - 30
+        HoverFill: =Rectangle5.Fill
+        PressedFill: =Rectangle5.Fill
+        Visible: =false
+        Width: =Parent.Width - 30
+        ZIndex: =2
+
+    Button5 As button:
+        BorderColor: =ColorValue(LookUp(StyleGuide, Key = "Magenta").Value)
+        DisabledBorderColor: =DarkGray //ColorFade(ColorValue(LookUp(StyleGuide, Key = "Magenta").Value), .4)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        DisabledFill: =RGBA(237, 237, 237, .8)
+        DisplayMode: =DisplayMode.Disabled
+        Fill: =RGBA(56, 96, 178, 1)
+        FocusedBorderColor: =Button5.BorderColor
+        FontWeight: =FontWeight.Semibold
+        Height: =Parent.Height - 30
+        HoverBorderColor: =ColorFade(Button5.BorderColor, 20%)
+        HoverColor: =RGBA(255, 255, 255, 1)
+        HoverFill: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+        PressedBorderColor: =Button5.Fill
+        PressedColor: =Button5.Fill
+        PressedFill: =Button5.Color
+        Size: =15
+        Text: =""
+        Width: =Parent.Width - 30
+        ZIndex: =3
+
+    gal_PP_Phase_Filter_1 As gallery.galleryVertical:
+        BorderColor: =ColorValue(LookUp(StyleGuide, Key = "Magenta").Value)
+        DisabledBorderColor: =gal_PP_Phase_Filter_1.BorderColor
+        DisabledFill: =gal_PP_Phase_Filter_1.Fill
+        Height: =If(IsBlank(Parent.ComponentHeight), CountRows(gal_PP_Phase_Filter_1.AllItems) * 42 + 10, Parent.ComponentHeight - lbl_PP_Phase_Filters_1.Y - 100)
+        HoverBorderColor: =gal_PP_Phase_Filter_1.BorderColor
+        HoverFill: =gal_PP_Phase_Filter_1.Fill
+        Items: |-
+            =//Sort(Filter(LookUp(colOptionsSets, LogicalName = Parent.OptionSetName).OptionSet.Options, Label.UserLocalizedLabel.Label <> "Please Select"), Label.UserLocalizedLabel.Label, Ascending)
+            //Sort(Filter(com_ListFilter.ComponentSpecificOptionSetCollection, !(Label = "Please Select") And !(Label = "Draft")), Label, Ascending)
+            Sort(
+            Switch(com_ListFilter.OptionSetName,
+            "cat_initiativetype", Filter(colTypeOptionSet, Label <> "Please Select"),
+            "cat_phase", Filter(colPhaseOptionSet, Label <> "Please Select" And Label <> "Draft"),
+            "cat_subphase", Filter(colSubPhaseOptionSet, Label <> "Please Select" And Label <> "Draft"),
+            "cat_lobchannelhorizontal", Filter(colLOBOptionSet, Label <> "Please Select" And Label <> "Home & Entertainment" And Label <> "Advertising & Data")
+            ),
+            Label, Ascending)
+        Layout: =Layout.Vertical
+        LoadingSpinnerColor: =gal_PP_Phase_Filter_1.BorderColor
+        PressedBorderColor: =gal_PP_Phase_Filter_1.BorderColor
+        PressedFill: =gal_PP_Phase_Filter_1.Fill
+        TemplatePadding: =10
+        TemplateSize: =32
+        Visible: =!Parent.DatePicker
+        Width: =Parent.Width - 33
+        Y: =lbl_PP_Phase_Filters_1.Y + lbl_PP_Phase_Filters_1.Height - 5
+        ZIndex: =4
+
+        chk_ProjP_Filter_Stage_1 As checkbox:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            CheckboxBorderColor: =ColorValue(LookUp(StyleGuide, Key = "Grey").Value)
+            CheckboxSize: =38
+            CheckmarkFill: =ColorValue(LookUp(StyleGuide, Key = "Magenta").Value)
+            Color: =RGBA(0, 0, 0, 1)
+            Default: =If(com_ListFilter.OptionSetName = "cat_phase", If(ThisItem.Label = "Canceled", false, varFilterClearAll), !varFilterClearAll)
+            FocusedBorderColor: =chk_ProjP_Filter_Stage_1.BorderColor
+            FocusedBorderThickness: =0
+            Font: =Font.Arial
+            Height: =30
+            HoverBorderColor: =ColorFade(chk_ProjP_Filter_Stage_1.BorderColor, 30%)
+            HoverColor: =RGBA(0, 18, 107, 1)
+            HoverFill: =ColorFade(chk_ProjP_Filter_Stage_1.Fill, 30%)
+            OnCheck: =
+            OnSelect: =Set(varFilterReset, false)
+            PressedBorderColor: =ColorFade(chk_ProjP_Filter_Stage_1.BorderColor, -30%)
+            PressedFill: =ColorFade(chk_ProjP_Filter_Stage_1.Fill, -30%)
+            Reset: =varFilterReset
+            Size: =12
+            Text: =Text(ThisItem.Label)
+            Width: =gal_PP_Phase_Filter_1.Width - (gal_PP_Phase_Filter_1.TemplatePadding * 2)
+            ZIndex: =2
+
+    btn_ProjP_RefreshData_3 As button:
+        AutoDisableOnSelect: =false
+        BorderColor: =ColorFade(btn_ProjP_RefreshData_3.Fill, -15%)
+        BorderThickness: =1
+        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        DisabledFill: =RGBA(244, 244, 244, 1)
+        Fill: =ColorValue(LookUp(StyleGuide, Key = "Magenta").Value)
+        FocusedBorderColor: =btn_ProjP_RefreshData_3.BorderColor
+        FocusedBorderThickness: =1
+        Font: =Font.Arial
+        FontWeight: =FontWeight.Bold
+        Height: =28
+        HoverBorderColor: =ColorFade(btn_ProjP_RefreshData_3.BorderColor, 20%)
+        HoverColor: =RGBA(255, 255, 255, 1)
+        HoverFill: =ColorFade(btn_ProjP_RefreshData_3.Fill, -15%)
+        OnSelect: =If(com_ListFilter.OptionSetName = "cat_phase", Set(varFilterClearAll, false), Set(varFilterClearAll, true));Set(varFilterReset, !varFilterReset)
+        PressedBorderColor: =btn_ProjP_RefreshData_3.Fill
+        PressedColor: =btn_ProjP_RefreshData_3.Fill
+        PressedFill: =btn_ProjP_RefreshData_3.Color
+        RadiusBottomLeft: =5
+        RadiusBottomRight: =5
+        RadiusTopLeft: =5
+        RadiusTopRight: =5
+        Size: =10
+        Text: ="Clear All"
+        Visible: =!Parent.DatePicker
+        Width: =100
+        X: =Parent.Width - btn_ProjP_RefreshData_3.Width - 10 - 30
+        Y: =com_ListFilter.Height - 40 - 30
+        ZIndex: =5
+
+    btn_ProjP_RefreshData_4 As button:
+        AutoDisableOnSelect: =false
+        BorderColor: =ColorFade(btn_ProjP_RefreshData_4.Fill, -15%)
+        BorderThickness: =1
+        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        DisabledFill: =RGBA(244, 244, 244, 1)
+        Fill: =ColorValue(LookUp(StyleGuide, Key = "Magenta").Value)
+        FocusedBorderColor: =btn_ProjP_RefreshData_4.BorderColor
+        FocusedBorderThickness: =1
+        Font: =Font.Arial
+        FontWeight: =Semibold
+        Height: =28
+        HoverBorderColor: =ColorFade(btn_ProjP_RefreshData_4.BorderColor, 20%)
+        HoverColor: =RGBA(255, 255, 255, 1)
+        HoverFill: =ColorFade(btn_ProjP_RefreshData_4.Fill, -15%)
+        OnSelect: =If(com_ListFilter.OptionSetName = "cat_phase", Set(varFilterClearAll, true), Set(varFilterClearAll, false))
+        PressedBorderColor: =btn_ProjP_RefreshData_4.Fill
+        PressedColor: =btn_ProjP_RefreshData_4.Fill
+        PressedFill: =btn_ProjP_RefreshData_4.Color
+        RadiusBottomLeft: =5
+        RadiusBottomRight: =5
+        RadiusTopLeft: =5
+        RadiusTopRight: =5
+        Size: =10
+        Text: ="Select All"
+        Visible: =!Parent.DatePicker
+        Width: =100
+        X: =10
+        Y: =com_ListFilter.Height - 40 - 30
+        ZIndex: =6
+
+    lbl_PP_Phase_Filters_1 As label:
+        BorderColor: =RGBA(0, 18, 107, 1)
+        Color: =RGBA(0, 0, 0, 1)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =lbl_PP_Phase_Filters_1.BorderColor
+        Height: =20
+        HoverBorderColor: =lbl_PP_Phase_Filters_1.BorderColor
+        HoverColor: =lbl_PP_Phase_Filters_1.Color
+        HoverFill: =lbl_PP_Phase_Filters_1.Fill
+        PaddingBottom: =0
+        PaddingTop: =0
+        PressedBorderColor: =lbl_PP_Phase_Filters_1.BorderColor
+        PressedColor: =lbl_PP_Phase_Filters_1.Color
+        PressedFill: =lbl_PP_Phase_Filters_1.Fill
+        Size: =12
+        Text: |-
+            ="Filters:"
+        X: =10
+        Y: =lbl_PP_Phase_SortDes_1.Y + lbl_PP_Phase_SortDes_1.Height + 6
+        ZIndex: =7
+
+    lbl_PP_Phase_SortDes_1 As label:
+        BorderColor: =RGBA(0, 18, 107, 1)
+        Color: |-
+            =If(
+                First(colSortOrder).FilterName=com_ListFilter.OptionSetName And 
+                First(colSortOrder).FilterDirection="desc",
+                ColorValue(LookUp(StyleGuide, Key = "Magenta").Value),
+                ColorValue(LookUp(StyleGuide, Key = "Grey").Value)
+            )
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =lbl_PP_Phase_SortDes_1.BorderColor
+        Font: =Font.Arial
+        Height: =30
+        HoverBorderColor: =lbl_PP_Phase_SortDes_1.BorderColor
+        HoverColor: =lbl_PP_Phase_SortDes_1.Color
+        HoverFill: =lbl_PP_Phase_SortDes_1.Fill
+        PressedBorderColor: =lbl_PP_Phase_SortDes_1.BorderColor
+        PressedColor: =lbl_PP_Phase_SortDes_1.Color
+        PressedFill: =lbl_PP_Phase_SortDes_1.Fill
+        Size: =12
+        Text: ="Sort Descending"
+        X: =icon_SortDescStage_pp_1.X + icon_SortDescStage_pp_1.Width
+        Y: =icon_SortDescStage_pp_1.Y
+        ZIndex: =8
+
+    icon_SortDescStage_pp_1 As icon.ArrowUp:
+        BorderColor: =RGBA(0, 18, 107, 1)
+        Color: |-
+            =If(
+                First(colSortOrder).FilterName=com_ListFilter.OptionSetName And 
+                First(colSortOrder).FilterDirection="desc",
+                ColorValue(LookUp(StyleGuide, Key = "Magenta").Value),
+                ColorValue(LookUp(StyleGuide, Key = "Grey").Value)
+            )
+        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+        DisabledColor: =RGBA(244, 244, 244, 1)
+        DisabledFill: =icon_SortDescStage_pp_1.Fill
+        FocusedBorderColor: =icon_SortDescStage_pp_1.BorderColor
+        Height: =30
+        HoverBorderColor: =ColorFade(icon_SortDescStage_pp_1.BorderColor, 20%)
+        HoverColor: =ColorFade(icon_SortDescStage_pp_1.Color, 20%)
+        HoverFill: =icon_SortDescStage_pp_1.Fill
+        Icon: =Icon.ArrowUp
+        PaddingRight: =0.00
+        PaddingTop: =0.00
+        PressedBorderColor: =ColorFade(icon_SortDescStage_pp_1.BorderColor, -20%)
+        PressedColor: =ColorFade(icon_SortDescStage_pp_1.Color, -20%)
+        PressedFill: =icon_SortDescStage_pp_1.Fill
+        Width: =18
+        X: =ico_PP_Phase_SortAsc_1.X
+        Y: =ico_PP_Phase_SortAsc_1.Y + ico_PP_Phase_SortAsc_1.Height
+        ZIndex: =9
+
+    btn_PP_Phase_SortD_Select_1 As button:
+        BorderColor: =
+        BorderThickness: =0
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(0, 0, 0, 0)
+        DisabledFill: =RGBA(0, 0, 0, 0)
+        Fill: =RGBA(0, 0, 0, 0)
+        FocusedBorderColor: =btn_PP_Phase_SortD_Select_1.BorderColor
+        FocusedBorderThickness: =0
+        FontWeight: =FontWeight.Semibold
+        Height: =25
+        HoverBorderColor: =
+        HoverColor: =RGBA(255, 255, 255, 1)
+        HoverFill: =
+        OnSelect: |-
+            =ClearCollect(colSortOrder, {FilterName: com_ListFilter.OptionSetName, FilterDirection: "desc"})
+        PressedBorderColor: =
+        PressedColor: =
+        PressedFill: =
+        RadiusBottomLeft: =
+        RadiusBottomRight: =
+        RadiusTopLeft: =
+        RadiusTopRight: =
+        Size: =15
+        Text: =""
+        Width: =com_ListFilter.Width - 36
+        X: =icon_SortDescStage_pp_1.X
+        Y: =icon_SortDescStage_pp_1.Y
+        ZIndex: =10
+
+    lbl_PP_Phase_SortAsc_1 As label:
+        BorderColor: =RGBA(0, 18, 107, 1)
+        Color: |-
+            =If(
+                First(colSortOrder).FilterName=com_ListFilter.OptionSetName And 
+                First(colSortOrder).FilterDirection="asc",
+                ColorValue(LookUp(StyleGuide, Key = "Magenta").Value),
+                ColorValue(LookUp(StyleGuide, Key = "Grey").Value)
+            )
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =lbl_PP_Phase_SortAsc_1.BorderColor
+        Font: =Font.Arial
+        Height: =30
+        HoverBorderColor: =lbl_PP_Phase_SortAsc_1.BorderColor
+        HoverColor: =lbl_PP_Phase_SortAsc_1.Color
+        HoverFill: =lbl_PP_Phase_SortAsc_1.Fill
+        PressedBorderColor: =lbl_PP_Phase_SortAsc_1.BorderColor
+        PressedColor: =lbl_PP_Phase_SortAsc_1.Color
+        PressedFill: =lbl_PP_Phase_SortAsc_1.Fill
+        Size: =12
+        Text: ="Sort Ascending"
+        X: =ico_PP_Phase_SortAsc_1.X + ico_PP_Phase_SortAsc_1.Width
+        Y: =ico_PP_Phase_SortAsc_1.Y
+        ZIndex: =11
+
+    ico_PP_Phase_SortAsc_1 As icon.ArrowDown:
+        BorderColor: =RGBA(0, 18, 107, 1)
+        Color: |-
+            =If(
+                First(colSortOrder).FilterName=com_ListFilter.OptionSetName And 
+                First(colSortOrder).FilterDirection="asc",
+                ColorValue(LookUp(StyleGuide, Key = "Magenta").Value),
+                ColorValue(LookUp(StyleGuide, Key = "Grey").Value)
+            )
+        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+        DisabledColor: =RGBA(244, 244, 244, 1)
+        DisabledFill: =ico_PP_Phase_SortAsc_1.Fill
+        FocusedBorderColor: =ico_PP_Phase_SortAsc_1.BorderColor
+        Height: =30
+        HoverBorderColor: =ColorFade(ico_PP_Phase_SortAsc_1.BorderColor, 20%)
+        HoverColor: =ColorFade(ico_PP_Phase_SortAsc_1.Color, 20%)
+        HoverFill: =ico_PP_Phase_SortAsc_1.Fill
+        PaddingRight: =0.00
+        PaddingTop: =0.00
+        PressedBorderColor: =ColorFade(ico_PP_Phase_SortAsc_1.BorderColor, -20%)
+        PressedColor: =ColorFade(ico_PP_Phase_SortAsc_1.Color, -20%)
+        PressedFill: =ico_PP_Phase_SortAsc_1.Fill
+        Width: =18
+        X: =18
+        Y: =13
+        ZIndex: =12
+
+    btn_PP_Phase_SortA_Select_1 As button:
+        BorderColor: =
+        BorderThickness: =0
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(0, 0, 0, 0)
+        DisabledFill: =RGBA(0, 0, 0, 0)
+        Fill: =RGBA(0, 0, 0, 0)
+        FocusedBorderColor: =btn_PP_Phase_SortA_Select_1.BorderColor
+        FocusedBorderThickness: =0
+        FontWeight: =FontWeight.Semibold
+        Height: =25
+        HoverBorderColor: =
+        HoverColor: =RGBA(255, 255, 255, 1)
+        HoverFill: =
+        OnSelect: |-
+            =ClearCollect(colSortOrder, {FilterName: com_ListFilter.OptionSetName, FilterDirection: "asc"})
+        PressedBorderColor: =
+        PressedColor: =
+        PressedFill: =
+        RadiusBottomLeft: =
+        RadiusBottomRight: =
+        RadiusTopLeft: =
+        RadiusTopRight: =
+        Size: =15
+        Text: =""
+        Width: =com_ListFilter.Width - 36
+        X: =ico_PP_Phase_SortAsc_1.X
+        Y: =ico_PP_Phase_SortAsc_1.Y
+        ZIndex: =13
+
+    DtP_IntakeDt_To_1 As datepicker:
+        BorderColor: =RGBA(128, 128, 128, 1)
+        BorderThickness: =1
+        CalendarHeaderFill: =RGBA(56, 96, 178, 1)
+        Color: =RGBA(0, 0, 0, 1)
+        DefaultDate: =Blank()
+        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        DisabledFill: =RGBA(244, 244, 244, 1)
+        FocusedBorderColor: =DtP_IntakeDt_To_1.BorderColor
+        Height: =30
+        HoverBorderColor: =DtP_IntakeDt_To_1.BorderColor
+        HoverDateFill: =RGBA(186, 202, 226, 1)
+        HoverFill: =DtP_IntakeDt_To_1.Fill
+        IconBackground: =ColorValue(LookUp(StyleGuide, Key = "Magenta").Value)
+        InputTextPlaceholder: =Text(Date(2099,12,31), DtP_IntakeDt_To_1.Format, DtP_IntakeDt_To_1.Language)
+        IsEditable: =true
+        PaddingLeft: =5
+        PressedBorderColor: =DtP_IntakeDt_To_1.BorderColor
+        PressedFill: =DtP_IntakeDt_To_1.Fill
+        SelectedDateFill: =RGBA(56, 96, 178, 1)
+        Size: =12
+        StartYear: =2018
+        Visible: =Parent.DatePicker
+        Width: =160
+        X: =20
+        Y: =LBL_IntakeDt_To_1.Y  + LBL_IntakeDt_To_1.Height
+        ZIndex: =14
+
+    LBL_IntakeDt_To_1 As label:
+        BorderColor: =RGBA(0, 18, 107, 1)
+        Color: =RGBA(0, 0, 0, 1)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =LBL_IntakeDt_To_1.BorderColor
+        Height: =28
+        HoverBorderColor: =LBL_IntakeDt_To_1.BorderColor
+        HoverColor: =LBL_IntakeDt_To_1.Color
+        HoverFill: =LBL_IntakeDt_To_1.Fill
+        PressedBorderColor: =LBL_IntakeDt_To_1.BorderColor
+        PressedColor: =LBL_IntakeDt_To_1.Color
+        PressedFill: =LBL_IntakeDt_To_1.Fill
+        Size: =11
+        Text: ="To"
+        Visible: =Parent.DatePicker
+        Width: =53
+        X: =DtP_IntakeDt_From_1.X
+        Y: =DtP_IntakeDt_From_1.Y + DtP_IntakeDt_From_1.Height
+        ZIndex: =15
+
+    DtP_IntakeDt_From_1 As datepicker:
+        BorderColor: =RGBA(128, 128, 128, 1)
+        BorderThickness: =1
+        CalendarHeaderFill: =RGBA(56, 96, 178, 1)
+        Color: =RGBA(0, 0, 0, 1)
+        DefaultDate: =Blank()
+        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        DisabledFill: =RGBA(244, 244, 244, 1)
+        FocusedBorderColor: =DtP_IntakeDt_From_1.BorderColor
+        Height: =30
+        HoverBorderColor: =DtP_IntakeDt_From_1.BorderColor
+        HoverDateFill: =RGBA(186, 202, 226, 1)
+        HoverFill: =DtP_IntakeDt_From_1.Fill
+        IconBackground: =ColorValue(LookUp(StyleGuide, Key = "Magenta").Value)
+        InputTextPlaceholder: =Text(Date(2001,01,01), DtP_IntakeDt_From_1.Format, DtP_IntakeDt_From_1.Language)
+        IsEditable: =true
+        PaddingLeft: =5
+        PressedBorderColor: =DtP_IntakeDt_From_1.BorderColor
+        PressedFill: =DtP_IntakeDt_From_1.Fill
+        SelectedDateFill: =RGBA(56, 96, 178, 1)
+        Size: =12
+        StartYear: =2018
+        Visible: =Parent.DatePicker
+        Width: =160
+        X: =LBL_IntakeDt_From_1.X
+        Y: =LBL_IntakeDt_From_1.Y + LBL_IntakeDt_From_1.Height
+        ZIndex: =16
+
+    LBL_IntakeDt_From_1 As label:
+        BorderColor: =RGBA(0, 18, 107, 1)
+        Color: =RGBA(0, 0, 0, 1)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =LBL_IntakeDt_From_1.BorderColor
+        Height: =28
+        HoverBorderColor: =LBL_IntakeDt_From_1.BorderColor
+        HoverColor: =LBL_IntakeDt_From_1.Color
+        HoverFill: =LBL_IntakeDt_From_1.Fill
+        PressedBorderColor: =LBL_IntakeDt_From_1.BorderColor
+        PressedColor: =LBL_IntakeDt_From_1.Color
+        PressedFill: =LBL_IntakeDt_From_1.Fill
+        Size: =11
+        Text: ="From"
+        Visible: =Parent.DatePicker
+        Width: =53
+        X: =20
+        Y: =gal_PP_Phase_Filter_1.Y
+        ZIndex: =17
+

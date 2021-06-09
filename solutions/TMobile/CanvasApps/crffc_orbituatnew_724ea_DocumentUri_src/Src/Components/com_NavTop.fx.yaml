@@ -1,0 +1,209 @@
+com_NavTop As CanvasComponent:
+    AdminScreen: =App.ActiveScreen
+    Fill: =ColorValue(LookUp(StyleGuide,Key="White").Value)
+    FormEditMode: =false
+    Height: =50
+    IsGTM: =false
+    Items: |-
+        =Table(
+            {Label:"One",LaunchLink:"https://web.powerapps.com/apps/f9044a12-0c2c-465e-8bb3-a82b0de9424a",Screen:App.ActiveScreen,IsVisible:true},
+            {Label:"Two",LaunchLink:"",Screen:App.ActiveScreen,IsVisible:true}
+        )
+    OnReset: =Set(varEditMode, false);Set(varResetComponent, false)
+    PendingApprovals: =false
+    ResetComponent: =
+    ShowSettingsMenu: |-
+        =//_showSettingsMenu
+        false
+    TMOLogo: =false
+    UserFullName: ="User"
+    Width: =1920
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    lbl_NavTop_UserName As label:
+        Align: =Right
+        BorderColor: =RGBA(0, 18, 107, 1)
+        Color: =ColorValue(LookUp(StyleGuide,Key="DarkGrey").Value)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        DisplayMode: =DisplayMode.View
+        FocusedBorderColor: =lbl_NavTop_UserName.BorderColor
+        Font: =LookUp(StyleGuide,Key="Font").Value
+        Height: =com_NavTop.Height - icn_NavTop_Magenta_Line.Height
+        HoverBorderColor: =lbl_NavTop_UserName.BorderColor
+        HoverColor: =lbl_NavTop_UserName.Color
+        HoverFill: =lbl_NavTop_UserName.Fill
+        PressedBorderColor: =lbl_NavTop_UserName.BorderColor
+        PressedColor: =lbl_NavTop_UserName.Color
+        PressedFill: =lbl_NavTop_UserName.Fill
+        Size: =LookUp(StyleGuide,Key="Text2Size").Value
+        Text: ="Welcome, " & com_NavTop.UserFullName
+        Width: =394
+        X: =If(com_NavTop.IsGTM, icn_NavTop_Gear.X - lbl_NavTop_UserName.Width - 10, Parent.Width - lbl_NavTop_UserName.Width - 10)
+        ZIndex: =2
+
+    gal_NavTop_Buttons As gallery.galleryHorizontal:
+        BorderColor: =RGBA(0, 18, 107, 1)
+        DelayItemLoading: =true
+        DisabledBorderColor: =gal_NavTop_Buttons.BorderColor
+        DisabledFill: =gal_NavTop_Buttons.Fill
+        Height: =com_NavTop.Height - icn_NavTop_Magenta_Line.Height
+        HoverBorderColor: =gal_NavTop_Buttons.BorderColor
+        HoverFill: =gal_NavTop_Buttons.Fill
+        Items: |-
+            =Coalesce(colTopNavGalleryItems,
+                Table({Label:"New Initiative",LaunchLink:"",Screen:App.ActiveScreen,IsVisible:true},
+                {Label:"List View",LaunchLink:"",Screen:App.ActiveScreen,IsVisible:true},
+                {Label:"My Approvals",LaunchLink:"",Screen:App.ActiveScreen,IsVisible:true}))
+        LoadingSpinnerColor: =gal_NavTop_Buttons.BorderColor
+        PressedBorderColor: =gal_NavTop_Buttons.BorderColor
+        PressedFill: =gal_NavTop_Buttons.Fill
+        TemplatePadding: =0
+        TemplateSize: =btn_NavTop.Width + icn_NavTop_Divider_Line.Width
+        Width: =1692
+        X: =228
+        ZIndex: =3
+
+        icn_NavTop_Divider_Line As rectangle:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            DisabledFill: =icn_NavTop_Divider_Line.Fill
+            Fill: =ColorValue(LookUp(StyleGuide,Key="LightGrey").Value)
+            FocusedBorderColor: =icn_NavTop_Divider_Line.BorderColor
+            Height: =Parent.TemplateHeight
+            HoverFill: =icn_NavTop_Divider_Line.Fill
+            PressedFill: =icn_NavTop_Divider_Line.Fill
+            Width: =3
+            X: =Parent.TemplateWidth - icn_NavTop_Divider_Line.Width
+            ZIndex: =1
+
+        Image2 As image:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            FocusedBorderColor: =Image2.BorderColor
+            Height: =11
+            HoverBorderColor: =ColorFade(Image2.BorderColor, 20%)
+            HoverFill: =ColorFade(Image2.Fill, 20%)
+            Image: ='294 (1)'
+            ImagePosition: =ImagePosition.Fill
+            PressedBorderColor: =ColorFade(Image2.BorderColor, -20%)
+            PressedFill: =ColorFade(Image2.Fill, -20%)
+            Transparency: =0.8
+            Visible: =ThisItem.Label = "My Approvals" And com_NavTop.PendingApprovals
+            Width: =Parent.TemplateWidth
+            Y: =Parent.Height - Image2.Height
+            ZIndex: =2
+
+        btn_NavTop As button:
+            BorderColor: =
+            BorderStyle: =
+            BorderThickness: =0
+            Color: =ColorValue(LookUp(StyleGuide,Key="Magenta").Value)
+            DisabledBorderColor: =
+            DisabledColor: =White
+            DisabledFill: =btn_NavTop.Color
+            DisplayMode: |
+                =If(App.ActiveScreen = ThisItem.Screen,
+                	DisplayMode.Disabled, 
+                	DisplayMode.Edit
+                )
+            Fill: =RGBA(0, 0, 0, 0)
+            FocusedBorderColor: =
+            FocusedBorderThickness: =
+            Font: =LookUp(StyleGuide,Key="Font").Value
+            FontWeight: =Semibold
+            Height: =com_NavTop.Height - icn_NavTop_Magenta_Line.Height
+            HoverBorderColor: =
+            HoverColor: =btn_NavTop.Color
+            HoverFill: =ColorValue(LookUp(StyleGuide,Key="LightMagenta2").Value)
+            OnSelect: |-
+                =//Set(_showSettingsMenu, false);
+                
+                //If(IsBlank(ThisItem.LaunchLink),
+                    Navigate(ThisItem.Screen, ScreenTransition.None)
+                    //,
+                //    Launch(ThisItem.LaunchLink)
+                //)
+            PaddingBottom: =LookUp(StyleGuide,Key="Padding").Value
+            PaddingLeft: =LookUp(StyleGuide,Key="Padding").Value
+            PaddingRight: =LookUp(StyleGuide,Key="Padding").Value
+            PaddingTop: =LookUp(StyleGuide,Key="Padding").Value
+            PressedBorderColor: =
+            PressedColor: =btn_NavTop.Fill
+            PressedFill: =ColorValue(LookUp(StyleGuide,Key="LightMagenta").Value)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =LookUp(StyleGuide,Key="NavFontSize").Value
+            Text: =ThisItem.Label
+            Tooltip: =If(ThisItem.Label = "My Approvals" And com_NavTop.PendingApprovals, "You Have Pending Approvals", ThisItem.Label)
+            Width: =LookUp(StyleGuide,Key="NavWidth").Value
+            ZIndex: =3
+
+    icn_NavTop_Gear As icon.Settings:
+        BorderColor: =RGBA(0, 18, 107, 1)
+        Color: =ColorValue(LookUp(StyleGuide,Key="DarkGrey").Value)
+        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+        DisabledColor: =RGBA(244, 244, 244, 1)
+        DisabledFill: =icn_NavTop_Gear.Fill
+        FocusedBorderColor: =icn_NavTop_Gear.BorderColor
+        Height: =com_NavTop.Height - icn_NavTop_Magenta_Line.Height
+        HoverBorderColor: =ColorFade(icn_NavTop_Gear.BorderColor, 20%)
+        HoverColor: =ColorFade(icn_NavTop_Gear.Color, 20%)
+        HoverFill: =icn_NavTop_Gear.Fill
+        Icon: =Icon.Settings
+        OnSelect: |-
+            =//Set(_showSettingsMenu, !_showSettingsMenu)
+            Navigate(com_NavTop.AdminScreen)
+        PressedBorderColor: =ColorFade(icn_NavTop_Gear.BorderColor, -20%)
+        PressedColor: =ColorFade(icn_NavTop_Gear.Color, -20%)
+        PressedFill: =icn_NavTop_Gear.Fill
+        Visible: =com_NavTop.IsGTM
+        Width: =28
+        X: =Parent.Width - icn_NavTop_Gear.Width - 10
+        ZIndex: =4
+
+    icn_NavTop_Divider_Line_1 As rectangle:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        DisabledFill: =icn_NavTop_Divider_Line_1.Fill
+        Fill: =ColorValue(LookUp(StyleGuide,Key="LightGrey").Value)
+        FocusedBorderColor: =icn_NavTop_Divider_Line_1.BorderColor
+        Height: =com_NavTop.Height
+        HoverFill: =icn_NavTop_Divider_Line_1.Fill
+        PressedFill: =icn_NavTop_Divider_Line_1.Fill
+        Width: =3
+        X: =gal_NavTop_Buttons.X - icn_NavTop_Divider_Line_1.Width
+        ZIndex: =5
+
+    icn_NavTop_Magenta_Line As rectangle:
+        BorderColor: =RGBA(0, 18, 107, 1)
+        DisabledFill: =icn_NavTop_Magenta_Line.Fill
+        DisplayMode: =DisplayMode.View
+        Fill: =ColorValue(LookUp(StyleGuide,Key="Magenta").Value)
+        FocusedBorderColor: =icn_NavTop_Magenta_Line.BorderColor
+        Height: =2
+        HoverFill: =icn_NavTop_Magenta_Line.Fill
+        PressedFill: =icn_NavTop_Magenta_Line.Fill
+        Width: =Parent.Width
+        Y: =Parent.Height - icn_NavTop_Magenta_Line.Height
+        ZIndex: =6
+
+    "'img_NavTop_T-Mobile_Logo' As image":
+        BorderColor: =RGBA(0, 18, 107, 1)
+        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+        DisabledFill: =RGBA(244, 244, 244, 1)
+        FocusedBorderColor: ='img_NavTop_T-Mobile_Logo'.BorderColor
+        Height: =com_NavTop.Height - icn_NavTop_Magenta_Line.Height - 10
+        HoverBorderColor: =ColorFade('img_NavTop_T-Mobile_Logo'.BorderColor, 20%)
+        HoverFill: =ColorFade('img_NavTop_T-Mobile_Logo'.Fill, 20%)
+        Image: =Orbit_Lockup_RGB
+        OnSelect: =Navigate(LookUp(colTopNavGalleryItems, Label = "List View").Screen, ScreenTransition.None)
+        PressedBorderColor: =ColorFade('img_NavTop_T-Mobile_Logo'.BorderColor, -20%)
+        PressedFill: =ColorFade('img_NavTop_T-Mobile_Logo'.Fill, -20%)
+        Width: =206
+        X: =10
+        Y: =5
+        ZIndex: =7
+

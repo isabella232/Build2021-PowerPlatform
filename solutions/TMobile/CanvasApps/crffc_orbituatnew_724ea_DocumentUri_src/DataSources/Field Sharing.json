@@ -1,0 +1,72 @@
+[
+  {
+    "CdsFCBContext": "{\"FileType\":true,\"ImageExternalStorage\":true}",
+    "EntitySetName": "principalobjectattributeaccessset",
+    "IsHidden": false,
+    "IsSampleData": false,
+    "IsWritable": true,
+    "LogicalName": "principalobjectattributeaccess",
+    "MaxGetRowsCount": 2000,
+    "Name": "Field Sharing",
+    "NativeCDSDataSourceInfoNameMapping": {
+      "_objectid_value": "Entity instance",
+      "_principalid_value": "Principal",
+      "attributeid": "Secured field",
+      "organizationid": "Organization",
+      "principalobjectattributeaccessid": "Shared secured field",
+      "readaccess": "Read permission",
+      "updateaccess": "Update permission",
+      "versionnumber": "VersionNumber"
+    },
+    "PreferredName": "Field Sharing",
+    "Type": "NativeCDSDataSourceInfo"
+  },
+  {
+    "DisplayName": "Field Sharing (Views)",
+    "Name": "_principalobjectattributeaccess_views",
+    "RelatedEntityName": "Field Sharing",
+    "TrimmedViewName": true,
+    "Type": "ViewInfo",
+    "ViewInfoNameMapping": {}
+  },
+  {
+    "DisplayName": "Read permission (Field Sharing)",
+    "Name": "principalobjectattributeaccess_readaccess",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "readaccess",
+        "OptionSetReferenceEntityName": "Field Sharing"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "readaccess",
+    "RelatedEntityName": "Field Sharing",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Update permission (Field Sharing)",
+    "Name": "principalobjectattributeaccess_updateaccess",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "updateaccess",
+        "OptionSetReferenceEntityName": "Field Sharing"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "updateaccess",
+    "RelatedEntityName": "Field Sharing",
+    "Type": "OptionSetInfo"
+  }
+]

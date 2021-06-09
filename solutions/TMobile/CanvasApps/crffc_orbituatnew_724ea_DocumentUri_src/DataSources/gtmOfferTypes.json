@@ -1,0 +1,98 @@
+[
+  {
+    "DisplayName": "gtmOfferTypes (Views)",
+    "Name": "_cat_gtmoffertype_views",
+    "RelatedEntityName": "gtmOfferTypes",
+    "TrimmedViewName": true,
+    "Type": "ViewInfo",
+    "ViewInfoNameMapping": {
+      "074efc0f-3aaa-4d30-b45e-ae52958615da": "gtmOfferType Associated View",
+      "3f5fcf8c-135b-405d-95d5-7a84d6bc03bd": "gtmOfferType Advanced Find View",
+      "4db5a07b-9326-42db-b72b-6857c430ce54": "Inactive gtmOfferTypes",
+      "4e208eba-bf26-477b-892f-64e0f40c2a41": "Active gtmOfferTypes",
+      "ae96b83f-4a77-4524-8d5c-8ef07955770d": "gtmOfferType Lookup View"
+    }
+  },
+  {
+    "DisplayName": "Status (gtmOfferTypes)",
+    "Name": "cat_gtmoffertype_statecode",
+    "OptionSetInfoNameMapping": {
+      "0": "Active",
+      "1": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statecode",
+        "OptionSetReferenceEntityName": "gtmOfferTypes"
+      }
+    },
+    "OptionSetTypeKey": "StateType",
+    "RelatedColumnInvariantName": "statecode",
+    "RelatedEntityName": "gtmOfferTypes",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status Reason (gtmOfferTypes)",
+    "Name": "cat_gtmoffertype_statuscode",
+    "OptionSetInfoNameMapping": {
+      "1": "Active",
+      "2": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statuscode",
+        "OptionSetReferenceEntityName": "gtmOfferTypes"
+      }
+    },
+    "OptionSetTypeKey": "StatusType",
+    "RelatedColumnInvariantName": "statuscode",
+    "RelatedEntityName": "gtmOfferTypes",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "CdsFCBContext": "{\"FileType\":true,\"ImageExternalStorage\":true}",
+    "EntitySetName": "cat_gtmoffertypes",
+    "IsHidden": false,
+    "IsSampleData": false,
+    "IsWritable": true,
+    "LogicalName": "cat_gtmoffertype",
+    "MaxGetRowsCount": 2000,
+    "Name": "gtmOfferTypes",
+    "NativeCDSDataSourceInfoNameMapping": {
+      "_ownerid_value": "Owner",
+      "cat_gtmoffertype_AsyncOperations": "System Jobs",
+      "cat_gtmoffertype_BulkDeleteFailures": "Bulk Delete Failures",
+      "cat_gtmoffertype_DuplicateBaseRecord": "Duplicate Records (cat_gtmoffertype_DuplicateBaseRecord)",
+      "cat_gtmoffertype_DuplicateMatchingRecord": "Duplicate Records (cat_gtmoffertype_DuplicateMatchingRecord)",
+      "cat_gtmoffertype_MailboxTrackingFolders": "Mailbox Auto Tracking Folders",
+      "cat_gtmoffertype_PrincipalObjectAttributeAccesses": "Field Sharing",
+      "cat_gtmoffertype_ProcessSession": "Process Sessions",
+      "cat_gtmoffertype_SyncErrors": "Sync Errors",
+      "cat_gtmoffertypeid": "gtmOfferType",
+      "cat_InitiativeType": "Initiative Type",
+      "cat_offertype": "Offer Type",
+      "createdby": "Created By",
+      "createdon": "Created On",
+      "createdonbehalfby": "Created By (Delegate)",
+      "importsequencenumber": "Import Sequence Number",
+      "modifiedby": "Modified By",
+      "modifiedon": "Modified On",
+      "modifiedonbehalfby": "Modified By (Delegate)",
+      "overriddencreatedon": "Record Created On",
+      "owningbusinessunit": "Owning Business Unit",
+      "owningteam": "Owning Team",
+      "owninguser": "Owning User",
+      "statecode": "Status",
+      "statuscode": "Status Reason",
+      "timezoneruleversionnumber": "Time Zone Rule Version Number",
+      "utcconversiontimezonecode": "UTC Conversion Time Zone Code",
+      "versionnumber": "Version Number"
+    },
+    "PreferredName": "gtmOfferTypes",
+    "Type": "NativeCDSDataSourceInfo"
+  }
+]

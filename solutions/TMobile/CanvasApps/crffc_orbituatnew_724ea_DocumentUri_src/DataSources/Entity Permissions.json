@@ -1,0 +1,253 @@
+[
+  {
+    "CdsFCBContext": "{\"FileType\":true,\"ImageExternalStorage\":true}",
+    "EntitySetName": "adx_entitypermissions",
+    "IsHidden": false,
+    "IsSampleData": false,
+    "IsWritable": true,
+    "LogicalName": "adx_entitypermission",
+    "MaxGetRowsCount": 2000,
+    "Name": "Entity Permissions",
+    "NativeCDSDataSourceInfoNameMapping": {
+      "{Attachments}": "Attachments",
+      "adx_accountrelationship": "Account Relationship",
+      "adx_append": "Append",
+      "adx_appendto": "Append To",
+      "adx_contactrelationship": "Contact Relationship",
+      "adx_create": "Create",
+      "adx_delete": "Delete",
+      "adx_entitylogicalname": "Entity Name",
+      "adx_entityname": "Name",
+      "adx_entitypermission_Annotations": "Notes",
+      "adx_entitypermission_AsyncOperations": "System Jobs",
+      "adx_entitypermission_BulkDeleteFailures": "Bulk Delete Failures",
+      "adx_entitypermission_MailboxTrackingFolders": "Mailbox Auto Tracking Folders",
+      "adx_entitypermission_parententitypermission": "Entity Permissions",
+      "adx_entitypermission_PrincipalObjectAttributeAccesses": "Field Sharing",
+      "adx_entitypermission_ProcessSession": "Process Sessions",
+      "adx_entitypermission_SyncErrors": "Sync Errors",
+      "adx_entitypermission_webrole": "Web Roles",
+      "adx_entitypermissionid": "Entity Permission",
+      "adx_parententitypermission": "Parent Entity Permission",
+      "adx_parentrelationship": "Parent Relationship",
+      "adx_read": "Read",
+      "adx_scope": "Scope",
+      "adx_websiteid": "Website",
+      "adx_write": "Write",
+      "createdby": "Created By",
+      "createdon": "Created On",
+      "createdonbehalfby": "Created By (Delegate)",
+      "importsequencenumber": "Import Sequence Number",
+      "modifiedby": "Modified By",
+      "modifiedon": "Modified On",
+      "modifiedonbehalfby": "Modified By (Delegate)",
+      "organizationid": "Shows the organization.",
+      "overriddencreatedon": "Record Created On",
+      "statecode": "Status",
+      "statuscode": "Status Reason",
+      "timezoneruleversionnumber": "Time Zone Rule Version Number",
+      "utcconversiontimezonecode": "UTC Conversion Time Zone Code",
+      "versionnumber": "Version Number"
+    },
+    "PreferredName": "Entity Permissions",
+    "Type": "NativeCDSDataSourceInfo"
+  },
+  {
+    "DisplayName": "Entity Permissions (Views)",
+    "Name": "_adx_entitypermission_views",
+    "RelatedEntityName": "Entity Permissions",
+    "TrimmedViewName": true,
+    "Type": "ViewInfo",
+    "ViewInfoNameMapping": {
+      "3b799288-e2e7-4178-9df8-d635c2a6ed60": "Active Entity Permissions",
+      "58d8b18d-5724-47f3-b18b-895767f31114": "Entity Permission Associated View",
+      "b0266072-c0c6-4d5f-be38-22f23d6c643d": "Inactive Entity Permissions",
+      "b603db6f-af41-4108-83a2-5e597bee6660": "Entity Permission Advanced Find View",
+      "d3f8a7c8-2af0-e311-9428-00155d038c01": "Child Entity Permissions",
+      "d67b4974-e677-42fc-9cf4-7fd77d192382": "Entity Permission Lookup View"
+    }
+  },
+  {
+    "DisplayName": "Append (Entity Permissions)",
+    "Name": "adx_entitypermission_adx_append",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "adx_append",
+        "OptionSetReferenceEntityName": "Entity Permissions"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "adx_append",
+    "RelatedEntityName": "Entity Permissions",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Append To (Entity Permissions)",
+    "Name": "adx_entitypermission_adx_appendto",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "adx_appendto",
+        "OptionSetReferenceEntityName": "Entity Permissions"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "adx_appendto",
+    "RelatedEntityName": "Entity Permissions",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Create (Entity Permissions)",
+    "Name": "adx_entitypermission_adx_create",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "adx_create",
+        "OptionSetReferenceEntityName": "Entity Permissions"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "adx_create",
+    "RelatedEntityName": "Entity Permissions",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Delete (Entity Permissions)",
+    "Name": "adx_entitypermission_adx_delete",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "adx_delete",
+        "OptionSetReferenceEntityName": "Entity Permissions"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "adx_delete",
+    "RelatedEntityName": "Entity Permissions",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Read (Entity Permissions)",
+    "Name": "adx_entitypermission_adx_read",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "adx_read",
+        "OptionSetReferenceEntityName": "Entity Permissions"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "adx_read",
+    "RelatedEntityName": "Entity Permissions",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Scope (Entity Permissions)",
+    "Name": "adx_entitypermission_adx_scope",
+    "OptionSetInfoNameMapping": {
+      "756150000": "Global",
+      "756150001": "Contact",
+      "756150002": "Account",
+      "756150003": "Parent",
+      "756150004": "Self"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "adx_scope",
+        "OptionSetReferenceEntityName": "Entity Permissions"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "adx_scope",
+    "RelatedEntityName": "Entity Permissions",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Write (Entity Permissions)",
+    "Name": "adx_entitypermission_adx_write",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "adx_write",
+        "OptionSetReferenceEntityName": "Entity Permissions"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "adx_write",
+    "RelatedEntityName": "Entity Permissions",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status (Entity Permissions)",
+    "Name": "adx_entitypermission_statecode",
+    "OptionSetInfoNameMapping": {
+      "0": "Active",
+      "1": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statecode",
+        "OptionSetReferenceEntityName": "Entity Permissions"
+      }
+    },
+    "OptionSetTypeKey": "StateType",
+    "RelatedColumnInvariantName": "statecode",
+    "RelatedEntityName": "Entity Permissions",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status Reason (Entity Permissions)",
+    "Name": "adx_entitypermission_statuscode",
+    "OptionSetInfoNameMapping": {
+      "1": "Active",
+      "2": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statuscode",
+        "OptionSetReferenceEntityName": "Entity Permissions"
+      }
+    },
+    "OptionSetTypeKey": "StatusType",
+    "RelatedColumnInvariantName": "statuscode",
+    "RelatedEntityName": "Entity Permissions",
+    "Type": "OptionSetInfo"
+  }
+]

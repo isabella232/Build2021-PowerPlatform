@@ -1,0 +1,400 @@
+com_InitiativeHeader As CanvasComponent:
+    AppID: ="Text"
+    BOEmailAddress: ="Text"
+    CheckReqFieldsOutput: =CheckRequiredFields
+    CurrentRecord: |-
+        ={SampleStringField: "SampleText", SampleNumberField: 10, SampleBooleanField: true}
+    Fill: =RGBA(255, 255, 255, 1)
+    FormValuesChanged: =true
+    GTMEntryID: ="Text"
+    Height: =110
+    isNewInitiative: =
+    LegacyGTMEntryID: ="Text"
+    OnReset: =Set(CheckRequiredFields, false)
+    resetComponent: =true
+    showButtons: =true
+    varFormValues: |-
+        =Table({SampleStringField: "SampleText", SampleNumberField: 10, SampleBooleanField: true})
+    varInitiativeName: ="Initiative Name"
+    varInitiativeType: ="Initiative Type"
+    varReqFieldsRemaining: =0
+    varRequestType: ="Request Type"
+    Width: =1740
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    BDL_RequiredFields As groupContainer:
+        DisplayMode: =DisplayMode.Edit
+        Height: =37
+        Visible: =false//com_InitiativeHeader.showButtons
+        Width: =405
+        X: =com_InitiativeHeader.Width - BDL_RequiredFields.Width - 135
+        Y: =52
+        ZIndex: =1
+
+        BDL_RequiredFields_Number As label:
+            Align: =Right
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =If(BDL_RequiredFields_Number.Text = "0", DarkGreen, DarkRed)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisplayMode: =DisplayMode.View
+            FocusedBorderColor: =BDL_RequiredFields_Number.BorderColor
+            Font: ='Open Sans'
+            FontWeight: =Semibold
+            Height: =32
+            HoverBorderColor: =BDL_RequiredFields_Number.BorderColor
+            HoverColor: =BDL_RequiredFields_Number.Color
+            HoverFill: =BDL_RequiredFields_Number.Fill
+            PaddingLeft: =0
+            PaddingRight: =0
+            PressedBorderColor: =BDL_RequiredFields_Number.BorderColor
+            PressedColor: =BDL_RequiredFields_Number.Color
+            PressedFill: =BDL_RequiredFields_Number.Fill
+            Size: =11
+            Text: |-
+                =/*
+                CountRows(
+                    Filter(
+                        FieldMapping,
+                        vBisDL = true && Required = true
+                    )
+                )
+                - If(LookUp(FieldMapping,FieldID="EN001").Required && IsBlank(BDL_EN001_Input.Text),0, 1)
+                - If(LookUp(FieldMapping,FieldID="EN002").Required && IsBlank(BDL_EN002_Input.Text),0, 1)
+                - If(BDL_EN004_Input.Text=EN004_Name||EN004_Name=First(varCurrentGTMEntry).ExecutiveSponsorContact,If(LookUp(FieldMapping,FieldID="EN004").Required && IsBlank(BDL_EN004_Input.Text),0, 1),0)
+                - If(BDL_EN005_Input.Text=EN005_Name||EN005_Name=First(varCurrentGTMEntry).BusinessOwnerContact,If(LookUp(FieldMapping,FieldID="EN005").Required && IsBlank(BDL_EN005_Input.Text),0, 1),0)
+                - If(LookUp(FieldMapping,FieldID="EN006").Required && BDL_EN006_Input.SelectedText.Value = LookUp(OptionsList,FieldID="EN006").Selection,0, 1)
+                - If(LookUp(FieldMapping,FieldID="EN008").Required && IsBlank(BDL_EN008_Input.SelectedDate),0, 1)
+                - If(LookUp(FieldMapping,FieldID="EN016").Required && IsBlank(BDL_EN016_Input.Text),0, 1)
+                - If(LookUp(FieldMapping,FieldID="EN017").Required && IsBlank(BDL_EN017_Input.Text),0, 1)
+                - If(LookUp(FieldMapping,FieldID="EN018").Required && BDL_EN018_Input.SelectedText.Value = LookUp(OptionsList,FieldID="EN018").Selection,0, 1)
+                - If(LookUp(FieldMapping,FieldID="EN019").Required && BDL_EN019_Input.SelectedText.Value = LookUp(OptionsList,FieldID="EN019").Selection,0, 1)
+                - If(LookUp(FieldMapping,FieldID="EN025").Required && IsBlank(BDL_EN025_Input.Text),0, 1)
+                - If(LookUp(FieldMapping,FieldID="EN034").Required && BDL_EN034_Input.SelectedText.Value = LookUp(OptionsList,FieldID="EN034").Selection,0, 1)
+                //Check to see if "Marketing Support Required" is required - then this field becomes required
+                + If(If(BDL_EN034_Input.SelectedText.Value="Please Select"||BDL_EN034_Input.SelectedText.Value="None",false,true) && IsBlank(BDL_EN035_Input.Text),1,0)
+                */com_InitiativeHeader.varReqFieldsRemaining
+            Width: =24
+            X: =BDL_RequiredFields_Label.X + BDL_RequiredFields_Label.Width
+            Y: =5
+            ZIndex: =1
+
+        BDL_RequiredFields_Label As label:
+            Align: =Right
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =If(BDL_RequiredFields_Number.Text = "0", DarkGreen, DarkRed)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisplayMode: =DisplayMode.View
+            FocusedBorderColor: =BDL_RequiredFields_Label.BorderColor
+            Font: ='Open Sans'
+            FontWeight: =Semibold
+            Height: =32
+            HoverBorderColor: =BDL_RequiredFields_Label.BorderColor
+            HoverColor: =BDL_RequiredFields_Label.Color
+            HoverFill: =BDL_RequiredFields_Label.Fill
+            PaddingLeft: =0
+            PaddingRight: =0
+            PressedBorderColor: =BDL_RequiredFields_Label.BorderColor
+            PressedColor: =BDL_RequiredFields_Label.Color
+            PressedFill: =BDL_RequiredFields_Label.Fill
+            Size: =11
+            Text: |-
+                ="Required Fields Remaining:"
+            Width: =240
+            X: =60
+            Y: =5
+            ZIndex: =2
+
+        BDL_RequiredFields_Circle As circle:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            DisabledFill: =BDL_RequiredFields_Circle.Fill
+            DisplayMode: =DisplayMode.View
+            Fill: =RGBA(54, 176, 75, 1)
+            FocusedBorderColor: =BDL_RequiredFields_Circle.BorderColor
+            Height: =26
+            HoverFill: =BDL_RequiredFields_Circle.Fill
+            PressedFill: =BDL_RequiredFields_Circle.Fill
+            Visible: =If(BDL_RequiredFields_Number.Text = "0", true, false)
+            Width: =26
+            X: =BDL_RequiredFields_Check.X -4
+            Y: =BDL_RequiredFields_Check.Y + 4
+            ZIndex: =3
+
+        BDL_RequiredFields_Check As icon.Check:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+            DisabledColor: =RGBA(244, 244, 244, 1)
+            DisabledFill: =BDL_RequiredFields_Check.Fill
+            DisplayMode: =DisplayMode.View
+            FocusedBorderColor: =BDL_RequiredFields_Check.BorderColor
+            FocusedBorderThickness: =0
+            Height: =26
+            HoverBorderColor: =ColorFade(BDL_RequiredFields_Check.BorderColor, 20%)
+            HoverColor: =ColorFade(BDL_RequiredFields_Check.Color, 20%)
+            HoverFill: =BDL_RequiredFields_Check.Fill
+            Icon: =Icon.Check
+            PressedBorderColor: =ColorFade(BDL_RequiredFields_Check.BorderColor, -20%)
+            PressedColor: =ColorFade(BDL_RequiredFields_Check.Color, -20%)
+            PressedFill: =BDL_RequiredFields_Check.Fill
+            Visible: =If(BDL_RequiredFields_Number.Text = "0", true, false)
+            Width: =26
+            X: =BDL_RequiredFields_Label.X
+            Y: =7
+            ZIndex: =4
+
+        BDL_RequiredFields_Button As button:
+            BorderColor: =ColorFade(BDL_RequiredFields_Button.Fill, -15%)
+            BorderThickness: =1
+            Color: =RGBA(83, 83, 83, 1)
+            DisabledBorderColor: =RGBA(83, 83, 83, 1)
+            DisabledColor: =White
+            DisabledFill: =RGBA(166, 166, 166, 1)
+            Fill: =White
+            FocusedBorderColor: =BDL_RequiredFields_Button.BorderColor
+            FocusedBorderThickness: =1
+            Font: ='Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =30
+            HoverBorderColor: =ColorFade(BDL_RequiredFields_Button.BorderColor, 20%)
+            HoverColor: =White
+            HoverFill: =RGBA(237, 237, 237, 1)
+            OnSelect: |-
+                =/*
+                Switch(
+                    RequiredCheck,
+                    Blank(),UpdateContext({RequiredCheck:true}),
+                    false,UpdateContext({RequiredCheck:true}),
+                    UpdateContext({RequiredCheck:false})
+                )
+                */
+                Set(CheckRequiredFields, !CheckRequiredFields);
+            PressedBorderColor: =BDL_RequiredFields_Button.Fill
+            PressedColor: =BDL_RequiredFields_Button.Fill
+            PressedFill: =RGBA(202, 202, 202, 1)
+            Size: =9
+            Text: ="Check Required"
+            Visible: =false
+            Width: =110
+            X: =355
+            Y: =13
+            ZIndex: =5
+
+    BDL_Buttons As groupContainer:
+        DisplayMode: =DisplayMode.Edit
+        Height: =80
+        Width: =362
+        X: =com_InitiativeHeader.Width - BDL_Buttons.Width
+        Y: =14
+        ZIndex: =2
+
+        BDL_Submit As button:
+            BorderColor: =ColorFade(BDL_Submit.Fill, -15%)
+            BorderThickness: =1
+            Color: =White
+            DisabledBorderColor: =RGBA(83, 83, 83, 1)
+            DisabledColor: =White
+            DisabledFill: =RGBA(166, 166, 166, 1)
+            DisplayMode: =If(!(BDL_RequiredFields_Number.Text = "0"),DisplayMode.Disabled, DisplayMode.Edit)
+            Fill: =RGBA(226, 0, 116, 1)
+            FocusedBorderColor: =BDL_Submit.BorderColor
+            FocusedBorderThickness: =1
+            Font: ='Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =30
+            HoverBorderColor: =ColorFade(BDL_Submit.BorderColor, 20%)
+            HoverColor: =White
+            HoverFill: =ColorFade(BDL_Submit.Fill, -20%)
+            OnSelect: =
+            PressedBorderColor: =BDL_Submit.Fill
+            PressedColor: =BDL_Submit.Fill
+            PressedFill: =BDL_Submit.Color
+            Size: =11
+            Text: |-
+                =//If(BDL_RequiredFields_Number.Text = "0", "Save", "Validate")
+                "Save"
+            Visible: =false
+            Width: =127
+            X: =167
+            Y: =6
+            ZIndex: =1
+
+        BDL_Cancel As button:
+            BorderColor: =ColorFade(BDL_Cancel.Fill, -15%)
+            BorderThickness: =1
+            Color: =RGBA(83, 83, 83, 1)
+            DisabledBorderColor: =RGBA(83, 83, 83, 1)
+            DisabledColor: =White
+            DisabledFill: =RGBA(166, 166, 166, 1)
+            Fill: =White
+            FocusedBorderColor: =BDL_Cancel.BorderColor
+            FocusedBorderThickness: =1
+            Font: ='Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =30
+            HoverBorderColor: =ColorFade(BDL_Cancel.BorderColor, 20%)
+            HoverColor: =White
+            HoverFill: =ColorFade(RGBA(202, 202, 202, 1), -20%)
+            OnSelect: |-
+                =/*
+                //Form Reset =================================
+                //Set(Draft,false);
+                Set(FormReset,true); Set(FormReset,false);
+                
+                //People Picker variables reset =============
+                UpdateContext({
+                    EN004_Email:Blank(),
+                    EN004_Name:Blank(),
+                    EN004_Title:Blank(),
+                    EN005_Email:Blank(),
+                    EN005_Name:Blank(),
+                    EN005_Title:Blank(),
+                    varPPField:Blank(),
+                    LoadSpinner:true
+                });
+                
+                //Reset for the Form Scroll Position
+                //Set(ScrollReset,false);
+                
+                //RequiredCheck Reset =======================
+                UpdateContext({RequiredCheck:Blank()});
+                
+                //Navigate to home screen ===================
+                Navigate(ProjectPicker_View,ScreenTransition.None,{AppLoad:true})
+                */false
+            PressedBorderColor: =BDL_Cancel.Fill
+            PressedColor: =BDL_Cancel.Fill
+            PressedFill: =BDL_Cancel.Color
+            Size: =11
+            Text: ="Cancel"
+            Visible: =false
+            Width: =136
+            X: =12
+            Y: =6
+            ZIndex: =2
+
+        BDL_Share_Icon As image:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            FocusedBorderColor: =BDL_Share_Icon.BorderColor
+            Height: =35
+            HoverBorderColor: =ColorFade(BDL_Share_Icon.BorderColor, 20%)
+            HoverFill: =ColorFade(BDL_Share_Icon.Fill, 20%)
+            Image: =ShareIcon
+            OnSelect: |-
+                =Set(varCurrSummaryDeepLinkURL, Concatenate("https://web.powerapps.com/webplayer/iframeapp?source=iframe&tenantId=be0f980b-dd99-4b19-bd7b-bc71a09b026c&RecordID=", com_InitiativeHeader.GTMEntryID, "&NavScreen=Summary&appId=/providers/Microsoft.PowerApps/apps/", com_InitiativeHeader.AppID));
+                Set(varCurrDetailsDeepLinkURL, Concatenate("https://web.powerapps.com/webplayer/iframeapp?source=iframe&tenantId=be0f980b-dd99-4b19-bd7b-bc71a09b026c&RecordID=", com_InitiativeHeader.GTMEntryID, "&NavScreen=Details&appId=/providers/Microsoft.PowerApps/apps/", com_InitiativeHeader.AppID));
+                Set(varCurrAttachmentsDeepLinkURL, Concatenate("https://web.powerapps.com/webplayer/iframeapp?source=iframe&tenantId=be0f980b-dd99-4b19-bd7b-bc71a09b026c&RecordID=", com_InitiativeHeader.GTMEntryID, "&NavScreen=Attachments&appId=/providers/Microsoft.PowerApps/apps/", com_InitiativeHeader.AppID));
+                Set(varCurrApprovalsDeepLinkURL, Concatenate("https://web.powerapps.com/webplayer/iframeapp?source=iframe&tenantId=be0f980b-dd99-4b19-bd7b-bc71a09b026c&RecordID=", com_InitiativeHeader.GTMEntryID, "&NavScreen=Approvals&appId=/providers/Microsoft.PowerApps/apps/", com_InitiativeHeader.AppID));
+                
+                
+                Launch(Concatenate("MailTo:"&com_InitiativeHeader.BOEmailAddress&"?subject=ORBIT - Input Request","&body=",
+                    Concatenate("%0A%0A"&"%0A%0A"&"-----------------------------------------------------------------------------------------------------------------------------"&"%0A%0A"&
+                    "Links:"&"%0A%0A"&
+                    "Summary - ", EncodeUrl(varCurrSummaryDeepLinkURL)&"%0A%0A"&
+                    "Details - ", EncodeUrl(varCurrDetailsDeepLinkURL)&"%0A%0A"&
+                    "Attachments - ", EncodeUrl(varCurrAttachmentsDeepLinkURL)&"%0A%0A"&
+                    "Approvals - ", EncodeUrl(varCurrApprovalsDeepLinkURL)
+                    ), "%0A%0A"));
+            PressedBorderColor: =ColorFade(BDL_Share_Icon.BorderColor, -20%)
+            PressedFill: =ColorFade(BDL_Share_Icon.Fill, -20%)
+            Tooltip: ="Share Links to Initiative"
+            Width: =35
+            X: =313
+            ZIndex: =3
+
+        btn_Validate As button:
+            BorderColor: =ColorFade(btn_Validate.Fill, -15%)
+            BorderThickness: =1
+            Color: =White
+            DisabledBorderColor: =RGBA(83, 83, 83, 1)
+            DisabledColor: =White
+            DisabledFill: =RGBA(166, 166, 166, 1)
+            DisplayMode: |-
+                =If(com_InitiativeHeader.FormValuesChanged Or com_InitiativeHeader.varReqFieldsRemaining <> 0, DisplayMode.Edit, DisplayMode.Disabled)
+                //If(com_InitiativeHeader.varReqFieldsRemaining = 0,DisplayMode.Disabled,DisplayMode.Edit)
+            Fill: =RGBA(226, 0, 116, 1)
+            FocusedBorderColor: =btn_Validate.BorderColor
+            FocusedBorderThickness: =1
+            Font: ='Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =30
+            HoverBorderColor: =ColorFade(btn_Validate.BorderColor, 20%)
+            HoverColor: =White
+            HoverFill: =ColorFade(btn_Validate.Fill, -20%)
+            OnSelect: =If(!(BDL_RequiredFields_Number.Text = "0"),Set(CheckRequiredFields, !CheckRequiredFields));
+            PressedBorderColor: =btn_Validate.Fill
+            PressedColor: =btn_Validate.Fill
+            PressedFill: =btn_Validate.Color
+            Size: =11
+            Text: ="Check Required"
+            Visible: =com_InitiativeHeader.showButtons
+            Width: =127
+            X: =BDL_Submit.X
+            Y: =BDL_Submit.Y + 40
+            ZIndex: =4
+
+    BDL_Header_ProjectName As label:
+        BorderColor: =RGBA(0, 18, 107, 1)
+        Color: =If(com_InitiativeHeader.isNewInitiative, LightGray, RGBA(226, 0, 116, 1))
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =BDL_Header_ProjectName.BorderColor
+        Font: ='Open Sans'
+        FontWeight: =Semibold
+        Height: =43
+        HoverBorderColor: =BDL_Header_ProjectName.BorderColor
+        HoverColor: =BDL_Header_ProjectName.Color
+        HoverFill: =BDL_Header_ProjectName.Fill
+        PaddingTop: =0
+        PressedBorderColor: =BDL_Header_ProjectName.BorderColor
+        PressedColor: =BDL_Header_ProjectName.Color
+        PressedFill: =BDL_Header_ProjectName.Fill
+        Size: =24
+        Text: =com_InitiativeHeader.varInitiativeName
+        VerticalAlign: =Top
+        Width: =1200
+        X: =20
+        Y: =50
+        ZIndex: =3
+
+    BDL_Header_ProjectType As label:
+        BorderColor: =RGBA(0, 18, 107, 1)
+        Color: =LightGray
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =BDL_Header_ProjectType.BorderColor
+        Font: ='Open Sans'
+        FontWeight: =Semibold
+        Height: =30
+        HoverBorderColor: =BDL_Header_ProjectType.BorderColor
+        HoverColor: =BDL_Header_ProjectType.Color
+        HoverFill: =BDL_Header_ProjectType.Fill
+        PaddingLeft: =25
+        PressedBorderColor: =BDL_Header_ProjectType.BorderColor
+        PressedColor: =BDL_Header_ProjectType.Color
+        PressedFill: =BDL_Header_ProjectType.Fill
+        Text: |-
+            =If(IsBlank(com_InitiativeHeader.varInitiativeType), 
+                If(IsBlank(com_InitiativeHeader.LegacyGTMEntryID), 
+                    com_InitiativeHeader.varRequestType, 
+                    com_InitiativeHeader.varRequestType & " > " & com_InitiativeHeader.LegacyGTMEntryID), 
+                If(IsBlank(com_InitiativeHeader.LegacyGTMEntryID), 
+                    com_InitiativeHeader.varRequestType & " > " & com_InitiativeHeader.varInitiativeType, 
+                    com_InitiativeHeader.varRequestType & " > " & com_InitiativeHeader.varInitiativeType & " > " & com_InitiativeHeader.LegacyGTMEntryID))
+        Width: =Parent.Width
+        Y: =15
+        ZIndex: =4
+
+    Shadow As rectangle:
+        BorderColor: =RGBA(0, 18, 107, 1)
+        DisabledFill: =Shadow.Fill
+        Fill: =RGBA(230, 230, 230, 1)
+        FocusedBorderColor: =Shadow.BorderColor
+        Height: =6
+        HoverFill: =Shadow.Fill
+        PressedFill: =Shadow.Fill
+        Width: =com_InitiativeHeader.Width
+        Y: =com_InitiativeHeader.Height - Shadow.Height
+        ZIndex: =6
+

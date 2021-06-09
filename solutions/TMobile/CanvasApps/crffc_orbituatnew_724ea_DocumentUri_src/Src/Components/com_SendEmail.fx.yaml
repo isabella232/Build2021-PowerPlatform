@@ -1,0 +1,914 @@
+com_SendEmail As CanvasComponent:
+    AccessRequest: =true
+    AppID: ="Text"
+    CCRecipients: =txt_EmailCCRecipients_2.Text
+    ComponentControlXValue: =txt_EmailToRecipients_2.X + txt_EmailToRecipients_2.Width - Dropdown2_2.Width
+    CurrentRecord: =First(colFilteredGtmEntries)
+    CurrentUserFL: ="Text"
+    DefaultEmailTemplateSelection: =First(colEmailTemplates)
+    EmailTemplateEntity: =colEmailTemplates
+    Fill: =RGBA(0, 0, 0, 0)
+    Height: =1080
+    MessageBody: =rte_EmailBodyContent_2.HtmlText
+    MessageSubject: =txt_EmailSubject_2.Text
+    OnReset: |-
+        =Set(varEditEmailRecipients, Blank());Reset(Dropdown2_2);
+        Set(varCurrApprovalsDeepLinkURL, Concatenate("<a href=""https://web.powerapps.com/webplayer/iframeapp?source=iframe&tenantId=be0f980b-dd99-4b19-bd7b-bc71a09b026c&RecordID=", Text(com_SendEmail.CurrentRecord.cat_gtmentryid), "&NavScreen=UserApprovals&appId=/providers/Microsoft.PowerApps/apps/", com_SendEmail.AppID, """>Click Here for Approval Dashboard</a>"));
+        /*
+        ClearCollect(colEmailToRecipients,
+            ForAll( gal_ApprovalUsersList.AllItems, ApprovalUser
+            )
+        );
+        */
+        
+        //ClearCollect(colEmailCCRecipients, com_SendEmail.CurrentRecord._cat_businessowner_value);
+        //Set(varEmailDialogueVis, true);
+        
+        ClearCollect(colActiveRecordEmailFields, 
+        	{i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_initiativename""><xsl:value-of select=""cat_gtmentry/cat_initiativename"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: com_SendEmail.CurrentRecord.cat_initiativename},
+            {i: "]]>", 
+                value: ""},
+            {i: "<![CDATA[", 
+                value: ""},
+            {i: "<xsl:choose><xsl:when test=""systemuser/fullname""><xsl:value-of select=""systemuser/fullname"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: com_SendEmail.CurrentUserFL},
+            {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_prcode""><xsl:value-of select=""cat_gtmentry/cat_prcode"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: Coalesce(com_SendEmail.CurrentRecord.cat_prcode, "Not Assigned")},
+            
+        	{i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_sponsor/@firstname""><xsl:value-of select=""cat_gtmentry/cat_sponsor/@firstname"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: Right(com_SendEmail.CurrentRecord.cat_Sponsor.nickname, (Len(com_SendEmail.CurrentRecord.cat_Sponsor.nickname) - Find(",", com_SendEmail.CurrentRecord.cat_Sponsor.nickname, 1)) - 1)},
+                
+            {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_sponsor/@fullname""><xsl:value-of select=""cat_gtmentry/cat_sponsor/@fullname"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: Concatenate(Right(com_SendEmail.CurrentRecord.cat_Sponsor.nickname, (Len(com_SendEmail.CurrentRecord.cat_Sponsor.nickname) - Find(",", com_SendEmail.CurrentRecord.cat_Sponsor.nickname, 1)) - 1), " ", Left(com_SendEmail.CurrentRecord.cat_Sponsor.nickname, Find(",", com_SendEmail.CurrentRecord.cat_Sponsor.nickname, 1) - 1))},
+            {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_sponsor/@'Last Name'""><xsl:value-of select=""cat_gtmentry/cat_sponsor/@'Last Name'"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+            value: Left(com_SendEmail.CurrentRecord.cat_Sponsor.nickname, Find(",", com_SendEmail.CurrentRecord.cat_Sponsor.nickname, 1) - 1)},
+        	{i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_sponsor/@lastname""><xsl:value-of select=""cat_gtmentry/cat_sponsor/@lastname"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: Left(com_SendEmail.CurrentRecord.cat_Sponsor.nickname, Find(",", com_SendEmail.CurrentRecord.cat_Sponsor.nickname, 1) - 1)},
+        	
+        	{i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_businessowner/@'Last Name'""><xsl:value-of select=""cat_gtmentry/cat_businessowner/@'Last Name'"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: Left(com_SendEmail.CurrentRecord.cat_Sponsor.nickname, Find(",", com_SendEmail.CurrentRecord.cat_Sponsor.nickname, 1) - 1)},
+            {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_businessowner/@'First Name'""><xsl:value-of select=""cat_gtmentry/cat_businessowner/@'First Name'"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: Right(com_SendEmail.CurrentRecord.cat_BusinessOwner.nickname, (Len(com_SendEmail.CurrentRecord.cat_BusinessOwner.nickname) - Find(",", com_SendEmail.CurrentRecord.cat_BusinessOwner.nickname, 1)) - 1)},
+            {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_businessowner/@fullname""><xsl:value-of select=""cat_gtmentry/cat_businessowner/@fullname"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: Concatenate(Right(com_SendEmail.CurrentRecord.cat_BusinessOwner.nickname, (Len(com_SendEmail.CurrentRecord.cat_BusinessOwner.nickname) - Find(",", com_SendEmail.CurrentRecord.cat_BusinessOwner.nickname, 1)) - 1), " ", Left(com_SendEmail.CurrentRecord.cat_BusinessOwner.nickname, Find(",", com_SendEmail.CurrentRecord.cat_BusinessOwner.nickname, 1) - 1))},
+            {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_businessowner/@lastname""><xsl:value-of select=""cat_gtmentry/cat_businessowner/@lastname"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: Left(com_SendEmail.CurrentRecord.cat_BusinessOwner.nickname, Find(",", com_SendEmail.CurrentRecord.cat_BusinessOwner.nickname, 1) - 1)},
+            
+            {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_lobchannelhorizontal/@name""><xsl:value-of select=""cat_gtmentry/cat_lobchannelhorizontal/@name"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: Text(com_SendEmail.CurrentRecord.cat_lobchannelhorizontal)},
+        
+            {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_description""><xsl:value-of select=""cat_gtmentry/cat_description"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: Coalesce(com_SendEmail.CurrentRecord.cat_description, "Not Assigned")},
+            {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_requestedlaunchdate""><xsl:value-of select=""cat_gtmentry/cat_requestedlaunchdate"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: Coalesce(Text(com_SendEmail.CurrentRecord.cat_requestedlaunchdate, DateTimeFormat.ShortDate), "Not Assigned")},
+            {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_enddate""><xsl:value-of select=""cat_gtmentry/cat_enddate"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: Coalesce(Text(com_SendEmail.CurrentRecord.cat_enddate, ShortDate), "Not Assigned")},
+            {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_goalkpi""><xsl:value-of select=""cat_gtmentry/cat_goalkpi"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: Coalesce(com_SendEmail.CurrentRecord.cat_goalkpi, "Not Assigned")},
+            {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_situation""><xsl:value-of select=""cat_gtmentry/cat_situation"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: Coalesce(com_SendEmail.CurrentRecord.cat_situation, "Not Assigned")},
+            {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_eligibilitysummary""><xsl:value-of select=""cat_gtmentry/cat_eligibilitysummary"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: Coalesce(com_SendEmail.CurrentRecord.cat_eligibilitysummary, "Not Assigned")},
+            {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_eligibledevices""><xsl:value-of select=""cat_gtmentry/cat_eligibledevices"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: Coalesce(com_SendEmail.CurrentRecord.cat_eligibledevices, "Not Assigned")},
+        
+            {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_initiativetype/@name""><xsl:value-of select=""cat_gtmentry/cat_initiativetype/@name"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: Text(com_SendEmail.CurrentRecord.cat_initiativetype)},
+            {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_initiativetypegroup/@name""><xsl:value-of select=""cat_gtmentry/cat_initiativetypegroup/@name"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: Text(com_SendEmail.CurrentRecord.cat_initiativetypegroup)},
+            {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_legacygtmentryid""><xsl:value-of select=""cat_gtmentry/cat_legacygtmentryid"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                value: Text(varCurrApprovalsDeepLinkURL)},
+        //    {i: "&lt;SolutionCaptain.FullName&gt;",
+        //        value: Coalesce(LookUp([@colCurrentProjectTeamRoles], Value = [@RoleType].'Solution Captain').userName, "Not Assigned")},
+            {i: "&lt;Approver(s)&gt;",
+                value: Concat(colEmailToRecipients, 'First Name' & " " & 'Last Name' & ", ")},
+        
+            {i: "&lt;ApprovalsDeepLink&gt;",
+                value: Text(varCurrApprovalsDeepLinkURL)}
+            
+            );
+        
+        ClearCollect(varSelectedEmailTemplateBody, 
+        	{ID: 1, value: Dropdown2_2.Selected.body});
+        
+        ClearCollect(varSelectedEmailTemplateSubject, 
+        	{ID: 1, value: Dropdown2_2.Selected.subject});
+        
+        ForAll(colActiveRecordEmailFields, 
+        	Patch(varSelectedEmailTemplateBody,LookUp(varSelectedEmailTemplateBody, ID = 1),	
+                {value: Substitute(
+                    LookUp(varSelectedEmailTemplateBody, ID = 1).value, 
+                colActiveRecordEmailFields[@i], 
+                colActiveRecordEmailFields[@value])}));
+                
+        ForAll(colActiveRecordEmailFields, 
+        	Patch(varSelectedEmailTemplateSubject,LookUp(varSelectedEmailTemplateSubject, ID = 1),	
+                {value: Substitute(
+                    LookUp(varSelectedEmailTemplateSubject, ID = 1).value, 
+                colActiveRecordEmailFields[@i], 
+                colActiveRecordEmailFields[@value])}));
+    ShowTemplateSelector: =true
+    ToRecipients: =txt_EmailToRecipients_2.Text
+    UserEntity: =colUserListForFormComponent
+    UserSearchString: =txt_EmailRecipientSearchText_2.Text
+    Width: =1920
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    Container1_2 As groupContainer:
+        DisplayMode: =DisplayMode.Edit
+        Fill: =RGBA(255, 255, 255, .8)
+        Height: =App.Height
+        Width: =App.Width
+        ZIndex: =1
+
+        Button5_2 As button:
+            BorderColor: =ColorFade(Button5_2.Fill, -15%)
+            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            DisplayMode: =DisplayMode.Disabled
+            Fill: =RGBA(56, 96, 178, 1)
+            FocusedBorderColor: =Button5_2.BorderColor
+            FontWeight: =FontWeight.Semibold
+            Height: =826
+            HoverBorderColor: =ColorFade(Button5_2.BorderColor, 20%)
+            HoverColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            PressedBorderColor: =Button5_2.Fill
+            PressedColor: =Button5_2.Fill
+            PressedFill: =Button5_2.Color
+            Size: =15
+            Text: =""
+            Width: =If(IsBlank(varEditEmailRecipients), 1081, 1400)
+            X: =App.Width / 2 - Button5_2.Width / 2
+            Y: =App.Height / 2 - Button5_2.Height / 2
+            ZIndex: =1
+
+        "gal_EmailRecipientMembers_2 As gallery.'BrowseLayout_Vertical_OneTextVariant_ver4.0'":
+            BorderColor: =DarkGray
+            BorderThickness: =1
+            DisabledBorderColor: =gal_EmailRecipientMembers_2.BorderColor
+            DisabledFill: =gal_EmailRecipientMembers_2.Fill
+            Height: =rte_EmailBodyContent_2.Height
+            HoverBorderColor: =gal_EmailRecipientMembers_2.BorderColor
+            HoverFill: =gal_EmailRecipientMembers_2.Fill
+            Items: =If(varEditEmailRecipients = "To", colEmailToRecipients, colEmailCCRecipients)
+            Layout: =Layout.Vertical
+            LoadingSpinnerColor: =gal_EmailRecipientMembers_2.BorderColor
+            PressedBorderColor: =gal_EmailRecipientMembers_2.BorderColor
+            PressedFill: =gal_EmailRecipientMembers_2.Fill
+            TemplatePadding: =0
+            TemplateSize: =41
+            Visible: =!IsBlank(varEditEmailRecipients)
+            Width: =txt_EmailRecipientSearchText_2.Width
+            X: =txt_EmailRecipientSearchText_2.X
+            Y: =Label17_5.Y + Label17_5.Height
+            ZIndex: =2
+
+            Title12_2 As label:
+                Color: =RGBA(0, 0, 0, 1)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderColor: =Title12_2.BorderColor
+                FontWeight: =FontWeight.Semibold
+                HoverBorderColor: =Title12_2.BorderColor
+                HoverColor: =Title12_2.Color
+                HoverFill: =Title12_2.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =10
+                PaddingRight: =0
+                PaddingTop: =0
+                PressedBorderColor: =Title12_2.BorderColor
+                PressedColor: =Title12_2.Color
+                PressedFill: =Title12_2.Fill
+                Size: =11
+                Text: =ThisItem.'Primary Email'
+                Width: =Parent.Width
+                ZIndex: =1
+
+            NextArrow13_2 As icon.ChevronRight:
+                AccessibleLabel: =NextArrow13_2.Tooltip
+                BorderColor: =RGBA(0, 18, 107, 1)
+                Color: =DarkGray
+                DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                DisabledColor: =RGBA(244, 244, 244, 1)
+                DisabledFill: =NextArrow13_2.Fill
+                FocusedBorderColor: =NextArrow13_2.BorderColor
+                Height: =41
+                HoverBorderColor: =ColorFade(NextArrow13_2.BorderColor, 20%)
+                HoverColor: =ColorFade(NextArrow13_2.Color, 20%)
+                HoverFill: =NextArrow13_2.Fill
+                Icon: =Icon.Trash
+                OnSelect: =If(varEditEmailRecipients = "To", Remove(colEmailToRecipients, ThisItem), Remove(colEmailCCRecipients, ThisItem))
+                PaddingBottom: =1
+                PaddingLeft: =1
+                PaddingRight: =1
+                PaddingTop: =1
+                PressedBorderColor: =ColorFade(NextArrow13_2.BorderColor, -20%)
+                PressedColor: =ColorFade(NextArrow13_2.Color, -20%)
+                PressedFill: =NextArrow13_2.Fill
+                TabIndex: =0
+                Tooltip: ="View item details"
+                Width: =30
+                X: =Parent.Width - NextArrow13_2.Width
+                ZIndex: =2
+
+            Separator14_2 As rectangle:
+                BorderColor: =RGBA(0, 18, 107, 1)
+                DisabledFill: =Separator14_2.Fill
+                Fill: =DarkGray
+                FocusedBorderColor: =Separator14_2.BorderColor
+                Height: =2
+                HoverFill: =Separator14_2.Fill
+                OnSelect: =Select(Parent)
+                PressedFill: =Separator14_2.Fill
+                Width: =Parent.TemplateWidth
+                Y: =Parent.TemplateHeight - 2
+                ZIndex: =3
+
+        btn_AD_EN_Submit_2 As button:
+            BorderColor: =ColorFade(btn_AD_EN_Submit_2.Fill, -15%)
+            BorderThickness: =1
+            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+            DisabledColor: =RGBA(255, 255, 255, 1)
+            DisabledFill: =LightGray
+            DisplayMode: =If(IsBlank(txt_EmailToRecipients_2.Text), DisplayMode.Disabled, DisplayMode.Edit)
+            Fill: =ColorValue(LookUp(StyleGuide, Key = "Magenta").Value)
+            FocusedBorderColor: =btn_AD_EN_Submit_2.BorderColor
+            FocusedBorderThickness: =1
+            Font: =Font.Arial
+            FontWeight: =FontWeight.Semibold
+            Height: =35
+            HoverBorderColor: =ColorFade(btn_AD_EN_Submit_2.BorderColor, 20%)
+            HoverColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =ColorFade(btn_AD_EN_Submit_2.Fill, -15%)
+            OnSelect: =Set(varEditEmailRecipients, Blank());
+            PressedBorderColor: =btn_AD_EN_Submit_2.Fill
+            PressedColor: =btn_AD_EN_Submit_2.Fill
+            PressedFill: =btn_AD_EN_Submit_2.Color
+            Size: =14
+            Text: ="Send"
+            Visible: =false
+            Width: =130
+            X: =rte_EmailBodyContent_2.X + (rte_EmailBodyContent_2.Width / 2) + 100 - 65
+            Y: =Button5_2.Y + Button5_2.Height - 60
+            ZIndex: =3
+
+        btn_AD_EN_Cancel_8 As button:
+            BorderColor: =ColorValue(LookUp(StyleGuide, Key = "Grey").Value)
+            BorderThickness: =1
+            Color: =RGBA(0, 0, 0, 1)
+            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            Fill: =RGBA(255, 255, 255, 1)
+            FocusedBorderColor: =btn_AD_EN_Cancel_8.BorderColor
+            FocusedBorderThickness: =1
+            Font: =Font.Arial
+            FontWeight: =FontWeight.Semibold
+            Height: =35
+            HoverBorderColor: =ColorFade(btn_AD_EN_Cancel_8.BorderColor, 20%)
+            HoverColor: =ColorValue(LookUp(StyleGuide, Key = "Magenta").Value)
+            HoverFill: =ColorValue(LookUp(StyleGuide, Key = "White").Value)
+            OnSelect: |-
+                =Set(varEditEmailRecipients, Blank());
+                Set(varEmailDialogueVis, false);
+                Reset(txt_EmailRecipientSearchText_2)
+            PressedBorderColor: =btn_AD_EN_Cancel_8.Fill
+            PressedColor: =btn_AD_EN_Cancel_8.Fill
+            PressedFill: =ColorValue(LookUp(StyleGuide, Key = "Magenta").Value)
+            Size: =14
+            Text: ="Cancel"
+            Visible: =false
+            Width: =130
+            X: =rte_EmailBodyContent_2.X + (rte_EmailBodyContent_2.Width / 2) - 100 - 65
+            Y: =Button5_2.Y + Button5_2.Height - 60
+            ZIndex: =4
+
+        lbl_AD_EN_Body_2 As label:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(50, 50, 50, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =lbl_AD_EN_Body_2.BorderColor
+            Font: =Font.Arial
+            FontWeight: =Semibold
+            HoverBorderColor: =lbl_AD_EN_Body_2.BorderColor
+            HoverColor: =lbl_AD_EN_Body_2.Color
+            HoverFill: =lbl_AD_EN_Body_2.Fill
+            PaddingLeft: =0
+            PressedBorderColor: =lbl_AD_EN_Body_2.BorderColor
+            PressedColor: =lbl_AD_EN_Body_2.Color
+            PressedFill: =lbl_AD_EN_Body_2.Fill
+            Size: =12
+            Text: |-
+                ="Body:"
+            Width: =80
+            X: =Button5_2.X + 40
+            Y: =lbl_AD_EN_Subject_2.Y + 40
+            ZIndex: =5
+
+        lbl_AD_EN_Subject_2 As label:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(50, 50, 50, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =lbl_AD_EN_Subject_2.BorderColor
+            Font: =Font.Arial
+            FontWeight: =Semibold
+            HoverBorderColor: =lbl_AD_EN_Subject_2.BorderColor
+            HoverColor: =lbl_AD_EN_Subject_2.Color
+            HoverFill: =lbl_AD_EN_Subject_2.Fill
+            PaddingLeft: =0
+            PressedBorderColor: =lbl_AD_EN_Subject_2.BorderColor
+            PressedColor: =lbl_AD_EN_Subject_2.Color
+            PressedFill: =lbl_AD_EN_Subject_2.Fill
+            Size: =12
+            Text: |-
+                ="Subject:"
+            Width: =80
+            X: =Button5_2.X + 40
+            Y: =lbl_AD_EN_CC_2.Y + 60
+            ZIndex: =6
+
+        lbl_AD_EN_CC_2 As label:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(50, 50, 50, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =lbl_AD_EN_CC_2.BorderColor
+            Font: =Font.Arial
+            FontWeight: =Semibold
+            HoverBorderColor: =lbl_AD_EN_CC_2.BorderColor
+            HoverColor: =lbl_AD_EN_CC_2.Color
+            HoverFill: =lbl_AD_EN_CC_2.Fill
+            PaddingLeft: =0
+            PressedBorderColor: =lbl_AD_EN_CC_2.BorderColor
+            PressedColor: =lbl_AD_EN_CC_2.Color
+            PressedFill: =lbl_AD_EN_CC_2.Fill
+            Size: =12
+            Text: |-
+                ="CC:"
+            Width: =80
+            X: =Button5_2.X + 40
+            Y: =lbl_AD_EN_To_5.Y + 60
+            ZIndex: =7
+
+        lbl_AD_EN_To_5 As label:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(50, 50, 50, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =lbl_AD_EN_To_5.BorderColor
+            Font: =Font.Arial
+            FontWeight: =Semibold
+            HoverBorderColor: =lbl_AD_EN_To_5.BorderColor
+            HoverColor: =lbl_AD_EN_To_5.Color
+            HoverFill: =lbl_AD_EN_To_5.Fill
+            PaddingLeft: =0
+            PressedBorderColor: =lbl_AD_EN_To_5.BorderColor
+            PressedColor: =lbl_AD_EN_To_5.Color
+            PressedFill: =lbl_AD_EN_To_5.Fill
+            Size: =12
+            Text: |-
+                ="To:"
+            Width: =80
+            X: =Button5_2.X + 40
+            Y: =lbl_AD_EN_Title_2.Y + lbl_AD_EN_Title_2.Height + 40
+            ZIndex: =8
+
+        lbl_AD_EN_Title_2 As label:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(50, 50, 50, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =lbl_AD_EN_Title_2.BorderColor
+            Font: =Font.Arial
+            FontWeight: =Semibold
+            HoverBorderColor: =lbl_AD_EN_Title_2.BorderColor
+            HoverColor: =lbl_AD_EN_Title_2.Color
+            HoverFill: =lbl_AD_EN_Title_2.Fill
+            PaddingLeft: =0
+            PressedBorderColor: =lbl_AD_EN_Title_2.BorderColor
+            PressedColor: =lbl_AD_EN_Title_2.Color
+            PressedFill: =lbl_AD_EN_Title_2.Fill
+            Size: =18
+            Text: ="Email Notification"
+            Width: =400
+            X: =Button5_2.X + 40
+            Y: =Button5_2.Y + 20
+            ZIndex: =9
+
+        txt_EmailToRecipients_2 As text:
+            BorderColor: =DarkGray
+            Color: =RGBA(0, 0, 0, 1)
+            Default: =Coalesce(Concat(colEmailToRecipients, 'Primary Email' & ";"), "Business Owner")
+            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+            DisabledColor: =RGBA(0, 0, 0, 1)
+            DisabledFill: =RGBA(255, 255, 255, 1)
+            DisplayMode: =If(com_SendEmail.AccessRequest, DisplayMode.View, DisplayMode.Edit)
+            FocusedBorderColor: =txt_EmailToRecipients_2.BorderColor
+            FocusedBorderThickness: =1
+            Font: =Font.Arial
+            Height: =47
+            HoverBorderColor: =RGBA(128, 128, 128, 1)
+            HoverColor: =RGBA(0, 0, 0, 1)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            Mode: =TextMode.MultiLine
+            PaddingBottom: =0
+            PaddingLeft: =10
+            PaddingTop: =6
+            PressedBorderColor: =txt_EmailToRecipients_2.HoverBorderColor
+            PressedColor: =txt_EmailToRecipients_2.Color
+            PressedFill: =txt_EmailToRecipients_2.Fill
+            Size: =12
+            Width: =rte_EmailBodyContent_2.Width - 160
+            X: =lbl_AD_EN_To_5.X + 80
+            Y: =lbl_AD_EN_To_5.Y
+            ZIndex: =10
+
+        txt_EmailCCRecipients_2 As text:
+            BorderColor: =DarkGray
+            Color: =RGBA(0, 0, 0, 1)
+            Default: =Concat(colEmailCCRecipients, 'Primary Email' & ";")
+            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+            DisabledColor: =RGBA(0, 0, 0, 1)
+            DisabledFill: =RGBA(255, 255, 255, 1)
+            DisplayMode: =DisplayMode.Disabled
+            FocusedBorderColor: =txt_EmailCCRecipients_2.BorderColor
+            FocusedBorderThickness: =1
+            Font: =Font.Arial
+            Height: =47
+            HoverBorderColor: =RGBA(128, 128, 128, 1)
+            HoverColor: =RGBA(0, 0, 0, 1)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            Mode: =TextMode.MultiLine
+            PaddingBottom: =0
+            PaddingLeft: =10
+            PaddingTop: =6
+            PressedBorderColor: =txt_EmailCCRecipients_2.HoverBorderColor
+            PressedColor: =txt_EmailCCRecipients_2.Color
+            PressedFill: =txt_EmailCCRecipients_2.Fill
+            Size: =12
+            Width: =rte_EmailBodyContent_2.Width - 160
+            X: =lbl_AD_EN_CC_2.X + 80
+            Y: =lbl_AD_EN_CC_2.Y
+            ZIndex: =11
+
+        txt_EmailSubject_2 As text:
+            BorderColor: =DarkGray
+            Color: =RGBA(0, 0, 0, 1)
+            Default: =PlainText(First(varSelectedEmailTemplateSubject).value)
+            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+            DisabledColor: =RGBA(0, 0, 0, 1)
+            DisabledFill: =RGBA(255, 255, 255, 1)
+            FocusedBorderColor: =txt_EmailSubject_2.BorderColor
+            FocusedBorderThickness: =1
+            Font: =Font.Arial
+            HoverBorderColor: =RGBA(128, 128, 128, 1)
+            HoverColor: =RGBA(0, 0, 0, 1)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            PaddingBottom: =0
+            PaddingLeft: =10
+            PaddingTop: =0
+            PressedBorderColor: =txt_EmailSubject_2.HoverBorderColor
+            PressedColor: =txt_EmailSubject_2.Color
+            PressedFill: =txt_EmailSubject_2.Fill
+            Size: =12
+            Width: =rte_EmailBodyContent_2.Width - 80
+            X: =lbl_AD_EN_Subject_2.X + 80
+            Y: =lbl_AD_EN_Subject_2.Y
+            ZIndex: =12
+
+        rte_EmailBodyContent_2 As richTextEditor:
+            BorderColor: =DarkGray
+            Default: =First(varSelectedEmailTemplateBody).value
+            Height: =Button5_2.Height - 390
+            Width: =1000
+            X: =Button5_2.X + 40
+            Y: =lbl_AD_EN_Body_2.Y + 50
+            ZIndex: =13
+
+        btn_AD_EN_Cancel_7 As button:
+            AutoDisableOnSelect: =false
+            BorderColor: =ColorValue(LookUp(StyleGuide, Key = "Grey").Value)
+            BorderThickness: =1
+            Color: =If(varEditEmailRecipients = "CC", White, DarkGray)
+            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            Fill: =If(varEditEmailRecipients = "CC", Magenta, RGBA(255, 255, 255, 1))
+            FocusedBorderColor: =btn_AD_EN_Cancel_7.BorderColor
+            FocusedBorderThickness: =1
+            Font: =Font.Arial
+            FontWeight: =FontWeight.Semibold
+            Height: =35
+            HoverBorderColor: =ColorFade(btn_AD_EN_Cancel_7.BorderColor, 20%)
+            HoverColor: =ColorValue(LookUp(StyleGuide, Key = "Magenta").Value)
+            HoverFill: =ColorValue(LookUp(StyleGuide, Key = "White").Value)
+            OnSelect: |-
+                =If(varEditEmailRecipients = "CC", Set(varEditEmailRecipients, Blank()), Set(varEditEmailRecipients, "CC"));
+                Reset(txt_EmailRecipientSearchText_2)
+            PressedBorderColor: =btn_AD_EN_Cancel_7.Fill
+            PressedColor: =btn_AD_EN_Cancel_7.Fill
+            PressedFill: =ColorValue(LookUp(StyleGuide, Key = "Magenta").Value)
+            Size: =14
+            Text: ="Edit"
+            Width: =70
+            X: =txt_EmailCCRecipients_2.X + txt_EmailCCRecipients_2.Width + 10
+            Y: =txt_EmailCCRecipients_2.Y + 5
+            ZIndex: =14
+
+        btn_AD_EN_Cancel_6 As button:
+            AutoDisableOnSelect: =false
+            BorderColor: =ColorValue(LookUp(StyleGuide, Key = "Grey").Value)
+            BorderThickness: =1
+            Color: =If(varEditEmailRecipients = "To", White, DarkGray)
+            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            DisplayMode: =If(com_SendEmail.AccessRequest, DisplayMode.View, DisplayMode.Edit)
+            Fill: =If(varEditEmailRecipients = "To", RGBA(226, 0, 116, 1), RGBA(255, 255, 255, 1))
+            FocusedBorderColor: =btn_AD_EN_Cancel_6.BorderColor
+            FocusedBorderThickness: =1
+            Font: =Font.Arial
+            FontWeight: =FontWeight.Semibold
+            Height: =35
+            HoverBorderColor: =ColorFade(btn_AD_EN_Cancel_6.BorderColor, 20%)
+            HoverColor: =ColorValue(LookUp(StyleGuide, Key = "Magenta").Value)
+            HoverFill: =ColorValue(LookUp(StyleGuide, Key = "White").Value)
+            OnSelect: |-
+                =If(varEditEmailRecipients = "To", Set(varEditEmailRecipients, Blank()), Set(varEditEmailRecipients, "To"));
+                Reset(txt_EmailRecipientSearchText_2)
+            PressedBorderColor: =btn_AD_EN_Cancel_6.Fill
+            PressedColor: =btn_AD_EN_Cancel_6.Fill
+            PressedFill: =ColorValue(LookUp(StyleGuide, Key = "Magenta").Value)
+            Size: =14
+            Text: ="Edit"
+            Width: =70
+            X: =txt_EmailToRecipients_2.X + txt_EmailToRecipients_2.Width + 10
+            Y: =txt_EmailToRecipients_2.Y + 5
+            ZIndex: =15
+
+        Dropdown2_2 As dropdown:
+            BorderColor: =DarkGray
+            ChevronBackground: =RGBA(226, 0, 116, 1)
+            ChevronDisabledBackground: =RGBA(166, 166, 166, 1)
+            ChevronDisabledFill: =RGBA(244, 244, 244, 1)
+            ChevronHoverBackground: =ColorFade(ColorValue(LookUp(StyleGuide, Key = "Magenta").Value), -20%)
+            ChevronHoverFill: =RGBA(255, 255, 255, 1)
+            Default: =com_SendEmail.DefaultEmailTemplateSelection.title
+            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            FocusedBorderColor: =Dropdown2_2.BorderColor
+            HoverBorderColor: =ColorFade(Dropdown2_2.BorderColor, 15%)
+            HoverColor: =RGBA(0, 0, 0, 1)
+            HoverFill: =ColorFade(ColorValue(LookUp(StyleGuide, Key = "Magenta").Value), 20%)
+            Items: =Filter(com_SendEmail.EmailTemplateEntity, Left(title, 5) = "ORBIT")
+            OnChange: |-
+                =Set(varCurrApprovalsDeepLinkURL, Concatenate("<a href=""https://web.powerapps.com/webplayer/iframeapp?source=iframe&tenantId=be0f980b-dd99-4b19-bd7b-bc71a09b026c&RecordID=", Text(com_SendEmail.CurrentRecord.cat_gtmentryid), "&NavScreen=UserApprovals&appId=/providers/Microsoft.PowerApps/apps/", Text(com_SendEmail.AppID), """>Click Here for Approval Dashboard</a>"));
+                /*
+                ClearCollect(colEmailToRecipients,
+                    ForAll( gal_ApprovalUsersList.AllItems, ApprovalUser
+                    )
+                );
+                */
+                ClearCollect(colEmailCCRecipients, com_SendEmail.CurrentRecord.'_cat_businessowner_value@OData.Community.Display.V1.FormattedValue');
+                //UpdateContext({varEmailDialogueVis: true});
+                
+                ClearCollect(colActiveRecordEmailFields, 
+                	{i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_initiativename""><xsl:value-of select=""cat_gtmentry/cat_initiativename"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                        value: com_SendEmail.CurrentRecord.cat_initiativename},
+                    {i: "]]>", 
+                        value: ""},
+                    {i: "<![CDATA[", 
+                        value: ""},
+                /*    {i: "<xsl:choose><xsl:when test=""systemuser/fullname""><xsl:value-of select=""systemuser/fullname"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                        value: varCurrentUserNameFL},
+                    {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_prcode""><xsl:value-of select=""cat_gtmentry/cat_prcode"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                        value: Coalesce(com_SendEmail.CurrentRecord.PRCode, "Not Assigned")},
+                    
+                	{i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_sponsor/@firstname""><xsl:value-of select=""cat_gtmentry/cat_sponsor/@firstname"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                        value: Right(com_SendEmail.CurrentRecord.'Sponsoring VP'.Nickname, (Len(com_SendEmail.CurrentRecord.'Sponsoring VP'.Nickname) - Find(",", com_SendEmail.CurrentRecord.'Sponsoring VP'.Nickname, 1)) - 1)},
+                    {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_sponsor/@fullname""><xsl:value-of select=""cat_gtmentry/cat_sponsor/@fullname"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                        value: Concatenate(Right(com_SendEmail.CurrentRecord..'Sponsoring VP'.Nickname, (Len(com_SendEmail.CurrentRecord..'Sponsoring VP'.Nickname) - Find(",", com_SendEmail.CurrentRecord.'Sponsoring VP'.Nickname, 1)) - 1), " ", Left(com_SendEmail.CurrentRecord..'Sponsoring VP'.Nickname, Find(",", com_SendEmail.CurrentRecord.'Sponsoring VP'.Nickname, 1) - 1))},
+                    {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_sponsor/@'Last Name'""><xsl:value-of select=""cat_gtmentry/cat_sponsor/@'Last Name'"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                    value: Left(com_SendEmail.CurrentRecord.'Sponsoring VP'.Nickname, Find(",", com_SendEmail.CurrentRecord.'Sponsoring VP'.Nickname, 1) - 1)},
+                	{i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_sponsor/@lastname""><xsl:value-of select=""cat_gtmentry/cat_sponsor/@lastname"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                        value: Left(com_SendEmail.CurrentRecord.'Sponsoring VP'.Nickname, Find(",", com_SendEmail.CurrentRecord.'Sponsoring VP'.Nickname, 1) - 1)},
+                	
+                	{i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_businessowner/@'Last Name'""><xsl:value-of select=""cat_gtmentry/cat_businessowner/@'Last Name'"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                        value: Left(com_SendEmail.CurrentRecord.'Sponsoring VP'.Nickname, Find(",", com_SendEmail.CurrentRecord..'Sponsoring VP'.Nickname, 1) - 1)},
+                    {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_businessowner/@'First Name'""><xsl:value-of select=""cat_gtmentry/cat_businessowner/@'First Name'"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                        value: Right(com_SendEmail.CurrentRecord.'Business Owner'.Nickname, (Len(varCurrentRecord.'Business Owner'.Nickname) - Find(",", varCurrentRecord.'Business Owner'.Nickname, 1)) - 1)},
+                    {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_businessowner/@fullname""><xsl:value-of select=""cat_gtmentry/cat_businessowner/@fullname"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                        value: Concatenate(Right(com_SendEmail.CurrentRecord.'Business Owner'.Nickname, (Len(com_SendEmail.CurrentRecord.'Business Owner'.Nickname) - Find(",", varCurrentRecord.'Business Owner'.Nickname, 1)) - 1), " ", Left(com_SendEmail.CurrentRecord.'Business Owner'.Nickname, Find(",", com_SendEmail.CurrentRecord.'Business Owner'.Nickname, 1) - 1))},
+                    {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_businessowner/@lastname""><xsl:value-of select=""cat_gtmentry/cat_businessowner/@lastname"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                        value: Left(com_SendEmail.CurrentRecord..'Business Owner'.Nickname, Find(",", com_SendEmail.CurrentRecord..'Business Owner'.Nickname, 1) - 1)},
+                */    
+                    {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_lobchannelhorizontal/@name""><xsl:value-of select=""cat_gtmentry/cat_lobchannelhorizontal/@name"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                        value: Text(com_SendEmail.CurrentRecord.cat_lobchannelhorizontal)},
+                
+                    {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_description""><xsl:value-of select=""cat_gtmentry/cat_description"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                        value: Coalesce(com_SendEmail.CurrentRecord.cat_description, "Not Assigned")},
+                    {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_requestedlaunchdate""><xsl:value-of select=""cat_gtmentry/cat_requestedlaunchdate"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                        value: Coalesce(Text(com_SendEmail.CurrentRecord.cat_requestedlaunchdate, DateTimeFormat.ShortDate), "Not Assigned")},
+                    {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_enddate""><xsl:value-of select=""cat_gtmentry/cat_enddate"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                        value: Coalesce(Text(com_SendEmail.CurrentRecord.cat_enddate, ShortDate), "Not Assigned")},
+                    {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_goalkpi""><xsl:value-of select=""cat_gtmentry/cat_goalkpi"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                        value: Coalesce(com_SendEmail.CurrentRecord.cat_goalkpi, "Not Assigned")},
+                    {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_situation""><xsl:value-of select=""cat_gtmentry/cat_situation"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                        value: Coalesce(com_SendEmail.CurrentRecord.cat_situation, "Not Assigned")},
+                    {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_eligibilitysummary""><xsl:value-of select=""cat_gtmentry/cat_eligibilitysummary"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                        value: Coalesce(com_SendEmail.CurrentRecord.cat_eligibilitysummary, "Not Assigned")},
+                    {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_eligibledevices""><xsl:value-of select=""cat_gtmentry/cat_eligibledevices"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                        value: Coalesce(com_SendEmail.CurrentRecord.cat_eligibledevices, "Not Assigned")},
+                
+                    {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_initiativetype/@name""><xsl:value-of select=""cat_gtmentry/cat_initiativetype/@name"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                        value: Text(com_SendEmail.CurrentRecord.cat_initiativetype)},
+                    {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_initiativetypegroup/@name""><xsl:value-of select=""cat_gtmentry/cat_initiativetypegroup/@name"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                        value: Text(com_SendEmail.CurrentRecord.cat_initiativetypegroup)},
+                    {i: "<xsl:choose><xsl:when test=""cat_gtmentry/cat_legacygtmentryid""><xsl:value-of select=""cat_gtmentry/cat_legacygtmentryid"" /></xsl:when><xsl:otherwise></xsl:otherwise></xsl:choose>", 
+                        value: Text(varCurrApprovalsDeepLinkURL)},
+                    {i: "&lt;SolutionCaptain.FullName&gt;",
+                        value: "Not Assigned"},
+                    {i: "&lt;Approver(s)&gt;",
+                        value: Concat(colEmailToRecipients, 'First Name' & " " & 'Last Name' & ", ")},
+                    {i: "&lt;ApprovalsDeepLink&gt;",
+                        value: Text(varCurrApprovalsDeepLinkURL)}
+                    );
+                
+                ClearCollect(varSelectedEmailTemplateBody, 
+                	{ID: 1, value: Dropdown2_2.Selected.body});
+                
+                ClearCollect(varSelectedEmailTemplateSubject, 
+                	{ID: 1, value: Dropdown2_2.Selected.subject});
+                
+                ForAll(colActiveRecordEmailFields, 
+                	Patch(varSelectedEmailTemplateBody,LookUp(varSelectedEmailTemplateBody, ID = 1),	
+                        {value: Substitute(
+                            LookUp(varSelectedEmailTemplateBody, ID = 1).value, 
+                        colActiveRecordEmailFields[@i], 
+                        colActiveRecordEmailFields[@value])}));
+                        
+                ForAll(colActiveRecordEmailFields, 
+                	Patch(varSelectedEmailTemplateSubject,LookUp(varSelectedEmailTemplateSubject, ID = 1),	
+                        {value: Substitute(
+                            LookUp(varSelectedEmailTemplateSubject, ID = 1).value, 
+                        colActiveRecordEmailFields[@i], 
+                        colActiveRecordEmailFields[@value])}));
+            PressedBorderColor: =Dropdown2_2.HoverBorderColor
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =ColorValue(LookUp(StyleGuide, Key = "Magenta").Value)
+            SelectionColor: =White
+            SelectionFill: =ColorValue(LookUp(StyleGuide, Key = "Magenta").Value)
+            Size: =13
+            Visible: =com_SendEmail.ShowTemplateSelector
+            Width: =537
+            X: =txt_EmailToRecipients_2.X + txt_EmailToRecipients_2.Width - Dropdown2_2.Width
+            Y: =txt_EmailToRecipients_2.Y - Dropdown2_2.Height - 20
+            ZIndex: =16
+
+        txt_EmailRecipientSearchText_2 As text:
+            BorderColor: =RGBA(153, 153, 153, 1)
+            BorderThickness: =2
+            Clear: =true
+            Color: =RGBA(0, 0, 0, 1)
+            Default: =""
+            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            FocusedBorderColor: =txt_EmailRecipientSearchText_2.BorderColor
+            FocusedBorderThickness: =4
+            HintText: ="Search User"
+            HoverBorderColor: =DarkGray
+            HoverColor: =RGBA(0, 0, 0, 1)
+            HoverFill: =LightGray
+            PressedBorderColor: =txt_EmailRecipientSearchText_2.HoverBorderColor
+            PressedColor: =txt_EmailRecipientSearchText_2.Color
+            PressedFill: =txt_EmailRecipientSearchText_2.Fill
+            Size: =13
+            Visible: =!IsBlank(varEditEmailRecipients)
+            X: =rte_EmailBodyContent_2.X + rte_EmailBodyContent_2.Width + 20
+            Y: =If(varEditEmailRecipients = "To", txt_EmailToRecipients_2.Y, txt_EmailCCRecipients_2.Y)
+            ZIndex: =17
+
+        lbl_AD_EN_To_4 As label:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(128, 128, 128, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =lbl_AD_EN_To_4.BorderColor
+            Font: =Font.Arial
+            FontWeight: =Semibold
+            Height: =30
+            HoverBorderColor: =lbl_AD_EN_To_4.BorderColor
+            HoverColor: =lbl_AD_EN_To_4.Color
+            HoverFill: =lbl_AD_EN_To_4.Fill
+            PaddingLeft: =0
+            PressedBorderColor: =lbl_AD_EN_To_4.BorderColor
+            PressedColor: =lbl_AD_EN_To_4.Color
+            PressedFill: =lbl_AD_EN_To_4.Fill
+            Size: =12
+            Text: |-
+                ="Email Template:"
+            Visible: =com_SendEmail.ShowTemplateSelector
+            Width: =160
+            X: =Dropdown2_2.X
+            Y: =Dropdown2_2.Y - lbl_AD_EN_To_4.Height
+            ZIndex: =18
+
+        Label17_5 As label:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(0, 0, 0, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =Label17_5.BorderColor
+            FontWeight: =FontWeight.Semibold
+            HoverBorderColor: =Label17_5.BorderColor
+            HoverColor: =Label17_5.Color
+            HoverFill: =Label17_5.Fill
+            PressedBorderColor: =Label17_5.BorderColor
+            PressedColor: =Label17_5.Color
+            PressedFill: =Label17_5.Fill
+            Size: =13
+            Text: =Concatenate("Current ", varEditEmailRecipients, " Recipients")
+            Visible: =!IsBlank(varEditEmailRecipients)
+            Width: =txt_EmailRecipientSearchText_2.Width
+            X: =txt_EmailRecipientSearchText_2.X
+            Y: =rte_EmailBodyContent_2.Y - Label17_5.Height
+            ZIndex: =20
+
+        Label17_4 As label:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(0, 0, 0, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =Label17_4.BorderColor
+            FontWeight: =FontWeight.Semibold
+            HoverBorderColor: =Label17_4.BorderColor
+            HoverColor: =Label17_4.Color
+            HoverFill: =Label17_4.Fill
+            PressedBorderColor: =Label17_4.BorderColor
+            PressedColor: =Label17_4.Color
+            PressedFill: =Label17_4.Fill
+            Size: =13
+            Text: =Concatenate("Add ",varEditEmailRecipients, " Recipients")
+            Visible: =!IsBlank(varEditEmailRecipients)
+            Width: =txt_EmailRecipientSearchText_2.Width
+            X: =txt_EmailRecipientSearchText_2.X
+            Y: =txt_EmailRecipientSearchText_2.Y - Label17_4.Height
+            ZIndex: =21
+
+        gal_PeoplePicker_3 As gallery.galleryVertical:
+            BorderColor: =RGBA(226, 0, 116, 1)
+            BorderThickness: =1
+            DisabledBorderColor: =gal_PeoplePicker_3.BorderColor
+            DisabledFill: =gal_PeoplePicker_3.Fill
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =300
+            HoverBorderColor: =gal_PeoplePicker_3.BorderColor
+            HoverFill: =gal_PeoplePicker_3.Fill
+            Items: =com_SendEmail.UserEntity
+            Layout: =Layout.Vertical
+            LoadingSpinnerColor: =gal_PeoplePicker_3.BorderColor
+            OnSelect: |
+                =Reset(txt_EmailRecipientSearchText_2);
+                If(varEditEmailRecipients = "To", 
+                    If(IsEmpty(colEmailToRecipients), 
+                        ClearCollect(colEmailToRecipients, ThisItem),
+                        Patch(colEmailToRecipients,Defaults(colEmailToRecipients), ThisItem)
+                        )
+                        ,
+                        If(IsEmpty(colEmailCCRecipients), 
+                    ClearCollect(colEmailCCRecipients, ThisItem),
+                    Patch(colEmailCCRecipients,Defaults(colEmailCCRecipients), ThisItem)
+                    )
+                    );
+            PressedBorderColor: =gal_PeoplePicker_3.BorderColor
+            PressedFill: =gal_PeoplePicker_3.Fill
+            TemplatePadding: =0
+            TemplateSize: =82
+            Visible: =!IsBlank(txt_EmailRecipientSearchText_2.Text)
+            Width: =txt_EmailRecipientSearchText_2.Width
+            X: =txt_EmailRecipientSearchText_2.X
+            Y: =txt_EmailRecipientSearchText_2.Y + txt_EmailRecipientSearchText_2.Height
+            ZIndex: =22
+
+            BDL_PP_Line_3 As rectangle:
+                BorderColor: =RGBA(0, 18, 107, 1)
+                DisabledFill: =BDL_PP_Line_3.Fill
+                DisplayMode: =DisplayMode.View
+                Fill: =RGBA(226, 0, 116, 1)
+                FocusedBorderColor: =BDL_PP_Line_3.BorderColor
+                Height: =1
+                HoverFill: =BDL_PP_Line_3.Fill
+                PressedFill: =BDL_PP_Line_3.Fill
+                Width: =Parent.Width
+                Y: =gal_PeoplePicker_3.TemplateHeight - 1
+                ZIndex: =1
+
+            BDL_PP_Email_3 As label:
+                BorderColor: =
+                Color: =Black
+                DisabledBorderColor: =
+                DisabledColor: =DimGrey
+                DisplayMode: =DisplayMode.View
+                FocusedBorderColor: =BDL_PP_Email_3.BorderColor
+                Height: =25
+                HoverBorderColor: =BDL_PP_Email_3.BorderColor
+                HoverColor: =BDL_PP_Email_3.Color
+                HoverFill: =BDL_PP_Email_3.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =20
+                PaddingTop: =0
+                PressedBorderColor: =BDL_PP_Email_3.BorderColor
+                PressedColor: =
+                PressedFill: =BDL_PP_Email_3.Fill
+                Size: =10
+                Text: =ThisItem.internalemailaddress
+                VerticalAlign: =VerticalAlign.Top
+                Width: =Parent.Width - 10
+                Y: =BDL_PP_Title_3.Y + BDL_PP_Title_3.Height
+                ZIndex: =2
+
+            BDL_PP_Title_3 As label:
+                BorderColor: =
+                Color: =Black
+                DisabledBorderColor: =
+                DisabledColor: =DimGrey
+                DisplayMode: =DisplayMode.View
+                FocusedBorderColor: =BDL_PP_Title_3.BorderColor
+                Height: =20
+                HoverBorderColor: =BDL_PP_Title_3.BorderColor
+                HoverColor: =BDL_PP_Title_3.Color
+                HoverFill: =BDL_PP_Title_3.Fill
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =20
+                PaddingTop: =0
+                PressedBorderColor: =BDL_PP_Title_3.BorderColor
+                PressedColor: =
+                PressedFill: =BDL_PP_Title_3.Fill
+                Size: =10
+                Text: =ThisItem.title
+                VerticalAlign: =VerticalAlign.Top
+                Width: =Parent.Width - 10
+                Y: =BDL_PP_Name_3.Y + BDL_PP_Name_3.Height
+                ZIndex: =3
+
+            BDL_PP_Name_3 As label:
+                BorderColor: =
+                Color: =Black
+                DisabledBorderColor: =
+                DisabledColor: =DimGrey
+                DisplayMode: =DisplayMode.View
+                FocusedBorderColor: =BDL_PP_Name_3.BorderColor
+                FontWeight: =Semibold
+                Height: =30
+                HoverBorderColor: =BDL_PP_Name_3.BorderColor
+                HoverColor: =BDL_PP_Name_3.Color
+                HoverFill: =BDL_PP_Name_3.Fill
+                OnSelect: =Select(Parent)
+                PaddingLeft: =20
+                PaddingTop: =10
+                PressedBorderColor: =BDL_PP_Name_3.BorderColor
+                PressedColor: =
+                PressedFill: =BDL_PP_Name_3.Fill
+                Size: =12
+                Text: =ThisItem.nickname
+                VerticalAlign: =VerticalAlign.Top
+                Width: =Parent.Width - 10
+                ZIndex: =4
+
+            BDL_PP_Select_3 As button:
+                BorderColor: =ColorFade(BDL_PP_Select_3.Fill, -15%)
+                BorderThickness: =0
+                Color: =White
+                DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                DisabledFill: =RGBA(244, 244, 244, 1)
+                Fill: =RGBA(0, 0, 0, 0)
+                FocusedBorderColor: =BDL_PP_Select_3.BorderColor
+                FocusedBorderThickness: =0
+                FontWeight: =FontWeight.Semibold
+                Height: =gal_PeoplePicker_3.TemplateHeight
+                HoverBorderColor: =ColorFade(BDL_PP_Select_3.BorderColor, 20%)
+                HoverColor: =RGBA(255, 255, 255, 1)
+                HoverFill: =RGBA(226, 0, 116, .30)
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                PressedBorderColor: =BDL_PP_Select_3.Fill
+                PressedColor: =BDL_PP_Select_3.Fill
+                PressedFill: =RGBA(226, 0, 116, .40)
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Size: =0
+                Text: =""
+                Width: =Parent.Width
+                ZIndex: =5
+

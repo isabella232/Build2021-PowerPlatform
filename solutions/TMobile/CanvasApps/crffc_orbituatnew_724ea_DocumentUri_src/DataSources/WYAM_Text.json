@@ -1,0 +1,19 @@
+[
+  {
+    "Data": "[{\"InitiativeType\":\"Project\",\"Phase\":\"New\",\"Verbiage\":\"Your approval means you are aligned with the submission and for it to be considered for quarterly planning/prioritization. \",\"Visible\":true},{\"InitiativeType\":\"Project\",\"Phase\":\"Concept\",\"Verbiage\":\"Concept has been prioritized by quarterly planning leaders and approved to complete an assessment.\",\"Visible\":false},{\"InitiativeType\":\"Project\",\"Phase\":\"Assessment\",\"Verbiage\":\"Your approval means you are aligned with the Assessment (including concept, CX, high level design \\u0026 Bus Case) \\u0026 approving teams to begin creating detailed requirements/design.\",\"Visible\":true},{\"InitiativeType\":\"Project\",\"Phase\":\"Requirements\",\"Verbiage\":\"Your approval means you are aligned with Requirements, the Funding request, and allowing technology teams to begin building the solution.\",\"Visible\":true},{\"InitiativeType\":\"Project\",\"Phase\":\"Build\",\"Verbiage\":\"Your approval means you are aligned with launching this initiative. \",\"Visible\":true},{\"InitiativeType\":\"Other\",\"Phase\":\"New\",\"Verbiage\":\"Your approval means you are aligned with the submission and you are requesting support from cross functional and/or marketing teams.\",\"Visible\":true},{\"InitiativeType\":\"Device Launch\",\"Phase\":\"New\",\"Verbiage\":\"Your approval means you are aligned with the submission and you are requesting support from cross functional and/or marketing teams.\",\"Visible\":true},{\"InitiativeType\":\"Device Promotion\",\"Phase\":\"New\",\"Verbiage\":\"Your approval means you are aligned with the initiative moving forward to Offers Steering. \",\"Visible\":true},{\"InitiativeType\":\"Device Promotion\",\"Phase\":\"Alignment\",\"Verbiage\":\"Your approval means you are aligned with the initiative moving forward. \",\"Visible\":false},{\"InitiativeType\":\"Device Promotion\",\"Phase\":\"Build\",\"Verbiage\":\"Your approval means you are aligned with launching this initiative. \",\"Visible\":null},{\"InitiativeType\":\"Service Offer\",\"Phase\":\"New\",\"Verbiage\":\"Your approval means you are aligned with the initiative moving forward to Offers Steering. \",\"Visible\":true},{\"InitiativeType\":\"Service Offer\",\"Phase\":\"Alignment\",\"Verbiage\":\"Your approval means you are aligned with the initiative moving forward. \",\"Visible\":false},{\"InitiativeType\":\"Service Offer\",\"Phase\":\"Build\",\"Verbiage\":\"Your approval means you are aligned with launching this initiative. \",\"Visible\":null},{\"InitiativeType\":\"Digital Transformation\",\"Phase\":\"New\",\"Verbiage\":\"Your approval means you are aligned with the submission and for it to be considered for P\\u0026T prioritization.\",\"Visible\":true},{\"InitiativeType\":\"Lights On\",\"Phase\":\"New\",\"Verbiage\":\"Your approval means you are aligned with the submission and for it to be considered for P\\u0026T prioritization.\",\"Visible\":true}]",
+    "IsSampleData": false,
+    "IsWritable": false,
+    "Name": "WYAM_Text",
+    "OrderedColumnNames": [
+      "InitiativeType",
+      "Phase",
+      "Visible",
+      "Verbiage"
+    ],
+    "OriginalName": "WYAM_Text",
+    "OriginalSchema": "*[InitiativeType:s, Phase:s, Verbiage:s, Visible:b]",
+    "Schema": "*[InitiativeType:s, Phase:s, Verbiage:s, Visible:b]",
+    "Token": "dummyToken",
+    "Type": "StaticDataSourceInfo"
+  }
+]

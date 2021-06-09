@@ -1,0 +1,66 @@
+com_LoadingSpinner As CanvasComponent:
+    Fill: =RGBA(255, 255, 255, .7)
+    Height: =1080
+    SpinnerText: ="Text"
+    SubtleLoader: =false
+    Width: =1820
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    lbl_PP_Spinner_Loading As label:
+        Align: =Center
+        BorderColor: =RGBA(0, 18, 107, 1)
+        Color: =RGBA(128, 128, 128, 1)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        DisplayMode: =DisplayMode.View
+        FocusedBorderColor: =lbl_PP_Spinner_Loading.BorderColor
+        Font: =Font.Arial
+        FontWeight: =Normal
+        Height: =180
+        HoverBorderColor: =lbl_PP_Spinner_Loading.BorderColor
+        HoverColor: =lbl_PP_Spinner_Loading.Color
+        HoverFill: =lbl_PP_Spinner_Loading.Fill
+        PressedBorderColor: =lbl_PP_Spinner_Loading.BorderColor
+        PressedColor: =lbl_PP_Spinner_Loading.Color
+        PressedFill: =lbl_PP_Spinner_Loading.Fill
+        Size: =18
+        Text: =com_LoadingSpinner.SpinnerText
+        VerticalAlign: =VerticalAlign.Top
+        Width: =1000
+        X: =(Parent.Width/2) - (lbl_PP_Spinner_Loading.Width/2)
+        Y: =img_PP_Spinner.Y + img_PP_Spinner.Height + 20
+        ZIndex: =1
+
+    Image8 As image:
+        BorderColor: =RGBA(0, 18, 107, 1)
+        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+        DisabledFill: =RGBA(244, 244, 244, 1)
+        FocusedBorderColor: =Image8.BorderColor
+        Height: =68
+        HoverBorderColor: =ColorFade(Image8.BorderColor, 20%)
+        HoverFill: =ColorFade(Image8.Fill, 20%)
+        Image: ='TMO_Single-T_RGB_M-on-W'
+        PressedBorderColor: =ColorFade(Image8.BorderColor, -20%)
+        PressedFill: =ColorFade(Image8.Fill, -20%)
+        Width: =68
+        X: =(Parent.Width/2) - (Image8.Width/2)
+        Y: =(Parent.Height/2) - (Image8.Height/2) - 100
+        ZIndex: =2
+
+    img_PP_Spinner As image:
+        BorderColor: =RGBA(0, 18, 107, 1)
+        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+        DisabledFill: =RGBA(244, 244, 244, 1)
+        FocusedBorderColor: =img_PP_Spinner.BorderColor
+        Height: =211
+        HoverBorderColor: =ColorFade(img_PP_Spinner.BorderColor, 20%)
+        HoverFill: =ColorFade(img_PP_Spinner.Fill, 20%)
+        Image: =Spinner
+        PressedBorderColor: =ColorFade(img_PP_Spinner.BorderColor, -20%)
+        PressedFill: =ColorFade(img_PP_Spinner.Fill, -20%)
+        Width: =188
+        X: =(Parent.Width/2) - (img_PP_Spinner.Width/2)
+        Y: =(Parent.Height/2) - (img_PP_Spinner.Height/2) - 100
+        ZIndex: =3
+

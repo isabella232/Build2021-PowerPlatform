@@ -1,0 +1,1258 @@
+New_Intake_Screen As screen:
+    Height: =Max(App.Height, App.DesignHeight)
+    LoadingSpinner: =LoadingSpinner.Controls
+    LoadingSpinnerColor: =RGBA(105, 121, 126, 1)
+    OnHidden: =Set(NavScreenParam, Blank());
+    OnVisible: |
+        =Reset(II_RequestType_Input);
+        Reset(II_InitiativeType_Input);
+        Clear(collFormValues);
+        Concurrent(
+        ClearCollect(colBeneficiaryLOB, Filter(BeneficiaryLOBApprovers, Status = 'Status (BeneficiaryLOBApprovers)'.'0')),
+        Set(varCurrentRecord, Blank()),
+        Set(varIsDraftInitiative, false),
+        //Set(varSubmittingInitiative, true),
+        
+        // ***** Clear People Picker Variables
+        Set(varBusinessOwnerRecord, Blank()),
+        Set(varSponsorRecord, Blank()),
+        Set(varBeneficiaryLOBApproverRecord, Blank());
+        
+        // ***** Clear Dropdown Variables
+        Set(varAnnualGALiftEstimate, Blank()),
+        Set(varAudienceSpecificCommunications, Blank()),
+        Set(varBeneficiaryLOB, Blank()),
+        Set(varBrand, Blank()),
+        Set(varBusinessBenefit, Blank()),
+        Set(varCategory, Blank()),
+        Set(varCustomerImpacting, Blank()),
+        Set(varDay, Blank()),
+        Set(varDesiredExecution, Blank()),
+        Set(varGoesOnCalendar, Blank()),
+        Set(varInitiativeTypePatch, Blank()),
+        Set(varIntegratedMarketing, Blank()),
+        Set(varLOBChannelHorizontal, Blank()),
+        Set(varMarketingSupportNeeded, Blank()),
+        
+        Set(varOfferType, Blank()),
+        Set(varPhase, Blank()),
+        Set(varPriority, Blank()),
+        Set(varPriorityQuarter, Blank()),
+        Set(varPTLOESWAG, Blank()),
+        Set(varRequestTypePatch, Blank()),
+        Set(varStrategicPillar, Blank()),
+        Set(varSubPhase, Blank()),
+        Set(varSystemStack, Blank()),
+        Set(varTargetAyduebceSegnebt, Blank()),
+        Set(varThreeYearNPV, Blank()),
+        Set(varTier, Blank()),
+        Set(varValidationCheck, Blank()),
+        
+        // ***** Clear Toggle Variables
+        Set(varActiveServiceRequired, Blank()),
+        Set(varCarrierFreedom, Blank()),
+        Set(varDarkStatus, Blank()),
+        Set(varEmployeeDiscount, Blank());
+        Set(varEmployeeEligible, Blank()),
+        Set(varIntegration, Blank()),
+        Set(varJUMPEligible, Blank()),
+        Set(varLimitedTimeOffer, Blank()),
+        Set(varMAPRestricted, Blank()),
+        Set(varMarket, Blank()),
+        Set(varPromoDetailsLocked, Blank()),
+        Set(varReplacingAnExistingProduct, Blank()),
+        
+        // ***** Clear Multiselect Variables
+        Clear(colMobileInternetPlanRequirements),
+        Clear(colAdditionalEligibilityRequirements),
+        Clear(colChannels),
+        Clear(colCustomerSegment),
+        Clear(colPurchaseTypeFinancing),
+        Clear(colDeviceFulfillmentInScope),
+        Clear(colPlanAndFeatureRequirementsBuild),
+        Clear(colAddALineTypes),
+        Clear(colWearablePlanRequirements),
+        Clear(colGALiftType),
+        Clear(colTesting),
+        Clear(colVoiceRatePlanRequirements),
+        Clear(colRatePlanRequirements)
+        );
+    Orientation: =If(New_Intake_Screen.Width < New_Intake_Screen.Height, Layout.Vertical, Layout.Horizontal)
+    Size: =1 + CountRows(App.SizeBreakpoints) - CountIf(App.SizeBreakpoints, Value >= New_Intake_Screen.Width)
+    Width: =Max(App.Width, App.DesignWidth)
+
+    com_NavTop_4 As com_NavTop:
+        AdminScreen: =Permissions_Team_Roles_Screen
+        IsGTM: =varCurrentUserSecurityRole = "Administrator" Or varCurrentUserSecurityRole = "GTM"
+        Items: =colTopNavGalleryItems
+        TMOLogo: =true
+        UserFullName: |-
+            =//varCurrentUserNameFL
+            User().FullName
+
+    II_InitiativeType As groupContainer:
+        DisplayMode: =DisplayMode.Edit
+        Height: =287
+        Width: =652
+        X: =II_RequestType.X
+        Y: =603
+        ZIndex: =2
+
+        II_InitiativeType_Input As dropdown:
+            BorderColor: =DarkGrey
+            ChevronBackground: =Magenta
+            ChevronDisabledBackground: =Grey
+            ChevronDisabledFill: =White
+            ChevronFill: =White
+            ChevronHoverBackground: =Magenta
+            ChevronHoverFill: =White
+            Color: =Black
+            Default: ="0"
+            DisabledBorderColor: =DarkGrey
+            DisabledColor: =Black
+            DisabledFill: =LightGrey2
+            Fill: =White
+            FocusedBorderColor: =II_InitiativeType_Input.BorderColor
+            FocusedBorderThickness: =1
+            Font: =FontStyle
+            FontWeight: =Semibold
+            Height: =36
+            HoverBorderColor: =Grey
+            HoverColor: =Black
+            HoverFill: =LightMagenta2
+            Items: |-
+                =//Sort(Filter(gtmInitiativeTypes, 'Initiative Group Type' = II_RequestType_Input.Selected.Value), 'Sort Order', Ascending)
+                Switch(Text(II_RequestType_Input.Selected.Value),
+                "Please Select", Filter(Choices(InitiativeType), (Value = InitiativeType.'Please Select')),
+                "P&T", Filter(Choices(InitiativeType), !(Value = InitiativeType.'Device Launch' Or Value = InitiativeType.'Device Promotion'  Or Value = InitiativeType.'Service Offer' Or Value = InitiativeType.Project Or Value = 
+                InitiativeType.Other)), 
+                "Business", Filter(Choices(InitiativeType), !(Value = InitiativeType.'Lights On' Or Value = InitiativeType.'Digital Transformation')),
+                Filter(Choices(InitiativeType), (Value = InitiativeType.'Please Select')))
+            OnChange: |-
+                =Set(varCurrInitiativeType, II_InitiativeType_Input.Selected.Value);
+                Set(varInitiativeType, II_InitiativeType_Input.SelectedText.Value);
+                
+                ClearCollect(collFormValues, Filter(ComponentFieldDetails, formID = varInitiativeType, isOnIntake = true));
+            PaddingBottom: =5
+            PaddingLeft: =12
+            PaddingRight: =5
+            PaddingTop: =5
+            PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            PressedColor: =Black
+            PressedFill: =White
+            Reset: =
+            SelectionColor: =Magenta
+            SelectionFill: =White
+            Size: =InputSize
+            Width: =400
+            Y: =II_InitiativeType_Title.Y + II_InitiativeType_Title.Height + 8
+            ZIndex: =2
+
+        II_InitiativeType_Title As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =DarkGrey
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisplayMode: =DisplayMode.View
+            FocusedBorderColor: =II_InitiativeType_Title.BorderColor
+            FocusedBorderThickness: =4
+            Font: =FontStyle
+            FontWeight: =Semibold
+            Height: =Text2Height
+            HoverBorderColor: =II_InitiativeType_Title.BorderColor
+            HoverColor: =II_InitiativeType_Title.Color
+            HoverFill: =II_InitiativeType_Title.Fill
+            PressedBorderColor: =II_InitiativeType_Title.BorderColor
+            PressedColor: =II_InitiativeType_Title.Color
+            PressedFill: =II_InitiativeType_Title.Fill
+            Size: =Text2Size
+            Text: ="Select your Initiative Type"
+            Width: =II_InitiativeType.Width - 1
+            Wrap: =false
+            ZIndex: =4
+
+        HtmlText1_1 As htmlViewer:
+            Color: =LightGrey
+            Height: =116
+            HoverBorderColor: =HtmlText1_1.BorderColor
+            HtmlText: |-
+                ="<div><strong>Device Launch</strong>: Any new device launch (handset, tablet, wearable, etc.)</div>
+                <div><strong>Device Promotion</strong>: Mail-in rebates, recurring device credits, etc.</div>
+                <div><strong>Service Offer</strong>: Rate plan &amp; feature related requests</div>
+                <div><strong>Project</strong>: Initiatives that require P&amp;T support &ndash; both CAPEX projects and OpEx programs</div>
+                <div><strong>Other</strong>: All other initiatives (non-CAPEX funded initiatives, PR announcements, etc.)</div>"
+            PressedBorderColor: =HtmlText1_1.BorderColor
+            Width: =634
+            X: =II_InitiativeType_Title.X
+            Y: =II_InitiativeType_Input.Y + II_InitiativeType_Input.Height + 20
+            ZIndex: =5
+
+    II_RequestType As groupContainer:
+        DisplayMode: =DisplayMode.Edit
+        Height: =160
+        Width: =606
+        X: =232
+        Y: =433
+        ZIndex: =3
+
+        II_RequestType_Input As dropdown:
+            BorderColor: =DarkGrey
+            ChevronBackground: =Magenta
+            ChevronDisabledBackground: =Grey
+            ChevronDisabledFill: =White
+            ChevronFill: =White
+            ChevronHoverBackground: =Magenta
+            ChevronHoverFill: =White
+            Color: =Black
+            Default: =
+            DisabledBorderColor: =DarkGrey
+            DisabledColor: =Black
+            DisabledFill: =LightGrey2
+            Fill: =White
+            FocusedBorderColor: =II_RequestType_Input.BorderColor
+            FocusedBorderThickness: =1
+            Font: =FontStyle
+            FontWeight: =Semibold
+            Height: =36
+            HoverBorderColor: =Grey
+            HoverColor: =Black
+            HoverFill: =LightMagenta2
+            Items: =Choices(InitiativeTypeGroup)
+            OnChange: =Set(varRequestType, II_RequestType_Input.SelectedText.Value);
+            OnSelect: =
+            PaddingBottom: =5
+            PaddingLeft: =12
+            PaddingRight: =5
+            PaddingTop: =5
+            PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            PressedColor: =Black
+            PressedFill: =White
+            Reset: =
+            SelectionColor: =Magenta
+            SelectionFill: =White
+            Size: =InputSize
+            Width: =400
+            Y: =II_RequestType_Title.Y + II_RequestType_Title.Height + 8
+            ZIndex: =2
+
+        II_RequestType_Title As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =DarkGrey
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisplayMode: =DisplayMode.View
+            FocusedBorderColor: =II_RequestType_Title.BorderColor
+            FocusedBorderThickness: =4
+            Font: =FontStyle
+            FontWeight: =Semibold
+            Height: =Text2Height
+            HoverBorderColor: =II_RequestType_Title.BorderColor
+            HoverColor: =II_RequestType_Title.Color
+            HoverFill: =II_RequestType_Title.Fill
+            PressedBorderColor: =II_RequestType_Title.BorderColor
+            PressedColor: =II_RequestType_Title.Color
+            PressedFill: =II_RequestType_Title.Fill
+            Size: =Text2Size
+            Text: ="Select your Request Type"
+            Width: =II_RequestType.Width - 1
+            Wrap: =false
+            ZIndex: =4
+
+        HtmlText1_2 As htmlViewer:
+            Color: =LightGrey
+            Height: =116
+            HoverBorderColor: =HtmlText1_2.BorderColor
+            HtmlText: |-
+                ="<div>
+                <div>Most requestors (i.e. LOB/Channel/Horizontal) should select ""Business"".<br />If you have a Technology, Only request (i.e. Lights On), select ""P&T"".</div>
+                </div>"
+            PressedBorderColor: =HtmlText1_2.BorderColor
+            Width: =606
+            X: =II_InitiativeType_Title.X
+            Y: =II_RequestType_Input.Y + II_RequestType_Input.Height + 10
+            ZIndex: =5
+
+    II_HeaderLabels As groupContainer:
+        DisplayMode: =DisplayMode.Edit
+        Height: =293
+        Width: =580
+        X: =123
+        Y: =92
+        ZIndex: =4
+
+        Image1 As image:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            FocusedBorderColor: =Image1.BorderColor
+            FocusedBorderThickness: =4
+            Height: =140
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            Image: =Orbit_Lockup_RGB
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Width: =350
+            X: =104
+            Y: =117
+            ZIndex: =1
+
+        II_Welcome_Header As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =LightGray
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =II_Welcome_Header.BorderColor
+            FocusedBorderThickness: =4
+            Font: ='Open Sans'
+            FontWeight: =Semibold
+            Height: =LookUp(StyleGuide,Key="Heading3Height").Value
+            HoverBorderColor: =II_Welcome_Header.BorderColor
+            HoverColor: =II_Welcome_Header.Color
+            HoverFill: =II_Welcome_Header.Fill
+            PressedBorderColor: =II_Welcome_Header.BorderColor
+            PressedColor: =II_Welcome_Header.Color
+            PressedFill: =II_Welcome_Header.Fill
+            Size: =25
+            Text: ="Welcome to"
+            Width: =500
+            X: =25
+            Y: =68
+            ZIndex: =2
+
+    imgBackgroundImage_1 As image:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledFill: =RGBA(0, 0, 0, 0)
+        FocusedBorderColor: =imgBackgroundImage_1.BorderColor
+        FocusedBorderThickness: =4
+        Height: =1030
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverFill: =RGBA(0, 0, 0, 0)
+        Image: ='TMO Logo'
+        PressedBorderColor: =RGBA(0, 0, 0, 0)
+        PressedFill: =RGBA(0, 0, 0, 0)
+        Transparency: =0.95
+        Visible: =varCurrentUserSecurityRole = "Administrator"
+        Width: =1097
+        X: =821
+        Y: =50
+        ZIndex: =5
+
+    Label42 As label:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Color: =RGBA(51, 51, 51, 1)
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =Label42.BorderColor
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        Height: =35
+        HoverBorderColor: =Label42.BorderColor
+        HoverColor: =Label42.Color
+        HoverFill: =Label42.Fill
+        PressedBorderColor: =Label42.BorderColor
+        PressedColor: =Label42.Color
+        PressedFill: =Label42.Fill
+        Size: =13
+        Text: =LookUp(gtmEntries, gtmEntry = gal_DraftInitiativesPickerList.Selected.gtmEntry).'Created By'.'Full Name'
+        Visible: =varDevMode
+        Width: =226
+        X: =821
+        Y: =167
+        ZIndex: =6
+
+    Label42_1 As label:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Color: =RGBA(51, 51, 51, 1)
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =Label42_1.BorderColor
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        Height: =35
+        HoverBorderColor: =Label42_1.BorderColor
+        HoverColor: =Label42_1.Color
+        HoverFill: =Label42_1.Fill
+        PressedBorderColor: =Label42_1.BorderColor
+        PressedColor: =Label42_1.Color
+        PressedFill: =Label42_1.Fill
+        Size: =13
+        Text: =varCurrentRecord.'Business Owner'.'Full Name'
+        Visible: =varDevMode
+        Width: =226
+        X: =821
+        Y: =196
+        ZIndex: =7
+
+    Label42_2 As label:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Color: =RGBA(51, 51, 51, 1)
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =Label42_2.BorderColor
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        Height: =35
+        HoverBorderColor: =Label42_2.BorderColor
+        HoverColor: =Label42_2.Color
+        HoverFill: =Label42_2.Fill
+        PressedBorderColor: =Label42_2.BorderColor
+        PressedColor: =Label42_2.Color
+        PressedFill: =Label42_2.Fill
+        Size: =13
+        Text: =varCurrentRecord.'Sponsoring VP'.'Full Name'
+        Visible: =varDevMode
+        Width: =226
+        X: =821
+        Y: =240
+        ZIndex: =8
+
+    Label42_3 As label:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Color: =RGBA(51, 51, 51, 1)
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =Label42_3.BorderColor
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        Height: =35
+        HoverBorderColor: =Label42_3.BorderColor
+        HoverColor: =Label42_3.Color
+        HoverFill: =Label42_3.Fill
+        PressedBorderColor: =Label42_3.BorderColor
+        PressedColor: =Label42_3.Color
+        PressedFill: =Label42_3.Fill
+        Size: =13
+        Text: =varCurrentRecord.'Created By'.'Full Name'
+        Visible: =varDevMode
+        Width: =226
+        X: =818
+        Y: =122
+        ZIndex: =9
+
+    btn_Dev_4 As button:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        Color: =RGBA(204, 204, 204, 1)
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        DisabledFill: =RGBA(244, 244, 244, 1)
+        Fill: =RGBA(255, 255, 255, 1)
+        FocusedBorderColor: =btn_Dev_4.BorderColor
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =30
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverColor: =RGBA(255, 255, 255, 1)
+        HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+        OnSelect: =Set(varDevMode, !varDevMode)
+        PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+        PressedColor: =RGBA(255, 255, 255, 1)
+        PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =9
+        Text: ="DM"
+        Visible: =varCurrentUserSecurityRole = "Administrator"
+        Width: =38
+        Y: =1050
+        ZIndex: =10
+
+    Label42_5 As label:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Color: =RGBA(51, 51, 51, 1)
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =Label42_5.BorderColor
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        Height: =35
+        HoverBorderColor: =Label42_5.BorderColor
+        HoverColor: =Label42_5.Color
+        HoverFill: =Label42_5.Fill
+        PressedBorderColor: =Label42_5.BorderColor
+        PressedColor: =Label42_5.Color
+        PressedFill: =Label42_5.Fill
+        Size: =13
+        Text: =Last(colBeneficiaryLOB).Name
+        Visible: =varDevMode
+        Width: =226
+        X: =818
+        Y: =67
+        ZIndex: =11
+
+    Label42_7 As label:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Color: =RGBA(51, 51, 51, 1)
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =Label42_7.BorderColor
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        Height: =35
+        HoverBorderColor: =Label42_7.BorderColor
+        HoverColor: =Label42_7.Color
+        HoverFill: =Label42_7.Fill
+        PressedBorderColor: =Label42_7.BorderColor
+        PressedColor: =Label42_7.Color
+        PressedFill: =Label42_7.Fill
+        Size: =13
+        Text: =Last(colBeneficiaryLOB).Approver.'Full Name'
+        Visible: =varDevMode
+        Width: =226
+        X: =1088
+        Y: =68
+        ZIndex: =12
+
+    Container1 As groupContainer:
+        DisplayMode: =DisplayMode.Edit
+        Height: =432
+        Visible: =false
+        Width: =900
+        X: =919
+        Y: =II_RequestType.Y - 40
+        ZIndex: =13
+
+        Label41_4 As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =Label41_4.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            Height: =28
+            HoverBorderColor: =Label41_4.BorderColor
+            HoverColor: =Label41_4.Color
+            HoverFill: =Label41_4.Fill
+            PressedBorderColor: =Label41_4.BorderColor
+            PressedColor: =Label41_4.Color
+            PressedFill: =Label41_4.Fill
+            Size: =13
+            Text: =""
+            Visible: =!IsEmpty(gal_DraftInitiativesPickerList.AllItems) Or varDevMode
+            Width: =820
+            X: =40
+            Y: =78
+            ZIndex: =1
+
+        gal_DraftInitiativesPickerList As gallery.galleryVertical:
+            BorderColor: =RGBA(230, 230, 230, 1)
+            BorderThickness: =2
+            Default: =First(colGTMEntries)
+            DisabledBorderColor: =gal_DraftInitiativesPickerList.BorderColor
+            DisabledFill: =gal_DraftInitiativesPickerList.Fill
+            Height: =286
+            HoverBorderColor: =gal_DraftInitiativesPickerList.BorderColor
+            HoverFill: =gal_DraftInitiativesPickerList.Fill
+            Items: =Filter(gtmEntries, 'gtmEntries (Views)'.My_Draft_Initiatives)
+            Layout: =Layout.Vertical
+            LoadingSpinnerColor: =gal_DraftInitiativesPickerList.BorderColor
+            NavigationStep: =12
+            OnSelect: |-
+                =Set(varLoadingData, true);
+                
+                Set(varIsNewInitiative, false);
+                Set(varIsDraftInitiative, true);
+                Set(varCurrInitiativeType, ThisItem.InitiativeType);
+                Set(varIntakeTypeGroup, ThisItem.InitiativeTypeGroup);
+                Set(varInitiativeType, Text(ThisItem.InitiativeType));
+                //Set(varCurrentRecord, LookUp(gtmEntries, gtmEntry = ThisItem.gtmEntry));
+                Set(varCurrentRecord, ThisItem);
+                //Set(varCurrentRecordInitialValues, LookUp(gtmEntries, gtmEntry = ThisItem.gtmEntry));
+                Set(varRequestType, Text(ThisItem.InitiativeTypeGroup));
+                
+                Navigate(Project_Details_Screen,ScreenTransition.None);
+                //Set(varCurrentRecordCopyTest, LookUp(gtmEntries, gtmEntry = varCurrentRecord.gtmEntry));
+                ClearCollect(collFormValues, Filter(ComponentFieldDetails, formID = varInitiativeType, isOnIntake = true))
+            PressedBorderColor: =gal_DraftInitiativesPickerList.BorderColor
+            PressedFill: =gal_DraftInitiativesPickerList.Fill
+            TemplatePadding: =0
+            TemplateSize: =67
+            Visible: =!IsEmpty(gal_DraftInitiativesPickerList.AllItems) Or varDevMode
+            Width: =820
+            X: =40
+            Y: =106
+            ZIndex: =2
+
+            Label9 As label:
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderColor: =Label9.BorderColor
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                HoverBorderColor: =Label9.BorderColor
+                HoverColor: =Label9.Color
+                HoverFill: =Label9.Fill
+                OnSelect: =Select(Parent)
+                PressedBorderColor: =Label9.BorderColor
+                PressedColor: =Label9.Color
+                PressedFill: =Label9.Fill
+                Size: =13
+                Text: =ThisItem.DarkStatus
+                Visible: =false
+                X: =60
+                Y: =27
+                ZIndex: =1
+
+            icoSeparatorBar_1 As rectangle:
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                DisabledFill: =RGBA(166, 166, 166, 1)
+                DisplayMode: =DisplayMode.View
+                Fill: =ColorValue(LookUp(StyleGuide, Key = "LightGrey").Value)
+                FocusedBorderColor: =RGBA(0, 0, 0, 0)
+                FocusedBorderThickness: =4
+                Height: =1
+                HoverFill: =RGBA(105, 121, 126, 1)
+                OnSelect: =Select(Parent)
+                PressedFill: =RGBA(105, 121, 126, 1)
+                Width: =gal_DraftInitiativesPickerList.Width - (gal_DraftInitiativesPickerList.TemplatePadding * 2)
+                Y: =66
+                ZIndex: =2
+
+            lblGroup_1 As label:
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderColor: =RGBA(0, 0, 0, 0)
+                FocusedBorderThickness: =4
+                Font: =Font.Arial
+                FontWeight: =Normal
+                Height: =Parent.TemplateHeight
+                HoverBorderColor: =RGBA(0, 0, 0, 0)
+                HoverColor: =RGBA(0, 0, 0, 0)
+                HoverFill: =RGBA(0, 0, 0, 0)
+                OnSelect: =Select(Parent)
+                PaddingBottom: =10
+                PaddingLeft: =10
+                PaddingTop: =10
+                PressedBorderColor: =RGBA(0, 0, 0, 0)
+                PressedColor: =RGBA(0, 0, 0, 0)
+                PressedFill: =RGBA(0, 0, 0, 0)
+                Size: =12
+                Text: =ThisItem.InitiativeTypeGroup
+                VerticalAlign: =VerticalAlign.Top
+                Width: =Label41_2.Width
+                X: =lblInitiativeName_1.X + lblInitiativeName_1.Width
+                ZIndex: =3
+
+            lblInitiativeName_1 As label:
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderColor: =RGBA(0, 0, 0, 0)
+                FocusedBorderThickness: =4
+                Font: =Font.Arial
+                FontWeight: =Normal
+                Height: =Parent.TemplateHeight
+                HoverBorderColor: =RGBA(0, 0, 0, 0)
+                HoverColor: =RGBA(0, 0, 0, 0)
+                HoverFill: =RGBA(0, 0, 0, 0)
+                OnSelect: =Select(Parent)
+                PaddingBottom: =10
+                PaddingLeft: =10
+                PaddingTop: =10
+                PressedBorderColor: =RGBA(0, 0, 0, 0)
+                PressedColor: =RGBA(0, 0, 0, 0)
+                PressedFill: =RGBA(0, 0, 0, 0)
+                Size: =12
+                Text: =ThisItem.InitiativeName
+                VerticalAlign: =VerticalAlign.Top
+                Width: =Label41_1.Width
+                X: =lblCreatedOnDate_1.X + lblCreatedOnDate_1.Width
+                ZIndex: =4
+
+            lblCreatedOnDate_1 As label:
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderColor: =RGBA(0, 0, 0, 0)
+                FocusedBorderThickness: =4
+                Font: =Font.Arial
+                FontWeight: =Normal
+                Height: =Parent.TemplateHeight
+                HoverBorderColor: =RGBA(0, 0, 0, 0)
+                HoverColor: =RGBA(0, 0, 0, 0)
+                HoverFill: =RGBA(0, 0, 0, 0)
+                OnSelect: =Select(Parent)
+                PaddingBottom: =10
+                PaddingLeft: =10
+                PaddingTop: =10
+                PressedBorderColor: =RGBA(0, 0, 0, 0)
+                PressedColor: =RGBA(0, 0, 0, 0)
+                PressedFill: =RGBA(0, 0, 0, 0)
+                Size: =12
+                Text: =Text(ThisItem.'Created On', ShortDate)
+                VerticalAlign: =VerticalAlign.Top
+                Width: =Label41.Width
+                ZIndex: =5
+
+            lblType_1 As label:
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderColor: =RGBA(0, 0, 0, 0)
+                FocusedBorderThickness: =4
+                Font: =Font.Arial
+                FontWeight: =Normal
+                Height: =Parent.TemplateHeight
+                HoverBorderColor: =RGBA(0, 0, 0, 0)
+                HoverColor: =RGBA(0, 0, 0, 1)
+                HoverFill: =RGBA(0, 0, 0, 0)
+                OnSelect: =Select(Parent)
+                PaddingBottom: =10
+                PaddingLeft: =10
+                PaddingTop: =10
+                PressedBorderColor: =RGBA(0, 0, 0, 0)
+                PressedColor: =RGBA(0, 0, 0, 0)
+                PressedFill: =RGBA(0, 0, 0, 0)
+                Size: =12
+                Text: =ThisItem.InitiativeType
+                VerticalAlign: =VerticalAlign.Top
+                Width: =Label41_3.Width - 40
+                X: =lblGroup_1.X + lblGroup_1.Width
+                ZIndex: =6
+
+            Label43 As label:
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderColor: =Label43.BorderColor
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                HoverBorderColor: =Label43.BorderColor
+                HoverColor: =Label43.Color
+                HoverFill: =Label43.Fill
+                OnSelect: =Select(Parent)
+                PressedBorderColor: =Label43.BorderColor
+                PressedColor: =Label43.Color
+                PressedFill: =Label43.Fill
+                Size: =13
+                Text: =ThisItem.'Created By'.'Full Name'
+                Visible: =varDevMode
+                X: =40
+                Y: =26.769230769230774
+                ZIndex: =7
+
+            Label44 As label:
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderColor: =Label44.BorderColor
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                HoverBorderColor: =Label44.BorderColor
+                HoverColor: =Label44.Color
+                HoverFill: =Label44.Fill
+                OnSelect: =Select(Parent)
+                PressedBorderColor: =Label44.BorderColor
+                PressedColor: =Label44.Color
+                PressedFill: =Label44.Fill
+                Size: =13
+                Text: =ThisItem.'Business Owner'.'Full Name'
+                Visible: =varDevMode
+                X: =247
+                Y: =26
+                ZIndex: =8
+
+            Label45 As label:
+                BorderColor: =RGBA(0, 0, 0, 0)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =2
+                Color: =RGBA(51, 51, 51, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                FocusedBorderColor: =Label45.BorderColor
+                FocusedBorderThickness: =4
+                Font: =Font.'Segoe UI'
+                HoverBorderColor: =Label45.BorderColor
+                HoverColor: =Label45.Color
+                HoverFill: =Label45.Fill
+                OnSelect: =Select(Parent)
+                PressedBorderColor: =Label45.BorderColor
+                PressedColor: =Label45.Color
+                PressedFill: =Label45.Fill
+                Size: =13
+                Text: =ThisItem.'Sponsoring VP'.'Full Name'
+                Visible: =varDevMode
+                X: =421
+                Y: =26
+                ZIndex: =9
+
+            btnNavigateToRecord_1 As button:
+                BorderColor: =ColorFade(Magenta, 80%)
+                BorderStyle: =BorderStyle.None
+                BorderThickness: =4
+                Color: =RGBA(0, 0, 0, 1)
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(0, 0, 0, 0)
+                DisabledFill: =RGBA(0, 0, 0, 0)
+                Fill: =RGBA(0,0,0,0)
+                FocusedBorderColor: =RGBA(0, 0, 0, 0)
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =gal_DraftInitiativesPickerList.TemplateHeight
+                HoverBorderColor: =RGBA(0, 0, 0, 0)
+                HoverColor: =RGBA(0, 0, 0, 0)
+                HoverFill: =RGBA(226, 0, 116, .30)
+                OnSelect: =Select(Parent)
+                PressedBorderColor: =
+                PressedColor: =
+                PressedFill: =RGBA(226, 0, 116, .50)
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Size: =15
+                Text: =
+                Width: =820
+                ZIndex: =10
+
+            brnSetInactive_1 As icon.Trash:
+                BorderColor: =RGBA(166, 166, 166, 1)
+                Color: =DarkGray
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisabledColor: =RGBA(220, 220, 220, 1)
+                DisabledFill: =RGBA(0, 0, 0, 0)
+                FocusedBorderColor: =RGBA(0, 0, 0, 0)
+                FocusedBorderThickness: =4
+                Height: =Parent.TemplateHeight
+                HoverBorderColor: =RGBA(0, 0, 0, 0)
+                HoverColor: =Magenta
+                HoverFill: =RGBA(0, 0, 0, 0)
+                Icon: =Icon.Trash
+                OnSelect: |-
+                    =Patch(gtmEntries, ThisItem, {Status: 'Status (gtmEntries)'.Inactive})
+                PaddingBottom: =5
+                PaddingLeft: =5
+                PaddingRight: =5
+                PaddingTop: =5
+                PressedBorderColor: =RGBA(0, 0, 0, 0)
+                PressedColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+                PressedFill: =RGBA(0, 0, 0, 0)
+                Width: =45
+                X: =Parent.Width - brnSetInactive_1.Width
+                ZIndex: =11
+
+        Label39 As label:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =Label39.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =38
+            HoverBorderColor: =Label39.BorderColor
+            HoverColor: =Label39.Color
+            HoverFill: =Label39.Fill
+            PaddingBottom: =15
+            PressedBorderColor: =Label39.BorderColor
+            PressedColor: =Label39.Color
+            PressedFill: =Label39.Fill
+            Size: =20
+            Text: ="My Draft Initiatives"
+            Visible: =!IsEmpty(gal_DraftInitiativesPickerList.AllItems) Or varDevMode
+            Width: =820
+            X: =40
+            Y: =40
+            ZIndex: =3
+
+        Label41 As label:
+            BorderColor: =RGBA(204, 204, 204, 1)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            Fill: =RGBA(230, 230, 230, 1)
+            FocusedBorderColor: =Label41.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =28
+            HoverBorderColor: =Label41.BorderColor
+            HoverColor: =Label41.Color
+            HoverFill: =Label41.Fill
+            PressedBorderColor: =Label41.BorderColor
+            PressedColor: =Label41.Color
+            PressedFill: =Label41.Fill
+            Size: =13
+            Text: ="Intake Date"
+            Visible: =!IsEmpty(gal_DraftInitiativesPickerList.AllItems) Or varDevMode
+            Width: =110
+            X: =40
+            Y: =78
+            ZIndex: =4
+
+        Label41_1 As label:
+            BorderColor: =RGBA(204, 204, 204, 1)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            Fill: =RGBA(230, 230, 230, 1)
+            FocusedBorderColor: =Label41_1.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =28
+            HoverBorderColor: =Label41_1.BorderColor
+            HoverColor: =Label41_1.Color
+            HoverFill: =Label41_1.Fill
+            PressedBorderColor: =Label41_1.BorderColor
+            PressedColor: =Label41_1.Color
+            PressedFill: =Label41_1.Fill
+            Size: =13
+            Text: ="Initiative Name"
+            Visible: =!IsEmpty(gal_DraftInitiativesPickerList.AllItems) Or varDevMode
+            Width: =400
+            X: =Label41.X + Label41.Width
+            Y: =78
+            ZIndex: =5
+
+        Label41_2 As label:
+            BorderColor: =RGBA(204, 204, 204, 1)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            Fill: =RGBA(230, 230, 230, 1)
+            FocusedBorderColor: =Label41_2.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =28
+            HoverBorderColor: =Label41_2.BorderColor
+            HoverColor: =Label41_2.Color
+            HoverFill: =Label41_2.Fill
+            PressedBorderColor: =Label41_2.BorderColor
+            PressedColor: =Label41_2.Color
+            PressedFill: =Label41_2.Fill
+            Size: =13
+            Text: ="Request Type"
+            Visible: =!IsEmpty(gal_DraftInitiativesPickerList.AllItems) Or varDevMode
+            Width: =140
+            X: =Label41_1.X + Label41_1.Width
+            Y: =78
+            ZIndex: =6
+
+        Label41_3 As label:
+            BorderColor: =RGBA(204, 204, 204, 1)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            Fill: =RGBA(230, 230, 230, 1)
+            FocusedBorderColor: =Label41_3.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =28
+            HoverBorderColor: =Label41_3.BorderColor
+            HoverColor: =Label41_3.Color
+            HoverFill: =Label41_3.Fill
+            PressedBorderColor: =Label41_3.BorderColor
+            PressedColor: =Label41_3.Color
+            PressedFill: =Label41_3.Fill
+            Size: =13
+            Text: ="Type"
+            Visible: =!IsEmpty(gal_DraftInitiativesPickerList.AllItems) Or varDevMode
+            Width: =170
+            X: =Label41_2.X + Label41_2.Width
+            Y: =78
+            ZIndex: =7
+
+    II_InitiativeType_1 As groupContainer:
+        DisplayMode: =DisplayMode.Edit
+        Visible: =false//II_RequestType_Input.Selected.Value = InitiativeTypeGroup.Business
+        Width: =652
+        X: =II_RequestType.X
+        Y: =800
+        ZIndex: =14
+
+        II_InitiativeType_Input_1 As dropdown:
+            BorderColor: =DarkGrey
+            ChevronBackground: =Magenta
+            ChevronDisabledBackground: =Grey
+            ChevronDisabledFill: =White
+            ChevronFill: =White
+            ChevronHoverBackground: =Magenta
+            ChevronHoverFill: =White
+            Color: =Black
+            Default: ="0"
+            DisabledBorderColor: =DarkGrey
+            DisabledColor: =Black
+            DisabledFill: =LightGrey2
+            Fill: =White
+            FocusedBorderColor: =II_InitiativeType_Input_1.BorderColor
+            FocusedBorderThickness: =1
+            Font: =FontStyle
+            FontWeight: =Semibold
+            Height: =36
+            HoverBorderColor: =Grey
+            HoverColor: =Black
+            HoverFill: =LightMagenta2
+            Items: =Choices(Brand)
+            OnChange: |-
+                =Set(varCurrInitiativeType, II_InitiativeType_Input_1.Selected.Value);
+                Set(varInitiativeType, II_InitiativeType_Input_1.SelectedText.Value);
+                
+                ClearCollect(collFormValues, Filter(ComponentFieldDetails, formID = varInitiativeType, isOnIntake = true));
+            PaddingBottom: =5
+            PaddingLeft: =12
+            PaddingRight: =5
+            PaddingTop: =5
+            PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            PressedColor: =Black
+            PressedFill: =White
+            Reset: =
+            SelectionColor: =Magenta
+            SelectionFill: =White
+            Size: =InputSize
+            Width: =400
+            Y: =II_InitiativeType_Title_1.Y + II_InitiativeType_Title_1.Height + 8
+            ZIndex: =2
+
+        II_InitiativeType_Title_1 As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =DarkGrey
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisplayMode: =DisplayMode.View
+            FocusedBorderColor: =II_InitiativeType_Title_1.BorderColor
+            FocusedBorderThickness: =4
+            Font: =FontStyle
+            FontWeight: =Semibold
+            Height: =Text2Height
+            HoverBorderColor: =II_InitiativeType_Title_1.BorderColor
+            HoverColor: =II_InitiativeType_Title_1.Color
+            HoverFill: =II_InitiativeType_Title_1.Fill
+            PressedBorderColor: =II_InitiativeType_Title_1.BorderColor
+            PressedColor: =II_InitiativeType_Title_1.Color
+            PressedFill: =II_InitiativeType_Title_1.Fill
+            Size: =Text2Size
+            Text: ="Select your Initiative Type"
+            Width: =II_InitiativeType_1.Width - 1
+            Wrap: =false
+            ZIndex: =4
+
+        HtmlText1_3 As htmlViewer:
+            Color: =LightGrey
+            Height: =116
+            HoverBorderColor: =HtmlText1_3.BorderColor
+            HtmlText: |-
+                ="<div><strong>Device Launch</strong>: Any new device launch (handset, tablet, wearable, etc.)</div>
+                <div><strong>Device Promotion</strong>: Mail-in rebates, recurring device credits, etc.</div>
+                <div><strong>Service Offer</strong>: Rate plan &amp; feature related requests</div>
+                <div><strong>Project</strong>: Initiatives that require P&amp;T support &ndash; both CAPEX projects and OpEx programs</div>
+                <div><strong>Other</strong>: All other initiatives (non-CAPEX funded initiatives, PR announcements, etc.)</div>"
+            PressedBorderColor: =HtmlText1_3.BorderColor
+            Visible: =false
+            Width: =634
+            X: =II_InitiativeType_Title_1.X
+            Y: =II_InitiativeType_Input_1.Y + II_InitiativeType_Input_1.Height + 5
+            ZIndex: =5
+
+    II_Launch_Button As button:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =1
+        Color: =White
+        DisabledBorderColor: =DarkGrey
+        DisabledColor: =White
+        DisabledFill: =Grey
+        DisplayMode: =If(II_InitiativeType_Input.SelectedText.Value = "Please Select", DisplayMode.Disabled, DisplayMode.Edit)
+        Fill: =Magenta
+        FocusedBorderColor: =II_Launch_Button.BorderColor
+        FocusedBorderThickness: =1
+        Font: =FontStyle
+        FontWeight: =FontWeight.Semibold
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverColor: =White
+        HoverFill: =ColorFade(Magenta, -20%)
+        OnSelect: |-
+            =//UpdateContext({showLoader: false});
+            
+            Set(varInitiaitveUpdated, false);
+            Set(varIsNewInitiative, true);
+            Set(varRecordEditPermissions, true);
+            Set(varRequestType, II_RequestType_Input.SelectedText.Value);
+            //ClearCollect(collFormValues, Filter(ComponentFieldDetails, formID = varInitiativeType, isOnIntake = true));
+            
+            
+            //Navigate(Project_Details_Screen,ScreenTransition.None);
+            Navigate(New_Project_Screen,ScreenTransition.None);
+        PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+        PressedColor: =RGBA(255, 255, 255, 1)
+        PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =Text2Size
+        Text: ="Create New"
+        Visible: =!(II_InitiativeType_Input.SelectedText.Value = "Please Select") And !IsBlank(collFormValues)
+        X: =II_InitiativeType.X
+        Y: =850
+        ZIndex: =15
+
+    Gallery3 As gallery.galleryHorizontal:
+        BorderColor: =RGBA(128, 128, 128, 1)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =54
+        Items: =Choices(InitiativeTypeGroup)
+        TemplatePadding: =10
+        TemplateSize: =188
+        Transition: =Transition.Pop
+        Visible: =varDevMode
+        Width: =606
+        X: =551
+        Y: =331
+        ZIndex: =16
+
+        Rectangle13 As rectangle:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            DisabledFill: =RGBA(166, 166, 166, 1)
+            Fill: =If(ThisItem.IsSelected, Magenta, ColorFade(Grey, 90%))
+            FocusedBorderThickness: =4
+            Height: =Parent.TemplateHeight
+            HoverFill: =RGBA(105, 121, 126, 1)
+            OnSelect: =Select(Parent)
+            PressedFill: =RGBA(105, 121, 126, 1)
+            Width: =Parent.TemplateWidth
+            ZIndex: =1
+
+        Label17 As label:
+            Align: =Align.Center
+            BorderColor: =RGBA(128, 128, 128, 1)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =If(ThisItem.IsSelected, White, DarkGrey)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =Parent.TemplateHeight
+            OnSelect: =Select(Parent)
+            Text: =ThisItem.Value
+            Width: =Parent.TemplateWidth
+            ZIndex: =2
+
+    Gallery3_1 As gallery.galleryHorizontal:
+        BorderColor: =RGBA(128, 128, 128, 1)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =100
+        Items: |-
+            =//Sort(Filter(gtmInitiativeTypes, 'Initiative Group Type' = II_RequestType_Input.Selected.Value), 'Sort Order', Ascending)
+            Switch(Text(Gallery3.Selected.Value),
+            "Please Select", Filter(Choices(InitiativeType), (Value = InitiativeType.'Please Select')),
+            "P&T", Filter(Choices(InitiativeType), !(Value = InitiativeType.'Device Launch' Or Value = InitiativeType.'Device Promotion'  Or Value = InitiativeType.'Service Offer' Or Value = InitiativeType.Project Or Value = 
+            InitiativeType.Other)), 
+            "Business", Filter(Choices(InitiativeType), !(Value = InitiativeType.'Lights On' Or Value = InitiativeType.'Digital Transformation')),
+            Filter(Choices(InitiativeType), (Value = InitiativeType.'Please Select')))
+        TemplatePadding: =10
+        TemplateSize: =188
+        Visible: =varDevMode
+        Width: =606
+        WrapCount: =2
+        X: =551
+        Y: =385
+        ZIndex: =17
+
+        Rectangle13_1 As rectangle:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            DisabledFill: =RGBA(166, 166, 166, 1)
+            Fill: =If(ThisItem.IsSelected, Magenta, ColorFade(Grey, 90%))
+            FocusedBorderThickness: =4
+            Height: =Parent.TemplateHeight
+            HoverFill: =RGBA(105, 121, 126, 1)
+            OnSelect: =Select(Parent)
+            PressedFill: =RGBA(105, 121, 126, 1)
+            Width: =Parent.TemplateWidth
+            ZIndex: =1
+
+        Label17_1 As label:
+            Align: =Align.Center
+            BorderColor: =RGBA(128, 128, 128, 1)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =If(ThisItem.IsSelected, White, DarkGrey)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =Parent.TemplateHeight
+            OnSelect: =Select(Parent)
+            Size: =13
+            Text: =ThisItem.Value
+            Width: =Parent.TemplateWidth
+            ZIndex: =2
+

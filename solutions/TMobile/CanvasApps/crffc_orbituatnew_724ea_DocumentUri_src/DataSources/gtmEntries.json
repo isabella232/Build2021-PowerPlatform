@@ -1,0 +1,2015 @@
+[
+  {
+    "DisplayName": "gtmEntries (Views)",
+    "Name": "_cat_gtmentry_views",
+    "RelatedEntityName": "gtmEntries",
+    "TrimmedViewName": true,
+    "Type": "ViewInfo",
+    "ViewInfoNameMapping": {
+      "01ed9475-df25-ea11-a810-000d3a3682ac": "Service_Offer_And_Device_Promotion",
+      "055a83b6-7248-ea11-a812-000d3a36880e": "Steering - Agenda - On Hold/Monitoring",
+      "084881bb-1372-ea11-a811-000d3a36880e": "Toggle Check",
+      "1775d339-7274-ea11-a811-000d3a36880e": "No Legacy ID",
+      "17d5fcab-e0ee-4e5f-959f-ec7f124e23fa": "gtmEntry Lookup View",
+      "1812d1a5-e8f1-e911-a83e-000d3a365fc2": "My_Initiatives",
+      "321b83ea-68b5-4e9f-b473-a7b0aec25a7b": "Inactive gtmEntries",
+      "34690b70-0022-ea11-a810-000d3a36886f": "Dark",
+      "479b4bb7-e0f1-e911-a841-000d3a37557b": "ORBIT_Gallery_View",
+      "4f573a49-7248-ea11-a812-000d3a368be7": "Steering - Agenda - Previously Reviewed",
+      "5084c1c9-df25-ea11-a810-000d3a3682ac": "Device_Launch",
+      "5775e67d-3829-ea11-a810-000d3a36886f": "My_Draft_Initiatives",
+      "5fd13ce3-9973-ea11-a811-000d3a36880e": "No Legacy GTM ID",
+      "715efd1d-9cf6-4b5b-bc69-7e3f006c1394": "gtmEntry Advanced Find View",
+      "7f3bfd46-f31d-ea11-a811-000d3a368be7": "New View",
+      "84d313dc-cc30-ea11-a810-000d3a36886f": "Aina Playing with Views",
+      "8fea4c29-28f5-4d5f-b4ee-8a35e0bbf62f": "Active gtmEntries - Old to New Modified",
+      "90a43fae-5b41-ea11-a812-000d3a368e62": "My_Initiatives_Test",
+      "90ce6735-7148-ea11-a812-000d3a368be7": "Steering - Agenda - New",
+      "990fdf0a-7348-ea11-a812-000d3a36857d": "Steering - Accounting View",
+      "9c354810-df25-ea11-a810-000d3a3682ac": "GTM_Prepaid",
+      "a7be5bbc-4370-ea11-a811-000d3a36886f": "PMR Report_View",
+      "ab811413-b064-ea11-a811-000d3a36857d": "Assigned BUs",
+      "be72ef44-df25-ea11-a810-000d3a3682ac": "Super",
+      "d27783cb-0022-ea11-a810-000d3a36857d": "Non-Dark",
+      "d3222e6f-ef0a-ea11-a811-000d3a33706c": "All Records",
+      "ea8880e0-7169-ea11-a811-000d3a36886f": "Active gtmEntries Ascending",
+      "f026b4a1-0e17-ea11-a811-000d3a36857d": "Non-Sponsor Role Initiatives",
+      "f4cf1592-209c-420e-a294-fe0585f9edff": "gtmEntry Associated View",
+      "fca322bf-658a-ea11-a812-000d3a329613": "Active gtmEntries - Ascending"
+    }
+  },
+  {
+    "DisplayName": "AddALineTypes",
+    "Name": "cat_addalinetypes",
+    "OptionSetInfoNameMapping": {
+      "809060000": "Voice",
+      "809060001": "Wearable",
+      "809060002": "IoT",
+      "809060003": "MI"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_addalinetypes",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "MultiSelectPicklistType",
+    "RelatedColumnInvariantName": "cat_addalinetypes",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "AdditionalEligibilityRequirements",
+    "Name": "cat_additionaleligibilityrequirements",
+    "OptionSetInfoNameMapping": {
+      "809060000": "Add-A-Line",
+      "809060001": "Port-in (Excludes all MVNOs, Metro, Simply Prepaid)",
+      "809060002": "Trade-In (must upload device SKU list as attachment, above)",
+      "809060003": "N/A",
+      "809060004": "New BAN",
+      "809060005": "Other",
+      "809060006": "Gift Card"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_additionaleligibilityrequirements",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "MultiSelectPicklistType",
+    "RelatedColumnInvariantName": "cat_additionaleligibilityrequirements",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "AnnualGALiftEstimate",
+    "Name": "cat_annualgaliftestimate",
+    "OptionSetInfoNameMapping": {
+      "809060000": "N/A",
+      "809060001": "Low: 1 - 50K",
+      "809060002": "Med: 50 - 200K",
+      "809060003": "High: > 200K"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_annualgaliftestimate",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "cat_annualgaliftestimate",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "AudienceSpecificCommunications",
+    "Name": "cat_audiencespecificcommunications",
+    "OptionSetInfoNameMapping": {
+      "809060000": "N/A",
+      "809060001": "Prospect",
+      "809060002": "Base",
+      "809060003": "Other",
+      "809060004": "Both Base and Prospect"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_audiencespecificcommunications",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "cat_audiencespecificcommunications",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "BeneficiaryLOB",
+    "Name": "cat_beneficiarylob",
+    "OptionSetInfoNameMapping": {
+      "809060000": "Brand & Network",
+      "809060001": "Consumer Postpaid",
+      "809060002": "H & E",
+      "809060003": "Small Town Rural",
+      "809060004": "TFB",
+      "809060005": "T-Mobile Tuesdays",
+      "809060006": "Consumer Prepaid",
+      "809060007": "Emerging Business"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_beneficiarylob",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      },
+      "OptionSetReferenceItem1": {
+        "OptionSetReferenceColumnName": "cat_beneficiarylob",
+        "OptionSetReferenceEntityName": "BeneficiaryLOBApprovers"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "cat_beneficiarylob",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Brand",
+    "Name": "cat_brand",
+    "OptionSetInfoNameMapping": {
+      "809060000": "Metro",
+      "809060001": "TMO Postpaid",
+      "809060002": "TMO Prepaid",
+      "809060003": "Sprint",
+      "809060004": "T-Mobile Postpaid + Sprint",
+      "809060005": "N/A",
+      "809060006": "T-Mobile Postpaid + Metro"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_brand",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "cat_brand",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "BusinessBenefit",
+    "Name": "cat_businessbenefit",
+    "OptionSetInfoNameMapping": {
+      "809060000": "GA Lift",
+      "809060001": "Churn Decrease",
+      "809060002": "ARPU Increase",
+      "809060003": "Cost Savings",
+      "809060004": "Cash Flow Redux",
+      "809060005": "Compliance",
+      "809060006": "Other (Describe)",
+      "809060007": "Risk Mitigation"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_businessbenefit",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "cat_businessbenefit",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "CalendarGrouping",
+    "Name": "cat_calendargrouping",
+    "OptionSetInfoNameMapping": {
+      "809060000": "Primary Offers",
+      "809060001": "Data",
+      "809060002": "Prepaid",
+      "809060003": "TFB",
+      "809060004": "Home & Ent",
+      "809060005": "Other",
+      "809060006": "Other Launches",
+      "809060007": "Not On Calendar"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_calendargrouping",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "cat_calendargrouping",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "ActiveServiceRequired (gtmEntries)",
+    "Name": "cat_cat_gtmentry_activeservicerequired",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_activeservicerequired",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "cat_activeservicerequired",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "CarrierFreedom (gtmEntries)",
+    "Name": "cat_cat_gtmentry_carrierfreedom",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_carrierfreedom",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "cat_carrierfreedom",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "ChangeRequest (gtmEntries)",
+    "Name": "cat_cat_gtmentry_changerequest",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_changerequest",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "cat_changerequest",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Contingency (gtmEntries)",
+    "Name": "cat_cat_gtmentry_contingency",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_contingency",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "cat_contingency",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "CustomerImpacting (gtmEntries)",
+    "Name": "cat_cat_gtmentry_customerimpacting",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_customerimpacting",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "cat_customerimpacting",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "DarkStatus (gtmEntries)",
+    "Name": "cat_cat_gtmentry_darkstatus",
+    "OptionSetInfoNameMapping": {
+      "0": "Not Dark",
+      "1": "Dark"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_darkstatus",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "cat_darkstatus",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "EmployeeDiscount (gtmEntries)",
+    "Name": "cat_cat_gtmentry_employeediscount",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_employeediscount",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "cat_employeediscount",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "EmployeeEligible (gtmEntries)",
+    "Name": "cat_cat_gtmentry_employeeeligible",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_employeeeligible",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "cat_employeeeligible",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "EnterpriseCapitalPlanning (gtmEntries)",
+    "Name": "cat_cat_gtmentry_enterprisecapitalplanning",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_enterprisecapitalplanning",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "cat_enterprisecapitalplanning",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "GetOutOfTheRed (gtmEntries)",
+    "Name": "cat_cat_gtmentry_getoutofthered",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_getoutofthered",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "cat_getoutofthered",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "GoesOnCalendar (gtmEntries)",
+    "Name": "cat_cat_gtmentry_goesoncalendar",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_goesoncalendar",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "cat_goesoncalendar",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Integration (gtmEntries)",
+    "Name": "cat_cat_gtmentry_integration",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_integration",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "cat_integration",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "InvestmentFund (gtmEntries)",
+    "Name": "cat_cat_gtmentry_investmentfund",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_investmentfund",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "cat_investmentfund",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "IsolatedCapacity (gtmEntries)",
+    "Name": "cat_cat_gtmentry_isolatedcapacity",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_isolatedcapacity",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "cat_isolatedcapacity",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "JUMPEligible (gtmEntries)",
+    "Name": "cat_cat_gtmentry_jumpeligible",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_jumpeligible",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "cat_jumpeligible",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "KeyInitiative (gtmEntries)",
+    "Name": "cat_cat_gtmentry_keyinitiative",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_keyinitiative",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "cat_keyinitiative",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "KeyLaunch (gtmEntries)",
+    "Name": "cat_cat_gtmentry_keylaunch",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_keylaunch",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "cat_keylaunch",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "LimitedTimeOffer (gtmEntries)",
+    "Name": "cat_cat_gtmentry_limitedtimeoffer",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_limitedtimeoffer",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "cat_limitedtimeoffer",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "MAPRestricted (gtmEntries)",
+    "Name": "cat_cat_gtmentry_maprestricted",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_maprestricted",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "cat_maprestricted",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Market (gtmEntries)",
+    "Name": "cat_cat_gtmentry_market",
+    "OptionSetInfoNameMapping": {
+      "0": "National",
+      "1": "Local"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_market",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "cat_market",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Monitoring (gtmEntries)",
+    "Name": "cat_cat_gtmentry_monitoring",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_monitoring",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "cat_monitoring",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "OtherLaunch (gtmEntries)",
+    "Name": "cat_cat_gtmentry_otherlaunch",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_otherlaunch",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "cat_otherlaunch",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "PromoDetailsLocked (gtmEntries)",
+    "Name": "cat_cat_gtmentry_promodetailslocked",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_promodetailslocked",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "cat_promodetailslocked",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "PromoEligibilityTool (gtmEntries)",
+    "Name": "cat_cat_gtmentry_promoeligibilitytool",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_promoeligibilitytool",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "cat_promoeligibilitytool",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "ReplacingAnExistingProduct (gtmEntries)",
+    "Name": "cat_cat_gtmentry_replacinganexistingproduct",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_replacinganexistingproduct",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "cat_replacinganexistingproduct",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "SteeringFYI (gtmEntries)",
+    "Name": "cat_cat_gtmentry_steeringfyi",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_steeringfyi",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "cat_steeringfyi",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "SubmittedAsDraft (gtmEntries)",
+    "Name": "cat_cat_gtmentry_submittedasdraft",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_submittedasdraft",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "cat_submittedasdraft",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "TBD (gtmEntries)",
+    "Name": "cat_cat_gtmentry_tbd",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_tbd",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "cat_tbd",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Category",
+    "Name": "cat_category",
+    "OptionSetInfoNameMapping": {
+      "809060000": "Existing",
+      "809060001": "New"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_category",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "cat_category",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Channels",
+    "Name": "cat_channels",
+    "OptionSetInfoNameMapping": {
+      "809060000": "N/A",
+      "809060001": "Apple in Store",
+      "809060002": "Branded Retail Consumer",
+      "809060003": "Care",
+      "809060004": "Costco in Store",
+      "809060005": "My TMO",
+      "809060006": "National Retail (non Wireless Advocates)",
+      "809060007": "Virtual Retail",
+      "809060008": "TFB General Businesses",
+      "809060009": "TFB Government",
+      "809060010": "TFB Micro Business (TFB Retail)",
+      "809060011": "TFB Sole Proprietor",
+      "809060012": "TMO App",
+      "809060013": "TMO.com",
+      "809060014": "Costco.com",
+      "809060015": "Wireless Advocates (Military, Costco Direct Ship)",
+      "809060016": "Metro Indirect",
+      "809060017": "Metro COR",
+      "809060018": "MetrobyT-Mobile.com",
+      "809060019": "MyMetro",
+      "809060020": "National Retail",
+      "809060021": "M2M",
+      "809060022": "Feature",
+      "809060023": "Metro Care",
+      "809060024": "Metro My Account",
+      "809060025": "Metro IVR",
+      "809060026": "Other",
+      "809060027": "Metro National Retail",
+      "809060028": "Affiliate (Sprint)",
+      "809060029": "Dealer (Sprint)"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_channels",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "MultiSelectPicklistType",
+    "RelatedColumnInvariantName": "cat_channels",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "CustomerSegments",
+    "Name": "cat_customersegments",
+    "OptionSetInfoNameMapping": {
+      "809060000": "M2M",
+      "809060001": "Metro",
+      "809060002": "Postpaid Acquisition",
+      "809060003": "Postpaid Base",
+      "809060004": "Prepaid/U2.0",
+      "809060005": "Puerto Rico",
+      "809060006": "TFB",
+      "809060007": "Wholesale",
+      "809060008": "Other",
+      "809060009": "N/A",
+      "809060010": "Business CL (Sprint)",
+      "809060011": "Metro Acquisition",
+      "809060012": "Metro Base Management",
+      "809060013": "Metro SMO"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_customersegment",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "MultiSelectPicklistType",
+    "RelatedColumnInvariantName": "cat_customersegment",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Day",
+    "Name": "cat_day",
+    "OptionSetInfoNameMapping": {
+      "809060000": "Day 0",
+      "809060001": "Day 0.5",
+      "809060002": "Day 1",
+      "809060003": "Day 1+",
+      "809060004": "Day 1+ CTA/Migration",
+      "809060005": "Day 1+ CTA/Synergy"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_day",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "cat_day",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "DesiredExecution",
+    "Name": "cat_desiredexecution",
+    "OptionSetInfoNameMapping": {
+      "809060000": "FRP Drop",
+      "809060001": "Monthly EIP Bill Credit",
+      "809060002": "OEM Fulfilled",
+      "809060003": "One-Time Credit",
+      "809060004": "Rebate",
+      "809060005": "Other",
+      "809060006": "N/A",
+      "809060007": "Instant Rebate",
+      "809060008": "Gift Card",
+      "809060009": "Offline Script",
+      "809060010": "POS MAC (Sprint)"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_desiredexecution",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "cat_desiredexecution",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "DeviceFulfillmentInScope",
+    "Name": "cat_devicefulfillmentinscope",
+    "OptionSetInfoNameMapping": {
+      "809060000": "N/A",
+      "809060001": "Back Order",
+      "809060002": "Ship To"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_devicefulfillmentinscope",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "MultiSelectPicklistType",
+    "RelatedColumnInvariantName": "cat_devicefulfillmentinscope",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "GALiftType",
+    "Name": "cat_galifttype",
+    "OptionSetInfoNameMapping": {
+      "809060000": "Voice: New BAN",
+      "809060001": "Voice: AAL",
+      "809060002": "Non-Voice",
+      "809060003": "None"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_galifttype",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "MultiSelectPicklistType",
+    "RelatedColumnInvariantName": "cat_galifttype",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status (gtmEntries)",
+    "Name": "cat_gtmentry_statecode",
+    "OptionSetInfoNameMapping": {
+      "0": "Active",
+      "1": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statecode",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "StateType",
+    "RelatedColumnInvariantName": "statecode",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status Reason (gtmEntries)",
+    "Name": "cat_gtmentry_statuscode",
+    "OptionSetInfoNameMapping": {
+      "1": "Active",
+      "2": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statuscode",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "StatusType",
+    "RelatedColumnInvariantName": "statuscode",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Health",
+    "Name": "cat_health",
+    "OptionSetInfoNameMapping": {
+      "809060000": "None",
+      "809060001": "Green",
+      "809060002": "Yellow",
+      "809060003": "Red"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_health",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "cat_health",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "InitiativeType",
+    "Name": "cat_initiativetype",
+    "OptionSetInfoNameMapping": {
+      "358560000": "Other - P&T",
+      "358560001": "Engineering",
+      "358560002": "Operate and Run",
+      "809060000": "Please Select",
+      "809060001": "Project",
+      "809060002": "Other",
+      "809060003": "Service Offer",
+      "809060004": "Device Promotion",
+      "809060005": "Device Launch",
+      "809060008": "Lights On",
+      "809060009": "Digital Transformation"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_initiativetype",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      },
+      "OptionSetReferenceItem1": {
+        "OptionSetReferenceColumnName": "cat_initiativetype",
+        "OptionSetReferenceEntityName": "AttachmentTypeReferences"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "cat_initiativetype",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "InitiativeTypeGroup",
+    "Name": "cat_initiativetypegroup",
+    "OptionSetInfoNameMapping": {
+      "809060000": "Please Select",
+      "809060001": "P&T",
+      "809060002": "Business"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_initiativetypegroup",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "cat_initiativetypegroup",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "IntegratedMarketing",
+    "Name": "cat_integratedmarketing",
+    "OptionSetInfoNameMapping": {
+      "809060000": "Prepaid",
+      "809060001": "Postpaid",
+      "809060002": "Business",
+      "809060003": "H & E",
+      "809060004": "Brand + Network",
+      "809060005": "BEST (Bus Dev. Ent. Sponsorships. TMT)",
+      "809060006": "STR (Small Town Rural)",
+      "809060007": "TMT (T-Mo Tuesdays)",
+      "809060008": "Other"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_integratedmarketing",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "cat_integratedmarketing",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "LOBChannelHorizontal",
+    "Name": "cat_lobchannelhorizontal",
+    "OptionSetInfoNameMapping": {
+      "358560001": "Emerging Business",
+      "809060000": "Advertising & Data",
+      "809060001": "Back Office",
+      "809060002": "Field Sales",
+      "809060003": "Care",
+      "809060004": "Commercial",
+      "809060005": "Device & Supply Chain",
+      "809060006": "Digital",
+      "809060007": "Home & Entertainment",
+      "809060008": "IMO",
+      "809060009": "Consumer Markets Postpaid",
+      "809060010": "Marketing",
+      "809060011": "Consumer Markets Prepaid",
+      "809060012": "MVNO",
+      "809060013": "T-Mobile For Business",
+      "809060014": "Wholesale IOT & M2M",
+      "809060015": "Enterprise",
+      "809060016": "Engineering & Operations",
+      "809060017": "Finance",
+      "809060018": "Product & Technology",
+      "809060019": "Wholesale/MVNO"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_lobchannelhorizontal",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "cat_lobchannelhorizontal",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "MarketingSupportNeeded",
+    "Name": "cat_marketingsupportneeded",
+    "OptionSetInfoNameMapping": {
+      "809060000": "Low",
+      "809060001": "Medium",
+      "809060002": "High",
+      "809060003": "None"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_marketingsupportneeded",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "cat_marketingsupportneeded",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "MobileInternetPlanRequirements",
+    "Name": "cat_mobileinternetplanrequirements",
+    "OptionSetInfoNameMapping": {
+      "358560000": "SyncUp Pets (TI/TE)",
+      "358560001": "Magenta Unlimited",
+      "358560002": "Magenta Plus Unlimited",
+      "809060000": "N/A",
+      "809060001": "Other(i.e. TFB Pooled MI Plan)",
+      "809060007": "Simple Choice w/ 10GB",
+      "809060008": "Simple Choice w/ 2GB",
+      "809060009": "Simple Choice w/ 6GB",
+      "809060010": "Simple Choice w/ UNL",
+      "809060011": "SyncUp Drive UNL w/ 10GB",
+      "809060012": "SyncUp Drive UNL w/ 14GB",
+      "809060013": "SyncUp Drive UNL w/ 18GB",
+      "809060014": "SyncUp Drive UNL w/ 22GB",
+      "809060015": "SyncUp Drive UNL w/ 2GB",
+      "809060016": "SyncUp Drive UNL w/ 6GB",
+      "809060017": "SyncUp Fleet Government (TI/TE)",
+      "809060018": "SyncUp Fleet TFB (TI/TE)",
+      "809060019": "DIGITS Talk and Text (TI/TE)",
+      "809060020": "TMO + Nest Aware (TE)",
+      "809060021": "Moxee Signal",
+      "809060022": "TMO + Nest Aware (TI)",
+      "809060023": "Other",
+      "809060027": "TMO ONE Unlimited (TI/TE)"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_mobileinternetplanrequirements",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "MultiSelectPicklistType",
+    "RelatedColumnInvariantName": "cat_mobileinternetplanrequirements",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "OfferType",
+    "Name": "cat_offertype",
+    "OptionSetInfoNameMapping": {
+      "809060000": "BPTCR",
+      "809060001": "Feature",
+      "809060002": "LLBC",
+      "809060003": "Price Plan",
+      "809060004": "Roaming",
+      "809060005": "SOC",
+      "809060006": "Whitelisting",
+      "809060007": "Other",
+      "809060008": "Rate Plan",
+      "809060009": "Waiving a Fee",
+      "809060010": "Handset Offer or Promo (HOP)",
+      "809060011": "Manual Discount",
+      "809060012": "Prepaid Promo",
+      "809060013": "Service Hook UP",
+      "809060014": "Service Promotion",
+      "809060015": "Services",
+      "809060016": "Auto-Pay",
+      "809060017": "Bundle",
+      "809060018": "Data Plan"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_offertype",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "cat_offertype",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Phase",
+    "Name": "cat_phase",
+    "OptionSetInfoNameMapping": {
+      "809060000": "New",
+      "809060001": "Concept",
+      "809060002": "Assessment",
+      "809060003": "Requirements",
+      "809060004": "Build",
+      "809060005": "Approved",
+      "809060006": "On Hold",
+      "809060007": "Launched",
+      "809060008": "Canceled",
+      "809060009": "Declined",
+      "809060010": "Moved To Project",
+      "809060011": "Pre-Concept",
+      "809060012": "Draft"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_phase",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "cat_phase",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "PlanAndFeatureRequirementsBuild",
+    "Name": "cat_planandfeaturerequirementsbuild",
+    "OptionSetInfoNameMapping": {
+      "809060000": "N/A",
+      "809060001": "Add on Feature (yes-data)",
+      "809060002": "Data Feature",
+      "809060003": "DIGITS Plan",
+      "809060004": "IOT Plan",
+      "809060005": "Legacy (Pre March 2013)",
+      "809060006": "No Credit Check",
+      "809060007": "Postpaid Consumer",
+      "809060008": "Prepaid Consumer",
+      "809060009": "Promotional Variation",
+      "809060010": "Simple Choice",
+      "809060011": "Tax Exclusive",
+      "809060012": "Tax Inclusive",
+      "809060013": "TFB",
+      "809060014": "TMO ONE",
+      "809060015": "TMO ONE Military",
+      "809060016": "Unlimited 55+",
+      "809060017": "Voice Plan",
+      "809060018": "Other",
+      "809060019": "Tablet Plan",
+      "809060020": "Wearable Plan",
+      "809060021": "Add on Feature (non-data)",
+      "809060022": "BTS",
+      "809060023": "CXT-E2E",
+      "809060024": "BHC/UCC",
+      "809060025": "Magenta",
+      "809060027": "Business/Government Unlimited",
+      "809060028": "Add on Feature",
+      "809060029": "First Responder"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_planandfeaturerequirementsbuild",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "MultiSelectPicklistType",
+    "RelatedColumnInvariantName": "cat_planandfeaturerequirementsbuild",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "PlanCategory",
+    "Name": "cat_plancategory",
+    "OptionSetInfoNameMapping": {
+      "809060000": "Respond to Market/2020 Plan",
+      "809060001": "Integration Synergies",
+      "809060002": "2021 Plan ((Rev/Exp)",
+      "809060003": "Long Term Invest (2022+)/Emerging",
+      "809060004": "Always On/Compliance",
+      "809060005": "Run the Business"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_plancategory",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "cat_plancategory",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Priority",
+    "Name": "cat_priority",
+    "OptionSetInfoNameMapping": {
+      "809060000": "1-High",
+      "809060001": "2-Medium",
+      "809060002": "3-Low"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_priority",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "cat_priority",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "PriorityQuarter",
+    "Name": "cat_priorityquarter",
+    "OptionSetInfoNameMapping": {
+      "809060000": "Q1 2019",
+      "809060001": "Q2 2019",
+      "809060002": "Q3 2019",
+      "809060003": "Q4 2019",
+      "809060004": "2019 Op Ex",
+      "809060005": "Q1 2020",
+      "809060007": "Q2 2020",
+      "809060008": "Q3 2020",
+      "809060009": "Q4 2020",
+      "809060010": "2020 Op Ex"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_priorityquarter",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "cat_priorityquarter",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "PTLOESWAG",
+    "Name": "cat_ptloeswag",
+    "OptionSetInfoNameMapping": {
+      "809060000": "XS = <$500k",
+      "809060001": "S = $500K - $2M",
+      "809060002": "M = $2M - $5M",
+      "809060003": "L = $5M - $10M",
+      "809060004": "XL = $10M - $20M",
+      "809060005": "XXL = >$20M"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_ptloeswag",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "cat_ptloeswag",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "PurchaseTypeFinancing",
+    "Name": "cat_purchasetypefinancing",
+    "OptionSetInfoNameMapping": {
+      "809060000": "BYOD",
+      "809060001": "EIP",
+      "809060002": "JOD",
+      "809060003": "Pay-In-Full",
+      "809060004": "Lease (Sprint)",
+      "809060005": "Off Contract/Agreement (Sprint)",
+      "809060006": "Subsidy (Sprint)"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_purchasetypefinancing",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "MultiSelectPicklistType",
+    "RelatedColumnInvariantName": "cat_purchasetypefinancing",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "RatePlanRequirements",
+    "Name": "cat_rateplanrequirements",
+    "OptionSetInfoNameMapping": {
+      "809060000": "$50 Google One",
+      "809060001": "$60 Amazon Prime",
+      "809060002": "4 for $120 with Amazon Prime",
+      "809060003": "2 for $80 with Amazon Prime",
+      "809060004": "4 for $100 (defeatured)",
+      "809060005": "No Rate Plan Requirements",
+      "809060006": "Amazon Prime",
+      "809060007": "Google One",
+      "809060008": "Perks Plan",
+      "809060009": "Other"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_rateplanrequirements",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "MultiSelectPicklistType",
+    "RelatedColumnInvariantName": "cat_rateplanrequirements",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "StrategicPillar",
+    "Name": "cat_strategicpillar",
+    "OptionSetInfoNameMapping": {
+      "809060000": "Drive Network Perception",
+      "809060001": "Maximize Profitable Core Growth",
+      "809060002": "Create & Keep Switchers",
+      "809060003": "Simplicity & Digitalization",
+      "809060004": "Grow from New Places",
+      "809060005": "Operate the Business",
+      "809060006": "Emerging Businesses",
+      "809060007": "Nail Integration",
+      "809060008": "Nail 5G",
+      "809060009": "Deliver World Class Experiences",
+      "809060010": "Scale the Business"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_strategicpillar",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "cat_strategicpillar",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "SubPhase",
+    "Name": "cat_subphase",
+    "OptionSetInfoNameMapping": {
+      "809060000": "Steering Re-Approval",
+      "809060001": "On Hold",
+      "809060002": "Impaired",
+      "809060003": "Pipeline",
+      "809060004": "Moved to P&T",
+      "809060005": "Pending Approval",
+      "809060006": "In Flight",
+      "809060007": "Priority",
+      "809060008": "Canceled",
+      "809060009": "Test",
+      "809060010": "Plan Record Only",
+      "809060011": "Capacity Hold",
+      "809060012": "Project Closure",
+      "809060013": "Capacity Backlog"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_subphase",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "cat_subphase",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "SystemStack",
+    "Name": "cat_systemstack",
+    "OptionSetInfoNameMapping": {
+      "809060000": "Sprint",
+      "809060001": "T-Mobile",
+      "809060002": "Both",
+      "809060003": "N/A",
+      "809060004": "T-Mobile Postpaid",
+      "809060005": "T-Mobile Prepaid (Legacy)",
+      "809060006": "T-Mobile Prepaid (Rebellion)",
+      "809060007": "T-Mobile Prepaid (All)",
+      "809060008": "T-Mobile Postpaid + Sprint",
+      "809060009": "Metro (All)",
+      "809060010": "Metro (Dealer POS)",
+      "809060011": "Metro (COR POS)"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_systemstack",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "cat_systemstack",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "TargetAudienceSegment",
+    "Name": "cat_targetaudiencesegment",
+    "OptionSetInfoNameMapping": {
+      "809060000": "N/A",
+      "809060001": "Military",
+      "809060002": "Aqualizard",
+      "809060003": "55+",
+      "809060004": "Hispanic",
+      "809060005": "Pride",
+      "809060006": "TFB-SMB",
+      "809060007": "TFB-Public Sector",
+      "809060008": "TFB-Enterprise",
+      "809060009": "Other",
+      "809060010": "First Responder",
+      "809060011": "TFB-Small Bus."
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_targetaudiencesegment",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "cat_targetaudiencesegment",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Testing",
+    "Name": "cat_testing",
+    "OptionSetInfoNameMapping": {
+      "809060000": "CXT-E2E",
+      "809060001": "E2E",
+      "809060002": "Functional",
+      "809060003": "TOPS"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_testing",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "MultiSelectPicklistType",
+    "RelatedColumnInvariantName": "cat_testing",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Tier",
+    "Name": "cat_tier",
+    "OptionSetInfoNameMapping": {
+      "809060000": "Affordable",
+      "809060001": "Flagship",
+      "809060002": "IOT",
+      "809060003": "Midtier",
+      "809060004": "Tablet",
+      "809060005": "Wearable",
+      "809060006": "Other",
+      "809060007": "Apple",
+      "809060008": "Branded Phablet",
+      "809060009": "Tier 2 Phablet",
+      "809060010": "Branded Mid-Tier",
+      "809060011": "Branded Entry",
+      "809060012": "Tier 2 Entry",
+      "809060013": "Feature",
+      "809060014": "IOT/BTS"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_tier",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "cat_tier",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "ValidationCheck",
+    "Name": "cat_validationcheck",
+    "OptionSetInfoNameMapping": {
+      "809060000": "One Time (Initial)",
+      "809060001": "On-Going",
+      "809060002": "Other"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_validationcheck",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "cat_validationcheck",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "VoiceRatePlanRequirements",
+    "Name": "cat_voicerateplanrequirements",
+    "OptionSetInfoNameMapping": {
+      "358560000": "Magenta Wearable",
+      "809060000": "N/A",
+      "809060001": "Magenta",
+      "809060002": "Magenta Military",
+      "809060003": "Magenta No Credit Check",
+      "809060004": "Magenta Plus",
+      "809060005": "Magenta Plus Military",
+      "809060006": "Magenta Plus UNL 55+",
+      "809060007": "Magenta UNL 55+",
+      "809060008": "No Specific Plan Required",
+      "809060009": "Prepaid",
+      "809060010": "Business Unlimited",
+      "809060011": "Simple Choice w/UNL High Speed",
+      "809060012": "Business Unlimited Plus",
+      "809060013": "Gov't Unlimited",
+      "809060014": "TMO Essentials",
+      "809060015": "TMO ONE (TI/TE)",
+      "809060016": "TMO ONE Military",
+      "809060017": "TMO ONE Military w/ONE+ Family",
+      "809060018": "TMO ONE No Credit Check",
+      "809060019": "TMO ONE UNL 55+",
+      "809060020": "TMO ONE UNL 55+ w/ONE+Family",
+      "809060021": "Magenta First Responder",
+      "809060022": "Magenta Plus First Responder",
+      "809060023": "Gov't Unlimited Plus"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_voicerateplanrequirements",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "MultiSelectPicklistType",
+    "RelatedColumnInvariantName": "cat_voicerateplanrequirements",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "WearablePlanRequirements",
+    "Name": "cat_wearableplanrequirements",
+    "OptionSetInfoNameMapping": {
+      "809060000": "N/A",
+      "809060001": "Apple DIGITS",
+      "809060002": "Data w/paired DIGITS",
+      "809060003": "High Speed Data w/paired DIGITS",
+      "809060004": "Simple Choice",
+      "809060005": "TMO ONE (TI/TE)",
+      "809060006": "Timex Kids (TI/TE)",
+      "809060007": "Magenta Wearable"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_wearableplanrequirements",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "MultiSelectPicklistType",
+    "RelatedColumnInvariantName": "cat_wearableplanrequirements",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "ThreeYearNPV",
+    "Name": "cat_yearnpvestimate",
+    "OptionSetInfoNameMapping": {
+      "809060000": "Low <$25M",
+      "809060001": "Med $25-$100M",
+      "809060002": "High >$100M"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "cat_threeyearnpv",
+        "OptionSetReferenceEntityName": "gtmEntries"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "cat_threeyearnpv",
+    "RelatedEntityName": "gtmEntries",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "CdsFCBContext": "{\"FileType\":true,\"ImageExternalStorage\":true}",
+    "EntitySetName": "cat_gtmentries",
+    "IsHidden": false,
+    "IsSampleData": false,
+    "IsWritable": true,
+    "LogicalName": "cat_gtmentry",
+    "MaxGetRowsCount": 2000,
+    "Name": "gtmEntries",
+    "NativeCDSDataSourceInfoNameMapping": {
+      "_ownerid_value": "Owner",
+      "{Attachments}": "Attachments",
+      "bpf_cat_gtmentry_new_bpf_113000d30d7642ec8dd25d62636496e9": "ORBIT_Initiative_Approval_Process (Copy) (bpf_cat_gtmentry_new_bpf_113000d30d7642ec8dd25d62636496e9)",
+      "bpf_cat_gtmentry_new_bpf_b66d18bdcf334162b51b456f1be0e1ff": "ORBIT_Initiative_Approval_Process (Copy) (bpf_cat_gtmentry_new_bpf_b66d18bdcf334162b51b456f1be0e1ff)",
+      "bpf_cat_gtmentry_new_orbit_initiative_approval_process": "ORBIT_Initiative_Approval_Process",
+      "cat_activeservicerequired": "ActiveServiceRequired",
+      "cat_Activities_gtmEntry_cat_gtmEntry": "Activities",
+      "cat_actuallaunchdate": "ActualLaunchDate",
+      "cat_addalinetypes": "AddALineTypes",
+      "cat_additionaleligibilityrequirements": "AdditionalEligibilityRequirements",
+      "cat_annualgaliftestimate": "AnnualGALiftEstimate",
+      "cat_anticipatedvolumetakeratesdaily": "AnticipatedVolumeTakeRatesDaily",
+      "cat_anticipatedvolumetakeratestotal": "AnticipatedVolumeTakeRatesTotal",
+      "cat_ApprovalRequestRejections_GTMEntry_ca": "ApprovalRequestRejections",
+      "cat_assessedthreeyearnpv": "AssessedThreeYearNPV",
+      "cat_audiencespecificcommunications": "AudienceSpecificCommunications",
+      "cat_beneficiarylob": "BeneficiaryLOB",
+      "cat_BeneficiaryLOBApprover": "BeneficiaryLOBApprover",
+      "cat_billname": "BillName",
+      "cat_brand": "Brand",
+      "cat_businessbenefit": "BusinessBenefit",
+      "cat_BusinessOwner": "Business Owner",
+      "cat_calendargrouping": "CalendarGrouping",
+      "cat_carrierfreedom": "CarrierFreedom",
+      "cat_category": "Category",
+      "cat_changerequest": "ChangeRequest",
+      "cat_ChangeRequest_FieldChangeRecord_cat_g": "ChangeRequests (cat_ChangeRequest_FieldChangeRecord_cat_g)",
+      "cat_ChangeRequest_gtmEntry_cat_gtmEntry": "ChangeRequests (cat_ChangeRequest_gtmEntry_cat_gtmEntry)",
+      "cat_channels": "Channels",
+      "cat_committedlaunchdate": "CommittedLaunchDate",
+      "cat_contingency": "Contingency",
+      "cat_costcorebatecode": "CostcoRebateCode",
+      "cat_cpdreportingindicator1": "CPDReportingIndicator1",
+      "cat_cpdreportingindicator2": "CPDReportingIndicator2",
+      "cat_cpdreportingindicator3": "CPDReportingIndicator3",
+      "cat_cpdreportingindicator4": "CPDReportingIndicator4",
+      "cat_customerexperience": "CustomerExperience",
+      "cat_customerimpacting": "CustomerImpacting",
+      "cat_customersegment": "CustomerSegment",
+      "cat_darkstatus": "DarkStatus",
+      "cat_day": "Day",
+      "cat_description": "Description",
+      "cat_designprinciples": "DesignPrinciples",
+      "cat_desiredexecution": "DesiredExecution",
+      "cat_desiredexecutionexplanation": "DesiredExecutionExplanation",
+      "cat_detailsstillopen": "DetailsStillOpen",
+      "cat_devicefulfillmentinscope": "DeviceFulfillmentInScope",
+      "cat_devicename": "DeviceName",
+      "cat_deviceoem": "DeviceOEM",
+      "cat_eligibilityandexclusions": "EligibilityAndExclusions",
+      "cat_eligibilitysummary": "EligibilitySummary",
+      "cat_eligibledevices": "EligibleDevices",
+      "cat_employeediscount": "EmployeeDiscount",
+      "cat_employeeeligible": "EmployeeEligible",
+      "cat_enddate": "EndDate",
+      "cat_enterprisecapitalplanning": "EnterpriseCapitalPlanning",
+      "cat_enterprisestackedranking": "EnterpriseStackedRanking",
+      "cat_estimatedcapexspend": "EstimatedCapExSpend",
+      "cat_estimatedlaunchdate": "EstimatedLaunchDate",
+      "cat_estimatedopexspend": "EstimatedOpExSpend",
+      "cat_expectedmarketingsupport": "ExpectedMarketingSupport",
+      "cat_explainaudiencespecificcommunications": "ExplainAudienceSpecificCommunications",
+      "cat_explainintegratedmarketing": "ExplainIntegratedMarketing",
+      "cat_explaintargetaudiencesegment": "ExplainTargetAudienceSegment",
+      "cat_forecasteddate": "ForecastedDate",
+      "cat_galifttype": "GALiftType",
+      "cat_getoutofthered": "GetOutOfTheRed",
+      "cat_goalkpi": "GoalKPI",
+      "cat_goesoncalendar": "GoesOnCalendar",
+      "cat_gtmentry_Annotations": "Notes",
+      "cat_gtmentry_AsyncOperations": "System Jobs",
+      "cat_gtmentry_BulkDeleteFailures": "Bulk Delete Failures",
+      "cat_gtmentry_DuplicateBaseRecord": "Duplicate Records (cat_gtmentry_DuplicateBaseRecord)",
+      "cat_gtmentry_DuplicateMatchingRecord": "Duplicate Records (cat_gtmentry_DuplicateMatchingRecord)",
+      "cat_gtmEntry_gtmEntry_cat_gtmAttachments": "gtmAttachments",
+      "cat_gtmentry_MailboxTrackingFolders": "Mailbox Auto Tracking Folders",
+      "cat_gtmentry_PrincipalObjectAttributeAccesses": "Field Sharing",
+      "cat_gtmentry_ProcessSession": "Process Sessions",
+      "cat_gtmentry_QueueItems": "Queue Items",
+      "cat_gtmentry_SyncErrors": "Sync Errors",
+      "cat_gtmentry_Teams": "Teams",
+      "cat_gtmentryid": "gtmEntry",
+      "cat_health": "Health",
+      "cat_incrementalliftdaily": "IncrementalLiftDaily",
+      "cat_incrementallifttotal": "IncrementalLiftTotal",
+      "cat_initiativename": "InitiativeName",
+      "cat_initiativesubmitdate": "InitiativeSubmitDate",
+      "cat_initiativetype": "InitiativeType",
+      "cat_initiativetypegroup": "InitiativeTypeGroup",
+      "cat_integratedmarketing": "IntegratedMarketing",
+      "cat_integration": "Integration",
+      "cat_investmentfund": "InvestmentFund",
+      "cat_isolatedcapacity": "IsolatedCapacity",
+      "cat_Journey": "Journey",
+      "cat_jumpeligible": "JUMPEligible",
+      "cat_keyassumptions": "KeyAssumptions",
+      "cat_keyfeatures": "KeyFeatures",
+      "cat_keyinitiative": "KeyInitiative",
+      "cat_keylaunch": "KeyLaunch",
+      "cat_lastdatetocancel": "LastDateToCancel",
+      "cat_legacygtmentryid": "legacyGTMEntryID",
+      "cat_limitedtimeoffer": "LimitedTimeOffer",
+      "cat_lobchannelhorizontal": "LOBChannelHorizontal",
+      "cat_lobstackedranking": "LOBStackedRanking",
+      "cat_lobstackrank": "LOBStackRank",
+      "cat_localmarket": "LocalMarket",
+      "cat_maprestricted": "MAPRestricted",
+      "cat_market": "Market",
+      "cat_marketingsupportneeded": "MarketingSupportNeeded",
+      "cat_mobileinternetplanrequirements": "MobileInternetPlanRequirements",
+      "cat_monitoring": "Monitoring",
+      "cat_nameofexistingproduct": "NameofExistingProduct",
+      "cat_numberofaddalinerequired": "NumberOfAddALineRequired",
+      "cat_numberofcustomerstargeted": "NumberofCustomersTargeted",
+      "cat_offerlimits": "OfferLimits",
+      "cat_offerlimitsconsumertfb": "OfferLimitsConsumerTFB",
+      "cat_offerlimitstfbban": "OfferLimitsTFBBAN",
+      "cat_offerrevisiondescription": "OfferRevisionDescription",
+      "cat_offertype": "OfferType",
+      "cat_ORBITApprovalsHistory_gtmEntry_cat_gt": "ORBITApprovalsHistories",
+      "cat_OrbitAuditHistory_GTMEntry_cat_gtmEnt": "OrbitAuditHistories",
+      "cat_ORBITEmails_gtmEntry_cat_gtmEntry": "ORBITEmails",
+      "cat_OriginalCreatedByUser": "OriginalCreatedByUser",
+      "cat_originalcreatedondate": "OriginalCreatedOnDate",
+      "cat_otherbusinessbenefit": "OtherBusinessBenefit",
+      "cat_otherlaunch": "OtherLaunch",
+      "cat_otherlimitationsandexclusions": "OtherLimitationsAndExclusions",
+      "cat_otherpromotionsnotstackable": "OtherPromotionsNotStackable",
+      "cat_phase": "Phase",
+      "cat_pitch": "Pitch",
+      "cat_pjcode": "PJCode",
+      "cat_planandfeaturerequirementsbuild": "PlanAndFeatureRequirementsBuild",
+      "cat_plancategory": "PlanCategory",
+      "cat_positioningmessaging": "PositioningMessaging",
+      "cat_prcode": "PRCode",
+      "cat_preorderdate": "PreOrderDate",
+      "cat_presaledate": "PreSaleDate",
+      "cat_priority": "Priority",
+      "cat_priorityquarter": "PriorityQuarter",
+      "cat_productfunctionality": "ProductFunctionality",
+      "cat_productnotes": "ProductNotes",
+      "cat_productobjectives": "ProductObjectives",
+      "cat_ProjectTeamRoles_gtmEntry_cat_gtmEntr": "ProjectTeamRoles",
+      "cat_promocode": "PromoCode",
+      "cat_promodetailslocked": "PromoDetailsLocked",
+      "cat_promoeligibilitytool": "PromoEligibilityTool",
+      "cat_ptloeswag": "PTLOESWAG",
+      "cat_purchasetypefinancing": "PurchaseTypeFinancing",
+      "cat_rateplanrequirements": "RatePlanRequirements",
+      "cat_reasontobelieve": "ReasonToBelieve",
+      "cat_replacinganexistingproduct": "ReplacingAnExistingProduct",
+      "cat_requestedlaunchdate": "RequestedLaunchDate",
+      "cat_shortdescription": "ShortDescription",
+      "cat_situation": "Situation",
+      "cat_Sponsor": "Sponsoring VP",
+      "cat_StageApprovalResponses_gtmEntry_cat_g": "StageApprovalResponses",
+      "cat_startdate": "StartDate",
+      "cat_steeringfyi": "SteeringFYI",
+      "cat_steeringmeetingresults": "SteeringMeetingResults",
+      "cat_strategicpillar": "StrategicPillar",
+      "cat_submittedasdraft": "SubmittedAsDraft",
+      "cat_subphase": "SubPhase",
+      "cat_supportplan": "SupportPlan",
+      "cat_systemstack": "SystemStack",
+      "cat_target": "Target",
+      "cat_targetaudiencesegment": "TargetAudienceSegment",
+      "cat_tbd": "TBD",
+      "cat_TeamRoles": "TeamRoles",
+      "cat_test": "Test",
+      "cat_testing": "Testing",
+      "cat_threeyearnpv": "ThreeYearNPV",
+      "cat_tier": "Tier",
+      "cat_totalnetaddgoals": "TotalNetAddGoals",
+      "cat_totalofferspend": "TotalOfferSpend",
+      "cat_triagenotes": "TriageNotes",
+      "cat_type": "Type",
+      "cat_updatetrigger": "UpdateTrigger",
+      "cat_validationcheck": "ValidationCheck",
+      "cat_valueproposition": "ValueProposition",
+      "cat_voicerateplanrequirements": "VoiceRatePlanRequirements",
+      "cat_wearableplanrequirements": "WearablePlanRequirements",
+      "cat_whatisitreplacing": "WhatIsItReplacing",
+      "cat_workfrontid": "WorkfrontID",
+      "cat_workfrontreferencenumber": "WorkfrontReferenceNumber",
+      "cat_Workstream_gtmEntry_cat_gtmEntry": "Workstreams",
+      "cat_writepermissionsqueryfield": "WritePermissionsQueryField",
+      "crba4_cat_gtmEntry_cat_gtmEntry_cat_TeamLeadRol": "TeamLeadRoles",
+      "createdby": "Created By",
+      "createdon": "Created On",
+      "createdonbehalfby": "Created By (Delegate)",
+      "crffc_Email_GTMInitiative_cat_gtmEntry": "Email Messages",
+      "crffc_Promotions_GTMEntry_cat_gtmEntry": "Promotions",
+      "importsequencenumber": "Import Sequence Number",
+      "modifiedby": "Modified By",
+      "modifiedon": "Modified On",
+      "modifiedonbehalfby": "Modified By (Delegate)",
+      "overriddencreatedon": "RecordCreatedOn",
+      "owningbusinessunit": "Owning Business Unit",
+      "owningteam": "Owning Team",
+      "owninguser": "Owning User",
+      "processid": "Process Id",
+      "stageid": "(Deprecated) Stage Id",
+      "statecode": "Status",
+      "statuscode": "Status Reason",
+      "timezoneruleversionnumber": "Time Zone Rule Version Number",
+      "traversedpath": "(Deprecated) Traversed Path",
+      "utcconversiontimezonecode": "UTC Conversion Time Zone Code",
+      "versionnumber": "Version Number"
+    },
+    "PreferredName": "gtmEntries",
+    "Type": "NativeCDSDataSourceInfo"
+  }
+]

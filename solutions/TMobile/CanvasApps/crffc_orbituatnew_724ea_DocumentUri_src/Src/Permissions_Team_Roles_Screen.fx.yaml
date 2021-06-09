@@ -1,0 +1,655 @@
+Permissions_Team_Roles_Screen As screen:
+    Height: =Max(App.Height, App.DesignHeight)
+    LoadingSpinnerColor: =RGBA(105, 121, 126, 1)
+    OnVisible: |-
+        =ClearCollect(colLeftNavGalleryItemsAdmin,
+            {Label:"Permissions Teams",LaunchLink:"",Screen:Permissions_Team_Roles_Screen,InitiativeType:"Project",IsVisible:true},
+            {Label:"Change Log",LaunchLink:"",Screen:Change_Log_Admin_Screen,InitiativeType:"Project",IsVisible:true},
+            {Label:"Beneficiary LOB Approvers",LaunchLink:"",Screen:Beneficiary_LOB_Approvers_Screen,InitiativeType:"Project",IsVisible:true}
+        );
+        ClearCollect(colNewUserPermissionsProjectTeams, Table(
+            	{ initiativeName: "", gtmEntryID: "", teamRole: "", teamRoleName: ""}
+         	)
+         )
+    Orientation: =If(Permissions_Team_Roles_Screen.Width < Permissions_Team_Roles_Screen.Height, Layout.Vertical, Layout.Horizontal)
+    Size: =1 + CountRows(App.SizeBreakpoints) - CountIf(App.SizeBreakpoints, Value >= Permissions_Team_Roles_Screen.Width)
+    Width: =Max(App.Width, App.DesignWidth)
+
+    Button4_1 As button:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        DisabledFill: =RGBA(230, 230, 230, 1)
+        DisplayMode: =DisplayMode.Disabled
+        Fill: =RGBA(105, 121, 126, 1)
+        FocusedBorderColor: =Button4_1.BorderColor
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =Gallery5_2.Height + Label6.Height + 20
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverColor: =RGBA(255, 255, 255, 1)
+        HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+        PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+        PressedColor: =RGBA(255, 255, 255, 1)
+        PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =15
+        Text: =""
+        Width: =Gallery5_2.Width + 20
+        X: =Gallery5_2.X - 10
+        Y: =Label6.Y - 10
+        ZIndex: =1
+
+    Button4 As button:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        DisabledFill: =RGBA(230, 230, 230, 1)
+        DisplayMode: =DisplayMode.Disabled
+        Fill: =RGBA(105, 121, 126, 1)
+        FocusedBorderColor: =Button4.BorderColor
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =Gallery5_3.Height + Label6_1.Height + 20
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverColor: =RGBA(255, 255, 255, 1)
+        HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+        PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+        PressedColor: =RGBA(255, 255, 255, 1)
+        PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =15
+        Text: =""
+        Width: =Gallery5_3.Width + 20
+        X: =Gallery5_3.X - 10
+        Y: =Label6_1.Y - 10
+        ZIndex: =2
+
+    "Gallery5_2 As gallery.'BrowseLayout_Vertical_TwoTextVariant_ver4.0'":
+        BorderColor: =RGBA(166, 166, 166, 1)
+        DisabledBorderColor: =Gallery5_2.BorderColor
+        DisabledFill: =Gallery5_2.Fill
+        Height: =900
+        HoverBorderColor: =Gallery5_2.BorderColor
+        HoverFill: =Gallery5_2.Fill
+        Items: =Filter(Teams, Teams[@'Team Type'] = 'Team Type (Teams)'.Owner And 'Is Default' = 'Is Default (Teams)'.No)
+        Layout: =Layout.Vertical
+        LoadingSpinnerColor: =Gallery5_2.BorderColor
+        PressedBorderColor: =Gallery5_2.BorderColor
+        PressedFill: =Gallery5_2.Fill
+        TemplatePadding: =0
+        TemplateSize: =81
+        Width: =525
+        X: =225
+        Y: =145
+        ZIndex: =3
+
+        Label10 As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            Fill: =If(ThisItem.IsSelected, DarkGray, RGBA(0, 0, 0, 0))
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            Height: =Parent.TemplateHeight
+            OnSelect: =Select(Parent)
+            Size: =13
+            Text: =
+            Width: =Parent.TemplateWidth
+            ZIndex: =1
+
+        Title11_2 As label:
+            Color: =DarkGrey
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =Title11_2.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =Parent.TemplateHeight
+            HoverBorderColor: =Title11_2.BorderColor
+            HoverColor: =Title11_2.Color
+            HoverFill: =Title11_2.Fill
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =10
+            PressedBorderColor: =Title11_2.BorderColor
+            PressedColor: =Title11_2.Color
+            PressedFill: =Title11_2.Fill
+            Text: =ThisItem.'Team Name'
+            VerticalAlign: =VerticalAlign.Top
+            Width: =Parent.TemplateWidth - 104
+            X: =10
+            ZIndex: =2
+
+        NextArrow10_2 As icon.ChevronRight:
+            AccessibleLabel: =NextArrow10_2.Tooltip
+            BorderColor: =RGBA(166, 166, 166, 1)
+            Color: =Magenta
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(220, 220, 220, 1)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            FocusedBorderColor: =NextArrow10_2.BorderColor
+            FocusedBorderThickness: =4
+            Height: =60
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            Icon: =Icon.ChevronRight
+            OnSelect: =Select(Parent);
+            PaddingBottom: =10
+            PaddingLeft: =10
+            PaddingRight: =10
+            PaddingTop: =10
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            TabIndex: =0
+            Tooltip: ="View item details"
+            Width: =60
+            X: =Parent.TemplateWidth - NextArrow10_2.Width - 5
+            Y: =(Parent.TemplateHeight / 2) - (NextArrow10_2.Height / 2)
+            ZIndex: =3
+
+        Separator12_2 As rectangle:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            DisabledFill: =Separator12_2.Fill
+            Fill: =RGBA(179, 179, 179, 1)
+            FocusedBorderColor: =Separator12_2.BorderColor
+            Height: =1
+            HoverFill: =Separator12_2.Fill
+            OnSelect: =Select(Parent)
+            PressedFill: =Separator12_2.Fill
+            Width: =Parent.TemplateWidth
+            Y: =Parent.TemplateHeight - 1
+            ZIndex: =4
+
+    "Gallery5_3 As gallery.'BrowseLayout_Vertical_TwoTextVariant_ver4.0'":
+        BorderColor: =RGBA(166, 166, 166, 1)
+        DisabledBorderColor: =Gallery5_3.BorderColor
+        DisabledFill: =Gallery5_3.Fill
+        Height: =Gallery5_2.Height
+        HoverBorderColor: =Gallery5_3.BorderColor
+        HoverFill: =Gallery5_3.Fill
+        Items: =Gallery5_2.Selected.Users
+        Layout: =Layout.Vertical
+        LoadingSpinnerColor: =Gallery5_3.BorderColor
+        OnSelect: |-
+            =ClearCollect(colUserPermissionsProjectTeams, ShowColumns(Filter(ProjectTeamRoles, TeamMember.User = ThisItem.User), "cat_name", "cat_gtmEntry", "cat_roletype"));
+            ClearCollect(colNewUserPermissionsProjectTeams, 
+                ForAll(colUserPermissionsProjectTeams, 
+                    Patch(colNewUserPermissionsProjectTeams, 
+                    Defaults([@colNewUserPermissionsProjectTeams]), {initiativeName: cat_gtmEntry.InitiativeName, teamRole: If(Text(cat_roletype) = "Other", cat_name, cat_roletype), gtmEntryID: cat_gtmEntry.gtmEntry})
+                    );
+                );
+            
+            Clear(colUserPermissionsProjectTeams);
+            ClearCollect(colUserPermissionsSponsorRole, ShowColumns(Filter(gtmEntries, 'Sponsoring VP'.User = ThisItem.User), "cat_initiativename", "cat_gtmentryid"));
+            
+            
+            ForAll(colUserPermissionsSponsorRole, 
+                    Patch(colNewUserPermissionsProjectTeams, 
+                    Defaults([@colNewUserPermissionsProjectTeams]), {initiativeName: cat_initiativename, teamRole: "Sponsoring VP", gtmEntryID: cat_gtmentryid})
+                    );
+            
+            Clear(colUserPermissionsSponsorRole);
+            ClearCollect(colUserPermisionsBusinessOwnerRole, ShowColumns(Filter(gtmEntries, 'Business Owner'.User = ThisItem.User), "cat_initiativename", "cat_gtmentryid"));
+            
+            
+            ForAll(colUserPermisionsBusinessOwnerRole, 
+                    Patch(colNewUserPermissionsProjectTeams, 
+                    Defaults([@colNewUserPermissionsProjectTeams]), {initiativeName: cat_initiativename, teamRole: "Sponsoring VP", gtmEntryID: cat_gtmentryid})
+                    );
+            
+            Clear(colUserPermisionsBusinessOwnerRole)
+        PressedBorderColor: =Gallery5_3.BorderColor
+        PressedFill: =Gallery5_3.Fill
+        TemplatePadding: =0
+        TemplateSize: =81
+        Width: =Gallery5_2.Width
+        X: =Gallery5_2.X + Gallery5_2.Width + 40
+        Y: =Gallery5_2.Y
+        ZIndex: =4
+
+        Label10_5 As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            Fill: =If(ThisItem.IsSelected, DarkGray, RGBA(0, 0, 0, 0))
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            Height: =Parent.TemplateHeight
+            OnSelect: =Select(Parent)
+            Size: =13
+            Text: =
+            Width: =Parent.TemplateWidth
+            ZIndex: =1
+
+        Title11_3 As label:
+            Color: =DarkGrey
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =Title11_3.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            HoverBorderColor: =Title11_3.BorderColor
+            HoverColor: =Title11_3.Color
+            HoverFill: =Title11_3.Fill
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =10
+            PressedBorderColor: =Title11_3.BorderColor
+            PressedColor: =Title11_3.Color
+            PressedFill: =Title11_3.Fill
+            Size: =16
+            Text: =ThisItem.Nickname
+            VerticalAlign: =VerticalAlign.Top
+            Width: =Parent.TemplateWidth - 104
+            X: =10
+            ZIndex: =2
+
+        NextArrow10_3 As icon.ChevronRight:
+            AccessibleLabel: =NextArrow10_3.Tooltip
+            BorderColor: =RGBA(166, 166, 166, 1)
+            Color: =Magenta
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(220, 220, 220, 1)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            FocusedBorderColor: =NextArrow10_3.BorderColor
+            FocusedBorderThickness: =4
+            Height: =60
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            Icon: =Icon.ChevronRight
+            OnSelect: =Select(Parent)
+            PaddingBottom: =10
+            PaddingLeft: =10
+            PaddingRight: =10
+            PaddingTop: =10
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            TabIndex: =0
+            Tooltip: ="View item details"
+            Width: =60
+            X: =Parent.TemplateWidth - NextArrow10_3.Width - 5
+            Y: =(Parent.TemplateHeight / 2) - (NextArrow10_3.Height / 2)
+            ZIndex: =3
+
+        Separator12_3 As rectangle:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            DisabledFill: =Separator12_3.Fill
+            Fill: =RGBA(179, 179, 179, 1)
+            FocusedBorderColor: =Separator12_3.BorderColor
+            Height: =1
+            HoverFill: =Separator12_3.Fill
+            OnSelect: =Select(Parent)
+            PressedFill: =Separator12_3.Fill
+            Width: =Parent.TemplateWidth
+            Y: =Parent.TemplateHeight - 1
+            ZIndex: =4
+
+        Title11_4 As label:
+            Color: =DarkGrey
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =Title11_4.BorderColor
+            Font: =Font.'Segoe UI'
+            Height: =Title11_4.Size * 1.8
+            HoverBorderColor: =Title11_4.BorderColor
+            HoverColor: =Title11_4.Color
+            HoverFill: =Title11_4.Fill
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PressedBorderColor: =Title11_4.BorderColor
+            PressedColor: =Title11_4.Color
+            PressedFill: =Title11_4.Fill
+            Text: =ThisItem.'Primary Email'
+            VerticalAlign: =VerticalAlign.Top
+            Width: =Parent.TemplateWidth - 104
+            X: =30
+            Y: =Title11_3.Y + Title11_3.Height
+            ZIndex: =5
+
+    com_NavTop_11 As com_NavTop:
+        AdminScreen: =Permissions_Team_Roles_Screen
+        Fill: =White
+        IsGTM: =varCurrentUserSecurityRole = "Administrator" Or varCurrentUserSecurityRole = "GTM"
+        Items: =colTopNavGalleryItems
+        UserFullName: =varCurrentUserNameFL
+        Width: =App.Width
+        ZIndex: =5
+
+    com_NavLeft_7 As com_NavLeft:
+        Height: =App.Height - com_NavTop_11.Height
+        Items: =colLeftNavGalleryItemsAdmin
+        Width: =varSideNavWidth
+        Y: =com_NavTop_11.Height
+        ZIndex: =6
+
+    Label6 As label:
+        Align: =Align.Center
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Color: =DarkGrey
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =Label6.BorderColor
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Bold
+        Height: =55
+        HoverBorderColor: =Label6.BorderColor
+        HoverColor: =Label6.Color
+        HoverFill: =Label6.Fill
+        PaddingBottom: =15
+        PressedBorderColor: =Label6.BorderColor
+        PressedColor: =Label6.Color
+        PressedFill: =Label6.Fill
+        Size: =20
+        Text: ="Permission Teams"
+        Width: =Gallery5_2.Width
+        X: =Gallery5_2.X
+        Y: =Gallery5_2.Y - Label6.Height
+        ZIndex: =7
+
+    Label6_1 As label:
+        Align: =Align.Center
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Color: =DarkGrey
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =Label6_1.BorderColor
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Bold
+        Height: =55
+        HoverBorderColor: =Label6_1.BorderColor
+        HoverColor: =Label6_1.Color
+        HoverFill: =Label6_1.Fill
+        PaddingBottom: =15
+        PressedBorderColor: =Label6_1.BorderColor
+        PressedColor: =Label6_1.Color
+        PressedFill: =Label6_1.Fill
+        Size: =20
+        Text: ="Assigned Users"
+        Width: =Gallery5_3.Width
+        X: =Gallery5_3.X
+        Y: =Gallery5_3.Y - Label6_1.Height
+        ZIndex: =8
+
+    Rectangle9 As rectangle:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        DisabledFill: =RGBA(166, 166, 166, 1)
+        DisplayMode: =DisplayMode.Disabled
+        Fill: =RGBA(128, 128, 128, 1)
+        FocusedBorderColor: =Rectangle9.BorderColor
+        FocusedBorderThickness: =4
+        Height: =3
+        HoverFill: =RGBA(105, 121, 126, 1)
+        PressedFill: =RGBA(105, 121, 126, 1)
+        Width: =Gallery5_3.Width
+        X: =Gallery5_3.X
+        Y: =Gallery5_3.Y - Rectangle9.Height
+        ZIndex: =9
+
+    Rectangle9_1 As rectangle:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        DisabledFill: =RGBA(166, 166, 166, 1)
+        DisplayMode: =DisplayMode.Disabled
+        Fill: =RGBA(128, 128, 128, 1)
+        FocusedBorderColor: =Rectangle9_1.BorderColor
+        FocusedBorderThickness: =4
+        Height: =3
+        HoverFill: =RGBA(105, 121, 126, 1)
+        PressedFill: =RGBA(105, 121, 126, 1)
+        Width: =Gallery5_2.Width
+        X: =Gallery5_2.X
+        Y: =Gallery5_2.Y - Rectangle9_1.Height
+        ZIndex: =10
+
+    Button4_2 As button:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        DisabledFill: =RGBA(230, 230, 230, 1)
+        DisplayMode: =DisplayMode.Disabled
+        Fill: =RGBA(105, 121, 126, 1)
+        FocusedBorderColor: =Button4_2.BorderColor
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =Gallery5_4.Height + Label6_3.Height + 20
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverColor: =RGBA(255, 255, 255, 1)
+        HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+        PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+        PressedColor: =RGBA(255, 255, 255, 1)
+        PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =15
+        Text: =""
+        Width: =Gallery5_4.Width + 20
+        X: =Gallery5_4.X - 10
+        Y: =Label6_3.Y - 10
+        ZIndex: =11
+
+    "Gallery5_4 As gallery.'BrowseLayout_Vertical_TwoTextVariant_ver4.0'":
+        BorderColor: =RGBA(166, 166, 166, 1)
+        DisabledBorderColor: =Gallery5_4.BorderColor
+        DisabledFill: =Gallery5_4.Fill
+        Height: =Gallery5_2.Height
+        HoverBorderColor: =Gallery5_4.BorderColor
+        HoverFill: =Gallery5_4.Fill
+        Items: =Sort(colNewUserPermissionsProjectTeams, teamRole, Ascending)
+        Layout: =Layout.Vertical
+        LoadingSpinnerColor: =Gallery5_4.BorderColor
+        OnSelect: |-
+            =Set(varCurrentRecord, LookUp(gtmEntries, gtmEntry = GUID(ThisItem.gtmEntryID)));
+            
+            Concurrent(
+                Set(varIsNewInitiative, false),
+                Set(varInitiaitveUpdated, true),
+                Set(varCurrInitiativeType, varCurrentRecord.InitiativeType),
+                Set(varIntakeTypeGroup, varCurrentRecord.InitiativeTypeGroup),
+                Set(varInitiativeType, Text(varCurrentRecord.InitiativeType)),
+               // Set(varCurrentRecord, ThisItem),
+                Set(varCurrentRecordInitialValues, varCurrentRecord),
+                Set(varCurrentAttachmentRecord, varCurrentRecord.gtmAttachments),
+                Set(varIsDraftInitiative, Text(varCurrentRecord.Phase) = "Draft")
+            );
+            
+            If(Text(varCurrentRecord.Phase) = "Draft", Set(varIsDraftInitiative, true));
+            
+            //ClearCollect(collCurrentRecord, ThisItem);
+            If(Text(varCurrentRecord.InitiativeTypeGroup) = "Business" And Text(varCurrentRecord.Phase) <> "Draft", 
+                Navigate(Project_Summary_Screen,ScreenTransition.None), 
+                Navigate(Project_Details_Screen,ScreenTransition.None));
+        PressedBorderColor: =Gallery5_4.BorderColor
+        PressedFill: =Gallery5_4.Fill
+        TemplatePadding: =0
+        TemplateSize: =81
+        Width: =Gallery5_2.Width
+        X: =Gallery5_3.X + Gallery5_3.Width + 40
+        Y: =Gallery5_2.Y
+        ZIndex: =12
+
+        Label10_6 As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            Fill: =If(ThisItem.IsSelected, DarkGray, RGBA(0, 0, 0, 0))
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            Height: =Parent.TemplateHeight
+            OnSelect: =Select(Parent)
+            Size: =13
+            Text: =
+            Width: =Parent.TemplateWidth
+            ZIndex: =1
+
+        Title11_5 As label:
+            Color: =DarkGrey
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =Title11_5.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            HoverBorderColor: =Title11_5.BorderColor
+            HoverColor: =Title11_5.Color
+            HoverFill: =Title11_5.Fill
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =10
+            PressedBorderColor: =Title11_5.BorderColor
+            PressedColor: =Title11_5.Color
+            PressedFill: =Title11_5.Fill
+            Size: =16
+            Text: =ThisItem.teamRole
+            VerticalAlign: =VerticalAlign.Top
+            Width: =Parent.TemplateWidth - 104
+            X: =10
+            ZIndex: =2
+
+        NextArrow10_4 As icon.ChevronRight:
+            AccessibleLabel: =NextArrow10_4.Tooltip
+            BorderColor: =RGBA(166, 166, 166, 1)
+            Color: =Magenta
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(220, 220, 220, 1)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            FocusedBorderColor: =NextArrow10_4.BorderColor
+            FocusedBorderThickness: =4
+            Height: =60
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            Icon: =Icon.ChevronRight
+            OnSelect: =Select(Parent);
+            PaddingBottom: =10
+            PaddingLeft: =10
+            PaddingRight: =10
+            PaddingTop: =10
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            TabIndex: =0
+            Tooltip: ="Go To Initiative"
+            Width: =60
+            X: =Parent.TemplateWidth - NextArrow10_4.Width - 5
+            Y: =(Parent.TemplateHeight / 2) - (NextArrow10_4.Height / 2)
+            ZIndex: =3
+
+        Separator12_4 As rectangle:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            DisabledFill: =Separator12_4.Fill
+            Fill: =RGBA(179, 179, 179, 1)
+            FocusedBorderColor: =Separator12_4.BorderColor
+            Height: =1
+            HoverFill: =Separator12_4.Fill
+            OnSelect: =Select(Parent)
+            PressedFill: =Separator12_4.Fill
+            Width: =Parent.TemplateWidth
+            Y: =Parent.TemplateHeight - 1
+            ZIndex: =4
+
+        Title11_6 As label:
+            Color: =DarkGrey
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =Title11_6.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =30
+            HoverBorderColor: =Title11_6.BorderColor
+            HoverColor: =Title11_6.Color
+            HoverFill: =Title11_6.Fill
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =10
+            PressedBorderColor: =Title11_6.BorderColor
+            PressedColor: =Title11_6.Color
+            PressedFill: =Title11_6.Fill
+            Text: =ThisItem.initiativeName
+            VerticalAlign: =VerticalAlign.Top
+            Width: =Parent.TemplateWidth - 104
+            X: =30
+            Y: =Title11_5.Y + Title11_5.Height
+            ZIndex: =5
+
+    Label6_3 As label:
+        Align: =Align.Center
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Color: =DarkGrey
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =Label6_3.BorderColor
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Bold
+        Height: =55
+        HoverBorderColor: =Label6_3.BorderColor
+        HoverColor: =Label6_3.Color
+        HoverFill: =Label6_3.Fill
+        PaddingBottom: =15
+        PressedBorderColor: =Label6_3.BorderColor
+        PressedColor: =Label6_3.Color
+        PressedFill: =Label6_3.Fill
+        Size: =20
+        Text: ="Project Team Roles"
+        Width: =Gallery5_4.Width
+        X: =Gallery5_4.X
+        Y: =Gallery5_4.Y - Label6_3.Height
+        ZIndex: =13
+
+    Rectangle9_2 As rectangle:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        DisabledFill: =RGBA(166, 166, 166, 1)
+        DisplayMode: =DisplayMode.Disabled
+        Fill: =RGBA(128, 128, 128, 1)
+        FocusedBorderColor: =Rectangle9_2.BorderColor
+        FocusedBorderThickness: =4
+        Height: =3
+        HoverFill: =RGBA(105, 121, 126, 1)
+        PressedFill: =RGBA(105, 121, 126, 1)
+        Width: =Gallery5_4.Width
+        X: =Gallery5_4.X
+        Y: =Gallery5_4.Y - Rectangle9_2.Height
+        ZIndex: =14
+

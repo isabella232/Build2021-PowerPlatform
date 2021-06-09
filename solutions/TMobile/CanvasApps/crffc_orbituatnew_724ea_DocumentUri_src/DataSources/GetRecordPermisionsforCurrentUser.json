@@ -1,0 +1,9 @@
+[
+  {
+    "AddinConnectorId": "28d82e87-90ae-48ce-99d9-366c994989fb",
+    "AddinId": "6d1f157d-95bf-406d-b65d-cfd3240f724e",
+    "Name": "GetRecordPermisionsforCurrentUser",
+    "ServiceKind": "AddinWadl",
+    "Type": "ServiceInfo"
+  }
+]

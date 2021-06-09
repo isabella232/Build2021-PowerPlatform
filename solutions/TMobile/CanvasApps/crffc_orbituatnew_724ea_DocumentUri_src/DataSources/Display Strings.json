@@ -1,0 +1,48 @@
+[
+  {
+    "CdsFCBContext": "{\"FileType\":true,\"ImageExternalStorage\":true}",
+    "EntitySetName": "displaystrings",
+    "IsHidden": false,
+    "IsSampleData": false,
+    "IsWritable": true,
+    "LogicalName": "displaystring",
+    "MaxGetRowsCount": 2000,
+    "Name": "Display Strings",
+    "NativeCDSDataSourceInfoNameMapping": {
+      "componentstate": "Component State",
+      "createdby": "Created By",
+      "createdon": "Created On",
+      "createdonbehalfby": "Created By (Delegate)",
+      "customcomment": "Comment",
+      "customdisplaystring": "Custom Display String",
+      "DisplayString_AsyncOperations": "System Jobs",
+      "DisplayString_BulkDeleteFailures": "Bulk Delete Failures",
+      "displaystringid": "Custom Display String Id",
+      "displaystringidunique": "DisplayStringIdUnique",
+      "displaystringkey": "Resource Key",
+      "formatparameters": "Format Parameters",
+      "ismanaged": "IsManaged",
+      "languagecode": "Language Code",
+      "modifiedby": "Modified By",
+      "modifiedon": "Modified On",
+      "modifiedonbehalfby": "Modified By (Delegate)",
+      "organizationid": "Organization",
+      "overwritetime": "Record Overwrite Time",
+      "publisheddisplaystring": "Published Display String",
+      "solutionid": "Solution",
+      "versionnumber": "VersionNumber"
+    },
+    "PreferredName": "Display Strings",
+    "Type": "NativeCDSDataSourceInfo"
+  },
+  {
+    "DisplayName": "Display Strings (Views)",
+    "Name": "_displaystring_views",
+    "RelatedEntityName": "Display Strings",
+    "TrimmedViewName": true,
+    "Type": "ViewInfo",
+    "ViewInfoNameMapping": {
+      "e9b4c8fd-6d43-4860-92ba-bf297c6954b2": "Entity Display String List"
+    }
+  }
+]

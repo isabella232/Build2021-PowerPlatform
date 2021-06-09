@@ -1,0 +1,14 @@
+Test_7F478737223C4B69 As AppTest:
+
+    "'be1e3ee1-c76e-480e-84d0-d6eadc055dbf' As TestSuite":
+        Description: =""
+        DisplayName: ="Suite"
+
+        "'078d9098-0cf5-4192-9061-4d69c3cb4a28' As TestCase":
+            Description: =""
+            DisplayName: ="Case"
+
+            Step1 As TestStep:
+                Description: =""
+                Value: =
+

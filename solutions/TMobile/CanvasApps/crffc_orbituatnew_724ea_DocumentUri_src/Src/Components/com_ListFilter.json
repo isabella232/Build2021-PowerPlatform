@@ -1,0 +1,97 @@
+{
+  "ComponentAllowCustomization": true,
+  "ComponentChangedSinceFileImport": true,
+  "ComponentManifest": {
+    "AllowAccessToGlobals": false,
+    "AllowCustomization": true,
+    "Description": "",
+    "Name": "com_ListFilter",
+    "TemplateGuid": "921aab8d96da49dfbffd0d984c76b522"
+  },
+  "ComponentType": "CanvasComponent",
+  "CustomGroupControlTemplateName": "",
+  "CustomProperties": [
+    {
+      "Category": 0,
+      "DisplayName": "OptionSetName",
+      "Hidden": false,
+      "Name": "OptionSetName",
+      "PropertyDataTypeKey": "String",
+      "Tooltip": "OptionSetName",
+      "Type": "{\"Version\":\"1.309\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"String\",\"EnumString\":\"\",\"Type\":[]}}"
+    },
+    {
+      "Category": 0,
+      "DisplayName": "OptionSetValues",
+      "Hidden": false,
+      "Name": "OptionSetValues",
+      "PropertyDataTypeKey": "Table",
+      "Tooltip": "OptionSetValues",
+      "Type": "{\"Version\":\"1.309\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"Table\",\"EnumString\":\"\",\"Type\":[]}}"
+    },
+    {
+      "Category": 0,
+      "DisplayName": "ComponentHeight",
+      "Hidden": false,
+      "Name": "ComponentHeight",
+      "PropertyDataTypeKey": "Number",
+      "Tooltip": "ComponentHeight",
+      "Type": "{\"Version\":\"1.309\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"Number\",\"EnumString\":\"\",\"Type\":[]}}"
+    },
+    {
+      "Category": 0,
+      "DisplayName": "QueryString",
+      "Hidden": true,
+      "Name": "QueryString",
+      "PropertyDataTypeKey": "String",
+      "Tooltip": "QueryString",
+      "Type": "{\"Version\":\"1.309\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"String\",\"EnumString\":\"\",\"Type\":[]}}"
+    },
+    {
+      "Category": 0,
+      "DisplayName": "DatePicker",
+      "Hidden": false,
+      "Name": "DatePicker",
+      "PropertyDataTypeKey": "Boolean",
+      "Tooltip": "DatePicker",
+      "Type": "{\"Version\":\"1.309\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"_MinPrimitive\",\"EnumString\":\"\",\"Type\":[]}}"
+    },
+    {
+      "Category": 0,
+      "DisplayName": "MinDate",
+      "Hidden": true,
+      "Name": "MinDate",
+      "PropertyDataTypeKey": "String",
+      "Tooltip": "MinDate",
+      "Type": "{\"Version\":\"1.309\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"String\",\"EnumString\":\"\",\"Type\":[]}}"
+    },
+    {
+      "Category": 0,
+      "DisplayName": "MaxDate",
+      "Hidden": true,
+      "Name": "MaxDate",
+      "PropertyDataTypeKey": "String",
+      "Tooltip": "MaxDate",
+      "Type": "{\"Version\":\"1.309\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"String\",\"EnumString\":\"\",\"Type\":[]}}"
+    },
+    {
+      "Category": 0,
+      "DisplayName": "ComponentSpecificOptionSetCollection",
+      "Hidden": false,
+      "Name": "ComponentSpecificOptionSetCollection",
+      "PropertyDataTypeKey": "Table",
+      "Tooltip": "ComponentSpecificOptionSetCollection",
+      "Type": "{\"Version\":\"1.309\",\"Type\":{\"Name\":\"Root\",\"Kind\":\"Table\",\"EnumString\":\"\",\"Type\":[]}}"
+    }
+  ],
+  "FirstParty": true,
+  "Id": "http://microsoft.com/appmagic/Component",
+  "IsComponentLocked": false,
+  "IsComponentTemplate": true,
+  "IsCustomGroupControlTemplate": false,
+  "IsPremiumPcfControl": false,
+  "LastModifiedTimestamp": "637556505396067050",
+  "Name": "921aab8d96da49dfbffd0d984c76b522",
+  "OverridableProperties": {},
+  "Version": "637556506221175741"
+}

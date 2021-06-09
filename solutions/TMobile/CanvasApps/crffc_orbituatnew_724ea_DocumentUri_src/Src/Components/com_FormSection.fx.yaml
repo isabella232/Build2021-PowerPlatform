@@ -1,0 +1,1879 @@
+com_FormSection As CanvasComponent:
+    CheckRequiredFields: =true
+    ComponentFormValuesOutput: =collFormValues
+    ComponentHeight: =1200
+    ComponentHeightControlValue: =If(!isSectionVisible, com_FormSection.ComponentHeight, 40)
+    ComponentIsVisible: =isSectionVisible
+    ComponentWidth: =1500
+    EditRecord: =false
+    Fill: =RGBA(0, 0, 0, 0)
+    FormHeightControlValue: |-
+        =/*
+        If(isSectionVisible,SectionTitle.Height, Sum(Max(Filter(com_FormSection.Items, sectionID = com_FormSection.FormSectionTitle), row), Max(Filter(com_FormSection.Items, row = Max(Filter(com_FormSection.Items, sectionID = com_FormSection.FormSectionTitle), row), sectionID = com_FormSection.FormSectionTitle), height)) * 88)
+        */
+        0
+    FormOutputValues: =collFormValues
+    FormSectionTitle: ="Basics"
+    FormValuesChanged: =varFormValuesChanged
+    GTMAccesss: =false
+    Height: =com_FormSection.ComponentHeight
+    InitiativeType: ="Device Promotion"
+    inputValues: =First(colGTMEntries)
+    IsNewInitiative: =false
+    isSectionVisible: =true
+    IsValid: =true
+    Items: =collFormValues
+    OnReset: |-
+        =//ClearCollect(collFormValues, ComponentFieldDetails); 
+        Set(TempVar, true);
+        Set(varPeoplePickerVis, false);
+        //ClearCollect(MyCollection, {FieldName: "", Value: ""});
+        Set(varFormValuesChanged, false);
+        Set(isSectionVisible,false);
+        Set(varTest12345, true);
+        Set(varSelectedBusinessOwner, Blank());
+        Set(varSelectedSponsoringVP, Blank());
+        Set(varShowComboBoxGallery, false);
+        ClearCollect(colComboBoxSetting, false)
+    ResetComponent: =true
+    SelectedBusinessOwner: =varSelectedBusinessOwner
+    SelectedSponsorVP: =varSelectedSponsoringVP
+    TriggerOnReset: =true
+    UserEntity: =colUserListForFormComponent
+    UserSearchString: =If(ItemsGallery.Selected.inputTypeVal = "peoplepicker", TextInput.Text)
+    Validated: =
+    Width: =com_FormSection.ComponentWidth
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    GalleryBackground As button:
+        BorderColor: =ColorFade(GalleryBackground.Fill, -15%)
+        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        DisabledFill: =RGBA(237, 237, 237, 1)
+        DisplayMode: =DisplayMode.Disabled
+        Fill: =RGBA(237, 237, 237, 1)
+        FocusedBorderColor: =GalleryBackground.BorderColor
+        FontWeight: =FontWeight.Semibold
+        Height: =ItemsGallery.Height + 20
+        HoverBorderColor: =ColorFade(GalleryBackground.BorderColor, 20%)
+        HoverColor: =RGBA(255, 255, 255, 1)
+        HoverFill: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+        PressedBorderColor: =GalleryBackground.Fill
+        PressedColor: =GalleryBackground.Fill
+        PressedFill: =GalleryBackground.Color
+        Size: =15
+        Text: =""
+        Visible: =If(isSectionVisible, false, true)
+        Width: =ItemsGallery.Width + 20
+        X: =ItemsGallery.X - 10
+        Y: =ItemsGallery.Y - 10
+        ZIndex: =1
+
+    "ItemsGallery As gallery.'BrowseLayout_Vertical_ThreeTextVariant_ver4.0'":
+        BorderColor: =RGBA(0, 18, 107, 1)
+        DelayItemLoading: =true
+        DisabledBorderColor: =ItemsGallery.BorderColor
+        DisabledFill: =ItemsGallery.Fill
+        Height: |-
+            =/*
+            Sum(Max(Filter(com_FormSection.Items, sectionID = com_FormSection.FormSectionTitle), row), -1, Max(Filter(com_FormSection.Items, row = Max(Filter(com_FormSection.Items, sectionID = com_FormSection.FormSectionTitle), row)), height)) * 88
+            */
+            com_FormSection.ComponentHeight - ItemsGallery.Y - 20
+        HoverBorderColor: =ItemsGallery.BorderColor
+        HoverFill: =ItemsGallery.Fill
+        Items: =Filter(collFormValues, sectionID=com_FormSection.FormSectionTitle)
+        Layout: =Layout.Vertical
+        LoadingSpinnerColor: =ColorValue(LookUp(StyleGuide,Key="Magenta").Value)
+        PressedBorderColor: =ItemsGallery.BorderColor
+        PressedFill: =ItemsGallery.Fill
+        ShowNavigation: =true
+        ShowScrollbar: =false
+        TemplatePadding: =0
+        TemplateSize: =0
+        Visible: =If(isSectionVisible, false, true)
+        Width: =com_FormSection.ComponentWidth - 40
+        WrapCount: =0
+        X: =20
+        Y: =SectionTitle.Y + SectionTitle.Height + 10
+        ZIndex: =2
+
+        Group1 As groupContainer:
+            BorderColor: =RGBA(179, 179, 179, 1)
+            DisplayMode: =DisplayMode.Edit
+            Height: =ThisItem.height * 88
+            Visible: |-
+                =Switch(ThisItem.fieldID, 
+                "Integration", If(Text(com_FormSection.inputValues.cat_brand) = "Please Select" Or LookUp(collFormValues, fieldID = "Brand").fieldValue = "Please Select", false, 
+                    If(IsBlank(LookUp(collFormValues, fieldID = "LOBChannelHorizontal").fieldValue),
+                        Switch(Text(com_FormSection.inputValues.cat_lobchannelhorizontal), 
+                			"MVNO", false, 
+                			"Wholesale IOT & M2M", false,
+                			true),
+                        Switch(LookUp(collFormValues, fieldID = "LOBChannelHorizontal").fieldValue, 
+                			"MVNO", false, 
+                			"Wholesale IOT & M2M", false,
+                			true))),
+                
+                "Day", If(Text(com_FormSection.inputValues.cat_brand) = "Please Select" Or LookUp(collFormValues, fieldID = "Brand").fieldValue = "Please Select", false, 
+                    If(IsBlank(LookUp(collFormValues, fieldID = "Integration").fieldValue),
+                        Switch(Text(com_FormSection.inputValues.cat_integration), 
+                			"Yes", true, 
+                			false),
+                        Switch(LookUp(collFormValues, fieldID = "Integration").fieldValue, 
+                			"true", true,
+                			false))),
+                
+                "NameofExistingProduct", 
+                    If(IsBlank(LookUp(collFormValues, fieldID = "ReplacingAnExistingProduct").fieldValue),
+                        Switch(Text(com_FormSection.inputValues.cat_replacinganexistingproduct), 
+                			"Yes", true, 
+                			false),
+                        Switch(LookUp(collFormValues, fieldID = "ReplacingAnExistingProduct").fieldValue, 
+                			"true", true,
+                			false)),
+                
+                "OtherBusinessBenefit", 
+                    If(IsBlank(LookUp(collFormValues, fieldID = "BusinessBenefit").fieldValue),
+                        Switch(Text(com_FormSection.inputValues.cat_businessbenefit), 
+                			"", false,
+                            "Please Select", false,
+                            "Other (Describe)", true,
+                			false),
+                        Switch(LookUp(collFormValues, fieldID = "BusinessBenefit").fieldValue, 
+                			"", false,
+                            "Please Select", false,
+                            "Other (Describe)", true,
+                			false)),
+                
+                "DetailsStillOpen", 
+                    If(IsBlank(LookUp(collFormValues, fieldID = "PromoDetailsLocked").fieldValue),
+                        Switch(Text(com_FormSection.inputValues.cat_promodetailslocked), 
+                			"Yes", false, 
+                			true),
+                        Switch(LookUp(collFormValues, fieldID = "PromoDetailsLocked").fieldValue, 
+                			"true", false,
+                			true)),
+                
+                "ExpectedMarketingSupport", 
+                    If(IsBlank(LookUp(collFormValues, fieldID = "MarketingSupportNeeded").fieldValue),
+                        Switch(Text(com_FormSection.inputValues.cat_marketingsupportneeded), 
+                			"", false, 
+                			"Please Select", false, 
+                			"None", false, 
+                			true),
+                        Switch(LookUp(collFormValues, fieldID = "MarketingSupportNeeded").fieldValue, 
+                			"", false, 
+                			"Please Select", false, 
+                			"None", false, 
+                			true)),
+                
+                "AudienceSpecificCommunications", 
+                    If(IsBlank(LookUp(collFormValues, fieldID = "MarketingSupportNeeded").fieldValue),
+                        Switch(Text(com_FormSection.inputValues.cat_marketingsupportneeded), 
+                			"", false, 
+                			"Please Select", false, 
+                			"None", false, 
+                			true),
+                        Switch(LookUp(collFormValues, fieldID = "MarketingSupportNeeded").fieldValue, 
+                			"", false, 
+                			"Please Select", false, 
+                			"None", false, 
+                			true)),
+                
+                "ExplainAudienceSpecificCommunications", 
+                    If(IsBlank(LookUp(collFormValues, fieldID = "AudienceSpecificCommunications").fieldValue),
+                        Switch(Text(com_FormSection.inputValues.cat_audiencespecificcommunications), 
+                			"", false, 
+                			"Please Select", false,
+                			"Other", true, 
+                			false),
+                        Switch(LookUp(collFormValues, fieldID = "AudienceSpecificCommunications").fieldValue, 
+                			"", false, 
+                			"Please Select", false,
+                			"Other", true, 
+                			false)),
+                
+                "DesiredExecutionExplanation", 
+                    If(IsBlank(LookUp(collFormValues, fieldID = "DesiredExecution").fieldValue),
+                        Switch(Text(com_FormSection.inputValues.cat_desiredexecution), 
+                			"", false, 
+                			"Please Select", false,
+                			"Other", true, 
+                			false),
+                        Switch(LookUp(collFormValues, fieldID = "DesiredExecution").fieldValue, 
+                			"", false, 
+                			"Please Select", false,
+                			"Other", true, 
+                			false)),
+                
+                "TargetAudienceSegment", 
+                    If(IsBlank(LookUp(collFormValues, fieldID = "MarketingSupportNeeded").fieldValue),
+                        Switch(Text(com_FormSection.inputValues.cat_marketingsupportneeded), 
+                			"", false, 
+                			"Please Select", false, 
+                			"None", false, 
+                			true),
+                        Switch(LookUp(collFormValues, fieldID = "MarketingSupportNeeded").fieldValue, 
+                			"", false, 
+                			"Please Select", false, 
+                			"None", false, 
+                			true)),
+                
+                "BeneficiaryLOB", 
+                    If(IsBlank(LookUp(collFormValues, fieldID = "MarketingSupportNeeded").fieldValue),
+                        Switch(Text(com_FormSection.inputValues.cat_marketingsupportneeded), 
+                			"", false, 
+                			"Please Select", false, 
+                			"None", false, 
+                			true),
+                        Switch(LookUp(collFormValues, fieldID = "MarketingSupportNeeded").fieldValue, 
+                			"", false, 
+                			"Please Select", false, 
+                			"None", false, 
+                			true)),
+                
+                "ExplainTargetAudienceSegment", 
+                    If(IsBlank(LookUp(collFormValues, fieldID = "TargetAudienceSegment").fieldValue),
+                        Switch(Text(com_FormSection.inputValues.cat_targetaudiencesegment), 
+                			"", false, 
+                			"Please Select", false,
+                			"Other", true, 
+                			false),
+                        Switch(LookUp(collFormValues, fieldID = "TargetAudienceSegment").fieldValue, 
+                			"", false, 
+                			"Please Select", false,
+                			"Other", true, 
+                			false)),
+                
+                "IntegratedMarketing", 
+                    If(IsBlank(LookUp(collFormValues, fieldID = "MarketingSupportNeeded").fieldValue),
+                        Switch(Text(com_FormSection.inputValues.cat_marketingsupportneeded), 
+                			"", false, 
+                			"Please Select", false, 
+                			"None", false, 
+                			true),
+                        Switch(LookUp(collFormValues, fieldID = "MarketingSupportNeeded").fieldValue, 
+                			"", false, 
+                			"Please Select", false, 
+                			"None", false, 
+                			true)),
+                
+                "ExplainIntegratedMarketing", 
+                    If(IsBlank(LookUp(collFormValues, fieldID = "IntegratedMarketing").fieldValue),
+                        Switch(Text(com_FormSection.inputValues.cat_integratedmarketing), 
+                			"", false, 
+                			"Please Select", false,
+                			"Other", true, 
+                			false),
+                        Switch(LookUp(collFormValues, fieldID = "IntegratedMarketing").fieldValue, 
+                			"", false, 
+                			"Please Select", false,
+                			"Other", true, 
+                			false)),
+                
+                "BeneficiaryLOBApprover", 
+                    If(IsBlank(LookUp(collFormValues, fieldID = "BeneficiaryLOB").fieldValue),
+                        Switch(Text(com_FormSection.inputValues.cat_beneficiarylob), 
+                			"", false, 
+                			"Please Select", false,
+                			true),
+                        Switch(LookUp(collFormValues, fieldID = "BeneficiaryLOB").fieldValue, 
+                			"", false, 
+                			"Please Select", false,
+                			true)),
+                
+                "LocalMarket", 
+                    If(IsBlank(LookUp(collFormValues, fieldID = "Market").fieldValue),
+                        Switch(Text(com_FormSection.inputValues.cat_market), 
+                			"Local", true,
+                			false),
+                        Switch(LookUp(collFormValues, fieldID = "Market").fieldValue, 
+                			"true", true, 
+                			false)),
+                /*
+                "NumberofCustomersTargeted", If(!IsBlank(Find("Metro Base Management", Concat(com_FormSection.inputValues.cat_customersegment.Value, ","))) Or !IsBlank(Find("Metro Base Management", LookUp(collFormValues, fieldID = "CustomerSegment").fieldValue)),
+                    If(IsBlank(LookUp(collFormValues, fieldID = "Brand").fieldValue),
+                        Switch(Text(com_FormSection.inputValues.cat_brand), 
+                			"", true, 
+                			"Metro", false,
+                			"Please Select", true,
+                			true),
+                        Switch(LookUp(collFormValues, fieldID = "Brand").fieldValue, 
+                			"", true, 
+                			"Metro", false,
+                			"Please Select", true,
+                			true))),
+                */
+                
+                "AddALineTypes", If(!IsBlank(Find("Add-A-Line", Concat(com_FormSection.inputValues.cat_additionaleligibilityrequirements.Value, ","))) Or !IsBlank(Find("Add-A-Line", LookUp(collFormValues, fieldID = "AdditionalEligibilityRequirements").fieldValue)),
+                    true),
+                
+                "NumberOfAddALineRequired", If(!IsBlank(Find("Add-A-Line", Concat(com_FormSection.inputValues.cat_additionaleligibilityrequirements.Value, ","))) Or !IsBlank(Find("Add-A-Line", LookUp(collFormValues, fieldID = "AdditionalEligibilityRequirements").fieldValue)),
+                    true),
+                
+                true)
+            Width: =ThisItem.width * (com_FormSection.ComponentWidth - 40) / 4 - 20
+            X: =(ThisItem.column - 1) * (com_FormSection.ComponentWidth - 40) / 4 + 10
+            Y: =(ThisItem.row - 1) * 88
+            ZIndex: =13
+
+            Subtext As label:
+                Align: =If(ThisItem.fieldID = "DarkStatus", Align.Left, Align.Right)
+                BorderColor: =RGBA(0, 18, 107, 1)
+                Color: =If(ThisItem.charLimit-Len(TextInput.Text) = 0, Red, RGBA(166, 166, 166, 1))
+                DisabledColor: =If(ThisItem.charLimit-Len(TextInput.Text) = 0, Red, RGBA(166, 166, 166, 1))
+                DisplayMode: =DisplayMode.Disabled
+                FocusedBorderColor: =Subtext.BorderColor
+                FontWeight: =If(ThisItem.charLimit-Len(TextInput.Text) = 0, FontWeight.Semibold, FontWeight.Normal)
+                Height: =26
+                HoverBorderColor: =Subtext.BorderColor
+                HoverColor: =Subtext.Color
+                HoverFill: =Subtext.Fill
+                OnSelect: =
+                PressedBorderColor: =Subtext.BorderColor
+                PressedColor: =Subtext.Color
+                PressedFill: =Subtext.Fill
+                Size: =11
+                Text: |-
+                    =If(ThisItem.fieldID = "Business Owner", 
+                        If(IsBlank(com_FormSection.inputValues.cat_BusinessOwner.'Primary Email'), 
+                            ThisItem.subTextVal, 
+                            com_FormSection.inputValues.cat_BusinessOwner.'Primary Email'), 
+                        If(ThisItem.fieldID = "Sponsoring VP", 
+                            If(IsBlank(com_FormSection.inputValues.cat_Sponsor.'Primary Email'), 
+                            ThisItem.subTextVal, 
+                            com_FormSection.inputValues.cat_Sponsor.'Primary Email'), 
+                        If(ThisItem.charLimit = "", 
+                            If(ThisItem.subTextVal="0", 
+                                "", 
+                                ThisItem.subTextVal), 
+                                Concatenate(ThisItem.subTextVal, 
+                                Text(ThisItem.charLimit-Len(TextInput.Text))))))
+                Width: =Group1.Width - 10
+                X: =5
+                Y: =Title.Y + Title.Height + If(ThisItem.inputTypeVal="textbox", TextInput.Height, DropDownInput.Height)
+                ZIndex: =1
+
+            TextInput As text:
+                BorderColor: |-
+                    =If(ThisItem.required = "true" And IsBlank(TextInput.Text) And 
+                    com_FormSection.CheckRequiredFields = true Or 
+                    ThisItem.required = "Conditional" And IsBlank(TextInput.Text) 
+                    And com_FormSection.CheckRequiredFields = true, 
+                    Red, 
+                    RGBA(83, 83, 83, 1))
+                BorderThickness: |-
+                    =//If(ThisItem.required = "true" And IsBlank(TextInput.Text) And com_FormSection.CheckRequiredFields = true Or If(ThisItem.required = "true" And IsBlank(TextInput.Text) And com_FormSection.CheckRequiredFields = true Or ThisItem.required = "Conditional" And IsBlank(TextInput.Text) And com_FormSection.CheckRequiredFields = true, 3, 2), 3, 2)
+                    
+                    If(ThisItem.required = "true" And IsBlank(TextInput.Text) And com_FormSection.CheckRequiredFields = true Or ThisItem.required = "Conditional" And IsBlank(TextInput.Text) And com_FormSection.CheckRequiredFields = true, 3, 2)
+                Color: =RGBA(0, 0, 0, 1)
+                Default: |-
+                    =Coalesce(ThisItem.fieldValue, 
+                    If(ThisItem.defaultValue <> "NULL",
+                        Switch(ThisItem.fieldID, 
+                            "AnticipatedVolumeTakeRatesDaily", com_FormSection.inputValues.cat_anticipatedvolumetakeratesdaily,
+                            "AnticipatedVolumeTakeRatesTotal", com_FormSection.inputValues.cat_anticipatedvolumetakeratestotal,
+                            "AssessedThreeYearNPV", com_FormSection.inputValues.cat_assessedthreeyearnpv,
+                            "BillName", com_FormSection.inputValues.cat_billname,
+                            "Business Owner", com_FormSection.inputValues.cat_BusinessOwner.Nickname,
+                            //"Business Owner", Coalesce(com_FormSection.inputValues.cat_BusinessOwner.'Full Name', LookUp(collFormValues, fieldID = "Business Owner").fieldValue),
+                            "CostcoRebateCode", com_FormSection.inputValues.cat_costcorebatecode,
+                            "CustomerExperience", com_FormSection.inputValues.cat_customerexperience,
+                            "Description", com_FormSection.inputValues.cat_description,
+                            "DesignPrinciples", com_FormSection.inputValues.cat_designprinciples,
+                            "DesiredExecutionExplanation", com_FormSection.inputValues.cat_desiredexecutionexplanation,
+                            "DetailsStillOpen", com_FormSection.inputValues.cat_detailsstillopen,
+                            "DeviceName", com_FormSection.inputValues.cat_devicename,
+                            "DeviceOEM", com_FormSection.inputValues.cat_deviceoem,
+                            "EligibilityAndExclusions", com_FormSection.inputValues.cat_eligibilityandexclusions,
+                            "EligibilitySummary", com_FormSection.inputValues.cat_eligibilitysummary,
+                            "EligibleDevices", com_FormSection.inputValues.cat_eligibledevices,
+                            "ExpectedMarketingSupport", com_FormSection.inputValues.cat_expectedmarketingsupport,
+                            "ExplainAudienceSpecificCommunications", com_FormSection.inputValues.cat_explainaudiencespecificcommunications,
+                            "ExplainIntegratedMarketing", com_FormSection.inputValues.cat_explainintegratedmarketing,
+                            "ExplainTargetAudienceSegment", com_FormSection.inputValues.cat_explaintargetaudiencesegment,
+                            "GoalKPI", com_FormSection.inputValues.cat_goalkpi,
+                            "IncrementalLiftDaily", com_FormSection.inputValues.cat_incrementalliftdaily,
+                            "IncrementalLiftTotal", com_FormSection.inputValues.cat_incrementallifttotal,
+                            "InitiativeName", com_FormSection.inputValues.cat_initiativename,
+                            "KeyAssumptions", com_FormSection.inputValues.cat_keyassumptions,
+                            "KeyFeatures", com_FormSection.inputValues.cat_keyfeatures,
+                            "LocalMarket", com_FormSection.inputValues.cat_localmarket,
+                            "NameofExistingProduct", com_FormSection.inputValues.cat_nameofexistingproduct,
+                            "NumberofCustomersTargeted", com_FormSection.inputValues.cat_numberofcustomerstargeted,
+                            "NumberOfAddALineRequired", com_FormSection.inputValues.cat_numberofaddalinerequired,
+                            "OfferLimits", com_FormSection.inputValues.cat_offerlimits,
+                            "OfferLimitsConsumerTFB", com_FormSection.inputValues.cat_offerlimitsconsumertfb,
+                            "OfferLimitsTFBBAN", com_FormSection.inputValues.cat_offerlimitstfbban,
+                            "OfferRevisionDescription", com_FormSection.inputValues.cat_offerrevisiondescription,
+                            "OtherBusinessBenefit", com_FormSection.inputValues.cat_otherbusinessbenefit,
+                            "OtherLimitationsAndExclusions", com_FormSection.inputValues.cat_otherlimitationsandexclusions,
+                            "OtherPromotionsNotStackable", com_FormSection.inputValues.cat_otherpromotionsnotstackable,
+                            "Pitch", com_FormSection.inputValues.cat_pitch,
+                            "PositioningMessaging", com_FormSection.inputValues.cat_positioningmessaging,
+                            "PJCode", com_FormSection.inputValues.cat_pjcode,
+                            "PRCode", com_FormSection.inputValues.cat_prcode,
+                            "ProductFunctionality", com_FormSection.inputValues.cat_productfunctionality,
+                            "ProductObjectives", com_FormSection.inputValues.cat_productobjectives,
+                            "ProductNotes", com_FormSection.inputValues.cat_productnotes,
+                            "PromoCode", com_FormSection.inputValues.cat_promocode,
+                            "ReasonToBelieve", com_FormSection.inputValues.cat_reasontobelieve,
+                            "ShortDescription", com_FormSection.inputValues.cat_shortdescription,
+                            "Situation", com_FormSection.inputValues.cat_situation,
+                            "Sponsoring VP", com_FormSection.inputValues.cat_Sponsor.Nickname,
+                            //"Sponsoring VP", Coalesce(com_FormSection.inputValues.cat_Sponsor.'Full Name', LookUp(collFormValues, fieldID = "Sponsoring VP").fieldValue),
+                            "SteeringMeetingResults", com_FormSection.inputValues.cat_steeringmeetingresults,
+                            "SupportPlan", com_FormSection.inputValues.cat_supportplan,
+                            "Target", com_FormSection.inputValues.cat_target,
+                            "TotalNetAddGoals", com_FormSection.inputValues.cat_totalnetaddgoals,
+                            "TotalOfferSpend", com_FormSection.inputValues.cat_totalofferspend,
+                            "TriageNotes", com_FormSection.inputValues.cat_triagenotes,
+                            "ValueProposition", com_FormSection.inputValues.cat_valueproposition,
+                        ThisItem.fieldValue)
+                    ,"")
+                    )
+                DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                DisabledFill: =RGBA(244, 244, 244, 1)
+                DisplayMode: |-
+                    =If(com_FormSection.IsNewInitiative, 
+                        DisplayMode.Edit,
+                            If(com_FormSection.GTMAccesss,
+                                DisplayMode.Edit,
+                                    If(com_FormSection.EditRecord, 
+                                        Switch(ThisItem.securityLevel,
+                                            "GTM", DisplayMode.View,
+                                            DisplayMode.Edit),
+                                            DisplayMode.View)))
+                Fill: =If(ThisItem.required = "true" && IsBlank(TextInput.Text) && com_FormSection.CheckRequiredFields = true Or ThisItem.required = "Conditional" && IsBlank(TextInput.Text) && com_FormSection.CheckRequiredFields = true, RGBA(238, 204, 204, 1), RGBA(255, 255, 255, 1))
+                FocusedBorderColor: =TextInput.BorderColor
+                FocusedBorderThickness: =4
+                Height: =Group1.Height - Title.Height - Subtext.Height - 5
+                HintText: =ThisItem.hintText
+                HoverBorderColor: =ColorFade(DropDownInput.BorderColor, 15%)
+                HoverColor: =RGBA(0, 0, 0, 1)
+                HoverFill: =RGBA(255, 255, 255, 1)
+                MaxLength: =ThisItem.charLimit
+                Mode: =If(ThisItem.inputTypeVal = "multiline", TextMode.MultiLine, TextMode.SingleLine)
+                OnChange: |-
+                    =If(ThisItem.inputTypeVal <> "peoplepicker", 
+                        If(IsBlank(TextInput.Text), 
+                            Patch(collFormValues, ThisItem, {fieldValue: TextInput.Text, defaultValue: "NULL"}),
+                            Patch(collFormValues, ThisItem, {fieldValue: TextInput.Text, defaultValue: ""})));
+                    Set(varFormValuesChanged, true)
+                OnSelect: =If(ThisItem.inputTypeVal = "peoplepicker", Set(varPeoplePickerVis, true)); 
+                PressedBorderColor: =TextInput.HoverBorderColor
+                PressedColor: =TextInput.Color
+                PressedFill: =TextInput.Fill
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Reset: =ThisItem.inputTypeVal = "peoplepicker" And varPPReset
+                Size: =13
+                Tooltip: =ThisItem.tooltipText
+                Visible: =ThisItem.inputTypeVal = "textbox" || ThisItem.inputTypeVal = "multiline"  || ThisItem.inputTypeVal = "peoplepicker" 
+                Width: =Group1.Width - 10
+                X: =5
+                Y: =Title.Y + Title.Height
+                ZIndex: =2
+
+            DropDownInput As dropdown:
+                BorderColor: =If(ThisItem.required = "true" And IsBlank(DropDownInput.Selected) And com_FormSection.CheckRequiredFields = true Or ThisItem.required = "true" And DropDownInput.Selected.Result = "Please Select" And com_FormSection.CheckRequiredFields = true Or ThisItem.required = "Conditional" And IsBlank(DropDownInput.Selected) And com_FormSection.CheckRequiredFields = true Or ThisItem.required = "Conditional" And DropDownInput.Selected.Result = "Please Select" And com_FormSection.CheckRequiredFields = true, Red, RGBA(83, 83, 83, 1))
+                BorderThickness: |-
+                    =If(ThisItem.required = "true" And IsBlank(DropDownInput.Selected) And com_FormSection.CheckRequiredFields = true Or ThisItem.required = "true" And DropDownInput.Selected.Result = "Please Select" And com_FormSection.CheckRequiredFields = true Or ThisItem.required = "Conditional" And IsBlank(DropDownInput.Selected) And com_FormSection.CheckRequiredFields = true Or ThisItem.required = "Conditional" And DropDownInput.Selected.Result = "Please Select" And com_FormSection.CheckRequiredFields = true, 3, 2)
+                    
+                    //If(ThisItem.required = "true" And IsBlank(ComboBox.Selected) And com_FormSection.CheckRequiredFields=true Or ThisItem.required = "true" And ComboBox.Selected.Result = "Please Select" And com_FormSection.CheckRequiredFields = true Or ThisItem.required = "Conditional" And IsBlank(ComboBox.Selected) And com_FormSection.CheckRequiredFields=true Or ThisItem.required = "Conditional" And ComboBox.Selected.Result = "Please Select" And com_FormSection.CheckRequiredFields=true , 3, 2)
+                ChevronBackground: =RGBA(226, 0, 116, 1)
+                ChevronDisabledBackground: =RGBA(166, 166, 166, 1)
+                ChevronDisabledFill: =RGBA(244, 244, 244, 1)
+                ChevronHoverBackground: =RGBA(226, 0, 116, 1)
+                ChevronHoverFill: =RGBA(255, 255, 255, 1)
+                Default: |-
+                    =If(IsBlank(ThisItem.fieldValue),
+                        Switch(ThisItem.fieldID, 
+                    "AnnualGALiftEstimate", Coalesce(Text(com_FormSection.inputValues.cat_annualgaliftestimate),"Please Select"),
+                    "AudienceSpecificCommunications", Coalesce(Text(com_FormSection.inputValues.cat_audiencespecificcommunications),"Please Select"),
+                    "BeneficiaryLOB", Coalesce(Text(com_FormSection.inputValues.cat_beneficiarylob),"Please Select"),
+                    "BeneficiaryLOBApprover", Coalesce(com_FormSection.inputValues.cat_BeneficiaryLOBApprover.'Full Name',"Please Select"),
+                    "Brand", Coalesce(Text(com_FormSection.inputValues.cat_brand),"Please Select"),
+                    "BusinessBenefit", Coalesce(Text(com_FormSection.inputValues.cat_businessbenefit),"Please Select"),
+                    "Category", Coalesce(Text(com_FormSection.inputValues.cat_category),"Please Select"),
+                    "CustomerImpacting", Coalesce(Text(com_FormSection.inputValues.cat_customerimpacting),"Please Select"),
+                    "Day", Coalesce(Text(com_FormSection.inputValues.cat_day),"Please Select"),
+                    "DesiredExecution", Coalesce(Text(com_FormSection.inputValues.cat_desiredexecution),"Please Select"),
+                    "GoesOnCalendar", Coalesce(Text(com_FormSection.inputValues.cat_goesoncalendar),"Please Select"),
+                    "IntegratedMarketing", Coalesce(Text(com_FormSection.inputValues.cat_integratedmarketing),"Please Select"),
+                    "LOBChannelHorizontal", Coalesce(Text(com_FormSection.inputValues.cat_lobchannelhorizontal),"Please Select"),
+                    "MarketingSupportNeeded", Coalesce(Text(com_FormSection.inputValues.cat_marketingsupportneeded),"Please Select"),
+                    "OfferType", Coalesce(Text(com_FormSection.inputValues.cat_offertype),"Please Select"),
+                    "Phase", Coalesce(Text(com_FormSection.inputValues.cat_phase),"Please Select"),
+                    "Priority", Coalesce(Text(com_FormSection.inputValues.cat_priority),"Please Select"),
+                    "PriorityQuarter", Coalesce(Text(com_FormSection.inputValues.cat_priorityquarter),"Please Select"),
+                    "PTLOESWAG", Coalesce(Text(com_FormSection.inputValues.cat_ptloeswag),"Please Select"),
+                    "StrategicPillar", Coalesce(Text(com_FormSection.inputValues.cat_strategicpillar),"Please Select"),
+                    "SubPhase", Coalesce(Text(com_FormSection.inputValues.cat_subphase),"Please Select"),
+                    "SystemStack", Coalesce(Text(com_FormSection.inputValues.cat_systemstack),"Please Select"),
+                    "TargetAudienceSegment", Coalesce(Text(com_FormSection.inputValues.cat_targetaudiencesegment),"Please Select"),
+                    "ThreeYearNPV", Coalesce(Text(com_FormSection.inputValues.cat_threeyearnpv),"Please Select"),
+                    "Tier", Coalesce(Text(com_FormSection.inputValues.cat_tier),"Please Select"),
+                    "ValidationCheck", Coalesce(Text(com_FormSection.inputValues.cat_validationcheck),"Please Select"),
+                    "")
+                    ,ThisItem.fieldValue)
+                DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                DisabledFill: =RGBA(244, 244, 244, 1)
+                DisplayMode: |-
+                    =If(com_FormSection.IsNewInitiative, 
+                        DisplayMode.Edit,
+                            If(com_FormSection.GTMAccesss,
+                                DisplayMode.Edit,
+                                    If(com_FormSection.EditRecord, 
+                                        Switch(ThisItem.securityLevel,
+                                            "GTM", DisplayMode.View,
+                                            DisplayMode.Edit),
+                                            DisplayMode.View)))
+                Fill: =If(ThisItem.required = "true" And IsBlank(DropDownInput.Selected) And com_FormSection.CheckRequiredFields=true Or ThisItem.required = "true" And DropDownInput.Selected.Result = "Please Select" And com_FormSection.CheckRequiredFields = true Or ThisItem.required = "Conditional" And IsBlank(DropDownInput.Selected) And com_FormSection.CheckRequiredFields=true Or ThisItem.required = "Conditional" And DropDownInput.Selected.Result = "Please Select" And com_FormSection.CheckRequiredFields = true, RGBA(238, 204, 204, 1), RGBA(255, 255, 255, 1))
+                FocusedBorderColor: =DropDownInput.BorderColor
+                Height: =Group1.Height - Title.Height - Subtext.Height - 5
+                HoverBorderColor: =ColorFade(DropDownInput.BorderColor, 15%)
+                HoverColor: =RGBA(0, 0, 0, 1)
+                HoverFill: =RGBA(255, 255, 255, 1)
+                Items: |-
+                    =If(!Group1.Visible, 
+                    Filter(Split(ThisItem.optionSet, "*"), 
+                    Result = "Please Select", Result = ""), 
+                    Distinct(
+                    Switch(ThisItem.fieldID,
+                    	"LOBChannelHorizontal", Switch(com_FormSection.InitiativeType, 
+                            "Project", Filter(Split(ThisItem.optionSet, "*"), 
+                                Result = "Please Select" Or 
+                                Result = "Advertising & Data" Or 
+                                Result = "Emerging Business" Or
+                                Result = "Back Office" Or 
+                                Result = "Field Sales" Or 
+                                Result = "Care" Or 
+                                Result = "Commercial" Or 
+                                Result = "Device & Supply Chain" Or 
+                                Result = "Digital" Or 
+                                Result = "Enterprise" Or 
+                                Result = "Home & Entertainment" Or 
+                                Result = "IMO" Or 
+                                Result = "Consumer Markets Prepaid" Or
+                                Result = "Consumer Markets Postpaid" Or 
+                                Result = "MVNO" Or 
+                                Result = "Marketing" Or
+                                Result = "T-Mobile For Business" Or 
+                                Result = "Wholesale/MVNO" Or
+                                Result = "Wholesale IOT & M2M"),
+                            "Other", Filter(Split(ThisItem.optionSet, "*"), 
+                                Result = "Please Select" Or 
+                                Result = "Advertising & Data" Or
+                                Result = "Emerging Business" Or 
+                                Result = "Back Office" Or 
+                                Result = "Field Sales" Or 
+                                Result = "Care" Or 
+                                Result = "Engineering & Operations" Or
+                                Result = "Commercial" Or 
+                                Result = "Marketing" Or
+                                Result = "Device & Supply Chain" Or 
+                                Result = "Digital" Or 
+                                Result = "Wholesale/MVNO" Or
+                                Result = "Product & Technology" Or
+                                Result = "Home & Entertainment" Or 
+                                Result = "Consumer Markets Postpaid" Or 
+                                Result = "IMO" Or 
+                                Result = "Consumer Markets Prepaid" Or 
+                                Result = "MVNO" Or 
+                                Result = "T-Mobile For Business" Or 
+                                Result = "Wholesale IOT & M2M"),
+                            "Service Offer", Filter(Split(ThisItem.optionSet, "*"), 
+                                Result = "Please Select" Or 
+                                Result = "Advertising & Data" Or 
+                                Result = "Emerging Business" Or
+                                Result = "Back Office" Or 
+                                Result = "Field Sales" Or 
+                                Result = "Care" Or 
+                                Result = "Device & Supply Chain" Or 
+                                Result = "Digital" Or 
+                                Result = "Engineering & Operations" Or
+                                Result = "Wholesale/MVNO" Or
+                                Result = "Finance" Or 
+                                Result = "Home & Entertainment" Or 
+                                Result = "Consumer Markets Postpaid" Or 
+                                Result = "Marketing" Or 
+                                Result = "Consumer Markets Prepaid" Or 
+                                Result = "MVNO" Or 
+                                Result = "Product & Technology" Or 
+                                Result = "T-Mobile For Business" Or 
+                                Result = "Wholesale IOT & M2M"),
+                            "Device Promotion", Filter(Split(ThisItem.optionSet, "*"), 
+                                Result = "Please Select" Or 
+                                Result = "Advertising & Data" Or 
+                                Result = "Emerging Business" Or
+                                Result = "Back Office" Or 
+                                Result = "Field Sales" Or 
+                                Result = "Care" Or 
+                                Result = "Device & Supply Chain" Or 
+                                Result = "Digital" Or 
+                                Result = "Engineering & Operations" Or
+                                Result = "Wholesale/MVNO" Or
+                                Result = "Finance" Or 
+                                Result = "Home & Entertainment" Or 
+                                Result = "Consumer Markets Postpaid" Or 
+                                Result = "Marketing" Or 
+                                Result = "Consumer Markets Prepaid" Or 
+                                Result = "MVNO" Or 
+                                Result = "Product & Technology" Or 
+                                Result = "T-Mobile For Business" Or 
+                                Result = "Wholesale IOT & M2M"),
+                    		Split(ThisItem.optionSet, "*")), 
+                    	"OfferType", Switch(com_FormSection.InitiativeType, 
+                            "Service Offer", If(LookUp(collFormValues, fieldID = "Brand").fieldValue = "Metro" And LookUp(collFormValues, fieldID = "LOBChannelHorizontal").fieldValue = "Consumer Markets Prepaid" Or 
+                                    Text(com_FormSection.inputValues.cat_brand) = "Metro" And Text(com_FormSection.inputValues.cat_lobchannelhorizontal) = "Consumer Markets Prepaid" Or
+                                    LookUp(collFormValues, fieldID = "Brand").fieldValue = "Metro" And Text(com_FormSection.inputValues.cat_lobchannelhorizontal) = "Consumer Markets Prepaid" Or
+                                    Text(com_FormSection.inputValues.cat_brand) = "Metro" And LookUp(collFormValues, fieldID = "LOBChannelHorizontal").fieldValue = "Consumer Markets Prepaid",
+                                Filter(Split(ThisItem.optionSet, "*"), 
+                                    Result = "Please Select" Or 
+                                    Result = "Waiving a Fee" Or
+                                    Result = "Bundle" Or
+                                    Result = "Auto-Pay" Or
+                                    Result = "Services" Or
+                                    Result = "Feature" Or
+                                    Result = "Rate Plan" Or 
+                                    Result = "Feature" Or 
+                                    Result = "Other"), 
+                                Filter(Split(ThisItem.optionSet, "*"), 
+                                    Result = "Please Select" Or 
+                                    Result = "BPTCR" Or
+                                    Result = "Feature" Or
+                                    Result = "LLBC" Or
+                                    Result = "Price Plan" Or 
+                                    Result = "Service Hook UP" Or
+                                    Result = "Service Promotion" Or
+                                    Result = "Roaming" Or
+                                    Result = "SOC" Or
+                                    Result = "Whitelisting" Or 
+                                    Result = "Other")),
+                            "Device Promotion", If(LookUp(collFormValues, fieldID = "Brand").fieldValue = "Metro" And LookUp(collFormValues, fieldID = "LOBChannelHorizontal").fieldValue = "Consumer Markets Prepaid" Or 
+                                    Text(com_FormSection.inputValues.cat_brand) = "Metro" And Text(com_FormSection.inputValues.cat_lobchannelhorizontal) = "Consumer Markets Prepaid" Or
+                                    LookUp(collFormValues, fieldID = "Brand").fieldValue = "Metro" And Text(com_FormSection.inputValues.cat_lobchannelhorizontal) = "Consumer Markets Prepaid" Or
+                                    Text(com_FormSection.inputValues.cat_brand) = "Metro" And LookUp(collFormValues, fieldID = "LOBChannelHorizontal").fieldValue = "Consumer Markets Prepaid",
+                                Filter(Split(ThisItem.optionSet, "*"), 
+                                    Result = "Please Select" Or 
+                                    Result = "Rate Plan" Or 
+                                    Result = "Bundle" Or
+                                    Result = "Auto-Pay" Or
+                                    Result = "Waiving a Fee" Or 
+                    				Result = "Feature" Or
+                                    Result = "Other"), 
+                                Filter(Split(ThisItem.optionSet, "*"), 
+                                    Result = "Please Select" Or 
+                                    Result = "Handset Offer or Promo (HOP)" Or 
+                                    Result = "Manual Discount" Or 
+                                    Result = "Prepaid Promo" Or 
+                                    Result = "Other")),
+                            Split(ThisItem.optionSet, "*")),
+                    	"DesiredExecution", Switch(com_FormSection.InitiativeType, 
+                            "Device Promotion", If(LookUp(collFormValues, fieldID = "Brand").fieldValue = "Metro" And LookUp(collFormValues, fieldID = "LOBChannelHorizontal").fieldValue = "Consumer Markets Prepaid" Or 
+                                    Text(com_FormSection.inputValues.cat_brand) = "Metro" And Text(com_FormSection.inputValues.cat_lobchannelhorizontal) = "Consumer Markets Prepaid" Or
+                                    LookUp(collFormValues, fieldID = "Brand").fieldValue = "Metro" And Text(com_FormSection.inputValues.cat_lobchannelhorizontal) = "Consumer Markets Prepaid" Or
+                                    Text(com_FormSection.inputValues.cat_brand) = "Metro" And LookUp(collFormValues, fieldID = "LOBChannelHorizontal").fieldValue = "Consumer Markets Prepaid",
+                                Filter(Split(ThisItem.optionSet, "*"), 
+                                    Result = "Please Select" Or 
+                                    Result = "Gift Card" Or
+                                    Result = "Instant Rebate" Or 
+                                    //Result = "Offline Script (Sprint)" Or
+                                    //Result = "POS MAC (Sprint)" Or
+                                    Result = "Other"), 
+                                Filter(Split(ThisItem.optionSet, "*"), !(Result = "Instant Rebate") And !(Result = "Gift Card"))),
+                            Split(ThisItem.optionSet, "*")),
+                    	"Tier", Switch(com_FormSection.InitiativeType, 
+                            "Device Launch", If(LookUp(collFormValues, fieldID = "Brand").fieldValue = "Metro" And LookUp(collFormValues, fieldID = "LOBChannelHorizontal").fieldValue = "Consumer Markets Prepaid" Or 
+                                    Text(com_FormSection.inputValues.cat_brand) = "Metro" And Text(com_FormSection.inputValues.cat_lobchannelhorizontal) = "Consumer Markets Prepaid" Or
+                                    LookUp(collFormValues, fieldID = "Brand").fieldValue = "Metro" And Text(com_FormSection.inputValues.cat_lobchannelhorizontal) = "Consumer Markets Prepaid" Or
+                                    Text(com_FormSection.inputValues.cat_brand) = "Metro" And LookUp(collFormValues, fieldID = "LOBChannelHorizontal").fieldValue = "Consumer Markets Prepaid",
+                    			Filter(Split(ThisItem.optionSet, "*"), 
+                                    Result = "Please Select" Or 
+                                    Result = "Affordable" Or 
+                                    Result = "Flagship" Or 
+                                    Result = "IOT" Or 
+                                    Result = "IOT/BTS" Or
+                                    Result = "Feature" Or 
+                                    Result = "Apple" Or
+                                    Result = "Branded Phablet" Or 
+                                    Result = "Tier 2 Phablet" Or 
+                                    Result = "Branded Mid-Tier" Or 
+                                    Result = "Branded Entry" Or 
+                                    Result = "Tier 2 Entry"), 
+                    			Filter(Split(ThisItem.optionSet, "*"), 
+                                    Result = "Please Select" Or 
+                                    Result = "Affordable" Or 
+                                    Result = "IOT" Or 
+                                    Result = "IOT/BTS" Or
+                                    Result = "Midtier" Or 
+                                    Result = "Tablet" Or 
+                                    Result = "Wearable" Or 
+                                    Result = "Other" Or 
+                                    Result = "Flagship")),
+                    			Split(ThisItem.optionSet, "*")),
+                        "ValidationCheck", Switch(com_FormSection.InitiativeType, 
+                            "Device Promotion", If(LookUp(collFormValues, fieldID = "Brand").fieldValue = "Metro" And LookUp(collFormValues, fieldID = "LOBChannelHorizontal").fieldValue = "Consumer Markets Prepaid" Or 
+                                    Text(com_FormSection.inputValues.cat_brand) = "Metro" And Text(com_FormSection.inputValues.cat_lobchannelhorizontal) = "Consumer Markets Prepaid" Or
+                                    LookUp(collFormValues, fieldID = "Brand").fieldValue = "Metro" And Text(com_FormSection.inputValues.cat_lobchannelhorizontal) = "Consumer Markets Prepaid" Or
+                                    Text(com_FormSection.inputValues.cat_brand) = "Metro" And LookUp(collFormValues, fieldID = "LOBChannelHorizontal").fieldValue = "Consumer Markets Prepaid", 
+                    			Filter(Split(ThisItem.optionSet, "*"), 
+                                    Result = "Please Select" Or 
+                                    Result = "Other"), 
+                    			Filter(Split(ThisItem.optionSet, "*"), 
+                                    Result = "Please Select" Or 
+                                    Result = "One Time (Initial)" Or 
+                                    Result = "On-Going")),
+                    			Split(ThisItem.optionSet, "*")),
+                        "SystemStack", Switch(com_FormSection.InitiativeType, 
+                            "Service Offer",  If(LookUp(collFormValues, fieldID = "Brand").fieldValue = "Metro" And LookUp(collFormValues, fieldID = "LOBChannelHorizontal").fieldValue = "Consumer Markets Prepaid" Or 
+                                    Text(com_FormSection.inputValues.cat_brand) = "Metro" And Text(com_FormSection.inputValues.cat_lobchannelhorizontal) = "Consumer Markets Prepaid" Or
+                                    LookUp(collFormValues, fieldID = "Brand").fieldValue = "Metro" And Text(com_FormSection.inputValues.cat_lobchannelhorizontal) = "Consumer Markets Prepaid" Or
+                                    Text(com_FormSection.inputValues.cat_brand) = "Metro" And LookUp(collFormValues, fieldID = "LOBChannelHorizontal").fieldValue = "Consumer Markets Prepaid",
+                    			Filter(Split(ThisItem.optionSet, "*"), 
+                                    Result = "Please Select" Or 
+                                    Result = "Metro (All)" Or
+                                    Result = "Metro (Dealer POS)" Or
+                                    Result = "Metro (COR POS)"), 
+                    			Filter(Split(ThisItem.optionSet, "*"), 
+                                    !(Result = "Metro (All)") And
+                                    !(Result = "Metro (Dealer POS)") And
+                                    !(Result = "Metro (COR POS)"))),
+                    			Split(ThisItem.optionSet, "*")),
+                            "BeneficiaryLOBApprover", Filter(Split(Concat(Filter(colBeneficiaryLOB, Text(BeneficiaryLOB) = 
+                                If(IsBlank(LookUp(collFormValues, fieldID = "BeneficiaryLOB").fieldValue), 
+                                    Text(com_FormSection.inputValues.cat_beneficiarylob), 
+                                    LookUp(collFormValues, fieldID = "BeneficiaryLOB").fieldValue)
+                                ), Name&"*"), "*"), 
+                                If(LookUp(collFormValues, fieldID = "MarketingSupportNeeded").fieldValue <> "None", 
+                                    !IsBlank(Result), 
+                                    IsBlank(Result))),
+                            Split(ThisItem.optionSet, "*"))
+                            ,Result)
+                    )
+                OnChange: |
+                    =If(IsBlank(DropDownInput.Selected.Result) Or DropDownInput.Selected.Result = "Please Select",
+                    Patch(collFormValues, ThisItem, {fieldValue: DropDownInput.Selected.Result, defaultValue: "NULL"}),
+                    Patch(collFormValues,ThisItem,{fieldValue:DropDownInput.Selected.Result, defaultValue: ""}));
+                    
+                    Switch(ThisItem.fieldID, 
+                        "MarketingSupportNeeded", 
+                            If(DropDownInput.Selected.Result = "Please Select" Or DropDownInput.Selected.Result = "None", 
+                                Patch(collFormValues,LookUp(collFormValues, fieldID = "BeneficiaryLOB"),{fieldValue:""});
+                                Patch(collFormValues,LookUp(collFormValues, fieldID = "BeneficiaryLOBApprover"),{fieldValue:""})),
+                        "Brand",
+                            Set(varShowLoader, true);
+                            ClearCollect(collFormValuesCopy, collFormValues);
+                    
+                            If(DropDownInput.Selected.Result = "Metro" And com_FormSection.InitiativeType = "Device Promotion" Or DropDownInput.Selected.Result = "Metro" And com_FormSection.InitiativeType = "Service Offer",
+                                If(com_FormSection.IsNewInitiative, 
+                                    ClearCollect(collFormValues, Filter(ComponentFieldDetails, formID = Concatenate(com_FormSection.InitiativeType, " - Metro") And isOnIntake = true)),
+                                    ClearCollect(collFormValues, Filter(ComponentFieldDetails, formID = Concatenate(com_FormSection.InitiativeType, " - Metro")))),
+                                If(com_FormSection.IsNewInitiative, 
+                                    ClearCollect(collFormValues, Filter(ComponentFieldDetails, formID = com_FormSection.InitiativeType And isOnIntake = true)),
+                                    ClearCollect(collFormValues, Filter(ComponentFieldDetails, formID = com_FormSection.InitiativeType))
+                                    );
+                                
+                                );
+                                ForAll(collFormValuesCopy, Patch(collFormValues, LookUp(collFormValues, collFormValues[@fieldID] = collFormValuesCopy[@fieldID]), {fieldValue: collFormValuesCopy[@fieldValue]}));
+                                Set(varShowLoader, false);
+                            );
+                    
+                    Set(varFormValuesChanged, true);
+                OnSelect: =Set(varFormValuesChanged, true);
+                PressedBorderColor: =DropDownInput.HoverBorderColor
+                PressedColor: =RGBA(255, 255, 255, 1)
+                PressedFill: =RGBA(226, 0, 116, 1)
+                Reset: |-
+                    =false
+                    //!Parent.Visible
+                    //Switch(ThisItem.fieldID,"BeneficiaryLOB", If(LookUp(collFormValues, fieldID = "MarketingSupportNeeded").fieldValue = "None" Or LookUp(collFormValues, fieldID = "MarketingSupportNeeded").fieldValue = "Please Select", true, false))
+                SelectionFill: =RGBA(226, 0, 116, 1)
+                Size: =13
+                Tooltip: =ThisItem.tooltipText
+                Visible: =ThisItem.inputTypeVal = "dropdown"
+                Width: =Group1.Width - 10
+                X: =5
+                Y: =Title.Y + Title.Height
+                ZIndex: =3
+
+            ToggleInput As toggleSwitch:
+                BorderColor: =RGBA(0, 0, 0, 0)
+                Color: =RGBA(0, 0, 0, 1)
+                Default: |-
+                    =If(IsBlank(ThisItem.fieldValue),
+                        Switch(ThisItem.fieldID, 
+                            "ActiveServiceRequired", Text(com_FormSection.inputValues.cat_activeservicerequired) = "Yes",
+                            "CarrierFreedom", Text(com_FormSection.inputValues.cat_carrierfreedom) = "Yes",
+                            "DarkStatus", Text(com_FormSection.inputValues.cat_darkstatus) = "Dark",
+                            "EmployeeDiscount", Text(com_FormSection.inputValues.cat_employeediscount) = "Yes",
+                            "EmployeeEligible", Text(com_FormSection.inputValues.cat_employeeeligible) = "Yes",
+                            "GetOutOfTheRed", Text(com_FormSection.inputValues.cat_getoutofthered) = "Yes",
+                            "Integration", Text(com_FormSection.inputValues.cat_integration) = "Yes",
+                            "IsolatedCapacity", Text(com_FormSection.inputValues.cat_isolatedcapacity) = "Yes",
+                            "JUMPEligible", Text(com_FormSection.inputValues.cat_jumpeligible) = "Yes",
+                            "LimitedTimeOffer", Text(com_FormSection.inputValues.cat_limitedtimeoffer) = "Yes",
+                            "MAPRestricted", Text(com_FormSection.inputValues.cat_maprestricted) = "Yes",
+                            "Market", Text(com_FormSection.inputValues.cat_market) = "Local",
+                            "Monitoring", Text(com_FormSection.inputValues.cat_monitoring) = "Yes",
+                            "PromoDetailsLocked", Text(com_FormSection.inputValues.cat_promodetailslocked) = "Yes",
+                            "PromoEligibilityTool", Text(com_FormSection.inputValues.cat_promoeligibilitytool) = "Yes",
+                            "ReplacingAnExistingProduct", Text(com_FormSection.inputValues.cat_replacinganexistingproduct) = "Yes",
+                        false)
+                    ,ThisItem.fieldValue = "true")
+                DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                DisplayMode: |-
+                    =If(com_FormSection.IsNewInitiative, 
+                        DisplayMode.Edit,
+                            If(com_FormSection.GTMAccesss,
+                                DisplayMode.Edit,
+                                    If(com_FormSection.EditRecord, 
+                                        Switch(ThisItem.securityLevel,
+                                            "GTM", DisplayMode.View,
+                                            DisplayMode.Edit),
+                                            DisplayMode.View)))
+                FalseFill: =RGBA(0, 0, 0, 0)
+                FalseHoverFill: =
+                FalseText: =Right(ThisItem.optionSet,(Len(ThisItem.optionSet)-Find("*", ThisItem.optionSet)))
+                FocusedBorderColor: =ToggleInput.BorderColor
+                FocusedBorderThickness: =
+                HandleFill: =RGBA(0, 0, 0, 0)
+                HoverBorderColor: =
+                OnChange: =
+                OnCheck: =
+                OnSelect: =
+                OnUncheck: =
+                PressedBorderColor: =
+                Size: =13
+                TextPosition: =TextPosition.Left
+                Tooltip: =ThisItem.tooltipText
+                TrueFill: =RGBA(0, 0, 0, 0)
+                TrueHoverFill: =
+                TrueText: =Left(ThisItem.optionSet,Find("*", ThisItem.optionSet)-1)
+                Visible: =ThisItem.inputTypeVal = "toggle"
+                Width: =Group1.Width - 10
+                X: =5
+                Y: =Title.Y + Title.Height + 1
+                ZIndex: =4
+
+            MidSeparator As rectangle:
+                BorderColor: =RGBA(0, 18, 107, 1)
+                DisabledFill: =MidSeparator.Fill
+                Fill: =RGBA(128, 128, 128, 1)
+                FocusedBorderColor: =MidSeparator.BorderColor
+                Height: =2
+                HoverFill: =MidSeparator.Fill
+                OnSelect: =
+                PressedFill: =MidSeparator.Fill
+                Visible: =ThisItem.inputTypeVal = "toggle" || ThisItem.inputTypeVal = "checkbox"
+                Width: =Group1.Width - 10
+                X: =5
+                Y: =TextInput.Height + TextInput.Y - 1
+                ZIndex: =5
+
+            DatePicker As datepicker:
+                BorderColor: =If(ThisItem.required = "true" And IsBlank(DatePicker.SelectedDate) And com_FormSection.CheckRequiredFields = true Or ThisItem.required = "Conditional" And IsBlank(DatePicker.SelectedDate) And com_FormSection.CheckRequiredFields = true, Red, RGBA(83, 83, 83, 1))
+                BorderThickness: =If(ThisItem.required = "true" And IsBlank(DatePicker.SelectedDate) And com_FormSection.CheckRequiredFields = true Or ThisItem.required = "Conditional" And IsBlank(DatePicker.SelectedDate) And com_FormSection.CheckRequiredFields = true, 3, 2)
+                CalendarHeaderFill: =RGBA(56, 96, 178, 1)
+                Color: =RGBA(0, 0, 0, 1)
+                DefaultDate: |
+                    =If(IsBlank(ThisItem.fieldValue),
+                    Switch(ThisItem.fieldID,
+                    "RequestedLaunchDate",  com_FormSection.inputValues.cat_requestedlaunchdate,
+                    "PreOrderDate",  com_FormSection.inputValues.cat_preorderdate,
+                    "ForecastedDate",  com_FormSection.inputValues.cat_forecasteddate,
+                    "PreSaleDate",  com_FormSection.inputValues.cat_presaledate,
+                    "EstimatedLaunchDate", com_FormSection.inputValues.cat_estimatedlaunchdate,
+                    "CommittedLaunchDate", com_FormSection.inputValues.cat_committedlaunchdate,
+                    "EndDate", com_FormSection.inputValues.cat_enddate,
+                    "")
+                    ,ThisItem.fieldValue)
+                DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                DisabledFill: =RGBA(244, 244, 244, 1)
+                DisplayMode: |-
+                    =If(com_FormSection.IsNewInitiative, 
+                        DisplayMode.Edit,
+                            If(com_FormSection.GTMAccesss,
+                                DisplayMode.Edit,
+                                    If(com_FormSection.EditRecord, 
+                                        Switch(ThisItem.securityLevel,
+                                            "GTM", DisplayMode.View,
+                                            DisplayMode.Edit),
+                                            DisplayMode.View)))
+                Fill: =If(ThisItem.required = "true" And IsBlank(DatePicker.SelectedDate) And com_FormSection.CheckRequiredFields = true Or ThisItem.required = "Conditional" And IsBlank(DatePicker.SelectedDate) And com_FormSection.CheckRequiredFields = true, RGBA(238, 204, 204, 1), RGBA(255, 255, 255, 1))
+                FocusedBorderColor: =DatePicker.BorderColor
+                Height: =Group1.Height - Title.Height - Subtext.Height - 5
+                HoverBorderColor: =DatePicker.BorderColor
+                HoverDateFill: =RGBA(186, 202, 226, 1)
+                HoverFill: =DatePicker.Fill
+                IconBackground: =RGBA(226, 0, 116, 1)
+                InputTextPlaceholder: =Text(Date(2001,12,31), DatePicker.Format, DatePicker.Language)
+                IsEditable: =true
+                OnChange: |
+                    =If(IsBlank(DatePicker.SelectedDate), 
+                            Patch(collFormValues, ThisItem, {fieldValue: DatePicker.SelectedDate, defaultValue: "NULL"}),
+                            Patch(collFormValues, ThisItem, {fieldValue: DatePicker.SelectedDate, defaultValue: ""}));
+                    
+                    //Patch(collFormValues,ThisItem,{fieldValue:DatePicker.SelectedDate});
+                OnSelect: =Set(varFormValuesChanged, true);
+                PressedBorderColor: =DatePicker.BorderColor
+                PressedFill: =DatePicker.Fill
+                SelectedDateFill: =RGBA(56, 96, 178, 1)
+                StartYear: =2010
+                Tooltip: =ThisItem.tooltipText
+                Visible: =ThisItem.inputTypeVal = "datepicker"
+                Width: =Group1.Width - 10
+                X: =5
+                Y: =Title.Y + Title.Height
+                ZIndex: =6
+
+            Title As label:
+                Color: =RGBA(83, 83, 83, 1)
+                DisabledColor: =RGBA(83, 83, 83, 1)
+                DisplayMode: =DisplayMode.Disabled
+                FocusedBorderColor: =Title.BorderColor
+                FontWeight: =FontWeight.Semibold
+                Height: =26
+                HoverBorderColor: =Title.BorderColor
+                HoverColor: =Title.Color
+                HoverFill: =Title.Fill
+                OnSelect: =
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =
+                PressedBorderColor: =Title.BorderColor
+                PressedColor: =Title.Color
+                PressedFill: =Title.Fill
+                Text: =If(ThisItem.required = "true" Or ThisItem.required = "Conditional", Concatenate(ThisItem.label, "*"), ThisItem.label)
+                VerticalAlign: =VerticalAlign.Top
+                Width: =Group1.Width - 10
+                X: =icn_FieldAlert.X + icn_FieldAlert.Width
+                ZIndex: =7
+
+            comboBoxValueListHTML As htmlViewer:
+                BorderColor: |-
+                    =If(ThisItem.required = "true" And IsBlank(TextInput.Text) And 
+                    com_FormSection.CheckRequiredFields = true Or 
+                    ThisItem.required = "Conditional" And IsBlank(TextInput.Text) 
+                    And com_FormSection.CheckRequiredFields = true, 
+                    Red, 
+                    RGBA(83, 83, 83, 1))
+                BorderStyle: =BorderStyle.Solid
+                BorderThickness: |-
+                    =//If(ThisItem.required = "true" And IsBlank(TextInput.Text) And com_FormSection.CheckRequiredFields = true Or If(ThisItem.required = "true" And IsBlank(TextInput.Text) And com_FormSection.CheckRequiredFields = true Or ThisItem.required = "Conditional" And IsBlank(TextInput.Text) And com_FormSection.CheckRequiredFields = true, 3, 2), 3, 2)
+                    
+                    If(ThisItem.required = "true" And IsBlank(TextInput.Text) And 
+                    com_FormSection.CheckRequiredFields = true Or 
+                    ThisItem.required = "Conditional" And IsBlank(TextInput.Text) 
+                    And com_FormSection.CheckRequiredFields = true, 
+                    3, 
+                    2)
+                Color: =If(ThisItem.fieldValue = Blank(), ColorFade(RGBA(0, 0, 0, 1), 50%), RGBA(0, 0, 0, 1))
+                DisplayMode: |-
+                    =If(com_FormSection.IsNewInitiative And ThisItem.inputTypeVal = "combobox", 
+                        DisplayMode.Edit,
+                            If(com_FormSection.GTMAccesss And ThisItem.inputTypeVal = "combobox",
+                                DisplayMode.Edit,
+                                    If(com_FormSection.EditRecord And ThisItem.inputTypeVal = "combobox", 
+                                            DisplayMode.Edit,
+                                            DisplayMode.View)))
+                Fill: =If(ThisItem.required = "true" && IsBlank(TextInput.Text) && com_FormSection.CheckRequiredFields = true Or ThisItem.required = "Conditional" && IsBlank(TextInput.Text) && com_FormSection.CheckRequiredFields = true, RGBA(238, 204, 204, 1), RGBA(255, 255, 255, 1))
+                Height: =Group1.Height - Title.Height - Subtext.Height - 5
+                HoverBorderColor: =comboBoxValueListHTML.BorderColor
+                HtmlText: |+
+                    =//If(IsBlank(ThisItem.fieldValue), If(IsEmpty(ComboBox.SelectedItems), ThisItem.hintText, Concat(ComboBox.SelectedItems, Value & " | ") ), Replace(Substitute(ThisItem.fieldValue, ",", "|"), Len(ThisItem.fieldValue), 1, ""))
+                    If(IsBlank(ThisItem.fieldValue), ThisItem.hintText, Substitute(Replace(Substitute(ThisItem.fieldValue, "*", "|"), Len(ThisItem.fieldValue), 1, ""), "||", ""))
+                    //Concat(com_FormSection.inputValues.cat_channels, Value & ",")
+                    
+                    //Concat(ComboBox.SelectedItems, Result, " ➖ ")
+                    //Concat(ComboBox.SelectedItems, Result, " - ")
+                    //LookUp(collFormValues, fieldID=ThisItem.fieldID).fieldValue
+                    //Concat(ComboBox.SelectedItems, Result, " ➖ ")
+                    /*
+                    If(IsBlank(ThisItem.fieldValue),
+                        Switch(ThisItem.fieldID, 
+                        "GALiftType", Replace(Substitute(LookUp(collFormValues, fieldID = ThisItem.fieldID).fieldValue, ",", "➖"), Len(LookUp(collFormValues, fieldID = ThisItem.fieldID).fieldValue), 1, ""),
+                        //"ThreeYearNPV", com_FormSection.inputValues.crba4_threeyearnpv,
+                    //"Testing", com_FormSection.inputValues.cat_testing.Value
+                    ""), Replace(Substitute(ThisItem.fieldValue, ",", "➖"), Len(ThisItem.fieldValue), 1, ""))
+                    */
+                    
+                OnSelect: =Set(varShowComboBoxGallery, true);Set(varFormValuesChanged, true); ClearCollect(colComboBoxSetting, true)
+                PaddingBottom: =0
+                PaddingRight: =40
+                PressedBorderColor: =comboBoxValueListHTML.BorderColor
+                Size: =13
+                Tooltip: =ThisItem.tooltipText
+                Visible: =If(ThisItem.inputTypeVal = "combobox",true, false)
+                Width: =Group1.Width - 10
+                X: =5
+                Y: =Title.Y + Title.Height
+                ZIndex: =8
+
+            icn_ClosePeoplePicker As icon.Check:
+                BorderColor: =RGBA(0, 18, 107, 1)
+                Color: =RGBA(203, 102, 102, 1)
+                DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                DisabledColor: =RGBA(244, 244, 244, 1)
+                DisabledFill: =icn_ClosePeoplePicker.Fill
+                FocusedBorderColor: =icn_ClosePeoplePicker.BorderColor
+                FocusedBorderThickness: =4
+                Height: =31
+                HoverBorderColor: =ColorFade(icn_ClosePeoplePicker.BorderColor, 20%)
+                HoverColor: =ColorFade(icn_ClosePeoplePicker.Color, 20%)
+                HoverFill: =icn_ClosePeoplePicker.Fill
+                Icon: =Icon.Cancel
+                OnSelect: |-
+                    =Set(varPeoplePickerVis,false); Patch(collFormValues, ThisItem, {fieldValue: ""}); Set(varPPReset, !varPPReset);
+                PressedBorderColor: =ColorFade(icn_ClosePeoplePicker.BorderColor, -20%)
+                PressedColor: =ColorFade(icn_ClosePeoplePicker.Color, -20%)
+                PressedFill: =icn_ClosePeoplePicker.Fill
+                Visible: =varPeoplePickerVis And ThisItem.IsSelected And ItemsGallery.Selected.inputTypeVal = "peoplepicker"
+                Width: =31
+                X: =TextInput.X + TextInput.Width - icn_ClosePeoplePicker.Width
+                Y: =TextInput.Y
+                ZIndex: =9
+
+            btn_ProjectPickerBackground As button:
+                AutoDisableOnSelect: =false
+                BorderColor: |-
+                    =If(ThisItem.required = "true" And IsBlank(comboBoxValueListHTML.HtmlText) And 
+                    com_FormSection.CheckRequiredFields = true Or 
+                    ThisItem.required = "Conditional" And IsBlank(comboBoxValueListHTML.HtmlText) 
+                    And com_FormSection.CheckRequiredFields = true, 
+                    Red, 
+                    RGBA(83, 83, 83, 1))
+                BorderStyle: =
+                BorderThickness: =0
+                Color: =RGBA(0, 0, 0, 0)
+                DisabledBorderColor: =
+                DisabledColor: =RGBA(0, 0, 0, 0)
+                DisabledFill: =RGBA(244, 244, 244, 1)
+                Fill: =RGBA(0, 0, 0, 0)
+                FocusedBorderColor: =
+                FocusedBorderThickness: =0
+                FontWeight: =FontWeight.Semibold
+                Height: =Parent.Height
+                HoverBorderColor: =
+                HoverColor: =RGBA(255, 255, 255, 1)
+                HoverFill: =RGBA(0, 0, 0, 0)
+                OnSelect: =Set(varPeoplePickerVis, false);Set(varPPReset, true); Set(varPPReset, false);
+                PressedBorderColor: =
+                PressedColor: =
+                PressedFill: =btn_ProjectPickerBackground.Color
+                Size: =15
+                Text: =""
+                Visible: =varPeoplePickerVis And ItemsGallery.Selected.inputTypeVal = "peoplepicker" And !ThisItem.IsSelected Or varShowComboBoxGallery And ItemsGallery.Selected.inputTypeVal = "combobox" And !ThisItem.IsSelected
+                Width: =Parent.Width
+                ZIndex: =10
+
+            Button1 As button:
+                BorderColor: =RGBA(83, 83, 83, 1)
+                DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                DisabledFill: =RGBA(244, 244, 244, 1)
+                Fill: =RGBA(226, 0, 116, 1)
+                FocusedBorderColor: =Button1.BorderColor
+                FontWeight: =FontWeight.Semibold
+                Height: =comboBoxValueListHTML.Height
+                HoverBorderColor: =ColorFade(Button1.BorderColor, 20%)
+                HoverColor: =RGBA(255, 255, 255, 1)
+                HoverFill: =Button1.Fill
+                OnSelect: =Set(varShowComboBoxGallery, true);Set(varFormValuesChanged, true); ClearCollect(colComboBoxSetting, true)
+                PressedBorderColor: =Button1.Fill
+                PressedColor: =RGBA(255, 255, 255, 1)
+                PressedFill: =Button1.Color
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Size: =15
+                Text: =""
+                Visible: |-
+                    =If(ThisItem.inputTypeVal = "combobox",
+                        If(com_FormSection.IsNewInitiative, 
+                            true,
+                                If(com_FormSection.GTMAccesss,
+                                    true,
+                                        If(com_FormSection.EditRecord, 
+                                            Switch(ThisItem.securityLevel,
+                                                "GTM", false,
+                                                true),
+                                                false))))
+                    
+                    /*
+                    If(com_FormSection.IsNewInitiative And ThisItem.inputTypeVal = "combobox", 
+                        true,
+                            If(com_FormSection.GTMAccesss And ThisItem.inputTypeVal = "combobox",
+                                true,
+                                    If(com_FormSection.EditRecord And ThisItem.inputTypeVal = "combobox", 
+                                            true,
+                                            false)));
+                                            */
+                Width: =37
+                X: =Group1.Width - 44
+                Y: =comboBoxValueListHTML.Y
+                ZIndex: =11
+
+            Image10 As image:
+                BorderColor: =RGBA(0, 18, 107, 1)
+                DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                DisabledFill: =RGBA(244, 244, 244, 1)
+                FocusedBorderColor: =Image10.BorderColor
+                Height: =comboBoxValueListHTML.Height - 2
+                HoverBorderColor: =ColorFade(Image10.BorderColor, 20%)
+                HoverFill: =ColorFade(Image10.Fill, 20%)
+                Image: =ComboBoxIcon
+                OnSelect: =Set(varShowComboBoxGallery, true);Set(varFormValuesChanged, true); ClearCollect(colComboBoxSetting, true)
+                PressedBorderColor: =ColorFade(Image10.BorderColor, -20%)
+                PressedFill: =ColorFade(Image10.Fill, -20%)
+                Visible: |-
+                    =If(ThisItem.inputTypeVal = "combobox",
+                        If(com_FormSection.IsNewInitiative, 
+                            true,
+                                If(com_FormSection.GTMAccesss,
+                                    true,
+                                        If(com_FormSection.EditRecord, 
+                                            Switch(ThisItem.securityLevel,
+                                                "GTM", false,
+                                                true),
+                                                false))))
+                    
+                    /*
+                    If(com_FormSection.IsNewInitiative And ThisItem.inputTypeVal = "combobox", 
+                        true,
+                            If(com_FormSection.GTMAccesss And ThisItem.inputTypeVal = "combobox",
+                                true,
+                                    If(com_FormSection.EditRecord And ThisItem.inputTypeVal = "combobox", 
+                                            true,
+                                            false)))
+                                            */
+                Width: =Button1.Width - 6
+                X: =Button1.X + 4
+                Y: =comboBoxValueListHTML.Y + 1
+                ZIndex: =12
+
+            Button8 As button:
+                BorderColor: =ColorFade(Button8.Fill, -15%)
+                DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                DisabledFill: =RGBA(244, 244, 244, 1)
+                DisplayMode: |-
+                    =If(com_FormSection.IsNewInitiative, 
+                        DisplayMode.Edit,
+                            If(com_FormSection.GTMAccesss,
+                                DisplayMode.Edit,
+                                    If(com_FormSection.EditRecord, 
+                                        Switch(ThisItem.securityLevel,
+                                            "GTM", DisplayMode.View,
+                                            DisplayMode.Edit),
+                                            DisplayMode.View)))
+                Fill: =If(ToggleInput.Value, RGBA(226, 0, 116, 1), RGBA(83, 83, 83, 1))
+                FocusedBorderColor: =Button8.BorderColor
+                FontWeight: =FontWeight.Semibold
+                Height: =20
+                HoverBorderColor: =ColorFade(Button8.BorderColor, 20%)
+                HoverColor: =Button8.Fill
+                HoverFill: =Button8.Fill
+                OnSelect: |-
+                    =Patch(collFormValues, ThisItem, {fieldValue:!ToggleInput.Value});Set(varFormValuesChanged, true);
+                PressedBorderColor: =Button8.Fill
+                PressedColor: =Button8.Fill
+                PressedFill: =Button8.Fill
+                Size: =15
+                Text: =""
+                Visible: =ThisItem.inputTypeVal = "toggle"
+                Width: =37
+                X: =ToggleInput.Width - 50
+                Y: =Parent.Height / 2 - Circle5.Height / 2 - 1
+                ZIndex: =13
+
+            Circle5 As circle:
+                BorderColor: =If(ToggleInput.Value, RGBA(226, 0, 116, 1), RGBA(83, 83, 83, 1))
+                BorderThickness: =2
+                DisabledFill: =RGBA(230, 230, 230, 1)
+                DisplayMode: |-
+                    =If(com_FormSection.IsNewInitiative, 
+                        DisplayMode.Edit,
+                            If(com_FormSection.GTMAccesss,
+                                DisplayMode.Edit,
+                                    If(com_FormSection.EditRecord, 
+                                        Switch(ThisItem.securityLevel,
+                                            "GTM", DisplayMode.View,
+                                            DisplayMode.Edit),
+                                            DisplayMode.View)))
+                Fill: =White
+                FocusedBorderColor: =Circle5.BorderColor
+                Height: =25
+                HoverFill: =Circle5.Fill
+                OnSelect: |-
+                    =Patch(collFormValues, ThisItem, {fieldValue:!ToggleInput.Value});Set(varFormValuesChanged, true);
+                PressedFill: =Circle5.Fill
+                Visible: =ThisItem.inputTypeVal = "toggle"
+                Width: =25
+                X: =If(ToggleInput.Value, ToggleInput.Width - 28, ToggleInput.Width - 55)
+                Y: =Parent.Height / 2 - Circle5.Height / 2 - 3
+                ZIndex: =14
+
+            icn_FieldAlert As icon.Warning:
+                BorderColor: =RGBA(0, 18, 107, 1)
+                Color: =RGBA(203, 102, 102, 1)
+                DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                DisabledColor: =RGBA(244, 244, 244, 1)
+                DisabledFill: =icn_FieldAlert.Fill
+                Height: =20
+                HoverBorderColor: =ColorFade(icn_FieldAlert.BorderColor, 20%)
+                HoverColor: =ColorFade(icn_FieldAlert.Color, 20%)
+                HoverFill: =icn_FieldAlert.Fill
+                Icon: =Icon.Warning
+                PaddingTop: =-1
+                PressedBorderColor: =ColorFade(icn_FieldAlert.BorderColor, -20%)
+                PressedColor: =ColorFade(icn_FieldAlert.Color, -20%)
+                PressedFill: =icn_FieldAlert.Fill
+                Tooltip: ="Change Request Pending. Updates to this field may be overwritten."
+                Width: |-
+                    =If(com_FormSection.GTMAccesss And !IsBlank(LookUp(colChangeRequests, FieldName = ThisItem.label).FieldName),
+                        25,
+                            If(com_FormSection.EditRecord And !IsBlank(LookUp(colChangeRequests, FieldName = ThisItem.label).FieldName), 
+                                Switch(ThisItem.securityLevel,
+                                    "GTM", 0,
+                                    25),
+                                    0))
+                X: =5
+                ZIndex: =15
+
+    ShowFormArrow As icon.ChevronDown:
+        BorderColor: =RGBA(0, 18, 107, 1)
+        Color: =RGBA(83, 83, 83, 1)
+        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+        DisabledColor: =RGBA(244, 244, 244, 1)
+        DisabledFill: =ShowFormArrow.Fill
+        FocusedBorderColor: =ShowFormArrow.BorderColor
+        Height: =20
+        HoverBorderColor: =ColorFade(ShowFormArrow.BorderColor, 20%)
+        HoverColor: =ColorFade(ShowFormArrow.Color, 20%)
+        HoverFill: =ShowFormArrow.Fill
+        Icon: =Icon.ChevronRight
+        OnSelect: =Set(isSectionVisible,false)
+        PressedBorderColor: =ColorFade(ShowFormArrow.BorderColor, -20%)
+        PressedColor: =ColorFade(ShowFormArrow.Color, -20%)
+        PressedFill: =ShowFormArrow.Fill
+        Visible: =If(isSectionVisible, true, false)
+        Width: =20
+        X: =24
+        Y: =5
+        ZIndex: =3
+
+    SectionTitle As label:
+        BorderColor: =RGBA(0, 18, 107, 1)
+        Color: =RGBA(226, 0, 116, 1)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =SectionTitle.BorderColor
+        Height: =30
+        HoverBorderColor: =SectionTitle.BorderColor
+        HoverColor: =SectionTitle.Color
+        HoverFill: =SectionTitle.Fill
+        PressedBorderColor: =SectionTitle.BorderColor
+        PressedColor: =SectionTitle.Color
+        PressedFill: =SectionTitle.Fill
+        Size: =18
+        Text: =com_FormSection.FormSectionTitle
+        VerticalAlign: =VerticalAlign.Bottom
+        Width: =731
+        X: =57
+        Y: =3
+        ZIndex: =4
+
+    HideFormArrow As icon.ChevronDown:
+        BorderColor: =RGBA(0, 18, 107, 1)
+        Color: =RGBA(0, 18, 107, 1)
+        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+        DisabledColor: =RGBA(244, 244, 244, 1)
+        DisabledFill: =HideFormArrow.Fill
+        FocusedBorderColor: =HideFormArrow.BorderColor
+        Height: =20
+        HoverBorderColor: =ColorFade(HideFormArrow.BorderColor, 20%)
+        HoverColor: =ColorFade(HideFormArrow.Color, 20%)
+        HoverFill: =HideFormArrow.Fill
+        Icon: =Icon.ChevronDown
+        OnSelect: =Set(isSectionVisible, true)
+        PressedBorderColor: =ColorFade(HideFormArrow.BorderColor, -20%)
+        PressedColor: =ColorFade(HideFormArrow.Color, -20%)
+        PressedFill: =HideFormArrow.Fill
+        Visible: =If(isSectionVisible, false, true)
+        Width: =20
+        X: =24
+        Y: =5
+        ZIndex: =5
+
+    btn_ComboBoxBackground As button:
+        AutoDisableOnSelect: =false
+        BorderColor: =
+        BorderStyle: =
+        BorderThickness: =0
+        Color: =RGBA(0, 0, 0, 0)
+        DisabledBorderColor: =
+        DisabledColor: =RGBA(0, 0, 0, 0)
+        DisabledFill: =RGBA(244, 244, 244, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        FocusedBorderColor: =
+        FocusedBorderThickness: =0
+        FontWeight: =FontWeight.Semibold
+        Height: =ItemsGallery.Height
+        HoverBorderColor: =
+        HoverColor: =RGBA(255, 255, 255, 1)
+        HoverFill: =RGBA(0, 0, 0, 0)
+        OnSelect: |-
+            =//Patch(collFormValues,LookUp(collFormValues,fieldID=ItemsGallery.Selected.fieldID),{fieldValue:Concat(ComboBox.SelectedItems.Result, Result & "*")});
+            //Set(varIsSelectVisible, false);
+            Set(varShowComboBoxGallery, false); ClearCollect(colComboBoxSetting, false)
+        PressedBorderColor: =
+        PressedColor: =
+        PressedFill: =btn_ComboBoxBackground.Color
+        Size: =15
+        Text: =""
+        Visible: =First(colComboBoxSetting).Value// And ItemsGallery.Selected.inputTypeVal = "combobox"
+        Width: =ItemsGallery.Width
+        X: =ItemsGallery.X
+        Y: =ItemsGallery.Y
+        ZIndex: =6
+
+    gal_PeoplePicker As gallery.galleryVertical:
+        BorderColor: =RGBA(226, 0, 116, 1)
+        BorderThickness: =1
+        DelayItemLoading: =true
+        DisabledBorderColor: =gal_PeoplePicker.BorderColor
+        DisabledFill: =gal_PeoplePicker.Fill
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =300
+        HoverBorderColor: =gal_PeoplePicker.BorderColor
+        HoverFill: =gal_PeoplePicker.Fill
+        Items: |-
+            =com_FormSection.UserEntity
+            
+            /*
+            If(
+                ItemsGallery.Selected.inputTypeVal = "peoplepicker" And !IsBlank(TextInput),
+                Sort(
+                    Filter(
+                        Office365Users.SearchUser({searchTerm: TextInput.Text})
+                        ,AccountEnabled = true && !IsBlank(CompanyName)
+                    )
+                    ,
+                    DisplayName
+                )
+            )
+            */
+        Layout: =Layout.Vertical
+        LoadingSpinner: =LoadingSpinner.Controls
+        LoadingSpinnerColor: =ColorValue(LookUp(StyleGuide,Key="Magenta").Value)
+        OnSelect: |-
+            =Patch(collFormValues,LookUp(collFormValues,fieldID=ItemsGallery.Selected.fieldID),{fieldValue:ThisItem.nickname, subTextVal:ThisItem.internalemailaddress});
+            
+            Switch(ItemsGallery.Selected.fieldID,
+                "Business Owner", Set(varSelectedBusinessOwner, ThisItem), 
+                "Sponsoring VP", Set(varSelectedSponsoringVP, ThisItem));
+                
+            Set(varPPReset, true); Set(varPPReset, false);
+            Set(varPeoplePickerVis, false); 
+        PressedBorderColor: =gal_PeoplePicker.BorderColor
+        PressedFill: =gal_PeoplePicker.Fill
+        TemplatePadding: =0
+        TemplateSize: =82
+        Visible: =varPeoplePickerVis And ItemsGallery.Selected.inputTypeVal = "peoplepicker" And !IsBlank(TextInput.Text)
+        Width: =Group1.Width - 10
+        X: =(ItemsGallery.Selected.column - 1) * (com_FormSection.ComponentWidth - 40) / 4 + 35
+        Y: =ItemsGallery.Selected.row * 88 + 17
+        ZIndex: =8
+
+        BDL_PP_Line As rectangle:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            DisabledFill: =BDL_PP_Line.Fill
+            DisplayMode: =DisplayMode.View
+            Fill: =RGBA(226, 0, 116, 1)
+            FocusedBorderColor: =BDL_PP_Line.BorderColor
+            Height: =1
+            HoverFill: =BDL_PP_Line.Fill
+            PressedFill: =BDL_PP_Line.Fill
+            Width: =Parent.Width
+            Y: =gal_PeoplePicker.TemplateHeight - 1
+            ZIndex: =1
+
+        BDL_PP_Email As label:
+            BorderColor: =
+            Color: =Black
+            DisabledBorderColor: =
+            DisabledColor: =DimGrey
+            DisplayMode: =DisplayMode.View
+            FocusedBorderColor: =BDL_PP_Email.BorderColor
+            Height: =25
+            HoverBorderColor: =BDL_PP_Email.BorderColor
+            HoverColor: =BDL_PP_Email.Color
+            HoverFill: =BDL_PP_Email.Fill
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =20
+            PaddingTop: =0
+            PressedBorderColor: =BDL_PP_Email.BorderColor
+            PressedColor: =
+            PressedFill: =BDL_PP_Email.Fill
+            Size: =10
+            Text: =ThisItem.internalemailaddress
+            Tooltip: =ThisItem.title
+            VerticalAlign: =VerticalAlign.Top
+            Width: =Group1.Width - 10
+            Y: =BDL_PP_Title.Y + BDL_PP_Title.Height
+            ZIndex: =2
+
+        BDL_PP_Title As label:
+            BorderColor: =
+            Color: =Black
+            DisabledBorderColor: =
+            DisabledColor: =DimGrey
+            DisplayMode: =DisplayMode.View
+            FocusedBorderColor: =BDL_PP_Title.BorderColor
+            Height: =20
+            HoverBorderColor: =BDL_PP_Title.BorderColor
+            HoverColor: =BDL_PP_Title.Color
+            HoverFill: =BDL_PP_Title.Fill
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =20
+            PaddingTop: =0
+            PressedBorderColor: =BDL_PP_Title.BorderColor
+            PressedColor: =
+            PressedFill: =BDL_PP_Title.Fill
+            Size: =10
+            Text: =ThisItem.title
+            Tooltip: =ThisItem.title
+            VerticalAlign: =VerticalAlign.Top
+            Width: =Group1.Width - 10
+            Y: =BDL_PP_Name.Y + BDL_PP_Name.Height
+            ZIndex: =3
+
+        BDL_PP_Name As label:
+            BorderColor: =
+            Color: =Black
+            DisabledBorderColor: =
+            DisabledColor: =DimGrey
+            DisplayMode: =DisplayMode.View
+            FocusedBorderColor: =BDL_PP_Name.BorderColor
+            FontWeight: =Semibold
+            Height: =30
+            HoverBorderColor: =BDL_PP_Name.BorderColor
+            HoverColor: =BDL_PP_Name.Color
+            HoverFill: =BDL_PP_Name.Fill
+            OnSelect: =Select(Parent)
+            PaddingLeft: =20
+            PaddingTop: =10
+            PressedBorderColor: =BDL_PP_Name.BorderColor
+            PressedColor: =
+            PressedFill: =BDL_PP_Name.Fill
+            Size: =12
+            Text: =ThisItem.nickname
+            Tooltip: =ThisItem.title
+            VerticalAlign: =VerticalAlign.Top
+            Width: =Group1.Width - 10
+            ZIndex: =4
+
+        BDL_PP_Select As button:
+            BorderColor: =ColorFade(BDL_PP_Select.Fill, -15%)
+            BorderThickness: =0
+            Color: =White
+            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            Fill: =RGBA(0, 0, 0, 0)
+            FocusedBorderColor: =BDL_PP_Select.BorderColor
+            FocusedBorderThickness: =0
+            FontWeight: =FontWeight.Semibold
+            Height: =gal_PeoplePicker.TemplateHeight
+            HoverBorderColor: =ColorFade(BDL_PP_Select.BorderColor, 20%)
+            HoverColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =RGBA(226, 0, 116, .30)
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =BDL_PP_Select.Fill
+            PressedColor: =BDL_PP_Select.Fill
+            PressedFill: =RGBA(226, 0, 116, .40)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =0
+            Text: =""
+            Width: =Parent.Width
+            ZIndex: =5
+
+    gal_ComboBoxGallery As gallery.galleryVertical:
+        BorderColor: =RGBA(226, 0, 116, 1)
+        BorderThickness: =1
+        DelayItemLoading: =true
+        DisabledBorderColor: =gal_ComboBoxGallery.BorderColor
+        DisabledFill: =gal_ComboBoxGallery.Fill
+        DisplayMode: |-
+            =If(com_FormSection.IsNewInitiative, 
+                DisplayMode.Edit,
+                    If(com_FormSection.GTMAccesss,
+                        DisplayMode.Edit,
+                            If(com_FormSection.EditRecord, 
+                                Switch(ItemsGallery.Selected.fieldID,
+                                    "InitiativeName", DisplayMode.View,
+                                    "RequestedLaunchDate", DisplayMode.View,
+                                    "Business Owner", DisplayMode.View,
+                                    "Sponsoring VP", DisplayMode.View,
+                                    "LOBChannelHorizontal", DisplayMode.View,
+                                    "StrategicPillar", DisplayMode.View,
+                                    "EndDate", DisplayMode.View,
+                                    "PTLOESWAG", DisplayMode.View,
+                                    "ForecastedDate", DisplayMode.View,
+                                    "Phase", DisplayMode.View,
+                                    "PriorityQuarter", DisplayMode.View,
+                                    "SubPhase", DisplayMode.View,
+                                    "PromoCode", DisplayMode.View,
+                                    "EstimatedLaunchDate", DisplayMode.View,
+                                    "CommittedLaunchDate", DisplayMode.View,
+                                    "CostcoRebateCode", DisplayMode.View,
+                                    "PRCode", DisplayMode.View,
+                                    "CustomerImpacting", DisplayMode.View,
+                                    "GoesOnCalendar", DisplayMode.View,
+                                    "ShortDescription", DisplayMode.View,
+                                    "TriageNotes", DisplayMode.View,
+                                    "Integration", DisplayMode.View,
+                                    "Day", DisplayMode.View,
+                                    "SystemStack", DisplayMode.View,
+                                    "DarkStatus", DisplayMode.View,
+                                    DisplayMode.Edit),
+                                    DisplayMode.View)))
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =If(com_FormSection.Height - gal_ComboBoxGallery.Y < 300, com_FormSection.Height - gal_ComboBoxGallery.Y, 300)
+        HoverBorderColor: =gal_ComboBoxGallery.BorderColor
+        HoverFill: =gal_ComboBoxGallery.Fill
+        Items: |-
+            =Distinct(Switch(ItemsGallery.Selected.fieldID,
+            	"Channels", Switch(com_FormSection.InitiativeType, //Multiselect
+                    "Service Offer", If(LookUp(collFormValues, fieldID = "Brand").fieldValue = "Metro" And LookUp(collFormValues, fieldID = "LOBChannelHorizontal").fieldValue = "Consumer Markets Prepaid" Or 
+                            Text(com_FormSection.inputValues.cat_brand) = "Metro" And Text(com_FormSection.inputValues.cat_lobchannelhorizontal) = "Consumer Markets Prepaid" Or
+                            LookUp(collFormValues, fieldID = "Brand").fieldValue = "Metro" And Text(com_FormSection.inputValues.cat_lobchannelhorizontal) = "Consumer Markets Prepaid" Or
+                            Text(com_FormSection.inputValues.cat_brand) = "Metro" And LookUp(collFormValues, fieldID = "LOBChannelHorizontal").fieldValue = "Consumer Markets Prepaid", 
+                        Filter(Split(ItemsGallery.Selected.optionSet, "*"), 
+                            Result = "Please Select" Or 
+                            //Result = "Affiliate (Sprint)" Or
+                            //Result = "Dealer (Sprint)" Or
+                            Result = "Metro Indirect" Or 
+                            Result = "MyMetro" Or
+                            Result = "MetrobyT-Mobile.com" Or
+                            Result = "Metro COR" Or 
+                            Result = "Metro Care" Or
+                            Result = "Metro My Account" Or
+                            Result = "Metro IVR" Or
+                            Result = "Other" Or
+                            Result = "Metro National Retail" Or
+                            //Result = "Metro.com" Or 
+                            //Result = "Metro App" Or 
+                            Result = "National Retail"), 
+                        Filter(Split(ItemsGallery.Selected.optionSet, "*"),
+                            Result = "Please Select" Or
+                            Result = "Affiliate (Sprint)" Or
+                            Result = "Dealer (Sprint)" Or
+                            Result = "Apple in Store" Or
+                            Result = "Branded Retail Consumer" Or
+                            Result = "Care" Or
+                            Result = "Costco in Store" Or
+                            Result = "National Retail" Or
+                            Result = "My TMO" Or
+                            //Result = "N/A" Or
+                            Result = "TFB General Businesses" Or
+                            Result = "TFB Government" Or
+                            Result = "TFB Micro Business (TFB Retail)" Or
+                            Result = "TFB Sole Proprietor" Or
+                            Result = "TMO App" Or
+                            Result = "TMO.com" Or
+                            Result = "Virtual Retail" Or
+                            Result = "Wireless Advocates (Military, Costco Direct Ship)")),
+                    "Device Promotion", If(LookUp(collFormValues, fieldID = "Brand").fieldValue = "Metro" And LookUp(collFormValues, fieldID = "LOBChannelHorizontal").fieldValue = "Consumer Markets Prepaid" Or 
+                            Text(com_FormSection.inputValues.cat_brand) = "Metro" And Text(com_FormSection.inputValues.cat_lobchannelhorizontal) = "Consumer Markets Prepaid" Or
+                            LookUp(collFormValues, fieldID = "Brand").fieldValue = "Metro" And Text(com_FormSection.inputValues.cat_lobchannelhorizontal) = "Consumer Markets Prepaid" Or
+                            Text(com_FormSection.inputValues.cat_brand) = "Metro" And LookUp(collFormValues, fieldID = "LOBChannelHorizontal").fieldValue = "Consumer Markets Prepaid", 
+                        Filter(Split(ItemsGallery.Selected.optionSet, "*"), 
+                            Result = "Please Select" Or 
+                            Result = "Metro Indirect" Or 
+                            //Result = "Affiliate (Sprint)" Or
+                            //Result = "Dealer (Sprint)" Or
+                            Result = "Metro COR" Or 
+                            Result = "Metro Care" Or
+                            Result = "Metro My Account" Or
+                            Result = "Metro IVR" Or
+                            Result = "Other" Or
+                            Result = "Metro National Retail" Or
+                            Result = "MetrobyT-Mobile.com" Or 
+                            Result = "MyMetro" Or 
+                            Result = "National Retail"), 
+                        Filter(Split(ItemsGallery.Selected.optionSet, "*"),
+                            Result = "Please Select" Or
+                            Result = "Apple in Store" Or
+                            Result = "Branded Retail Consumer" Or
+                            Result = "Affiliate (Sprint)" Or
+                            Result = "Dealer (Sprint)" Or
+                            Result = "Care" Or
+                            Result = "Costco in Store" Or
+                            Result = "National Retail" Or
+                            Result = "My TMO" Or
+                            Result = "N/A" Or
+                            Result = "TFB General Businesses" Or
+                            Result = "TFB Government" Or
+                            Result = "TFB Micro Business (TFB Retail)" Or
+                            Result = "TFB Sole Proprietor" Or
+                            Result = "TMO App" Or
+                            Result = "TMO.com" Or
+                            Result = "Virtual Retail" Or
+                            Result = "Wireless Advocates (Military, Costco Direct Ship)")),
+                    Split(ItemsGallery.Selected.optionSet, "*")),
+            	"CustomerSegment", Switch(com_FormSection.InitiativeType, //Multiselect
+                    "Service Offer", If(LookUp(collFormValues, fieldID = "Brand").fieldValue = "Metro" And LookUp(collFormValues, fieldID = "LOBChannelHorizontal").fieldValue = "Consumer Markets Prepaid" Or 
+                            Text(com_FormSection.inputValues.cat_brand) = "Metro" And Text(com_FormSection.inputValues.cat_lobchannelhorizontal) = "Consumer Markets Prepaid" Or
+                            LookUp(collFormValues, fieldID = "Brand").fieldValue = "Metro" And Text(com_FormSection.inputValues.cat_lobchannelhorizontal) = "Consumer Markets Prepaid" Or
+                            Text(com_FormSection.inputValues.cat_brand) = "Metro" And LookUp(collFormValues, fieldID = "LOBChannelHorizontal").fieldValue = "Consumer Markets Prepaid", 
+                        Filter(Split(ItemsGallery.Selected.optionSet, "*"), 
+                            Result = "Please Select" Or 
+                            Result = "Metro Acquisition" Or 
+                            Result = "Service Offer" Or
+                            Result = "Other" Or
+                            Result = "Metro Base Management" Or 
+                            Result = "Metro SMO"), 
+                        Filter(Split(ItemsGallery.Selected.optionSet, "*"), 
+                            Result = "Please Select" Or 
+                            Result = "Business CL (Sprint)" Or
+                            Result = "Postpaid Acquisition" Or 
+                            Result = "Prepaid/U2.0" Or
+                            Result = "Postpaid Base" Or
+                            Result = "Puerto Rico" Or 
+                            Result = "TFB" Or
+                            Result = "M2M" Or
+                            Result = "Wholesale" Or
+                            Result = "Other")),
+                    "Device Promotion", If(LookUp(collFormValues, fieldID = "Brand").fieldValue = "Metro" And LookUp(collFormValues, fieldID = "LOBChannelHorizontal").fieldValue = "Consumer Markets Prepaid" Or 
+                            Text(com_FormSection.inputValues.cat_brand) = "Metro" And Text(com_FormSection.inputValues.cat_lobchannelhorizontal) = "Consumer Markets Prepaid" Or
+                            LookUp(collFormValues, fieldID = "Brand").fieldValue = "Metro" And Text(com_FormSection.inputValues.cat_lobchannelhorizontal) = "Consumer Markets Prepaid" Or
+                            Text(com_FormSection.inputValues.cat_brand) = "Metro" And LookUp(collFormValues, fieldID = "LOBChannelHorizontal").fieldValue = "Consumer Markets Prepaid", 
+                        Filter(Split(ItemsGallery.Selected.optionSet, "*"), 
+                            Result = "Please Select" Or 
+                            //Result = "Business CL (Sprint)" Or
+                            Result = "Metro Acquisition" Or 
+                            Result = "Other" Or
+                            Result = "Metro Base Management" Or 
+                            Result = "Metro SMO"),
+                        Filter(Split(ItemsGallery.Selected.optionSet, "*"), 
+                            Result = "Please Select" Or 
+                            Result = "Business CL (Sprint)" Or
+                            Result = "Postpaid Acquisition" Or 
+                            Result = "Prepaid/U2.0" Or
+                            Result = "Puerto Rico" Or
+                            Result = "Postpaid Base" Or
+                            Result = "TFB" Or
+                            Result = "M2M" Or
+                            Result = "Wholesale" Or
+                            Result = "Other")),
+                    Split(ItemsGallery.Selected.optionSet, "*")),
+            	"PlanAndFeatureRequirementsBuild", Switch(com_FormSection.InitiativeType, //Multiselect
+                    "Service Offer", If(LookUp(collFormValues, fieldID = "Brand").fieldValue = "Metro" And LookUp(collFormValues, fieldID = "LOBChannelHorizontal").fieldValue = "Consumer Markets Prepaid" Or 
+                            Text(com_FormSection.inputValues.cat_brand) = "Metro" And Text(com_FormSection.inputValues.cat_lobchannelhorizontal) = "Consumer Markets Prepaid" Or
+                            LookUp(collFormValues, fieldID = "Brand").fieldValue = "Metro" And Text(com_FormSection.inputValues.cat_lobchannelhorizontal) = "Consumer Markets Prepaid" Or
+                            Text(com_FormSection.inputValues.cat_brand) = "Metro" And LookUp(collFormValues, fieldID = "LOBChannelHorizontal").fieldValue = "Consumer Markets Prepaid", 
+                        Filter(Split(ItemsGallery.Selected.optionSet, "*"), 
+                            Result = "Please Select" Or 
+            				Result = "Voice Plan" Or
+                            Result = "BTS" Or 
+                            Result = "Other" Or
+                            Result = "Add on Feature"
+                            //Result = "Add on Feature (non-data)"
+                            ), 
+                        Filter(Split(ItemsGallery.Selected.optionSet, "*"), 
+                            Result = "Please Select" Or
+                            Result = "Add on Feature (non-data)" Or
+                            Result = "Data Feature" Or
+                            Result = "DIGITS Plan" Or
+                            Result = "First Responder" Or
+                            Result = "IOT Plan" Or
+                            Result = "Legacy (Pre March 2013)" Or
+                            Result = "N/A" Or
+                            Result = "Magenta" Or
+                            Result = "No Credit Check" Or
+                            Result = "Postpaid consumer" Or
+                            Result = "Prepaid consumer" Or
+                            Result = "Promotion Variation" Or
+                            Result = "Simple Choice" Or
+                            Result = "Tablet Plan" Or
+                            Result = "Tax Exclusive" Or
+                            Result = "Tax Inclusive" Or
+                            Result = "BHC/UCC" Or
+                            Result = "Business/Government Unlimited" Or
+                            Result = "Promotional Variation" Or
+                            Result = "TFB" Or
+                            Result = "TMO ONE" Or
+                            Result = "TMO ONE Military" Or
+                            Result = "Unlimited 55+" Or
+                            Result = "Voice Plan" Or
+                            Result = "Wearable Plan" Or
+                            Result = "Other" Or
+                            Result = "CXT-E2E")),
+                    Split(ItemsGallery.Selected.optionSet, "*")),
+            	"AdditionalEligibilityRequirements", Switch(com_FormSection.InitiativeType, //Multiselect
+                    "Device Promotion", If(LookUp(collFormValues, fieldID = "Brand").fieldValue = "Metro" And LookUp(collFormValues, fieldID = "LOBChannelHorizontal").fieldValue = "Consumer Markets Prepaid" Or 
+                            Text(com_FormSection.inputValues.cat_brand) = "Metro" And Text(com_FormSection.inputValues.cat_lobchannelhorizontal) = "Consumer Markets Prepaid" Or
+                            LookUp(collFormValues, fieldID = "Brand").fieldValue = "Metro" And Text(com_FormSection.inputValues.cat_lobchannelhorizontal) = "Consumer Markets Prepaid" Or
+                            Text(com_FormSection.inputValues.cat_brand) = "Metro" And LookUp(collFormValues, fieldID = "LOBChannelHorizontal").fieldValue = "Consumer Markets Prepaid", 
+                        Filter(Split(ItemsGallery.Selected.optionSet, "*"), 
+                            Result = "Please Select" Or 
+                            Result = "Port-in (Excludes all MVNOs, Metro, Simply Prepaid)" Or 
+                            Result = "N/A" Or Result = "New Ban" Or 
+            				Result = "New BAN" Or
+                            Result = "Gift Card" Or
+                            Result = "Other"), 
+                        Filter(Split(ItemsGallery.Selected.optionSet, "*"), 
+                            Result = "Please Select" Or 
+                            Result = "Port-in (Excludes all MVNOs, Metro, Simply Prepaid)" Or 
+                            Result = "N/A" Or 
+            				Result = "Add-A-Line" Or
+                            Result = "Trade-In (must upload device SKU list as attachment, above)")),
+                    Split(ItemsGallery.Selected.optionSet, "*")),
+            	"PurchaseTypeFinancing", Switch(com_FormSection.InitiativeType, //Multiselect
+                    "Device Promotion", If(LookUp(collFormValues, fieldID = "Brand").fieldValue = "Metro" And LookUp(collFormValues, fieldID = "LOBChannelHorizontal").fieldValue = "Consumer Markets Prepaid" Or 
+                            Text(com_FormSection.inputValues.cat_brand) = "Metro" And Text(com_FormSection.inputValues.cat_lobchannelhorizontal) = "Consumer Markets Prepaid" Or
+                            LookUp(collFormValues, fieldID = "Brand").fieldValue = "Metro" And Text(com_FormSection.inputValues.cat_lobchannelhorizontal) = "Consumer Markets Prepaid" Or
+                            Text(com_FormSection.inputValues.cat_brand) = "Metro" And LookUp(collFormValues, fieldID = "LOBChannelHorizontal").fieldValue = "Consumer Markets Prepaid", 
+                        Filter(Split(ItemsGallery.Selected.optionSet, "*"), 
+                            Result = "Please Select" Or 
+                            Result = "BYOD" Or 
+                            Result = "Pay-In-Full"),
+                        Split(ItemsGallery.Selected.optionSet, "*")),
+                    Split(ItemsGallery.Selected.optionSet, "*")),
+            	"Tier", Switch(com_FormSection.InitiativeType, 
+                    "Device Launch", If(LookUp(collFormValues, fieldID = "Brand").fieldValue = "Metro" And LookUp(collFormValues, fieldID = "LOBChannelHorizontal").fieldValue = "Consumer Markets Prepaid" Or 
+                            Text(com_FormSection.inputValues.cat_brand) = "Metro" And Text(com_FormSection.inputValues.cat_lobchannelhorizontal) = "Consumer Markets Prepaid" Or
+                            LookUp(collFormValues, fieldID = "Brand").fieldValue = "Metro" And Text(com_FormSection.inputValues.cat_lobchannelhorizontal) = "Consumer Markets Prepaid" Or
+                            Text(com_FormSection.inputValues.cat_brand) = "Metro" And LookUp(collFormValues, fieldID = "LOBChannelHorizontal").fieldValue = "Consumer Markets Prepaid", 
+            			Filter(Split(ItemsGallery.Selected.optionSet, "*"), 
+                            Result = "Please Select" Or 
+                            Result = "Flagship" Or 
+                            Result = "IOT" Or 
+                            Result = "Feature" Or 
+                            Result = "Tablet" Or 
+                            Result = "Wearable" Or
+                            Result = "Other" Or 
+                            Result = "Apple" Or 
+                            Result = "Branded Phablet" Or 
+                            Result = "Tier 2 Phablet" Or 
+                            Result = "Branded Mid-Tier" Or 
+                            Result = "Branded Entry" Or 
+                            Result = "Tier 2 Entry"), 
+            			Filter(Split(ItemsGallery.Selected.optionSet, "*"), 
+                            Result = "Please Select" Or 
+                            Result = "Affordable" Or 
+                            Result = "IOT" Or 
+                            Result = "Midtier" Or 
+                            Result = "Tablet" Or 
+                            Result = "Wearable" Or 
+                            Result = "Other" Or 
+                            Result = "Flagship")),
+            			Split(ItemsGallery.Selected.optionSet, "*")),
+                "Tier",  If(LookUp(collFormValues, fieldID = "Brand").fieldValue = "Metro" And LookUp(collFormValues, fieldID = "LOBChannelHorizontal").fieldValue = "Consumer Markets Prepaid" Or 
+                            Text(com_FormSection.inputValues.cat_brand) = "Metro" And Text(com_FormSection.inputValues.cat_lobchannelhorizontal) = "Consumer Markets Prepaid" Or
+                            LookUp(collFormValues, fieldID = "Brand").fieldValue = "Metro" And Text(com_FormSection.inputValues.cat_lobchannelhorizontal) = "Consumer Markets Prepaid" Or
+                            Text(com_FormSection.inputValues.cat_brand) = "Metro" And LookUp(collFormValues, fieldID = "LOBChannelHorizontal").fieldValue = "Consumer Markets Prepaid", 
+            			Filter(Split(ItemsGallery.Selected.optionSet, "*"), 
+                            Result = "Other"),
+            			Filter(Split(ItemsGallery.Selected.optionSet, "*"), 
+                            Result = "Please Select" Or 
+                            Result = "One Time (Initial)" Or 
+                            Result = "On-Going")),
+                    Split(ItemsGallery.Selected.optionSet, "*")),
+            Result)
+        Layout: =Layout.Vertical
+        LoadingSpinner: =LoadingSpinner.Controls
+        LoadingSpinnerColor: =ColorValue(LookUp(StyleGuide,Key="Magenta").Value)
+        OnSelect: |
+            =false//Patch(collFormValues,LookUp(collFormValues,fieldID=ItemsGallery.Selected.fieldID),{fieldValue:Concat(Filter(gal_ComboBoxGallery.AllItems, Checkbox1.Value=true And Result <> "Pleas Select"), Result & "*")})
+        PressedBorderColor: =gal_ComboBoxGallery.BorderColor
+        PressedFill: =gal_ComboBoxGallery.Fill
+        TemplatePadding: =0
+        TemplateSize: =48
+        Visible: =ItemsGallery.Selected.inputTypeVal = "combobox" And First(colComboBoxSetting).Value
+        Width: =Group1.Width - 10
+        X: =(ItemsGallery.Selected.column - 1) * (com_FormSection.ComponentWidth - 40) / 4 + 35
+        Y: =15 + (ItemsGallery.Selected.row * 89)
+        ZIndex: =9
+
+        Checkbox1 As checkbox:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            CheckboxBackgroundFill: =RGBA(0, 0, 0, 0)
+            CheckboxBorderColor: =RGBA(0, 0, 0, 0)
+            CheckboxSize: =0
+            CheckmarkFill: =RGBA(0, 0, 0, 0)
+            Color: =RGBA(0, 0, 0, 1)
+            Default: |-
+                =//!IsBlank(LookUp(Split(ItemsGallery.Selected.fieldValue, "*"), Result = Concatenate(ThisItem.Result,"*")))
+                !IsBlank(LookUp(Split(ItemsGallery.Selected.fieldValue, "*"), Result = ThisItem.Result))
+                //!IsBlank(Find(Concatenate(ThisItem.Result,"*"), ItemsGallery.Selected.fieldValue))
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(0, 0, 0, 1)
+            DisplayMode: =If(ThisItem.Result <> "Please Select", DisplayMode.Edit, DisplayMode.Disabled)
+            Fill: |-
+                =If(Checkbox1.Value, RGBA(226, 0, 116, .2), RGBA(0, 0, 0, 0))
+                //If(!IsBlank(LookUp(Split(ItemsGallery.Selected.fieldValue, "*"), Result = Concatenate(ThisItem.Result,"*"))), RGBA(226, 0, 116, .2), RGBA(0, 0, 0, 0))
+                //If(!IsBlank(Find(Concatenate(ThisItem.Result,"*"), ItemsGallery.Selected.fieldValue)), RGBA(226, 0, 116, .2), RGBA(0, 0, 0, 0))ResultResult.
+            FocusedBorderColor: =Checkbox1.BorderColor
+            Height: =Parent.TemplateHeight
+            HoverBorderColor: =ColorFade(Checkbox1.BorderColor, 30%)
+            HoverColor: =RGBA(0, 0, 0, 1)
+            HoverFill: =RGBA(226, 0, 116, .1)
+            OnCheck: |-
+                =Patch(collFormValues,LookUp(collFormValues,fieldID=ItemsGallery.Selected.fieldID),{fieldValue:Concat(Filter(gal_ComboBoxGallery.AllItems, Checkbox1.Value=true And Result <> "Please Select"), Result & "*"), defaultValue: ""});
+                
+                //If(IsBlank(LookUp(collFormValues,fieldID=ItemsGallery.Selected.fieldID).fieldValue),{fieldValue:"", defaultValue: "NULL"});
+            OnSelect: =false//Select(Parent)
+            OnUncheck: |-
+                =If(IsEmpty(Filter(gal_ComboBoxGallery.AllItems, Checkbox1.Value = true And Result <> "Please Select")), 
+                Patch(collFormValues,LookUp(collFormValues,fieldID=ItemsGallery.Selected.fieldID),{fieldValue:"", defaultValue: "NULL"}),
+                Patch(collFormValues,LookUp(collFormValues,fieldID=ItemsGallery.Selected.fieldID),{fieldValue:Concat(Filter(gal_ComboBoxGallery.AllItems, Checkbox1.Value = true And Result <> "Please Select"), Result & "*")})
+                );
+            PaddingBottom: =4
+            PressedBorderColor: =ColorFade(Checkbox1.BorderColor, -30%)
+            PressedColor: =RGBA(0, 0, 0, 1)
+            PressedFill: =
+            Size: =13
+            Text: =ThisItem.Result
+            Width: =Parent.Width
+            ZIndex: =4
+
+    img_LoadingSpinner As image:
+        BorderColor: =RGBA(0, 18, 107, 1)
+        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+        DisabledFill: =RGBA(244, 244, 244, 1)
+        Fill: =RGBA(255, 255, 255, .6)
+        Height: =GalleryBackground.Height
+        HoverBorderColor: =ColorFade(img_LoadingSpinner.BorderColor, 20%)
+        HoverFill: =ColorFade(img_LoadingSpinner.Fill, 20%)
+        Image: =lazyload
+        PaddingBottom: =GalleryBackground.Height * .4
+        PaddingTop: =GalleryBackground.Height * .4
+        PressedBorderColor: =ColorFade(img_LoadingSpinner.BorderColor, -20%)
+        PressedFill: =ColorFade(img_LoadingSpinner.Fill, -20%)
+        Visible: =varShowLoader
+        Width: =GalleryBackground.Width
+        X: =GalleryBackground.X
+        Y: =GalleryBackground.Y
+        ZIndex: =10
+

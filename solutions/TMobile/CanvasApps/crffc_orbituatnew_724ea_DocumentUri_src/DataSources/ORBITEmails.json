@@ -1,0 +1,298 @@
+[
+  {
+    "CdsFCBContext": "{\"FileType\":true,\"ImageExternalStorage\":true}",
+    "EntitySetName": "cat_orbitemailses",
+    "IsHidden": false,
+    "IsSampleData": false,
+    "IsWritable": true,
+    "LogicalName": "cat_orbitemails",
+    "MaxGetRowsCount": 2000,
+    "Name": "ORBITEmails",
+    "NativeCDSDataSourceInfoNameMapping": {
+      "_ownerid_value": "Owner",
+      "_regardingobjectid_value": "Regarding",
+      "{Attachments}": "Attachments",
+      "activityadditionalparams": "Activity Additional Parameters",
+      "activityid": "Activity",
+      "activitytypecode": "Activity Type",
+      "actualdurationminutes": "Actual Duration",
+      "actualend": "Actual End",
+      "actualstart": "Actual Start",
+      "cat_bccrecipients": "BCCRecipients",
+      "cat_ccrecipients": "CCRecipients",
+      "cat_gtmEntry_cat_ORBITEmails": "gtmEntry",
+      "cat_messagebody": "MessageBody",
+      "cat_orbitemails_ActionCards": "Action Cards",
+      "cat_orbitemails_Annotations": "Notes",
+      "cat_orbitemails_AsyncOperations": "System Jobs",
+      "cat_orbitemails_BulkDeleteFailures": "Bulk Delete Failures",
+      "cat_orbitemails_connections1": "Connections (cat_orbitemails_connections1)",
+      "cat_orbitemails_connections2": "Connections (cat_orbitemails_connections2)",
+      "cat_orbitemails_DuplicateBaseRecord": "Duplicate Records (cat_orbitemails_DuplicateBaseRecord)",
+      "cat_orbitemails_DuplicateMatchingRecord": "Duplicate Records (cat_orbitemails_DuplicateMatchingRecord)",
+      "cat_orbitemails_Feedback": "Feedback",
+      "cat_orbitemails_MailboxTrackingFolders": "Mailbox Auto Tracking Folders",
+      "cat_orbitemails_PrincipalObjectAttributeAccesses": "Field Sharing",
+      "cat_orbitemails_ProcessSession": "Process Sessions",
+      "cat_orbitemails_QueueItems": "Queue Items",
+      "cat_orbitemails_SyncErrors": "Sync Errors",
+      "cat_recordid": "RecordID",
+      "cat_torecipients": "ToRecipients",
+      "community": "Social Channel",
+      "createdby_cat_orbitemails": "Created By",
+      "createdon": "Date Created",
+      "createdonbehalfby_cat_orbitemails": "Created By (Delegate)",
+      "deliverylastattemptedon": "Date Delivery Last Attempted",
+      "deliveryprioritycode": "Delivery Priority",
+      "description": "Description",
+      "exchangeitemid": "Exchange Item ID",
+      "exchangerate": "Exchange Rate",
+      "exchangeweblink": "Exchange WebLink",
+      "importsequencenumber": "Import Sequence Number",
+      "instancetypecode": "Recurring Instance Type",
+      "isbilled": "Is Billed",
+      "ismapiprivate": "Is Private",
+      "isregularactivity": "Is Regular Activity",
+      "isworkflowcreated": "Is Workflow Created",
+      "lastonholdtime": "Last On Hold Time",
+      "leftvoicemail": "Left Voice Mail",
+      "modifiedby_cat_orbitemails": "Modified By",
+      "modifiedon": "Last Updated",
+      "modifiedonbehalfby_cat_orbitemails": "Modified By (Delegate)",
+      "onholdtime": "On Hold Time (Minutes)",
+      "overriddencreatedon": "Record Created On",
+      "owningbusinessunit_cat_orbitemails": "Owning Business Unit",
+      "owningteam_cat_orbitemails": "Owning Team",
+      "owninguser_cat_orbitemails": "Owning User",
+      "postponeactivityprocessinguntil": "Delay activity processing until",
+      "prioritycode": "Priority",
+      "processid": "Process",
+      "scheduleddurationminutes": "Scheduled Duration",
+      "scheduledend": "Due Date",
+      "scheduledstart": "Start Date",
+      "sendermailboxid_cat_orbitemails": "Sender's Mailbox",
+      "senton": "Date Sent",
+      "seriesid": "Series Id",
+      "sortdate": "Sort Date",
+      "stageid": "(Deprecated) Process Stage",
+      "statecode": "Activity Status",
+      "statuscode": "Status Reason",
+      "subject": "Subject",
+      "timezoneruleversionnumber": "Time Zone Rule Version Number",
+      "transactioncurrencyid_cat_orbitemails": "Currency",
+      "traversedpath": "(Deprecated) Traversed Path",
+      "utcconversiontimezonecode": "UTC Conversion Time Zone Code",
+      "versionnumber": "Version Number"
+    },
+    "PreferredName": "ORBITEmails",
+    "Type": "NativeCDSDataSourceInfo"
+  },
+  {
+    "DisplayName": "ORBITEmails (Views)",
+    "Name": "_cat_orbitemails_views",
+    "RelatedEntityName": "ORBITEmails",
+    "TrimmedViewName": true,
+    "Type": "ViewInfo",
+    "ViewInfoNameMapping": {
+      "0d639513-ba83-44a1-bfb5-9ce3719acbc2": "ORBITEmails Advanced Find View",
+      "1fd9e5d9-b6be-4109-a782-d4112473a59d": "ORBITEmails Lookup View",
+      "65ba1757-95e7-46af-957c-b79410e3cfa9": "My Open ORBITEmails",
+      "793bd8e1-7dc3-4039-8637-bc6fb6215b90": "ORBITEmails Associated View",
+      "818300c5-3313-44a2-9f76-6febc15d4732": "All ORBITEmails",
+      "ed77aa86-8b43-4828-92d6-f5c0494bd5d0": "Closed ORBITEmails"
+    }
+  },
+  {
+    "DisplayName": "Recurring Instance Type (ORBITEmails)",
+    "Name": "cat_orbitemails_instancetypecode",
+    "OptionSetInfoNameMapping": {
+      "0": "Not Recurring",
+      "1": "Recurring Master",
+      "2": "Recurring Instance",
+      "3": "Recurring Exception",
+      "4": "Recurring Future Exception"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "instancetypecode",
+        "OptionSetReferenceEntityName": "ORBITEmails"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "instancetypecode",
+    "RelatedEntityName": "ORBITEmails",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Is Billed (ORBITEmails)",
+    "Name": "cat_orbitemails_isbilled",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "isbilled",
+        "OptionSetReferenceEntityName": "ORBITEmails"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "isbilled",
+    "RelatedEntityName": "ORBITEmails",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Is Private (ORBITEmails)",
+    "Name": "cat_orbitemails_ismapiprivate",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "ismapiprivate",
+        "OptionSetReferenceEntityName": "ORBITEmails"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "ismapiprivate",
+    "RelatedEntityName": "ORBITEmails",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Is Workflow Created (ORBITEmails)",
+    "Name": "cat_orbitemails_isworkflowcreated",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "isworkflowcreated",
+        "OptionSetReferenceEntityName": "ORBITEmails"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "isworkflowcreated",
+    "RelatedEntityName": "ORBITEmails",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Left Voice Mail (ORBITEmails)",
+    "Name": "cat_orbitemails_leftvoicemail",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "leftvoicemail",
+        "OptionSetReferenceEntityName": "ORBITEmails"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "leftvoicemail",
+    "RelatedEntityName": "ORBITEmails",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Priority (ORBITEmails)",
+    "Name": "cat_orbitemails_prioritycode",
+    "OptionSetInfoNameMapping": {
+      "0": "Low",
+      "1": "Normal",
+      "2": "High"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "prioritycode",
+        "OptionSetReferenceEntityName": "ORBITEmails"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "prioritycode",
+    "RelatedEntityName": "ORBITEmails",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Activity Status (ORBITEmails)",
+    "Name": "cat_orbitemails_statecode",
+    "OptionSetInfoNameMapping": {
+      "0": "Open",
+      "1": "Completed",
+      "2": "Canceled",
+      "3": "Scheduled"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statecode",
+        "OptionSetReferenceEntityName": "ORBITEmails"
+      }
+    },
+    "OptionSetTypeKey": "StateType",
+    "RelatedColumnInvariantName": "statecode",
+    "RelatedEntityName": "ORBITEmails",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status Reason (ORBITEmails)",
+    "Name": "cat_orbitemails_statuscode",
+    "OptionSetInfoNameMapping": {
+      "1": "Open",
+      "2": "Completed",
+      "3": "Canceled",
+      "4": "Scheduled"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statuscode",
+        "OptionSetReferenceEntityName": "ORBITEmails"
+      }
+    },
+    "OptionSetTypeKey": "StatusType",
+    "RelatedColumnInvariantName": "statuscode",
+    "RelatedEntityName": "ORBITEmails",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Social Channel",
+    "Name": "socialprofile_community",
+    "OptionSetInfoNameMapping": {
+      "0": "Other",
+      "1": "Facebook",
+      "2": "Twitter"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "community",
+        "OptionSetReferenceEntityName": "ORBITEmails"
+      },
+      "OptionSetReferenceItem1": {
+        "OptionSetReferenceColumnName": "community",
+        "OptionSetReferenceEntityName": "Invite Redemptions"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "community",
+    "RelatedEntityName": "ORBITEmails",
+    "Type": "OptionSetInfo"
+  }
+]

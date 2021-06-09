@@ -1,0 +1,215 @@
+[
+  {
+    "CdsFCBContext": "{\"FileType\":true,\"ImageExternalStorage\":true}",
+    "EntitySetName": "msdyn_flow_approvals",
+    "IsHidden": false,
+    "IsSampleData": false,
+    "IsWritable": true,
+    "LogicalName": "msdyn_flow_approval",
+    "MaxGetRowsCount": 2000,
+    "Name": "Approvals_1",
+    "NativeCDSDataSourceInfoNameMapping": {
+      "_ownerid_value": "Owner",
+      "{Attachments}": "Attachments",
+      "cat_ApprovalRequestRejections_Approval_ms": "ApprovalRequestRejections",
+      "cat_crba4_StageApprovalUsers_msdyn_flow_appro": "StageApprovalUsers",
+      "createdby": "Created By",
+      "createdon": "Created On",
+      "createdonbehalfby": "Created By (Delegate)",
+      "importsequencenumber": "Import Sequence Number",
+      "modifiedby": "Modified By",
+      "modifiedon": "Modified On",
+      "modifiedonbehalfby": "Modified By (Delegate)",
+      "msdyn_flow_approval_allowcancel": "Allow Cancel",
+      "msdyn_flow_approval_allowreassign": "Allow Reassign",
+      "msdyn_flow_approval_Annotations": "Notes",
+      "msdyn_flow_approval_approvalstagekey": "Approval Stage Key",
+      "msdyn_flow_approval_AsyncOperations": "System Jobs",
+      "msdyn_flow_approval_basicapprovalmodel": "Basic Approval Model",
+      "msdyn_flow_approval_BulkDeleteFailures": "Bulk Delete Failures",
+      "msdyn_flow_approval_completedon": "Completed On",
+      "msdyn_flow_approval_details": "Details",
+      "msdyn_flow_approval_dueon": "Due On",
+      "msdyn_flow_approval_DuplicateBaseRecord": "Duplicate Records (msdyn_flow_approval_DuplicateBaseRecord)",
+      "msdyn_flow_approval_DuplicateMatchingRecord": "Duplicate Records (msdyn_flow_approval_DuplicateMatchingRecord)",
+      "msdyn_flow_approval_expireson": "Expires On",
+      "msdyn_flow_approval_itemlink": "Item Link",
+      "msdyn_flow_approval_itemlinkdescription": "Item Link Description",
+      "msdyn_flow_approval_itemlinkhash": "Item Link Hash",
+      "msdyn_flow_approval_MailboxTrackingFolders": "Mailbox Auto Tracking Folders",
+      "msdyn_flow_approval_modelid": "Approval Model Id",
+      "msdyn_flow_approval_modeltype": "Approval Model Type",
+      "msdyn_flow_approval_name": "Name",
+      "msdyn_flow_approval_PrincipalObjectAttributeAccesses": "Field Sharing",
+      "msdyn_flow_approval_ProcessSession": "Process Sessions",
+      "msdyn_flow_approval_result": "Result",
+      "msdyn_flow_approval_sendemail": "Send Email Notification",
+      "msdyn_flow_approval_stage": "Stage",
+      "msdyn_flow_approval_SyncErrors": "Sync Errors",
+      "msdyn_flow_approval_title": "Title",
+      "msdyn_flow_approvalid": "Approval",
+      "msdyn_flow_approvalrelationship_approvalrequests": "Approval Requests",
+      "msdyn_flow_approvalrelationship_approvalresponses": "Approval Responses",
+      "msdyn_flow_approvalrelationship_flowapprovals": "Flow Approvals",
+      "overriddencreatedon": "Record Created On",
+      "owningbusinessunit": "Owning Business Unit",
+      "owningteam": "Owning Team",
+      "owninguser": "Owning User",
+      "statecode": "Status",
+      "statuscode": "Status Reason",
+      "timezoneruleversionnumber": "Time Zone Rule Version Number",
+      "utcconversiontimezonecode": "UTC Conversion Time Zone Code",
+      "versionnumber": "Version Number"
+    },
+    "PreferredName": "Approvals_1",
+    "Type": "NativeCDSDataSourceInfo"
+  },
+  {
+    "DisplayName": "Approvals_1 (Views)",
+    "Name": "_msdyn_flow_approval_views",
+    "RelatedEntityName": "Approvals_1",
+    "TrimmedViewName": true,
+    "Type": "ViewInfo",
+    "ViewInfoNameMapping": {
+      "123761af-6f6c-49b4-9e87-300596363291": "Approval Associated View",
+      "5d30f059-ec34-4aaf-8f74-b105dd6489ee": "Approval Advanced Find View",
+      "7b0bb0b4-273d-40ef-8453-0f377dac1003": "Approval Lookup View",
+      "b0ac86d1-3634-4dc6-ad6a-6d09ffb2c141": "Inactive Approvals",
+      "e92e5f3e-9985-4518-8b4a-f686cebfc6e6": "Active Approvals"
+    }
+  },
+  {
+    "DisplayName": "Allow Reassign (Approvals_1)",
+    "Name": "msdyn_flow_approval_msdyn_flow_approval_allowreassign",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "msdyn_flow_approval_allowreassign",
+        "OptionSetReferenceEntityName": "Approvals_1"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "msdyn_flow_approval_allowreassign",
+    "RelatedEntityName": "Approvals_1",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Send Email Notification (Approvals_1)",
+    "Name": "msdyn_flow_approval_msdyn_flow_approval_sendemail",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "msdyn_flow_approval_sendemail",
+        "OptionSetReferenceEntityName": "Approvals_1"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "msdyn_flow_approval_sendemail",
+    "RelatedEntityName": "Approvals_1",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Allow Cancel (Approvals_1)",
+    "Name": "msdyn_flow_approval_new_msdyn_flow_approval_allowcancel",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "msdyn_flow_approval_allowcancel",
+        "OptionSetReferenceEntityName": "Approvals_1"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "msdyn_flow_approval_allowcancel",
+    "RelatedEntityName": "Approvals_1",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status (Approvals_1)",
+    "Name": "msdyn_flow_approval_statecode",
+    "OptionSetInfoNameMapping": {
+      "0": "Active",
+      "1": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statecode",
+        "OptionSetReferenceEntityName": "Approvals_1"
+      }
+    },
+    "OptionSetTypeKey": "StateType",
+    "RelatedColumnInvariantName": "statecode",
+    "RelatedEntityName": "Approvals_1",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status Reason (Approvals_1)",
+    "Name": "msdyn_flow_approval_statuscode",
+    "OptionSetInfoNameMapping": {
+      "192350000": "Created",
+      "192350001": "Pending",
+      "192350002": "Suspended",
+      "192350004": "Completed",
+      "192350005": "Expired",
+      "192350006": "Canceled",
+      "192350007": "Abandoned"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statuscode",
+        "OptionSetReferenceEntityName": "Approvals_1"
+      }
+    },
+    "OptionSetTypeKey": "StatusType",
+    "RelatedColumnInvariantName": "statuscode",
+    "RelatedEntityName": "Approvals_1",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Approval Stage",
+    "Name": "msdyn_flow_approvalstage",
+    "OptionSetInfoNameMapping": {
+      "192350000": "Not Specified",
+      "192350001": "Basic",
+      "192351000": "Complete"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": true,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "msdyn_flow_approval_stage",
+        "OptionSetReferenceEntityName": "Approvals_1"
+      },
+      "OptionSetReferenceItem1": {
+        "OptionSetReferenceColumnName": "msdyn_flow_approvalrequest_stage",
+        "OptionSetReferenceEntityName": "Approval Requests"
+      },
+      "OptionSetReferenceItem2": {
+        "OptionSetReferenceColumnName": "msdyn_flow_approvalresponse_stage",
+        "OptionSetReferenceEntityName": "Approval Responses"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "msdyn_flow_approval_stage",
+    "RelatedEntityName": "Approvals_1",
+    "Type": "OptionSetInfo"
+  }
+]

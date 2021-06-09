@@ -1,0 +1,317 @@
+[
+  {
+    "CdsFCBContext": "{\"FileType\":true,\"ImageExternalStorage\":true}",
+    "EntitySetName": "asyncoperations",
+    "IsHidden": false,
+    "IsSampleData": false,
+    "IsWritable": true,
+    "LogicalName": "asyncoperation",
+    "MaxGetRowsCount": 2000,
+    "Name": "System Jobs",
+    "NativeCDSDataSourceInfoNameMapping": {
+      "_ownerid_value": "Owner",
+      "_regardingobjectid_value": "Regarding",
+      "AsyncOperation_BulkDeleteOperation": "Bulk Delete Operations",
+      "AsyncOperation_DuplicateBaseRecord": "Duplicate Records",
+      "AsyncOperation_Emails": "Email Messages",
+      "asyncoperation_FileAttachments": "FileAttachments",
+      "AsyncOperation_MailboxTrackingFolder": "Mailbox Auto Tracking Folders",
+      "asyncoperationid": "System Job",
+      "breadcrumbid": "Breadcrumb ID",
+      "callerorigin": "Caller Origin",
+      "completedon": "Completed On",
+      "correlationid": "Correlation Id",
+      "correlationupdatedtime": "Correlation Updated Time",
+      "createdby": "Created By",
+      "createdon": "Created On",
+      "createdonbehalfby": "Created By (Delegate)",
+      "data": "Data",
+      "datablobid": "Data File Id",
+      "dependencytoken": "Dependency Token",
+      "depth": "Depth",
+      "errorcode": "Error Code",
+      "executiontimespan": "ExecutionTimeSpan",
+      "expanderstarttime": "Expander Start Time",
+      "friendlymessage": "Friendly message",
+      "hostid": "Host",
+      "iswaitingforevent": "Waiting for Event",
+      "lk_workflowlog_asyncoperation_childworkflow": "Process Logs (lk_workflowlog_asyncoperation_childworkflow)",
+      "lk_workflowlog_asyncoperations": "Process Logs (lk_workflowlog_asyncoperations)",
+      "message": "Message",
+      "messagename": "Message Name",
+      "modifiedby": "Modified By",
+      "modifiedon": "Modified On",
+      "modifiedonbehalfby": "Modified By (Delegate)",
+      "name": "System Job Name",
+      "operationtype": "System Job Type",
+      "owningbusinessunit": "Owning Business Unit",
+      "owningextensionid": "Owning Extension",
+      "owningteam": "Owning Team",
+      "owninguser": "Owning User",
+      "parentpluginexecutionid": "ParentPluginExecutionId",
+      "postponeuntil": "Postpone Until",
+      "recurrencepattern": "Recurrence Pattern",
+      "recurrencestarttime": "Recurrence Start",
+      "requestid": "Request",
+      "retainjobhistory": "Retain Job History",
+      "retrycount": "Retry Count",
+      "rootexecutioncontext": "RootExecutionContext",
+      "sequence": "Sequence",
+      "startedon": "Started On",
+      "statecode": "Status",
+      "statuscode": "Status Reason",
+      "subtype": "Subtype",
+      "timezoneruleversionnumber": "TimeZoneRuleVersionNumber",
+      "utcconversiontimezonecode": "UTCConversionTimeZoneCode",
+      "workflowactivationid": "Workflow Activation Id",
+      "workflowstagename": "Workflow Stage",
+      "workload": "Workload"
+    },
+    "PreferredName": "System Jobs",
+    "Type": "NativeCDSDataSourceInfo"
+  },
+  {
+    "DisplayName": "System Jobs (Views)",
+    "Name": "_asyncoperation_views",
+    "RelatedEntityName": "System Jobs",
+    "TrimmedViewName": true,
+    "Type": "ViewInfo",
+    "ViewInfoNameMapping": {
+      "0f410821-092f-4b7c-9d8d-31748c611200": "Recurring System Jobs",
+      "396c49c7-f7f5-4612-b8e6-846a4d813293": "All System Jobs",
+      "3bff431e-5a24-498a-be45-983735266d75": "My System Jobs",
+      "5a6c8b90-e4d8-4bf8-93da-c8b7b2c29a1c": "System Job Lookup View",
+      "698da0b2-ac34-4f55-9c2b-006932710606": "Ready System Jobs",
+      "6d6fb6b6-7930-45c4-9e08-b3209b5088db": "All Rollup Field Calculation Jobs",
+      "6dd63c82-0b9d-4d91-ac6b-4215d2add66c": "Locked System Jobs",
+      "9aa9ad39-81ae-4431-9929-2c2d03ed2954": "System Job Associated View",
+      "a8cc389b-d9c5-4d69-9b69-5634365baa9f": "All Workflow Jobs",
+      "c3bb235b-4576-4cc1-bc8f-ae6a8d918710": "Cascade Operations",
+      "cdebb3fc-775c-11dc-a669-00188b01dce6": "Workflow Job Associated View",
+      "da19b60d-2603-4846-b791-d9a4f16e5531": "System Job Advanced Find View",
+      "e2792c8c-1cf6-4f14-9e49-f4038d38378c": "Suspended System Jobs",
+      "ed966a83-3387-408c-9d6c-fec68ecee12f": "Resumable Workflows",
+      "fafa6c34-5cb9-48c7-9dbd-93e1464f83ce": "Completed System Jobs"
+    }
+  },
+  {
+    "DisplayName": "Waiting for Event (System Jobs)",
+    "Name": "asyncoperation_iswaitingforevent",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "iswaitingforevent",
+        "OptionSetReferenceEntityName": "System Jobs"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "iswaitingforevent",
+    "RelatedEntityName": "System Jobs",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "System Job Type (System Jobs)",
+    "Name": "asyncoperation_operationtype",
+    "OptionSetInfoNameMapping": {
+      "1": "System Event",
+      "10": "Workflow",
+      "11": "Quick Campaign",
+      "12": "Matchcode Update",
+      "12801": "Cascade Grant or Revoke Access Version Tracking Async Operation",
+      "13": "Bulk Delete",
+      "14": "Deletion Service",
+      "15": "Index Management",
+      "16": "Collect Organization Statistics",
+      "17": "Import Subprocess",
+      "18": "Calculate Organization Storage Size",
+      "19": "Collect Organization Database Statistics",
+      "190690091": "AI Builder Training Events",
+      "190690092": "AI Builder Prediction Events",
+      "2": "Bulk Email",
+      "20": "Collection Organization Size Statistics",
+      "201": "Provision language for user",
+      "202": "Export Solution Async Operation",
+      "203": "Import Solution Async Operation",
+      "21": "Database Tuning",
+      "22": "Calculate Organization Maximum Storage Size",
+      "23": "Bulk Delete Subprocess",
+      "24": "Update Statistic Intervals",
+      "25": "Organization Full Text Catalog Index",
+      "26": "Database log backup",
+      "27": "Update Contract States",
+      "28": "DBCC SHRINKDATABASE maintenance job",
+      "29": "DBCC SHRINKFILE maintenance job",
+      "3": "Import File Parse",
+      "30": "Reindex all indices maintenance job",
+      "31": "Storage Limit Notification",
+      "32": "Cleanup inactive workflow assemblies",
+      "35": "Recurring Series Expansion",
+      "38": "Import Sample Data",
+      "4": "Transform Parse Data",
+      "40": "Goal Roll Up",
+      "41": "Audit Partition Creation",
+      "42": "Check For Language Pack Updates",
+      "43": "Provision Language Pack",
+      "44": "Update Organization Database",
+      "45": "Update Solution",
+      "46": "Regenerate Entity Row Count Snapshot Data",
+      "47": "Regenerate Read Share Snapshot Data",
+      "49": "Post to Yammer",
+      "5": "Import",
+      "50": "Outgoing Activity",
+      "51": "Incoming Email Processing",
+      "52": "Mailbox Test Access",
+      "53": "Encryption Health Check",
+      "54": "Execute Async Request",
+      "56": "Update Entitlement States",
+      "57": "Calculate Rollup Field",
+      "58": "Mass Calculate Rollup Field",
+      "59": "Import Translation",
+      "6": "Activity Propagation",
+      "62": "Convert Date And Time Behavior",
+      "63": "EntityKey Index Creation",
+      "65": "Update Knowledge Article States",
+      "68": "Resource Booking Sync",
+      "69": "Relationship Assistant Cards",
+      "7": "Duplicate Detection Rule Publish",
+      "71": "Cleanup Solution Components",
+      "72": "App Module Metadata Operation",
+      "73": "ALM Anomaly Detection Operation",
+      "75": "Flow Notification",
+      "76": "Ribbon Client Metadata Operation",
+      "79": "CallbackRegistration Expander Operation",
+      "8": "Bulk Duplicate Detection",
+      "9": "SQM Data Collection",
+      "90": "CascadeAssign",
+      "91": "CascadeDelete",
+      "92": "Event Expander Operation",
+      "93": "Import Solution Metadata",
+      "94": "Bulk Delete File Attachment",
+      "95": "Refresh Business Unit for Records Owned By Principal",
+      "96": "Revoke Inherited Access",
+      "98": "Create Or Refresh Virtual Entity"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "operationtype",
+        "OptionSetReferenceEntityName": "System Jobs"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "operationtype",
+    "RelatedEntityName": "System Jobs",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Primary Entity Type (System Jobs)",
+    "Name": "asyncoperation_primaryentitytype",
+    "OptionSetInfoNameMapping": {},
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "primaryentitytype",
+        "OptionSetReferenceEntityName": "System Jobs"
+      }
+    },
+    "OptionSetTypeKey": "EntityNameType",
+    "RelatedColumnInvariantName": "primaryentitytype",
+    "RelatedEntityName": "System Jobs",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Retain Job History (System Jobs)",
+    "Name": "asyncoperation_retainjobhistory",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "retainjobhistory",
+        "OptionSetReferenceEntityName": "System Jobs"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "retainjobhistory",
+    "RelatedEntityName": "System Jobs",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status (System Jobs)",
+    "Name": "asyncoperation_statecode",
+    "OptionSetInfoNameMapping": {
+      "0": "Ready",
+      "1": "Suspended",
+      "2": "Locked",
+      "3": "Completed"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statecode",
+        "OptionSetReferenceEntityName": "System Jobs"
+      }
+    },
+    "OptionSetTypeKey": "StateType",
+    "RelatedColumnInvariantName": "statecode",
+    "RelatedEntityName": "System Jobs",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status Reason (System Jobs)",
+    "Name": "asyncoperation_statuscode",
+    "OptionSetInfoNameMapping": {
+      "0": "Waiting For Resources",
+      "10": "Waiting",
+      "20": "In Progress",
+      "21": "Pausing",
+      "22": "Canceling",
+      "30": "Succeeded",
+      "31": "Failed",
+      "32": "Canceled"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statuscode",
+        "OptionSetReferenceEntityName": "System Jobs"
+      }
+    },
+    "OptionSetTypeKey": "StatusType",
+    "RelatedColumnInvariantName": "statuscode",
+    "RelatedEntityName": "System Jobs",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Workflow Is Blocked (System Jobs)",
+    "Name": "asyncoperation_workflowisblocked",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "workflowisblocked",
+        "OptionSetReferenceEntityName": "System Jobs"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "workflowisblocked",
+    "RelatedEntityName": "System Jobs",
+    "Type": "OptionSetInfo"
+  }
+]

@@ -1,0 +1,2345 @@
+Project_Picker_Screen As screen:
+    Height: =Max(App.Height, App.DesignHeight)
+    LoadingSpinner: =LoadingSpinner.Data
+    LoadingSpinnerColor: =Magenta
+    OnHidden: |-
+        =UpdateContext({showLoader: true})
+    OnVisible: |-
+        =UpdateContext({varLoadingDataMessage: "Loading Data"});
+        UpdateContext({showLoader: false});
+        Set(varConfirmExitMessage, false);
+        
+        If(IsBlank(varCurrentUserSecurityRole), 
+        
+        Set(varCurrentUserProfile, Office365Users.MyProfile());
+        Set(varCurUserEmail, Lower(User().Email));
+        Set(varCurrentUserRecord, LookUp(Users, 'Azure AD Object ID' = GUID(varCurrentUserProfile.Id)));
+        //Set(varCurrentUserNameLF,Concatenate(varCurrentUserProfile.Surname, ", ", varCurrentUserProfile.GivenName));
+        //Set(varCurrentUserNickname, varCurrentUserRecord.Nickname);
+        //Set(varCurrentUserNameFL,Right(varCurrentUserNickname, Len(varCurrentUserNickname)-Find(",", varCurrentUserNickname))&" "&Left(varCurrentUserNickname, Find(",", varCurrentUserNickname)-1));
+        Set(varCurrentUserNameFL,User().FullName);
+        Set(varCurrentUserCDSUserID, LookUp(Users, 'Primary Email' = varCurrentUserProfile.UserPrincipalName).User);
+        
+        UpdateContext({varRedirectLoaderText: Concatenate("Welcome to ORBIT ", varCurrentUserNameFL)});
+        
+        /*ClearCollect(colEnvironmentVariables, 'Environment Variable Definitions');
+        
+        Set(varCurrentEnvironmentID, LookUp(colEnvironmentVariables, 'Display Name' = "PowerAppsEnvironmentID").'Default Value'); 
+        Set(varCurrentCDSURL, LookUp(colEnvironmentVariables, 'Display Name' = "DynamicsInstanceURL").'Default Value'); 
+        Set(varCurrentAppID, LookUp(colEnvironmentVariables, 'Display Name' = "ORBITAppID").'Default Value'); */
+        
+        /*ClearCollect(colGTMTeamMembers, LookUp(Teams, 'Team Name' = "GTM Portfolio Team").Users);
+        If(IsEmpty(Filter(colGTMTeamMembers, User = varCurrentUserRecord.User)), Set(varCurrentUserSecurityRole, "Other"), Set(varCurrentUserSecurityRole, "GTM"));
+        
+        If(varCurrentUserSecurityRole = "Administrator" Or varCurrentUserNickname = "Still, Jody" Or varCurrentUserNickname = "Burger, Amelia" Or varCurrentUserNickname = "Lorbergs, Aina" Or varCurrentUserNickname = "Hodel, Brian" Or varCurrentUserNickname = "SingleIntake", 
+        ClearCollect(colTopNavGalleryItems,
+            {Label:"New Initiative",LaunchLink:"",Screen:[@New_Intake_Screen],IsVisible:true},
+            {Label:"List View",LaunchLink:"",Screen:[@Project_Picker_Screen],IsVisible:true},
+            {Label:"My Approvals",LaunchLink:"",Screen:[@My_Approvals_Screen],IsVisible:true},
+            {Label:"Offers Steering",LaunchLink:"",Screen:[@Offers_Steering_Screen],IsVisible:true}
+        ));
+        
+        If(varCurrentUserSecurityRole = "Administrator", 
+        ClearCollect(colLeftNavGalleryItems,
+            {Label:"Summary",LaunchLink:"",Screen:[@Project_Summary_Screen],InitiativeType:"Project",IsVisible:true},
+            {Label:"Details",LaunchLink:"",Screen:[@Project_Details_Screen],InitiativeType:"Project",IsVisible:true},
+            {Label:"Approvals",LaunchLink:"",Screen:[@Project_Approvals_Screen],InitiativeType:"Project",IsVisible:true},
+            {Label:"Team",LaunchLink:"",Screen:[@Project_Team_Screen],InitiativeType:"Project",IsVisible:true},
+            //{Label:"Change Log",LaunchLink:"",Screen:[@Change_Log_Screen],InitiativeType:"Project",IsVisible:true},
+            {Label:"Attachments",LaunchLink:"",Screen:[@Attachments_Screen],InitiativeType:"Project",IsVisible:true}
+        );
+        );*/
+        
+        Set(varCurrentUserSecurityRole, "GTM");
+        ClearCollect(colTopNavGalleryItems,
+            {Label:"New Initiative",LaunchLink:"",Screen:[@New_Intake_Screen],IsVisible:true},
+            {Label:"List View",LaunchLink:"",Screen:[@Project_Picker_Screen],IsVisible:true},
+            {Label:"My Approvals",LaunchLink:"",Screen:[@My_Approvals_Screen],IsVisible:true},
+            {Label:"Offers Steering",LaunchLink:"",Screen:[@Offers_Steering_Screen],IsVisible:true}
+        );
+        ClearCollect(colLeftNavGalleryItems,
+            {Label:"Summary",LaunchLink:"",Screen:[@Project_Summary_Screen],InitiativeType:"Project",IsVisible:true},
+            {Label:"Details",LaunchLink:"",Screen:[@Project_Details_Screen],InitiativeType:"Project",IsVisible:true},
+            {Label:"Approvals",LaunchLink:"",Screen:[@Project_Approvals_Screen],InitiativeType:"Project",IsVisible:true},
+            {Label:"Team",LaunchLink:"",Screen:[@Project_Team_Screen],InitiativeType:"Project",IsVisible:true},
+            //{Label:"Change Log",LaunchLink:"",Screen:[@Change_Log_Screen],InitiativeType:"Project",IsVisible:true},
+            {Label:"Attachments",LaunchLink:"",Screen:[@Attachments_Screen],InitiativeType:"Project",IsVisible:true}
+        );
+        Select(btn_Deeplink);
+        Patch(AppAccessLogs, {Name: varCurrentUserSecurityRole});
+        
+        Set(varIsDraftInitiative, false);
+        Clear(colStageApprovalUsers);
+        Clear(BpfStages);
+        
+        If(IsEmpty(colPhaseOptionSet),
+        Concurrent(
+            ClearCollect(colPhaseOptionSet, GetSingleOptionSet.Run("cat_phase").value),
+            ClearCollect(colLOBOptionSet, GetSingleOptionSet.Run("cat_lobchannelhorizontal").value),
+            ClearCollect(colSubPhaseOptionSet, GetSingleOptionSet.Run("cat_subphase").value),
+            ClearCollect(colTypeOptionSet, Filter(GetSingleOptionSet.Run("cat_initiativetype").value, Label <> "Please Select")),
+            If(IsEmpty(varCurrentUserRecord), UpdateContext({varStartLoadTimer: true}), Select(btn_BuildAPIQueryString)),
+            Select(btn_ProjP_ClearAllFilters)
+        )
+        );
+        ,
+        
+        Set(varIsDraftInitiative, false);
+        Clear(colStageApprovalUsers);
+        Clear(BpfStages);
+        
+        If(IsEmpty(colPhaseOptionSet),
+        Concurrent(
+            ClearCollect(colPhaseOptionSet, GetSingleOptionSet.Run("cat_phase").value),
+            ClearCollect(colLOBOptionSet, GetSingleOptionSet.Run("cat_lobchannelhorizontal").value),
+            ClearCollect(colSubPhaseOptionSet, GetSingleOptionSet.Run("cat_subphase").value),
+            ClearCollect(colTypeOptionSet, Filter(GetSingleOptionSet.Run("cat_initiativetype").value, Label <> "Please Select")),
+            If(IsEmpty(varCurrentUserRecord), UpdateContext({varStartLoadTimer: true}), Select(btn_BuildAPIQueryString)),
+            Select(btn_ProjP_ClearAllFilters)
+        )
+        );
+        //Select(btn_BuildAPIQueryString)
+        Select(btn_ProjP_RefreshData);
+        
+        //Clear(colEditAccessTeamMembers);
+        //Clear(colEditAccessTeam);
+        Clear(collFormValues);
+        Clear(colCurrentProjectTeamRolesGeneral);
+        Clear(colCurrentProjectTeamRolesOther);
+        Clear(colCurrentProjectTeamRoles);
+        Clear(colStageApprovalUsers);
+        Clear(BpfStages);
+        
+        Set(BpfInstance, Blank());
+        Set(varRecordEditPermissions, Blank());
+        Set(varRecordPermissions, Blank());
+        
+        // ***** Clear Type Variables
+        Set(varRequestTypePatch, Blank());
+        Set(varInitiativeTypePatch, Blank());
+        
+        // ***** Clear People Picker Variables
+        Set(varBusinessOwnerRecord, Blank());
+        Set(varSponsorRecord, Blank());
+        Set(varBeneficiaryLOBApproverRecord, Blank());
+        
+        // ***** Clear Dropdown Variables
+        Set(varAnnualGALiftEstimate, Blank());
+        Set(varAudienceSpecificCommunications, Blank());
+        Set(varBeneficiaryLOB, Blank());
+        Set(varBrand, Blank());
+        Set(varBusinessBenefit, Blank());
+        Set(varCategory, Blank());
+        Set(varCustomerImpacting, Blank());
+        Set(varDay, Blank());
+        Set(varDesiredExecution, Blank());
+        Set(varGoesOnCalendar, Blank());
+        Set(varInitiativeTypePatch, Blank());
+        Set(varIntegratedMarketing, Blank());
+        Set(varLOBChannelHorizontal, Blank());
+        Set(varMarketingSupportNeeded, Blank());
+        Set(varOfferType, Blank());
+        Set(varPhase, Blank());
+        Set(varPriority, Blank());
+        Set(varPriorityQuarter, Blank());
+        Set(varPTLOESWAG, Blank());
+        Set(varRequestTypePatch, Blank());
+        Set(varStrategicPillar, Blank());
+        Set(varSubPhase, Blank());
+        Set(varSystemStack, Blank());
+        Set(varTargetAyduebceSegnebt, Blank());
+        Set(varThreeYearNPV, Blank());
+        Set(varTier, Blank());
+        Set(varValidationCheck, Blank());
+        
+        // ***** Clear Toggle Variables
+        Set(varActiveServiceRequired, Blank());
+        Set(varCarrierFreedom, Blank());
+        Set(varDarkStatus, Blank());
+        Set(varEmployeeDiscount, Blank());
+        Set(varEmployeeEligible, Blank());
+        Set(varIntegration, Blank());
+        Set(varJUMPEligible, Blank());
+        Set(varLimitedTimeOffer, Blank());
+        Set(varMAPRestricted, Blank());
+        Set(varMarket, Blank());
+        Set(varPromoDetailsLocked, Blank());
+        Set(varReplacingAnExistingProduct, Blank());
+        
+        
+        // ***** Clear Multiselect Variables
+        Clear(colMobileInternetPlanRequirements);
+        Clear(colAdditionalEligibilityRequirements);
+        Clear(colChannels);
+        Clear(colCustomerSegment);
+        Clear(colPurchaseTypeFinancing);
+        Clear(colDeviceFulfillmentInScope);
+        Clear(colPlanAndFeatureRequirementsBuild);
+        Clear(colAddALineTypes);
+        Clear(colWearablePlanRequirements);
+        Clear(colGALiftType);
+        Clear(colTesting);
+        Clear(colVoiceRatePlanRequirements);
+        Clear(colChangeRequests);
+        Clear(colChangeRequestFormValues);
+        Clear(colChangeRequestValues);
+        Clear(collFormValues);
+        Clear(colFormValuesPatch)
+        )
+    Orientation: =If(Project_Picker_Screen.Width < Project_Picker_Screen.Height, Layout.Vertical, Layout.Horizontal)
+    Size: =1 + CountRows(App.SizeBreakpoints) - CountIf(App.SizeBreakpoints, Value >= Project_Picker_Screen.Width)
+    Width: =Max(App.Width, App.DesignWidth)
+
+    btn_Deeplink As button:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        DisabledFill: =RGBA(244, 244, 244, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        FocusedBorderColor: =btn_Deeplink.BorderColor
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =29
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverColor: =RGBA(255, 255, 255, 1)
+        HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+        Italic: =true
+        OnSelect: |-
+            =// ***** Get Record From RecordID Parameter
+            Set(varPermissionsTest, false);
+            
+            If(!IsBlank(Param("RecordID")),
+            UpdateContext({showRedirectLoader: false}); 
+            
+            If(!IfError(Set(varCurrentRecord, LookUp(gtmEntries, gtmEntry = GUID(Param("RecordID")))), false), 
+                
+            Navigate([@Access_Denied_Screen], ScreenTransition.None),
+            
+            Set(varInitiaitveUpdated, true);
+            Set(varIsDeepLink, true);
+            UpdateContext({varRedirectLoaderText: "Looking for your record...."});
+            
+                    // get user edit permissions on record
+                    Set(varRecordPermissions, GetRecordPermisionsforCurrentUser.Run(varCurrentUserRecord.User, varCurrentRecord.gtmEntry).recordpermissions);
+                    Set(varRecordEditPermissions, !IsBlank(Find("WriteAccess", varRecordPermissions)));
+            
+            If(IsBlank(varCurrentRecord.gtmEntry), 
+            //Set(NavScreenParam, "AccessDenied"),
+                //UpdateContext({varRedirectLoaderText: "Checking Permissions5"});
+                    Navigate([@Access_Denied_Screen], ScreenTransition.None);
+                    //UpdateContext({varRedirectLoaderText: "Checking Permissions4"});
+                    Set(varTempStartDeepLink, "Post Nav"),
+                UpdateContext({varRedirectLoaderText: "Taking you to "&varCurrentRecord.InitiativeName});
+                    Switch(NavScreenParam,
+                        "Intake", Navigate([@New_Intake_Screen], ScreenTransition.None),
+                        "Picker", Navigate([@Project_Picker_Screen], ScreenTransition.None),
+                        "UserApprovals", Navigate([@My_Approvals_Screen], Transition.None),
+                        "Details", If(!IsBlank(varCurrentRecord), Navigate([@Project_Details_Screen],ScreenTransition.None) , Navigate([@Project_Picker_Screen],ScreenTransition.None)),
+                        "Summary", If(!IsBlank(varCurrentRecord), Navigate([@Project_Summary_Screen],ScreenTransition.None),Navigate([@Project_Picker_Screen],ScreenTransition.None)),
+                        "Approvals", If(!IsBlank(varCurrentRecord), Navigate([@Project_Approvals_Screen],ScreenTransition.None), Navigate([@Project_Picker_Screen],ScreenTransition.None)),
+                        "Attachments", If(!IsBlank(varCurrentRecord), Navigate([@Attachments_Screen],ScreenTransition.None ), Navigate([@Project_Picker_Screen],ScreenTransition.None)),
+                        "AccessDenied", Navigate([@Access_Denied_Screen], ScreenTransition.None),
+                        Navigate([@Project_Picker_Screen], ScreenTransition.None));
+                        Set(varTempStartDeepLink, "Post Nav")
+                    );
+            ));
+            //UpdateContext({varRedirectLoaderText: "Checking Permissions9"});
+            UpdateContext({showLoader: true});
+        PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+        PressedColor: =RGBA(255, 255, 255, 1)
+        PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =15
+        Text: =""
+        Width: =29
+        X: =1887
+        Y: =1050
+        ZIndex: =1
+
+    lbl_NoInitiativesFoundNotice As label:
+        Align: =Align.Center
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Color: =Gray
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =lbl_NoInitiativesFoundNotice.BorderColor
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =gal_ProjectPicker.Height
+        HoverBorderColor: =lbl_NoInitiativesFoundNotice.BorderColor
+        HoverColor: =lbl_NoInitiativesFoundNotice.Color
+        HoverFill: =lbl_NoInitiativesFoundNotice.Fill
+        PressedBorderColor: =lbl_NoInitiativesFoundNotice.BorderColor
+        PressedColor: =lbl_NoInitiativesFoundNotice.Color
+        PressedFill: =lbl_NoInitiativesFoundNotice.Fill
+        Size: =20
+        Text: =If(tog_ProjP_ProjectPortfolio.Value, "There are no initiatives that meet your search criteria.", "There are no initiatives assigned to you at this time.")
+        Visible: =showLoader And IsEmpty(colFilteredGtmEntries) And varInitialLoadComplete
+        Width: =gal_ProjectPicker.Width
+        X: =gal_ProjectPicker.X
+        Y: =gal_ProjectPicker.Y
+        ZIndex: =2
+
+    img_LogoBackground As image:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledFill: =RGBA(0, 0, 0, 0)
+        FocusedBorderColor: =img_LogoBackground.BorderColor
+        FocusedBorderThickness: =4
+        Height: =1008
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverFill: =RGBA(0, 0, 0, 0)
+        Image: =T_Logo_3c_p
+        PressedBorderColor: =RGBA(0, 0, 0, 0)
+        PressedFill: =RGBA(0, 0, 0, 0)
+        Transparency: =0.95
+        Visible: =varCurrentUserSecurityRole = "Administrator"
+        Width: =1596
+        X: =180
+        Y: =72
+        ZIndex: =3
+
+    gal_ProjectPicker As gallery.galleryVertical:
+        BorderColor: =RGBA(166, 166, 166, 1)
+        DisabledBorderColor: =gal_ProjectPicker.BorderColor
+        DisabledFill: =gal_ProjectPicker.Fill
+        Height: =855
+        HoverBorderColor: =gal_ProjectPicker.BorderColor
+        HoverFill: =gal_ProjectPicker.Fill
+        Items: |-
+            =Switch(First(colSortOrder).FilterName,
+            "cat_sponsor", If(First(colSortOrder).FilterDirection = "asc", Sort(colFilteredGtmEntries, cat_Sponsor.nickname, Ascending), Sort(colFilteredGtmEntries, cat_Sponsor.nickname, Descending)),
+            "cat_createdby", If(First(colSortOrder).FilterDirection = "asc", Sort(colFilteredGtmEntries, cat_OriginalCreatedByUser.nickname, Ascending), Sort(colFilteredGtmEntries, cat_OriginalCreatedByUser.nickname, Descending)),
+            "cat_businessowner", If(First(colSortOrder).FilterDirection = "asc", Sort(colFilteredGtmEntries, cat_BusinessOwner.nickname, Ascending), Sort(colFilteredGtmEntries, cat_BusinessOwner.nickname, Descending)),
+            "cat_initiativesubmitdate", If(First(colSortOrder).FilterDirection = "asc", Sort(Sort(colFilteredGtmEntries, cat_legacygtmentryid, Ascending), cat_initiativesubmitdate, Ascending), Sort(Sort(colFilteredGtmEntries, cat_legacygtmentryid, Descending), createdon, Descending)) ,
+            colFilteredGtmEntries
+            ) 
+        Layout: =Layout.Vertical
+        LoadingSpinner: =LoadingSpinner.Data
+        LoadingSpinnerColor: =Magenta
+        NavigationStep: =12
+        OnSelect: |+
+            =UpdateContext({showLoader:false});
+            
+            Set(varCurrentRecord, LookUp(gtmEntries, gtmEntry = GUID(ThisItem.cat_gtmentryid)));
+            
+            UpdateContext({varLoadingDataMessage: Concatenate("Loading Data for ", varCurrentRecord.InitiativeName)});
+            
+            Concurrent(
+                Set(varIsNewInitiative, false),
+                Set(varInitiaitveUpdated, true),
+                Set(varCurrInitiativeType, varCurrentRecord.InitiativeType),
+                Set(varIntakeTypeGroup, varCurrentRecord.InitiativeTypeGroup),
+                Set(varInitiativeType, Text(varCurrentRecord.InitiativeType)),
+               // Set(varCurrentRecord, ThisItem),
+                Set(varCurrentRecordInitialValues, varCurrentRecord),
+                Set(varCurrentAttachmentRecord, varCurrentRecord.gtmAttachments),
+                Set(varIsDraftInitiative, Text(varCurrentRecord.Phase) = "Draft")
+            );
+            
+            Navigate([@Project_Summary_Screen],ScreenTransition.None)
+            //If(Text(varCurrentRecord.Phase) = "Draft", Set(varIsDraftInitiative, true));
+            
+            //ClearCollect(collCurrentRecord, ThisItem);
+            /*If(Text(varCurrentRecord.InitiativeTypeGroup) = "Business" And Text(varCurrentRecord.Phase) <> "Draft", 
+                Navigate([@Project_Summary_Screen],ScreenTransition.None), 
+                Navigate([@Project_Details_Screen],ScreenTransition.None));*/
+            
+        PressedBorderColor: =gal_ProjectPicker.BorderColor
+        PressedFill: =gal_ProjectPicker.Fill
+        TemplatePadding: =0
+        TemplateSize: =If(varGalleryCompactView = true, gal_ProjectPicker.Height / 19 + 1, gal_ProjectPicker.Height / 13 + 1)
+        Width: =Gallery4.Width
+        X: =20
+        Y: =Gallery4.Y + Gallery4.Height
+        ZIndex: =4
+
+        img_DarkLock As image:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            FocusedBorderColor: =img_DarkLock.BorderColor
+            FocusedBorderThickness: =4
+            Height: =33
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            Image: =LogoMakr_6CRU07
+            OnSelect: =Select(Parent)
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Tooltip: ="DARK Initiative"
+            Transparency: =0.7
+            Visible: =ThisItem.'cat_darkstatus@OData.Community.Display.V1.FormattedValue' = "Dark" And varCurrentUserSecurityRole = "Administrator"
+            Width: =33
+            X: =25
+            Y: =30
+            ZIndex: =1
+
+        lblPJCode As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =RGBA(0, 0, 0, 0)
+            FocusedBorderThickness: =4
+            Font: =Font.Arial
+            Height: =Parent.TemplateHeight / 2
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =10
+            PaddingTop: =0
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =RGBA(0, 0, 0, 0)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Size: =12
+            Text: =ThisItem.cat_pjcode
+            Width: =LookUp(Gallery4.AllItems, FilterName = "cat_prnumber").Width
+            X: =LookUp(Gallery4.AllItems, FilterName = "cat_prnumber").LastItemX + (LookUp(Gallery4.AllItems, FilterName = "cat_prnumber").ID - 1) * Gallery4.TemplateWidth
+            Y: =Parent.TemplateHeight / 2
+            ZIndex: =2
+
+        lbl_ActiveBPFStageName As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =If(lbl_ActiveBPFStageName.Text = "Draft", Red, Black)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =lbl_ActiveBPFStageName.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            Height: =39
+            HoverBorderColor: =lbl_ActiveBPFStageName.BorderColor
+            HoverColor: =lbl_ActiveBPFStageName.Color
+            HoverFill: =lbl_ActiveBPFStageName.Fill
+            OnSelect: =Select(Parent)
+            PressedBorderColor: =lbl_ActiveBPFStageName.BorderColor
+            PressedColor: =lbl_ActiveBPFStageName.Color
+            PressedFill: =lbl_ActiveBPFStageName.Fill
+            Size: =13
+            Text: =LookUp(ORBIT_Initiative_Approval_Process, Cat_Gtmentry.gtmEntry = GUID(ThisItem.cat_gtmentryid)).'Active Stage'.'Process Stage Name'
+            Visible: =varCurrentUserSecurityRole = "Administrator"
+            Width: =129
+            X: =LookUp(Gallery4.AllItems, FilterName = "cat_phase").LastItemX + (LookUp(Gallery4.AllItems, FilterName = "cat_phase").ID - 1) * Gallery4.TemplateWidth
+            Y: =26.769230769230774
+            ZIndex: =3
+
+        icoSeparatorBar As rectangle:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            DisabledFill: =RGBA(166, 166, 166, 1)
+            DisplayMode: =DisplayMode.View
+            Fill: =ColorValue(LookUp(StyleGuide, Key = "LightGrey").Value)
+            FocusedBorderColor: =RGBA(0, 0, 0, 0)
+            FocusedBorderThickness: =4
+            Height: =1
+            HoverFill: =RGBA(105, 121, 126, 1)
+            OnSelect: =Select(Parent)
+            PressedFill: =RGBA(105, 121, 126, 1)
+            Width: =gal_ProjectPicker.Width - (gal_ProjectPicker.TemplatePadding * 2)
+            Y: =Parent.TemplateHeight - 2
+            ZIndex: =4
+
+        lblPRCode As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =RGBA(0, 0, 0, 0)
+            FocusedBorderThickness: =4
+            Font: =Font.Arial
+            Height: =Parent.TemplateHeight / 2
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =10
+            PaddingTop: =0
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =RGBA(0, 0, 0, 0)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Size: =12
+            Text: =ThisItem.cat_prcode
+            Width: =LookUp(Gallery4.AllItems, FilterName = "cat_prnumber").Width
+            X: =LookUp(Gallery4.AllItems, FilterName = "cat_prnumber").LastItemX + (LookUp(Gallery4.AllItems, FilterName = "cat_prnumber").ID - 1) * Gallery4.TemplateWidth
+            ZIndex: =5
+
+        lblSubmittedByName As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =RGBA(0, 0, 0, 0)
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            Height: =Parent.TemplateHeight
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            OnSelect: =Select(Parent)
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =RGBA(0, 0, 0, 0)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Size: =12
+            Text: |-
+                =//If(!IsBlank(ThisItem.cat_OriginalCreatedByUser.lastname), Concatenate(ThisItem.cat_OriginalCreatedByUser.lastname, ", ", ThisItem.cat_OriginalCreatedByUser.firstname), Concatenate(ThisItem.createdby.lastname, ", ", ThisItem.createdby.firstname))
+                //Concatenate(ThisItem.cat_Sponsor.lastname, ", ", ThisItem.cat_Sponsor.firstname)
+                //If(!IsBlank(ThisItem.cat_OriginalCreatedByUser.lastname), ThisItem.cat_OriginalCreatedByUser.systemuserid,ThisItem.createdby.systemuserid)
+                Coalesce(ThisItem.cat_OriginalCreatedByUser.nickname, ThisItem.createdby.nickname)
+            Width: =LookUp(Gallery4.AllItems, FilterName = "cat_originalcreatedbyuser").Width
+            X: =LookUp(Gallery4.AllItems, FilterName = "cat_originalcreatedbyuser").LastItemX + (LookUp(Gallery4.AllItems, FilterName = "cat_originalcreatedbyuser").ID - 1) * Gallery4.TemplateWidth
+            ZIndex: =6
+
+        lblSponsorVP As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =RGBA(0, 0, 0, 0)
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            Height: =Parent.TemplateHeight
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            OnSelect: =Select(Parent)
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =RGBA(0, 0, 0, 0)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Size: =12
+            Text: =Coalesce(ThisItem.cat_Sponsor.nickname, Concatenate(ThisItem.cat_Sponsor.lastname, ", ", ThisItem.cat_Sponsor.firstname))
+            Width: =LookUp(Gallery4.AllItems, FilterName = "cat_sponsor").Width
+            X: =LookUp(Gallery4.AllItems, FilterName = "cat_sponsor").LastItemX + (LookUp(Gallery4.AllItems, FilterName = "cat_sponsor").ID - 1) * Gallery4.TemplateWidth
+            ZIndex: =7
+
+        lblBusinessOwnerName As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =RGBA(0, 0, 0, 0)
+            FocusedBorderThickness: =4
+            Font: =Font.Arial
+            FontWeight: =Normal
+            Height: =Parent.TemplateHeight
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            OnSelect: =Select(Parent)
+            PaddingBottom: =10
+            PaddingLeft: =10
+            PaddingTop: =10
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =RGBA(0, 0, 0, 0)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Size: =12
+            Text: =Coalesce(ThisItem.cat_BusinessOwner.nickname, Concatenate(ThisItem.cat_BusinessOwner.lastname, ", ", ThisItem.cat_BusinessOwner.firstname))
+            Width: =LookUp(Gallery4.AllItems, FilterName = "cat_businessowner").Width
+            X: =LookUp(Gallery4.AllItems, FilterName = "cat_businessowner").LastItemX + (LookUp(Gallery4.AllItems, FilterName = "cat_businessowner").ID - 1) * Gallery4.TemplateWidth
+            ZIndex: =8
+
+        lblLOBChannelHorizontal As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =RGBA(0, 0, 0, 0)
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Lighter
+            Height: =Parent.TemplateHeight
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            OnSelect: =Select(Parent)
+            PaddingLeft: =10
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =RGBA(0, 0, 0, 0)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Size: =12
+            Text: |-
+                =ThisItem.'cat_lobchannelhorizontal@OData.Community.Display.V1.FormattedValue'
+                //LookUp(LookUp(colOptionsSets, LogicalName = "cat_lobchannelhorizontal").OptionSet.Options, Value = ThisItem.cat_lobchannelhorizontal).Label.UserLocalizedLabel.Label
+            Width: =LookUp(Gallery4.AllItems, FilterName = "cat_lobchannelhorizontal").Width
+            X: =LookUp(Gallery4.AllItems, FilterName = "cat_lobchannelhorizontal").LastItemX + (LookUp(Gallery4.AllItems, FilterName = "cat_lobchannelhorizontal").ID - 1) * Gallery4.TemplateWidth
+            ZIndex: =9
+
+        lblEndDate As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =RGBA(0, 0, 0, 0)
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            Height: =Parent.TemplateHeight
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =DarkGray
+            OnSelect: =Select(Parent)
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =RGBA(0, 0, 0, 0)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Size: =12
+            Text: |-
+                =//Text(ThisItem.cat_enddate, ShortDate)
+                ThisItem.'cat_enddate@OData.Community.Display.V1.FormattedValue'
+            Width: =LookUp(Gallery4.AllItems, FilterName = "cat_enddate").Width
+            X: =LookUp(Gallery4.AllItems, FilterName = "cat_enddate").LastItemX + (LookUp(Gallery4.AllItems, FilterName = "cat_enddate").ID - 1) * Gallery4.TemplateWidth
+            ZIndex: =10
+
+        lblForecastDate As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =RGBA(0, 0, 0, 0)
+            FocusedBorderThickness: =4
+            Font: =Font.Arial
+            FontWeight: =Normal
+            Height: =Parent.TemplateHeight
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            OnSelect: =Select(Parent)
+            PaddingBottom: =10
+            PaddingLeft: =10
+            PaddingTop: =10
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =DarkGray
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Size: =12
+            Text: |-
+                =Coalesce(ThisItem.'cat_forecasteddate@OData.Community.Display.V1.FormattedValue', 
+                    ThisItem.'cat_committedlaunchdate@OData.Community.Display.V1.FormattedValue', 
+                    ThisItem.'cat_estimatedlaunchdate@OData.Community.Display.V1.FormattedValue', 
+                    ThisItem.'cat_requestedlaunchdate@OData.Community.Display.V1.FormattedValue')
+            Width: =LookUp(Gallery4.AllItems, FilterName = "cat_forecastdate").Width
+            X: =LookUp(Gallery4.AllItems, FilterName = "cat_forecastdate").LastItemX + (LookUp(Gallery4.AllItems, FilterName = "cat_forecastdate").ID - 1) * Gallery4.TemplateWidth
+            ZIndex: =11
+
+        lblSubPhase As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =RGBA(0, 0, 0, 0)
+            FocusedBorderThickness: =4
+            Font: =Font.Arial
+            FontWeight: =Normal
+            Height: =Parent.TemplateHeight
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            OnSelect: =Select(Parent)
+            PaddingBottom: =10
+            PaddingLeft: =10
+            PaddingTop: =10
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =DarkGray
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Size: =12
+            Text: |-
+                =ThisItem.'cat_subphase@OData.Community.Display.V1.FormattedValue'
+                //LookUp(LookUp(colOptionsSets, LogicalName = "cat_subphase").OptionSet.Options, Value = ThisItem.cat_subphase).Label.UserLocalizedLabel.Label
+            Width: =LookUp(Gallery4.AllItems, FilterName = "cat_subphase").Width
+            X: =LookUp(Gallery4.AllItems, FilterName = "cat_subphase").LastItemX + (LookUp(Gallery4.AllItems, FilterName = "cat_subphase").ID - 1) * Gallery4.TemplateWidth
+            ZIndex: =12
+
+        lblPhase As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =RGBA(0, 0, 0, 0)
+            FocusedBorderThickness: =4
+            Font: =Font.Arial
+            FontWeight: =Normal
+            Height: =Parent.TemplateHeight
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            OnSelect: =Select(Parent)
+            PaddingBottom: =10
+            PaddingLeft: =10
+            PaddingTop: =10
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =RGBA(0, 0, 0, 0)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Size: =12
+            Text: |-
+                =ThisItem.'cat_phase@OData.Community.Display.V1.FormattedValue'
+                //LookUp(LookUp(colOptionsSets, LogicalName = "cat_phase").OptionSet.Options, Value = ThisItem.cat_phase).Label.UserLocalizedLabel.Label
+            Width: =LookUp(Gallery4.AllItems, FilterName = "cat_phase").Width
+            X: =LookUp(Gallery4.AllItems, FilterName = "cat_phase").LastItemX + (LookUp(Gallery4.AllItems, FilterName = "cat_phase").ID - 1) * Gallery4.TemplateWidth
+            ZIndex: =13
+
+        lblType As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =RGBA(0, 0, 0, 0)
+            FocusedBorderThickness: =4
+            Font: =Font.Arial
+            FontWeight: =FontWeight.Lighter
+            Height: =Parent.TemplateHeight
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            OnSelect: =Select(Parent)
+            PaddingBottom: =10
+            PaddingLeft: =10
+            PaddingTop: =10
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =RGBA(0, 0, 0, 0)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Size: =12
+            Text: |-
+                =ThisItem.'cat_initiativetype@OData.Community.Display.V1.FormattedValue'
+                //LookUp(LookUp(colOptionsSets, LogicalName = "cat_initiativetype").OptionSet.Options, Value = ThisItem.cat_initiativetype).Label.UserLocalizedLabel.Label
+            Width: =LookUp(Gallery4.AllItems, FilterName = "cat_initiativetype").Width
+            X: =LookUp(Gallery4.AllItems, FilterName = "cat_initiativetype").LastItemX + (LookUp(Gallery4.AllItems, FilterName = "cat_initiativetype").ID - 1) * Gallery4.TemplateWidth
+            ZIndex: =14
+
+        lblInitiativeName As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =RGBA(0, 0, 0, 0)
+            FocusedBorderThickness: =4
+            Font: =Font.Arial
+            FontWeight: =Normal
+            Height: =Parent.TemplateHeight
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            OnSelect: =Select(Parent)
+            PaddingBottom: =10
+            PaddingLeft: =10
+            PaddingTop: =10
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =RGBA(0, 0, 0, 0)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Size: =12
+            Text: =ThisItem.cat_initiativename
+            Width: =LookUp(Gallery4.AllItems, FilterName = "cat_initiativename").Width
+            X: =LookUp(Gallery4.AllItems, FilterName = "cat_initiativename").LastItemX + (LookUp(Gallery4.AllItems, FilterName = "cat_initiativename").ID - 1) * Gallery4.TemplateWidth
+            ZIndex: =15
+
+        lblCreatedOnDate As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =RGBA(0, 0, 0, 0)
+            FocusedBorderThickness: =4
+            Font: =Font.Arial
+            FontWeight: =Normal
+            Height: =Parent.TemplateHeight
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            OnSelect: =Select(Parent)
+            PaddingBottom: =10
+            PaddingLeft: =10
+            PaddingTop: =10
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =RGBA(0, 0, 0, 0)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Size: =12
+            Text: =Coalesce(ThisItem.'cat_initiativesubmitdate@OData.Community.Display.V1.FormattedValue', Text(DateTimeValue(ThisItem.'createdon@OData.Community.Display.V1.FormattedValue'), ShortDate))
+            Width: =LookUp(Gallery4.AllItems, FilterName = "cat_initiativesubmitdate").Width
+            ZIndex: =16
+
+        btnNavigateToRecord As button:
+            BorderColor: =ColorFade(Magenta, 80%)
+            BorderStyle: =BorderStyle.None//If(ThisItem.cat_darkstatus = 'DarkStatus (gtmEntries)'.Dark And varDevMode, BorderStyle.Solid, BorderStyle.None)
+            BorderThickness: =4
+            Color: =RGBA(0, 0, 0, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(0, 0, 0, 0)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            Fill: =RGBA(0,0,0,0)
+            FocusedBorderColor: =RGBA(0, 0, 0, 0)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =gal_ProjectPicker.TemplateHeight - 3
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =RGBA(226, 0, 116, .30)
+            OnSelect: =Select(Parent);
+            PressedBorderColor: =
+            PressedColor: =
+            PressedFill: =RGBA(226, 0, 116, .50)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =15
+            Text: =
+            Tooltip: |-
+                =If(!IsBlank(ThisItem.cat_billname), Concatenate("Bill Name: ", ThisItem.cat_billname))
+            Width: =Parent.Width
+            ZIndex: =17
+
+        brnSetInactive As icon.Trash:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            Color: =DarkGray
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(220, 220, 220, 1)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            FocusedBorderColor: =RGBA(0, 0, 0, 0)
+            FocusedBorderThickness: =4
+            Height: =Parent.TemplateHeight
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            Icon: =Icon.Trash
+            OnSelect: |-
+                =Set(varCurrentRecord, LookUp(gtmEntries, gtmEntry = GUID(ThisItem.cat_gtmentryid)));
+                Patch(gtmEntries, varCurrentRecord, {Status: 'Status (gtmEntries)'.Inactive});
+                Select(btn_ProjP_ClearAllFilters)
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Visible: =varDevMode
+            Width: =39
+            X: =1822
+            ZIndex: =18
+
+        btn_AssignRecordOwner As button:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            Color: =If(btn_AssignRecordOwner.Text = "Non-Dark All", Black, Red)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            Fill: =RGBA(204, 204, 204, 1)
+            FocusedBorderColor: =btn_AssignRecordOwner.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =63
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+            OnSelect: |-
+                =false/*
+                Set(varCurrentRecord, LookUp(gtmEntries, gtmEntry = GUID(ThisItem.cat_gtmentryid)));
+                Switch(varCurrentRecord.DarkStatus,
+                    'DarkStatus (gtmEntries)'.Dark,
+                        Switch(varCurrentRecord.InitiativeType, // assigning dark business unit teams
+                                InitiativeType.'Device Launch', AssignOwningTeamToRecord.Run(varCurrentRecord.gtmEntry, LookUp(Teams, 'Team Name' = "Device Launch - Other - Dark").Team),
+                                InitiativeType.'Device Promotion', 
+                					Switch(Text(varCurrentRecord.LOBChannelHorizontal),
+                						"Consumer Markets Postpaid", AssignOwningTeamToRecord.Run(varCurrentRecord.gtmEntry, LookUp(Teams, 'Team Name' = "Device Promotion - Consumer Markets Postpaid - Dark").Team),
+                						"Consumer Markets Prepaid",  AssignOwningTeamToRecord.Run(varCurrentRecord.gtmEntry, LookUp(Teams, 'Team Name' = "Device Promotion - Consumer Markets Prepaid - Dark").Team),
+                						AssignOwningTeamToRecord.Run(varCurrentRecord.gtmEntry, LookUp(Teams, 'Team Name' = "Device Promotion - Other - Dark").Team)),
+                                InitiativeType.'Service Offer', 
+                					Switch(Text(varCurrentRecord.LOBChannelHorizontal),
+                						"Consumer Markets Postpaid", AssignOwningTeamToRecord.Run(varCurrentRecord.gtmEntry, LookUp(Teams, 'Team Name' = "Service Offer - Consumer Markets Postpaid - Dark").Team),
+                						"Consumer Markets Prepaid",  AssignOwningTeamToRecord.Run(varCurrentRecord.gtmEntry, LookUp(Teams, 'Team Name' = "Service Offer - Consumer Markets Prepaid - Dark").Team),
+                						AssignOwningTeamToRecord.Run(varCurrentRecord.gtmEntry, LookUp(Teams, 'Team Name' = "Service Offer - Other - Dark").Team)),
+                                InitiativeType.'Device Launch', 
+                					AssignOwningTeamToRecord.Run(varCurrentRecord.gtmEntry, LookUp(Teams, 'Team Name' = "Device Launch - Other - Dark").Team),
+                						
+                                AssignOwningTeamToRecord.Run(varCurrentRecord.gtmEntry, LookUp(Teams, 'Team Name' = Concatenate(Text(varCurrentRecord.LOBChannelHorizontal), " - Dark")).Team)
+                            ),     
+                 			AssignOwningTeamToRecord.Run(varCurrentRecord.gtmEntry, LookUp(Teams, 'Team Name' = "Non-Dark All").Team)        
+                    );
+                    */
+            PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =10
+            Text: =Coalesce(LookUp(gtmEntries, gtmEntry = GUID(ThisItem.cat_gtmentryid)).'Owning User'.'Full Name',LookUp(gtmEntries, gtmEntry = GUID(ThisItem.cat_gtmentryid)).'Owning Business Unit'.Name)
+            Visible: =varDevMode
+            Width: =260
+            X: =852
+            ZIndex: =19
+
+        lbl_LegacyGTMEntryID As label:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(51, 51, 51, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =lbl_LegacyGTMEntryID.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            Height: =36
+            HoverBorderColor: =lbl_LegacyGTMEntryID.BorderColor
+            HoverColor: =lbl_LegacyGTMEntryID.Color
+            HoverFill: =lbl_LegacyGTMEntryID.Fill
+            OnSelect: =Select(Parent)
+            PressedBorderColor: =lbl_LegacyGTMEntryID.BorderColor
+            PressedColor: =lbl_LegacyGTMEntryID.Color
+            PressedFill: =lbl_LegacyGTMEntryID.Fill
+            Size: =13
+            Text: =ThisItem.cat_legacygtmentryid
+            Visible: =varCurrentUserSecurityRole = "Administrator"
+            Width: =76
+            X: =67
+            Y: =30.769230769230774
+            ZIndex: =20
+
+    com_NavTop_1 As com_NavTop:
+        AdminScreen: =[@Permissions_Team_Roles_Screen]
+        IsGTM: =varCurrentUserSecurityRole = "Administrator" Or varCurrentUserSecurityRole = "GTM"
+        Items: |-
+            =If(IsEmpty(colTopNavGalleryItems), 
+                Table({Label:"New Initiative",LaunchLink:"",Screen:[@New_Intake_Screen],IsVisible:true},
+                {Label:"List View",LaunchLink:"",Screen:[@Project_Picker_Screen],IsVisible:true},
+                {Label:"My Approvals",LaunchLink:"",Screen:[@My_Approvals_Screen],IsVisible:true}), 
+                colTopNavGalleryItems)
+        PendingApprovals: =!IsEmpty(Filter(StageApprovalResponses, 'StageApprovalResponses (Views)'.'User Pending Approvals')) And !varDevMode
+        UserFullName: |-
+            =//Coalesce(varCurrentUserNameFL, "ORBIT User")
+            User().FullName
+        ZIndex: =5
+
+    txt_InitiativeSearchTextInput As text:
+        BorderColor: =ColorValue(LookUp(StyleGuide, Key = "Grey").Value)
+        BorderThickness: =2
+        Clear: =true
+        Color: =Magenta
+        Default: =""
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        DisabledFill: =RGBA(244, 244, 244, 1)
+        FocusedBorderColor: =txt_InitiativeSearchTextInput.BorderColor
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        Height: =30
+        HintText: ="Search Initiative Name or User"
+        HoverBorderColor: =ColorValue(LookUp(StyleGuide, Key = "Grey").Value)
+        HoverColor: =RGBA(51, 51, 51, 1)
+        HoverFill: =RGBA(255, 255, 255, 1)
+        OnChange: |
+            =Select(btn_BuildAPIQueryString)//UpdateContext({varProjP_Search:txt_ProjP_SearchGall.Text});
+        PaddingLeft: =10
+        PressedBorderColor: =RGBA(105, 121, 126, 1)
+        PressedColor: =ColorValue(LookUp(StyleGuide, Key = "Black").Value)
+        PressedFill: =RGBA(255, 255, 255, 1)
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =13
+        Width: =300
+        X: =1601
+        Y: =61
+        ZIndex: =6
+
+    group_PP_BottomControl As groupContainer:
+        DisplayMode: =DisplayMode.Edit
+        Height: =76
+        Width: =1920
+        Y: =1004
+        ZIndex: =7
+
+        ico_ProjP_GalleryBase As rectangle:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            DisabledFill: =RGBA(166, 166, 166, 1)
+            DisplayMode: =DisplayMode.Disabled
+            Fill: =ColorValue(LookUp(StyleGuide, Key = "LightGrey").Value)
+            FocusedBorderColor: =ico_ProjP_GalleryBase.BorderColor
+            FocusedBorderThickness: =4
+            Height: =46
+            HoverFill: =RGBA(105, 121, 126, 1)
+            PressedFill: =RGBA(105, 121, 126, 1)
+            Width: =gal_ProjectPicker.Width
+            X: =gal_ProjectPicker.X
+            ZIndex: =1
+
+        btn_ProjP_ClearAllFilters As button:
+            AutoDisableOnSelect: =false
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            Fill: =RGBA(226, 0, 116, 1)
+            FocusedBorderColor: =btn_ProjP_ClearAllFilters.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =28
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+            OnSelect: |-
+                =Reset(com_ListFilter_InitiativeType);Reset(com_ListFilter_IntakeDate);Reset(com_ListFilter_LOB);Reset(com_ListFilter_Phase);Reset(com_ListFilter_Subphase);Reset(com_ListFilter_EndDate);Reset(com_ListFilter_ForecastDate);Reset(txt_InitiativeSearchTextInput);
+                ClearCollect(colSortOrder, {FilterName: "cat_initiativesubmitdate", FilterDirection: "desc"});
+                UpdateContext({varProjectPickerQueryQuantity: 100});
+                //UpdateContext({showLoader: false});
+                
+                If(!tog_ProjP_ProjectPortfolio.Value, UpdateContext({varMyInitiativesTextSearchValue: Concatenate(" 
+                (cat_ProjectTeamRoles_gtmEntry_cat_gtmEntr/any(o:o/_cat_teammember_value eq ", varCurrentUserCDSUserID, ") or 
+                contains(cat_Sponsor/nickname, '", varCurrentUserNameLF ,"') or 
+                contains(cat_BusinessOwner/nickname, '", varCurrentUserNameLF ,"') or 
+                contains(createdby/nickname, '", varCurrentUserNameLF ,"') or 
+                contains(cat_OriginalCreatedByUser/nickname, '", varCurrentUserNameLF ,"')) and ")}), UpdateContext({varMyInitiativesTextSearchValue: ""}));
+                
+                UpdateContext({varQueryString: Concatenate(varMyInitiativesTextSearchValue, "cat_phase ne 809060008 and cat_phase ne 809060012 and cat_changerequest ne true and statecode eq 0 ")});
+                
+                Select(btn_ProjP_RefreshData)
+            PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            RadiusBottomLeft: =5
+            RadiusBottomRight: =5
+            RadiusTopLeft: =5
+            RadiusTopRight: =5
+            Size: =10
+            Text: ="Clear All Filters"
+            Width: =110
+            X: =ico_ProjP_GalleryBase.X + ico_ProjP_GalleryBase.Width - btn_ProjP_ClearAllFilters.Width - 20
+            Y: =10
+            ZIndex: =2
+
+        btn_ProjP_RefreshData As button:
+            AutoDisableOnSelect: =false
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            Fill: =RGBA(226, 0, 116, 1)
+            FocusedBorderColor: =btn_ProjP_RefreshData.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =28
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+            OnSelect: |-
+                =UpdateContext({showLoader: false});
+                ClearCollect(colFilteredGtmEntries, 'CDS-GtmEntries'.catgtmentries(
+                    {'$filter': Text(varQueryString),
+                        '$select': "
+                        cat_initiativename,
+                        cat_darkstatus,
+                        cat_initiativesubmitdate,
+                        cat_enddate,
+                        createdon,
+                        cat_estimatedlaunchdate,
+                        cat_gtmentryid,
+                        cat_startdate,
+                        cat_initiativetype,
+                        cat_committedlaunchdate,
+                        cat_initiativetypegroup,
+                        cat_phase,
+                        cat_requestedlaunchdate,
+                        cat_presaledate,
+                        cat_prcode,
+                        cat_pjcode,
+                        cat_billname,
+                        cat_description,
+                        cat_preorderdate,
+                        cat_actuallaunchdate,
+                        cat_legacygtmentryid,
+                        cat_subphase,
+                        cat_lobchannelhorizontal,
+                        cat_forecasteddate,
+                        cat_changerequest,
+                        cat_originalcreatedondate",
+                        '$expand': "
+                        cat_BusinessOwner($select=fullname,firstname,lastname,nickname),
+                        cat_Sponsor($select=fullname,firstname,lastname,nickname),
+                        createdby($select=fullname,firstname,lastname,nickname),
+                        cat_OriginalCreatedByUser($select=fullname,firstname,lastname,nickname),
+                        cat_ProjectTeamRoles_gtmEntry_cat_gtmEntr($select=_cat_teammember_value)",
+                        
+                        '$orderby': 
+                        If(First(colSortOrder).FilterName = "cat_businessowner" Or First(colSortOrder).FilterName = "cat_sponsor" Or First(colSortOrder).FilterName = "createdby",
+                        "cat_legacygtmentryid asc",
+                        Concatenate(First(colSortOrder).FilterName, " ", First(colSortOrder).FilterDirection)),
+                        '$top':varProjectPickerQueryQuantity
+                        }
+                        ).value);
+                Reset(gal_ProjectPicker);
+                UpdateContext({showLoader: true});
+                UpdateContext({varInitialLoadComplete: true});
+            PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =10
+            Text: ="Refresh"
+            Width: =110
+            X: =1646
+            Y: =10
+            ZIndex: =3
+
+        lbl_ProjP_FilteringOn1 As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(100, 100, 100, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =lbl_ProjP_FilteringOn1.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            Height: =46
+            HoverBorderColor: =lbl_ProjP_FilteringOn1.BorderColor
+            HoverColor: =lbl_ProjP_FilteringOn1.Color
+            HoverFill: =lbl_ProjP_FilteringOn1.Fill
+            PressedBorderColor: =lbl_ProjP_FilteringOn1.BorderColor
+            PressedColor: =lbl_ProjP_FilteringOn1.Color
+            PressedFill: =lbl_ProjP_FilteringOn1.Fill
+            Size: =13
+            Text: |-
+                =If(
+                    com_ListFilter_IntakeDate.MinDate = "" And com_ListFilter_IntakeDate.MaxDate = "",
+                        "",
+                        "Intake Date   "
+                )&
+                If(
+                    IsBlank(
+                        com_ListFilter_InitiativeType.QueryString
+                    ),
+                    "",
+                    "Type   "
+                )&
+                If(
+                    IsBlank(
+                        com_ListFilter_Phase.QueryString
+                    ),
+                    "",
+                    "Phase   "
+                )&
+                If(
+                    IsBlank(
+                        com_ListFilter_Subphase.QueryString
+                    ),
+                    "",
+                    "SubPhase   "
+                )&
+                If(
+                    IsBlank(
+                        com_ListFilter_LOB.QueryString
+                    ),
+                    "",
+                    "LOB   "
+                )&
+                If(
+                    com_ListFilter_ForecastDate.MinDate = "" And com_ListFilter_ForecastDate.MaxDate = "",
+                        "",
+                        "Forecast Date   "
+                )&
+                If(
+                    com_ListFilter_EndDate.MinDate = "" And com_ListFilter_EndDate.MaxDate = "",
+                        "",
+                        "End Date   "
+                )
+            Width: =935
+            X: =lbl_ProjP_FilteringOn.X + lbl_ProjP_FilteringOn.Width
+            ZIndex: =5
+
+        lbl_ProjP_FilteringOn As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisplayMode: =DisplayMode.View
+            FocusedBorderColor: =lbl_ProjP_FilteringOn.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            FontWeight: =Semibold
+            Height: =46
+            HoverBorderColor: =lbl_ProjP_FilteringOn.BorderColor
+            HoverColor: =lbl_ProjP_FilteringOn.Color
+            HoverFill: =lbl_ProjP_FilteringOn.Fill
+            PressedBorderColor: =lbl_ProjP_FilteringOn.BorderColor
+            PressedColor: =lbl_ProjP_FilteringOn.Color
+            PressedFill: =lbl_ProjP_FilteringOn.Fill
+            Size: =13
+            Text: |-
+                ="Filter:"
+            Width: =60
+            X: =lbl_ProjP_SortingOn1.X + lbl_ProjP_SortingOn1.Width + 10
+            ZIndex: =6
+
+        lbl_ProjP_SortingOn1 As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(100, 100, 100, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =lbl_ProjP_SortingOn1.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            Height: =46
+            HoverBorderColor: =lbl_ProjP_SortingOn1.BorderColor
+            HoverColor: =lbl_ProjP_SortingOn1.Color
+            HoverFill: =lbl_ProjP_SortingOn1.Fill
+            PressedBorderColor: =lbl_ProjP_SortingOn1.BorderColor
+            PressedColor: =lbl_ProjP_SortingOn1.Color
+            PressedFill: =lbl_ProjP_SortingOn1.Fill
+            Size: =13
+            Text: |-
+                =If(
+                    IsEmpty(colSortOrder),
+                    "Intake Date, Ascending",
+                    Switch(
+                        First(colSortOrder).FilterName,
+                        "cat_initiativesubmitdate", "Intake Date",
+                        "cat_initiativename", "Initiative Name",
+                        "cat_initiativetype", "Type",
+                        "cat_phase", "Phase",
+                        "cat_substage", "Subphase",
+                        "cat_businessowner", "Business Owner",
+                        "cat_lobchannelhorizontal", "LOB",
+                        "cat_forecasteddate", "Launch Date",
+                        "cat_enddate", "End Date",
+                        "cat_sponsor", "Sponsor VP",
+                        "createdby", "Submitted By",
+                        "cat_prcode", "Clarity PR"
+                    )&", "&
+                    If(
+                        IsBlank(colSortOrder) Or First(colSortOrder).FilterDirection = "asc",
+                        "Ascending",
+                        "Descending"
+                    )
+                )
+            Width: =300
+            X: =lbl_ProjP_SortingOn.X + lbl_ProjP_SortingOn.Width + 10
+            ZIndex: =7
+
+        lbl_ProjP_SortingOn As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisplayMode: =DisplayMode.View
+            FocusedBorderColor: =lbl_ProjP_SortingOn.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            FontWeight: =Semibold
+            Height: =46
+            HoverBorderColor: =lbl_ProjP_SortingOn.BorderColor
+            HoverColor: =lbl_ProjP_SortingOn.Color
+            HoverFill: =lbl_ProjP_SortingOn.Fill
+            PressedBorderColor: =lbl_ProjP_SortingOn.BorderColor
+            PressedColor: =lbl_ProjP_SortingOn.Color
+            PressedFill: =lbl_ProjP_SortingOn.Fill
+            Size: =13
+            Text: |-
+                ="Sort:"
+            Width: =50
+            X: =40
+            ZIndex: =8
+
+    com_LoadingSpinner_ProjectPicker As com_LoadingSpinner:
+        Height: =gal_ProjectPicker.Height
+        SpinnerText: =varLoadingDataMessage
+        Visible: =!showLoader And varInitialLoadComplete
+        Width: =gal_ProjectPicker.Width
+        X: =gal_ProjectPicker.X
+        Y: =gal_ProjectPicker.Y
+        ZIndex: =19
+
+    btn_LoadMoreInitiatives As button:
+        BorderColor: =DarkGrey
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =1
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        DisabledFill: =RGBA(244, 244, 244, 1)
+        Fill: =DarkGray
+        FocusedBorderColor: =btn_LoadMoreInitiatives.BorderColor
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =35
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverColor: =RGBA(255, 255, 255, 1)
+        HoverFill: =ColorFade(DarkGray, -20%)
+        OnSelect: |-
+            =UpdateContext({varProjectPickerQueryQuantity: varProjectPickerQueryQuantity + 100});Select(btn_ProjP_RefreshData)
+        PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+        PressedColor: =RGBA(255, 255, 255, 1)
+        PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =15
+        Text: ="Load More Initiatives"
+        Visible: =gal_ProjectPicker.VisibleIndex = varProjectPickerQueryQuantity - 12
+        Width: =335
+        X: =App.Width / 2 - btn_LoadMoreInitiatives.Width / 2
+        Y: =1009
+        ZIndex: =23
+
+    lbl_UserSecurityRole As label:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Color: =RGBA(230, 230, 230, 1)
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        FocusedBorderColor: =lbl_UserSecurityRole.BorderColor
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        Height: =30
+        HoverBorderColor: =lbl_UserSecurityRole.BorderColor
+        HoverColor: =lbl_UserSecurityRole.Color
+        HoverFill: =lbl_UserSecurityRole.Fill
+        PressedBorderColor: =lbl_UserSecurityRole.BorderColor
+        PressedColor: =lbl_UserSecurityRole.Color
+        PressedFill: =lbl_UserSecurityRole.Fill
+        Size: =13
+        Text: =If(varCurrentUserSecurityRole = "Other", "", varCurrentUserSecurityRole)
+        X: =46
+        Y: =1050
+        ZIndex: =27
+
+    btn_ShowRedirectLoader As button:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        DisabledFill: =RGBA(244, 244, 244, 1)
+        Fill: =RGBA(105, 121, 126, 1)
+        FocusedBorderColor: =btn_ShowRedirectLoader.BorderColor
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =35
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverColor: =RGBA(255, 255, 255, 1)
+        HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+        OnSelect: |-
+            =UpdateContext({varShowRedirectLoader: !varShowRedirectLoader})
+        PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+        PressedColor: =RGBA(255, 255, 255, 1)
+        PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =15
+        Text: ="Toggle Redirect Loader Vis"
+        Visible: =varDevMode
+        Width: =284
+        X: =236
+        Y: =1044
+        ZIndex: =29
+
+    Gallery4 As gallery.galleryHorizontal:
+        BorderColor: =RGBA(166, 166, 166, 1)
+        Height: =46
+        Items: |-
+            =Table({ID: 1, Label: "Intake Date", Sort: false, Filter: true, FilterName: "cat_initiativesubmitdate", Width: 120, X: 0, LastItemX: 0},
+            {ID: 2, Label: "Initiative Name", Sort: true, Filter: false, FilterName: "cat_initiativename", Width: 370, X: 120, LastItemX: (120 - Self.TemplateWidth)},
+            {ID: 3, Label: "Type", Sort: false, Filter: true, FilterName: "cat_initiativetype", Width: 136, X: 276, LastItemX: (490 - Self.TemplateWidth*2)},
+            {ID: 4, Label: "Phase", Sort: false, Filter: true, FilterName: "cat_phase", Width: 128, X: 276, LastItemX: (626 - Self.TemplateWidth*3)},
+            {ID: 5, Label: "Subphase", Sort: false, Filter: true, FilterName: "cat_subphase", Width: 128, X: 276, LastItemX: (754 - Self.TemplateWidth*4)},
+            {ID: 6, Label: "Fcst Date", Sort: false, Filter: false, FilterName: "cat_forecastdate", Width: 102, X: 276, LastItemX: (882 - Self.TemplateWidth*5)},
+            {ID: 7, Label: "End Date", Sort: false, Filter: true, FilterName: "cat_enddate", Width: 104, X: 276, LastItemX: (984 - Self.TemplateWidth*6)},
+            {ID: 8, Label: "LOB", Sort: false, Filter: true, FilterName: "cat_lobchannelhorizontal", Width: 190, X: 276, LastItemX: (1088 - Self.TemplateWidth*7)},
+            {ID: 9, Label: "Busines Owner", Sort: true, Filter: false, FilterName: "cat_businessowner", Width: 160, X: 276, LastItemX: (1278 - Self.TemplateWidth*8)},
+            {ID: 10, Label: "Sponsor VP", Sort: true, Filter: false, FilterName: "cat_sponsor", Width: 160, X: 276, LastItemX: (1438 - Self.TemplateWidth*9)},
+            {ID: 11, Label: "Submitted By", Sort: true, Filter: false, FilterName: "cat_originalcreatedbyuser", Width: 160, X: 276, LastItemX: (1598 - Self.TemplateWidth*10)},
+            {ID: 12, Label: "Clarity PR#", Sort: true, Filter: false, FilterName: "cat_prnumber", Width: 120, X: 276, LastItemX: (1758 - Self.TemplateWidth*11)}
+            )
+        ShowScrollbar: =false
+        TemplatePadding: =1
+        TemplateSize: =If(Self.Layout = Layout.Horizontal, Min(320, Self.Width - 60), Min(320, Self.Height - 60))
+        Width: =1884
+        X: =18
+        Y: =100
+        ZIndex: =30
+
+        Label20 As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            Color: =If(Find(ThisItem.FilterName, Concatenate(First(colSortOrder).FilterName, com_ListFilter_IntakeDate.MinDate, com_ListFilter_IntakeDate.MaxDate, com_ListFilter_EndDate.MinDate, com_ListFilter_EndDate.MaxDate, com_ListFilter_ForecastDate.MaxDate, com_ListFilter_ForecastDate.MinDate, com_ListFilter_Phase.QueryString, com_ListFilter_LOB.QueryString, com_ListFilter_InitiativeType.QueryString, com_ListFilter_Subphase.QueryString)) >0, Magenta, Black)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            Fill: =LightGray
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =Parent.TemplateHeight
+            OnSelect: =Select(Parent)
+            PaddingLeft: =10
+            Size: =10
+            Text: =ThisItem.Label
+            Width: =ThisItem.Width
+            X: =ThisItem.LastItemX
+            ZIndex: =1
+
+        ico_ProjP_Filter_IntakeDt_1 As icon.Filter:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            Color: |-
+                =If(Find(ThisItem.FilterName, Concatenate(First(colSortOrder).FilterName, com_ListFilter_IntakeDate.MinDate, com_ListFilter_IntakeDate.MaxDate, com_ListFilter_EndDate.MinDate, com_ListFilter_EndDate.MaxDate, com_ListFilter_ForecastDate.MaxDate, com_ListFilter_ForecastDate.MinDate, com_ListFilter_Phase.QueryString, com_ListFilter_LOB.QueryString, com_ListFilter_InitiativeType.QueryString, com_ListFilter_Subphase.QueryString)) >0, RGBA(226, 0, 116, 1), RGBA(166, 166, 166, 1)
+                )
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(220, 220, 220, 1)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            FocusedBorderColor: =ico_ProjP_Filter_IntakeDt_1.BorderColor
+            FocusedBorderThickness: =4
+            Height: =Parent.TemplateHeight
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            Icon: =Icon.Filter
+            OnSelect: |
+                =UpdateContext({
+                    varProjP_Filter:
+                    If(
+                        varProjP_Filter=ThisItem.FilterName,
+                        Blank(),
+                        ThisItem.FilterName
+                    )
+                });
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Visible: =ThisItem.Filter
+            Width: =20
+            X: =ThisItem.LastItemX + ThisItem.Width - Self.Width - 10
+            ZIndex: =2
+
+        icon_SortDescInitiativeNm_pp_1 As icon.ArrowUp:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            Color: |-
+                =If(
+                        First(colSortOrder).FilterName=ThisItem.FilterName And
+                        First(colSortOrder).FilterDirection="desc",
+                        RGBA(226, 0, 116, 1),
+                        RGBA(166, 166, 166, 1)
+                
+                    )
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(220, 220, 220, 1)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            FocusedBorderColor: =icon_SortDescInitiativeNm_pp_1.BorderColor
+            FocusedBorderThickness: =0
+            Height: =Parent.TemplateHeight
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            Icon: =Icon.ArrowUp
+            OnSelect: |-
+                =ClearCollect(colSortOrder, {FilterName: ThisItem.FilterName, FilterDirection: "desc"});
+                Select(btn_BuildAPIQueryString)
+            PaddingRight: =0.00
+            PaddingTop: =0.00
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Visible: =ThisItem.Sort
+            Width: =18
+            X: =ThisItem.LastItemX + ThisItem.Width - Self.Width - 10
+            ZIndex: =3
+
+        icon_SortAscInitiativeNm_pp_1 As icon.ArrowDown:
+            BorderColor: =RGBA(166, 166, 166, 1)
+            Color: |-
+                =If(
+                        First(colSortOrder).FilterName=ThisItem.FilterName And
+                        First(colSortOrder).FilterDirection="asc",
+                        RGBA(226, 0, 116, 1),
+                        RGBA(166, 166, 166, 1)
+                
+                    )
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(220, 220, 220, 1)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            FocusedBorderColor: =icon_SortAscInitiativeNm_pp_1.BorderColor
+            FocusedBorderThickness: =0
+            Height: =Parent.TemplateHeight
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            OnSelect: |-
+                =ClearCollect(colSortOrder, {FilterName: ThisItem.FilterName, FilterDirection: "asc"});
+                Select(btn_BuildAPIQueryString)
+            PaddingRight: =0.00
+            PaddingTop: =0.00
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Visible: =ThisItem.Sort
+            Width: =18
+            X: =ThisItem.LastItemX + ThisItem.Width - Self.Width - 10 - 15
+            ZIndex: =4
+
+    Button2 As button:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        DisabledFill: =RGBA(244, 244, 244, 1)
+        Fill: =RGBA(105, 121, 126, 1)
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverColor: =RGBA(255, 255, 255, 1)
+        HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+        OnSelect: =Set(varCurrentUserSecurityRole, "")
+        PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+        PressedColor: =RGBA(255, 255, 255, 1)
+        PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =15
+        Text: ="Set GTM Role"
+        Visible: =varDevMode
+        X: =1134
+        Y: =53
+        ZIndex: =31
+
+    img_ExpandGallerySize As image:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledFill: =RGBA(0, 0, 0, 0)
+        FocusedBorderThickness: =4
+        Height: =img_ShrinkGallerySize.Height
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverFill: =RGBA(0, 0, 0, 0)
+        Image: =LogoMakr_15jaO5
+        OnSelect: |-
+            =UpdateContext({varGalleryCompactView: false})
+        PressedBorderColor: =RGBA(0, 0, 0, 0)
+        PressedFill: =RGBA(0, 0, 0, 0)
+        Tooltip: ="Expand Gallery View"
+        Visible: =varGalleryCompactView
+        Width: =img_ShrinkGallerySize.Width
+        X: =img_ShrinkGallerySize.X
+        Y: =img_ShrinkGallerySize.Y
+        ZIndex: =32
+
+    img_ShrinkGallerySize As image:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledFill: =RGBA(0, 0, 0, 0)
+        FocusedBorderThickness: =4
+        Height: =30
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        HoverFill: =RGBA(0, 0, 0, 0)
+        Image: =LogoMakr_8U5Vd5
+        OnSelect: |-
+            =UpdateContext({varGalleryCompactView: true})
+        PressedBorderColor: =RGBA(0, 0, 0, 0)
+        PressedFill: =RGBA(0, 0, 0, 0)
+        Tooltip: ="Condense Gallery View"
+        Visible: =!varGalleryCompactView
+        Width: =Self.Height
+        X: =1550
+        Y: =60
+        ZIndex: =33
+
+    grp_ListViewFilters As group:
+        Height: =5
+        Width: =5
+        X: =60
+        Y: =60
+        ZIndex: =75
+
+        icn_ListFilterBackground As rectangle:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            DisabledFill: =RGBA(166, 166, 166, 1)
+            Fill: =RGBA(255, 255, 255, .8)
+            FocusedBorderColor: =icn_ListFilterBackground.BorderColor
+            FocusedBorderThickness: =4
+            Height: =954
+            HoverFill: =RGBA(105, 121, 126, 1)
+            OnSelect: |-
+                =Select(btn_BuildAPIQueryString);UpdateContext({varProjP_Filter: Blank()})
+            PressedFill: =RGBA(105, 121, 126, 1)
+            Visible: =varProjP_Filter <> Blank()
+            Width: =1920
+            Y: =50
+            ZIndex: =11
+
+        com_ListFilter_Phase As com_ListFilter:
+            ComponentSpecificOptionSetCollection: =colPhaseOptionSet
+            Height: |-
+                =//If(com_ListFilter.DatePicker, 275, Coalesce(com_ListFilter.ComponentHeight, CountRows(LookUp(colOptionsSets, LogicalName = com_ListFilter.OptionSetName).OptionSet.Options)  * 40 + 155) + 30)
+                If(com_ListFilter_Phase.DatePicker, 275, Coalesce(com_ListFilter_Phase.ComponentHeight, CountRows(com_ListFilter_Phase.ComponentSpecificOptionSetCollection)  * 40 + 155) + 32)
+            MaxDate: |-
+                =//If(!IsBlank(DtP_IntakeDt_To_1.SelectedDate), Concatenate(" and ", com_ListFilter.OptionSetName, " lt ", Text(DateAdd(DtP_IntakeDt_To_1.SelectedDate, -8, Hours), "[$-en-US]yyyy-mm-ddThh:mm:ssZ")), "")
+                If(!IsBlank(DtP_IntakeDt_To_1.SelectedDate), Concatenate(" and ", com_ListFilter_Phase.OptionSetName, " le ", Text(DateAdd(DtP_IntakeDt_To_1.SelectedDate, 8, Hours), "[$-en-US]yyyy-mm-ddThh:mm:ssZ")), "")
+            MinDate: |-
+                =//If(!IsBlank(DtP_IntakeDt_From_1.SelectedDate), Concatenate(" and ", com_ListFilter.OptionSetName, " gt ", Text(DateAdd(DtP_IntakeDt_From_1.SelectedDate, -8, Hours), "[$-en-US]yyyy-mm-ddThh:mm:ssZ")), "")
+                If(!IsBlank(DtP_IntakeDt_From_1.SelectedDate), Concatenate(" and ", com_ListFilter_Phase.OptionSetName, " ge ", Text(DateAdd(DtP_IntakeDt_From_1.SelectedDate, 8, Hours), "[$-en-US]yyyy-mm-ddThh:mm:ssZ")), "")
+            OptionSetValues: =colPhaseOptionSet
+            QueryString: |-
+                =If(!IsEmpty(Filter(gal_PP_Phase_Filter_1.AllItems, chk_ProjP_Filter_Stage_1.Value = true)),
+                    Concatenate(" and (",Concat(Filter(gal_PP_Phase_Filter_1.AllItems, chk_ProjP_Filter_Stage_1.Value = true), 
+                    Concatenate(com_ListFilter_Phase.OptionSetName, " eq ", Text(Value)), " or "), ")"))
+            Visible: =varProjP_Filter = Self.OptionSetName
+            X: =667
+            Y: =149
+            ZIndex: =12
+
+        com_ListFilter_InitiativeType As com_ListFilter:
+            ComponentSpecificOptionSetCollection: =colTypeOptionSet
+            Height: |-
+                =//If(com_ListFilter.DatePicker, 275, Coalesce(com_ListFilter.ComponentHeight, CountRows(LookUp(colOptionsSets, LogicalName = com_ListFilter.OptionSetName).OptionSet.Options)  * 40 + 155) + 30)
+                If(com_ListFilter_InitiativeType.DatePicker, 275, Coalesce(com_ListFilter_InitiativeType.ComponentHeight, CountRows(com_ListFilter_InitiativeType.ComponentSpecificOptionSetCollection)  * 40 + 155) + 32)
+            MaxDate: |-
+                =//If(!IsBlank(DtP_IntakeDt_To_1.SelectedDate), Concatenate(" and ", com_ListFilter.OptionSetName, " lt ", Text(DateAdd(DtP_IntakeDt_To_1.SelectedDate, -8, Hours), "[$-en-US]yyyy-mm-ddThh:mm:ssZ")), "")
+                If(!IsBlank(DtP_IntakeDt_To_1.SelectedDate), Concatenate(" and ", com_ListFilter_InitiativeType.OptionSetName, " le ", Text(DateAdd(DtP_IntakeDt_To_1.SelectedDate, 8, Hours), "[$-en-US]yyyy-mm-ddThh:mm:ssZ")), "")
+            MinDate: |-
+                =//If(!IsBlank(DtP_IntakeDt_From_1.SelectedDate), Concatenate(" and ", com_ListFilter.OptionSetName, " gt ", Text(DateAdd(DtP_IntakeDt_From_1.SelectedDate, -8, Hours), "[$-en-US]yyyy-mm-ddThh:mm:ssZ")), "")
+                If(!IsBlank(DtP_IntakeDt_From_1.SelectedDate), Concatenate(" and ", com_ListFilter_InitiativeType.OptionSetName, " ge ", Text(DateAdd(DtP_IntakeDt_From_1.SelectedDate, 8, Hours), "[$-en-US]yyyy-mm-ddThh:mm:ssZ")), "")
+            OptionSetName: ="cat_initiativetype"
+            OptionSetValues: =colTypeOptionSet
+            QueryString: |-
+                =If(!IsEmpty(Filter(gal_PP_Phase_Filter_1.AllItems, chk_ProjP_Filter_Stage_1.Value = true)),
+                    Concatenate(" and (",Concat(Filter(gal_PP_Phase_Filter_1.AllItems, chk_ProjP_Filter_Stage_1.Value = true), 
+                    Concatenate(com_ListFilter_InitiativeType.OptionSetName, " eq ", Text(Value)), " or "), ")"))
+            Visible: =varProjP_Filter = Self.OptionSetName
+            X: =531
+            Y: =149
+            ZIndex: =13
+
+        com_ListFilter_Subphase As com_ListFilter:
+            ComponentSpecificOptionSetCollection: =colSubPhaseOptionSet
+            Height: |-
+                =//If(com_ListFilter.DatePicker, 275, Coalesce(com_ListFilter.ComponentHeight, CountRows(LookUp(colOptionsSets, LogicalName = com_ListFilter.OptionSetName).OptionSet.Options)  * 40 + 155) + 30)
+                If(com_ListFilter_Subphase.DatePicker, 275, Coalesce(com_ListFilter_Subphase.ComponentHeight, CountRows(com_ListFilter_Subphase.ComponentSpecificOptionSetCollection)  * 42 + 155) + 32)
+            MaxDate: |-
+                =//If(!IsBlank(DtP_IntakeDt_To_1.SelectedDate), Concatenate(" and ", com_ListFilter.OptionSetName, " lt ", Text(DateAdd(DtP_IntakeDt_To_1.SelectedDate, -8, Hours), "[$-en-US]yyyy-mm-ddThh:mm:ssZ")), "")
+                If(!IsBlank(DtP_IntakeDt_To_1.SelectedDate), Concatenate(" and ", com_ListFilter_Subphase.OptionSetName, " le ", Text(DateAdd(DtP_IntakeDt_To_1.SelectedDate, 8, Hours), "[$-en-US]yyyy-mm-ddThh:mm:ssZ")), "")
+            MinDate: |-
+                =//If(!IsBlank(DtP_IntakeDt_From_1.SelectedDate), Concatenate(" and ", com_ListFilter.OptionSetName, " gt ", Text(DateAdd(DtP_IntakeDt_From_1.SelectedDate, -8, Hours), "[$-en-US]yyyy-mm-ddThh:mm:ssZ")), "")
+                If(!IsBlank(DtP_IntakeDt_From_1.SelectedDate), Concatenate(" and ", com_ListFilter_Subphase.OptionSetName, " ge ", Text(DateAdd(DtP_IntakeDt_From_1.SelectedDate, 8, Hours), "[$-en-US]yyyy-mm-ddThh:mm:ssZ")), "")
+            OptionSetName: ="cat_subphase"
+            OptionSetValues: =colSubPhaseOptionSet
+            QueryString: |-
+                =If(!IsEmpty(Filter(gal_PP_Phase_Filter_1.AllItems, chk_ProjP_Filter_Stage_1.Value = true)),
+                    Concatenate(" and (",Concat(Filter(gal_PP_Phase_Filter_1.AllItems, chk_ProjP_Filter_Stage_1.Value = true), 
+                    Concatenate(com_ListFilter_Subphase.OptionSetName, " eq ", Text(Value)), " or "), ")"))
+            Visible: =varProjP_Filter = Self.OptionSetName
+            X: =803
+            Y: =149
+            ZIndex: =14
+
+        com_ListFilter_LOB As com_ListFilter:
+            ComponentHeight: =700
+            ComponentSpecificOptionSetCollection: =colLOBOptionSet
+            Height: |-
+                =//If(com_ListFilter.DatePicker, 275, Coalesce(com_ListFilter.ComponentHeight, CountRows(LookUp(colOptionsSets, LogicalName = com_ListFilter.OptionSetName).OptionSet.Options)  * 40 + 155) + 30)
+                If(com_ListFilter_LOB.DatePicker, 275, Coalesce(com_ListFilter_LOB.ComponentHeight, CountRows(com_ListFilter_LOB.ComponentSpecificOptionSetCollection)  * 42 + 155) + 32)
+            MaxDate: |-
+                =//If(!IsBlank(DtP_IntakeDt_To_1.SelectedDate), Concatenate(" and ", com_ListFilter.OptionSetName, " lt ", Text(DateAdd(DtP_IntakeDt_To_1.SelectedDate, -8, Hours), "[$-en-US]yyyy-mm-ddThh:mm:ssZ")), "")
+                If(!IsBlank(DtP_IntakeDt_To_1.SelectedDate), Concatenate(" and ", com_ListFilter_LOB.OptionSetName, " le ", Text(DateAdd(DtP_IntakeDt_To_1.SelectedDate, 8, Hours), "[$-en-US]yyyy-mm-ddThh:mm:ssZ")), "")
+            MinDate: |-
+                =//If(!IsBlank(DtP_IntakeDt_From_1.SelectedDate), Concatenate(" and ", com_ListFilter.OptionSetName, " gt ", Text(DateAdd(DtP_IntakeDt_From_1.SelectedDate, -8, Hours), "[$-en-US]yyyy-mm-ddThh:mm:ssZ")), "")
+                If(!IsBlank(DtP_IntakeDt_From_1.SelectedDate), Concatenate(" and ", com_ListFilter_LOB.OptionSetName, " ge ", Text(DateAdd(DtP_IntakeDt_From_1.SelectedDate, 8, Hours), "[$-en-US]yyyy-mm-ddThh:mm:ssZ")), "")
+            OptionSetName: ="cat_lobchannelhorizontal"
+            OptionSetValues: =colLOBOptionSet
+            QueryString: |-
+                =If(!IsEmpty(Filter(gal_PP_Phase_Filter_1.AllItems, chk_ProjP_Filter_Stage_1.Value = true)),
+                    Concatenate(" and (",Concat(Filter(gal_PP_Phase_Filter_1.AllItems, chk_ProjP_Filter_Stage_1.Value = true), 
+                    Concatenate(com_ListFilter_LOB.OptionSetName, " eq ", Text(Value)), " or "), ")"))
+            Visible: =varProjP_Filter = Self.OptionSetName
+            Width: =320
+            X: =1160
+            Y: =149
+            ZIndex: =15
+
+        com_ListFilter_IntakeDate As com_ListFilter:
+            ComponentHeight: =700
+            DatePicker: =true
+            Height: =275
+            MaxDate: |-
+                =//If(!IsBlank(DtP_IntakeDt_To_1.SelectedDate), Concatenate(" and ", com_ListFilter.OptionSetName, " lt ", Text(DateAdd(DtP_IntakeDt_To_1.SelectedDate, -8, Hours), "[$-en-US]yyyy-mm-ddThh:mm:ssZ")), "")
+                If(!IsBlank(DtP_IntakeDt_To_1.SelectedDate), Concatenate(" and ", com_ListFilter_IntakeDate.OptionSetName, " le ", Text(DateAdd(DtP_IntakeDt_To_1.SelectedDate, 8, Hours), "[$-en-US]yyyy-mm-ddThh:mm:ssZ")), "")
+            MinDate: |-
+                =//If(!IsBlank(DtP_IntakeDt_From_1.SelectedDate), Concatenate(" and ", com_ListFilter.OptionSetName, " gt ", Text(DateAdd(DtP_IntakeDt_From_1.SelectedDate, -8, Hours), "[$-en-US]yyyy-mm-ddThh:mm:ssZ")), "")
+                If(!IsBlank(DtP_IntakeDt_From_1.SelectedDate), Concatenate(" and ", com_ListFilter_IntakeDate.OptionSetName, " ge ", Text(DateAdd(DtP_IntakeDt_From_1.SelectedDate, 8, Hours), "[$-en-US]yyyy-mm-ddThh:mm:ssZ")), "")
+            OptionSetName: ="cat_initiativesubmitdate"
+            QueryString: |-
+                =If(!IsEmpty(Filter(gal_PP_Phase_Filter_1.AllItems, chk_ProjP_Filter_Stage_1.Value = true)),
+                    Concatenate(" and (",Concat(Filter(gal_PP_Phase_Filter_1.AllItems, chk_ProjP_Filter_Stage_1.Value = true), 
+                    Concatenate(com_ListFilter_IntakeDate.OptionSetName, " eq ", Text(Value)), " or "), ")"))
+            Visible: =varProjP_Filter = Self.OptionSetName
+            X: =21
+            Y: =149
+            ZIndex: =16
+
+        com_ListFilter_ForecastDate As com_ListFilter:
+            ComponentHeight: =700
+            DatePicker: =true
+            Height: =275
+            MaxDate: |-
+                =//If(!IsBlank(DtP_IntakeDt_To_1.SelectedDate), Concatenate(" and ", com_ListFilter.OptionSetName, " lt ", Text(DateAdd(DtP_IntakeDt_To_1.SelectedDate, -8, Hours), "[$-en-US]yyyy-mm-ddThh:mm:ssZ")), "")
+                If(!IsBlank(DtP_IntakeDt_To_1.SelectedDate), Concatenate(" and ", com_ListFilter_ForecastDate.OptionSetName, " le ", Text(DateAdd(DtP_IntakeDt_To_1.SelectedDate, 8, Hours), "[$-en-US]yyyy-mm-ddThh:mm:ssZ")), "")
+            MinDate: |-
+                =//If(!IsBlank(DtP_IntakeDt_From_1.SelectedDate), Concatenate(" and ", com_ListFilter.OptionSetName, " gt ", Text(DateAdd(DtP_IntakeDt_From_1.SelectedDate, -8, Hours), "[$-en-US]yyyy-mm-ddThh:mm:ssZ")), "")
+                If(!IsBlank(DtP_IntakeDt_From_1.SelectedDate), Concatenate(" and ", com_ListFilter_ForecastDate.OptionSetName, " ge ", Text(DateAdd(DtP_IntakeDt_From_1.SelectedDate, 8, Hours), "[$-en-US]yyyy-mm-ddThh:mm:ssZ")), "")
+            OptionSetName: ="cat_forecasteddate"
+            QueryString: |-
+                =If(!IsEmpty(Filter(gal_PP_Phase_Filter_1.AllItems, chk_ProjP_Filter_Stage_1.Value = true)),
+                    Concatenate(" and (",Concat(Filter(gal_PP_Phase_Filter_1.AllItems, chk_ProjP_Filter_Stage_1.Value = true), 
+                    Concatenate(com_ListFilter_ForecastDate.OptionSetName, " eq ", Text(Value)), " or "), ")"))
+            Visible: =varProjP_Filter = Self.OptionSetName
+            X: =923
+            Y: =149
+            ZIndex: =17
+
+        com_ListFilter_EndDate As com_ListFilter:
+            ComponentHeight: =700
+            DatePicker: =true
+            Height: =275
+            MaxDate: |-
+                =//If(!IsBlank(DtP_IntakeDt_To_1.SelectedDate), Concatenate(" and ", com_ListFilter.OptionSetName, " lt ", Text(DateAdd(DtP_IntakeDt_To_1.SelectedDate, -8, Hours), "[$-en-US]yyyy-mm-ddThh:mm:ssZ")), "")
+                If(!IsBlank(DtP_IntakeDt_To_1.SelectedDate), Concatenate(" and ", com_ListFilter_EndDate.OptionSetName, " le ", Text(DateAdd(DtP_IntakeDt_To_1.SelectedDate, 8, Hours), "[$-en-US]yyyy-mm-ddThh:mm:ssZ")), "")
+            MinDate: |-
+                =//If(!IsBlank(DtP_IntakeDt_From_1.SelectedDate), Concatenate(" and ", com_ListFilter.OptionSetName, " gt ", Text(DateAdd(DtP_IntakeDt_From_1.SelectedDate, -8, Hours), "[$-en-US]yyyy-mm-ddThh:mm:ssZ")), "")
+                If(!IsBlank(DtP_IntakeDt_From_1.SelectedDate), Concatenate(" and ", com_ListFilter_EndDate.OptionSetName, " ge ", Text(DateAdd(DtP_IntakeDt_From_1.SelectedDate, 8, Hours), "[$-en-US]yyyy-mm-ddThh:mm:ssZ")), "")
+            OptionSetName: ="cat_enddate"
+            QueryString: |-
+                =If(!IsEmpty(Filter(gal_PP_Phase_Filter_1.AllItems, chk_ProjP_Filter_Stage_1.Value = true)),
+                    Concatenate(" and (",Concat(Filter(gal_PP_Phase_Filter_1.AllItems, chk_ProjP_Filter_Stage_1.Value = true), 
+                    Concatenate(com_ListFilter_EndDate.OptionSetName, " eq ", Text(Value)), " or "), ")"))
+            Visible: =varProjP_Filter = Self.OptionSetName
+            X: =1045
+            Y: =149
+            ZIndex: =18
+
+    grp_DevModeControls As group:
+        Height: =5
+        Width: =5
+        X: =60
+        Y: =60
+        ZIndex: =75
+
+        Timer1 As timer:
+            BorderColor: =RGBA(105, 121, 126, 1)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =0
+            Color: =RGBA(230, 230, 230, 1)
+            DisabledBorderColor: =RGBA(244, 244, 244, 1)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            Duration: =1000
+            Fill: =RGBA(0, 0, 0, 0)
+            FocusedBorderColor: =Timer1.BorderColor
+            Font: =Font.'Segoe UI'
+            HoverBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+            HoverColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =
+            OnTimerEnd: |-
+                =If(!IsBlank(varCurrentUserRecord), 
+                Select(btn_ProjP_ClearAllFilters);
+                UpdateContext({varStartLoadTimer: false});
+                UpdateContext({varCancelLoadTimer: false})
+                )
+            PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            Reset: =varCancelLoadTimer
+            Start: =varStartLoadTimer
+            Text: |-
+                =Text(Time(0, 0, Timer1.Value/1000), "hh:mm:ss")
+            Visible: =varDevMode
+            X: =1435
+            ZIndex: =20
+
+        Button3 As button:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            Fill: =RGBA(105, 121, 126, 1)
+            FocusedBorderColor: =Button3.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+            OnSelect: |-
+                =Concurrent(
+                    ClearCollect(colPhaseOptionSet, GetSingleOptionSet.Run("cat_phase").value),
+                    ClearCollect(colLOBOptionSet, GetSingleOptionSet.Run("cat_lobchannelhorizontal").value),
+                    ClearCollect(colSubPhaseOptionSet, GetSingleOptionSet.Run("cat_subphase").value),
+                    ClearCollect(colOptionSetTest, GetSingleOptionSet.Run("cat_subphase").value),
+                    ClearCollect(colTypeOptionSet, Filter(GetSingleOptionSet.Run("cat_initiativetype").value, Label <> "Please Select")),
+                    If(IsEmpty(varCurrentUserRecord), UpdateContext({varStartLoadTimer: true}), Select(btn_ProjP_RefreshData))
+                );
+                Set(varCurrentUserSecurityRole, "Administrator");
+                ClearCollect(colLeftNavGalleryItems,
+                    {Label:"Summary",LaunchLink:"",Screen:Project_Summary_Screen,InitiativeType:"Project",IsVisible:true},
+                    {Label:"Details",LaunchLink:"",Screen:Project_Details_Screen,InitiativeType:"Project",IsVisible:true},
+                    {Label:"Approvals",LaunchLink:"",Screen:Project_Approvals_Screen,InitiativeType:"Project",IsVisible:true},
+                    {Label:"Team",LaunchLink:"",Screen:Project_Team_Screen,InitiativeType:"Project",IsVisible:true},
+                    {Label:"Change Log",LaunchLink:"",Screen:Change_Log_Screen,InitiativeType:"Project",IsVisible:true},
+                    {Label:"Attachments",LaunchLink:"",Screen:Attachments_Screen,InitiativeType:"Project",IsVisible:true}
+                );
+                ClearCollect(colTopNavGalleryItems,
+                    {Label:"New Initiative",LaunchLink:"",Screen:New_Intake_Screen,IsVisible:true},
+                    {Label:"List View",LaunchLink:"",Screen:Project_Picker_Screen,IsVisible:true},
+                    {Label:"My Approvals",LaunchLink:"",Screen:My_Approvals_Screen,IsVisible:true},
+                    {Label:"Offers Steering",LaunchLink:"",Screen:Offers_Steering_Screen,IsVisible:true}
+                );
+            PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =10
+            Text: ="Enable Admin Mode"
+            Visible: =varDevMode
+            X: =1301
+            ZIndex: =21
+
+        btn_BuildAPIQueryString As button:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            Fill: =RGBA(105, 121, 126, 1)
+            FocusedBorderColor: =btn_BuildAPIQueryString.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+            OnSelect: |
+                =UpdateContext({showLoader: false});
+                
+                UpdateContext({varTextSearchValue: 
+                If(!IsBlank(txt_InitiativeSearchTextInput.Text), 
+                    
+                
+                Concatenate(" and (
+                    contains(cat_initiativename, '", txt_InitiativeSearchTextInput.Text ,"') or 
+                    contains(cat_Sponsor/nickname, '", txt_InitiativeSearchTextInput.Text ,"') or 
+                    contains(cat_BusinessOwner/nickname, '", txt_InitiativeSearchTextInput.Text ,"') or 
+                    contains(createdby/nickname, '", txt_InitiativeSearchTextInput.Text ,"') or 
+                    contains(cat_billname, '", txt_InitiativeSearchTextInput.Text ,"') or 
+                    contains(cat_prcode, '", txt_InitiativeSearchTextInput.Text ,"') or 
+                    contains(cat_pjcode, '", txt_InitiativeSearchTextInput.Text ,"') or ",
+                    If(IsNumeric(txt_InitiativeSearchTextInput.Text), Concatenate(" cat_legacygtmentryid eq ", txt_InitiativeSearchTextInput.Text, " or "), ""),
+                    "contains(cat_OriginalCreatedByUser/nickname, '", txt_InitiativeSearchTextInput.Text ,"'))"))});
+                
+                    If(!tog_ProjP_ProjectPortfolio.Value, UpdateContext({varMyInitiativesTextSearchValue: 
+                Concatenate(" and 
+                (cat_ProjectTeamRoles_gtmEntry_cat_gtmEntr/any(o:o/_cat_teammember_value eq ", varCurrentUserCDSUserID, ") or 
+                _cat_sponsor_value eq '", varCurrentUserCDSUserID ,"' or 
+                _cat_businessowner_value eq '", varCurrentUserCDSUserID ,"' or 
+                _createdby_value eq '", varCurrentUserCDSUserID ,"' or 
+                _cat_originalcreatedbyuser_value eq '", varCurrentUserCDSUserID ,"')")}), UpdateContext({varMyInitiativesTextSearchValue: ""}));
+                
+                UpdateContext({varDateSearchValue: Concatenate(com_ListFilter_IntakeDate.MinDate, com_ListFilter_IntakeDate.MaxDate, com_ListFilter_EndDate.MinDate, com_ListFilter_EndDate.MaxDate, com_ListFilter_ForecastDate.MaxDate, com_ListFilter_ForecastDate.MinDate)});
+                
+                UpdateContext({varOptionSetFilterValue: Concatenate(com_ListFilter_Phase.QueryString, com_ListFilter_LOB.QueryString, com_ListFilter_InitiativeType.QueryString, com_ListFilter_Subphase.QueryString)});
+                
+                UpdateContext({varQueryString: Concatenate("cat_phase ne 0 ", varDateSearchValue, varOptionSetFilterValue, varMyInitiativesTextSearchValue, varTextSearchValue, " and cat_changerequest ne true and cat_phase ne 809060012 and statecode eq 0 ")});
+                
+                Select(btn_ProjP_RefreshData);
+            PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =9
+            Text: ="Build Query String"
+            Visible: =varDevMode
+            X: =1430
+            Y: =1010
+            ZIndex: =22
+
+        btn_BuildAPIQueryString_1 As button:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            Fill: =RGBA(105, 121, 126, 1)
+            FocusedBorderColor: =btn_BuildAPIQueryString_1.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+            OnSelect: |
+                =UpdateContext({varQueryString: "
+                (cat_phase eq 809060005 or cat_phase eq 809060002 or cat_phase eq 809060004 or cat_phase eq 809060001 or cat_phase eq 809060009 or cat_phase eq 809060007 or cat_phase eq 809060010 or cat_phase eq 809060000 or cat_phase eq 809060006 or cat_phase eq 809060011 or cat_phase eq 809060003) 
+                
+                and 
+                
+                (
+                    contains(cat_Sponsor/nickname, 'test') or 
+                    contains(cat_OriginalCreatedByUser/nickname, 'test')
+                    contains(cat_BusinessOwner/nickname, 'test') or 
+                    contains(cat_initiativename, 'test') or 
+                    contains(cat_prcode, 'test') or 
+                    
+                ) 
+                
+                and 
+                
+                (
+                	cat_ProjectTeamRoles_gtmEntry_cat_gtmEntr/any(o:o/_cat_teammember_value eq f074d9c0-ff9b-4755-bce5-5cc50536580a) or 
+                	cat_Sponsor/systemuserid eq 'f074d9c0-ff9b-4755-bce5-5cc50536580a' or 
+                	cat_BusinessOwner/systemuserid eq 'f074d9c0-ff9b-4755-bce5-5cc50536580a' or 
+                	cat_OriginalCreatedByUser/systemuserid eq 'f074d9c0-ff9b-4755-bce5-5cc50536580a'
+                ) 
+                
+                and 
+                
+                cat_phase ne 809060012"});
+                
+                Select(btn_ProjP_RefreshData);
+            PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =15
+            Text: ="Button"
+            Visible: =varDevMode
+            X: =970
+            Y: =1015
+            ZIndex: =24
+
+        btn_BuildAPIQueryString_2 As button:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            Fill: =RGBA(105, 121, 126, 1)
+            FocusedBorderColor: =btn_BuildAPIQueryString_2.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+            OnSelect: |
+                =UpdateContext({showLoader: false});
+                
+                UpdateContext({varTextSearchValue: If(!IsBlank(txt_InitiativeSearchTextInput.Text), 
+                Concatenate(" and (
+                    contains(cat_Sponsor/nickname, '", txt_InitiativeSearchTextInput.Text ,"') or 
+                    contains(cat_BusinessOwner/nickname, '", txt_InitiativeSearchTextInput.Text ,"') or 
+                    contains(createdby/nickname, '", txt_InitiativeSearchTextInput.Text ,"') or 
+                    contains(cat_initiativename, '", txt_InitiativeSearchTextInput.Text ,"') or 
+                    contains(cat_prcode, '", txt_InitiativeSearchTextInput.Text ,"') or 
+                    contains(cat_OriginalCreatedByUser/nickname, '", txt_InitiativeSearchTextInput.Text ,"'))"))});
+                
+                    If(!tog_ProjP_ProjectPortfolio.Value, UpdateContext({varMyInitiativesTextSearchValue: 
+                Concatenate(" and 
+                (cat_ProjectTeamRoles_gtmEntry_cat_gtmEntr/any(o:o/_cat_teammember_value eq ", varCurrentUserCDSUserID, ") or 
+                cat_Sponsor/systemuserid eq '", varCurrentUserCDSUserID ,"' or 
+                cat_BusinessOwner/systemuserid eq '", varCurrentUserCDSUserID ,"' or 
+                createdby/systemuserid eq '", varCurrentUserCDSUserID ,"' or 
+                cat_OriginalCreatedByUser/systemuserid eq '", varCurrentUserCDSUserID ,"')")}), UpdateContext({varMyInitiativesTextSearchValue: ""}));
+                
+                UpdateContext({varDateSearchValue: Concatenate(com_ListFilter_IntakeDate.MinDate, com_ListFilter_IntakeDate.MaxDate, com_ListFilter_EndDate.MinDate, com_ListFilter_EndDate.MaxDate, com_ListFilter_ForecastDate.MaxDate, com_ListFilter_ForecastDate.MinDate)});
+                
+                UpdateContext({varOptionSetFilterValue: Left(
+                        Concatenate(com_ListFilter_Phase.QueryString, com_ListFilter_LOB.QueryString, com_ListFilter_InitiativeType.QueryString, com_ListFilter_Subphase.QueryString), 
+                        Len(Concatenate(com_ListFilter_Phase.QueryString, com_ListFilter_LOB.QueryString, com_ListFilter_InitiativeType.QueryString, com_ListFilter_Subphase.QueryString)) - 5)});
+                
+                UpdateContext({varQueryString: If(!IsBlank(Concatenate(varOptionSetFilterValue, If(!IsBlank(varOptionSetFilterValue), " and "),
+                        Left(varDateSearchValue, Len(varDateSearchValue) - 5), varTextSearchValue, varMyInitiativesTextSearchValue)),
+                    Concatenate(varOptionSetFilterValue, If(!IsBlank(varOptionSetFilterValue), If(!IsBlank(Left(varDateSearchValue, Len(varDateSearchValue) - 5))," and ")),
+                        Left(varDateSearchValue, Len(varDateSearchValue) - 5), varTextSearchValue, If(IsBlank(Concatenate(varOptionSetFilterValue, If(!IsBlank(varOptionSetFilterValue), " and "),
+                        Left(varDateSearchValue, Len(varDateSearchValue) - 5), varTextSearchValue)), Right(varMyInitiativesTextSearchValue, Len(varMyInitiativesTextSearchValue) - 5), varMyInitiativesTextSearchValue), " and cat_phase ne 809060012 and statecode eq 0 "), "cat_phase ne 809060008 and cat_phase ne 809060012 and statecode eq 0 ")});
+                
+                UpdateContext({varQueryString: If(IsMatch(Left(varQueryString, 5), "and", Contains), Mid(varQueryString, 7), varQueryString)});
+                
+                Select(btn_ProjP_RefreshData);
+            PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =9
+            Text: ="Old Query Code"
+            Visible: =varDevMode
+            X: =1196
+            Y: =1015
+            ZIndex: =25
+
+        Button3_1 As button:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            Fill: =RGBA(105, 121, 126, 1)
+            FocusedBorderColor: =Button3_1.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+            OnSelect: |-
+                =ClearCollect(colGTMTeamMembers, LookUp(Teams, 'Team Name' = "GTM Portfolio Team").Users);
+                ClearCollect(colAdminTeamMembers, LookUp(Teams, 'Team Name' = "ORBIT Admin Team").Users);
+                Set(varCurrentUserSecurityRole, 
+                Switch(varCurrentUserCDSUserID,
+                LookUp(colAdminTeamMembers, User = varCurrentUserCDSUserID).User, "Administrator",
+                LookUp(colGTMTeamMembers, User = varCurrentUserCDSUserID).User, "GTM",
+                ""))
+            PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =15
+            Text: ="Button"
+            Visible: =varDevMode
+            X: =1130
+            ZIndex: =26
+
+        btn_DevModeListView As button:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            Color: =RGBA(204, 204, 204, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            DisabledFill: =RGBA(244, 244, 244, 1)
+            Fill: =RGBA(255, 255, 255, 1)
+            FocusedBorderColor: =btn_DevModeListView.BorderColor
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =30
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =ColorFade(RGBA(105, 121, 126, 1), -10%)
+            OnSelect: =Set(varDevMode, !varDevMode);Set(varCurrentUserSecurityRole, "Administrator");
+            PressedBorderColor: =ColorFade(RGBA(105, 121, 126, 1), -50%)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =9
+            Text: ="DM"
+            Visible: =true//varCurrentUserSecurityRole = "Administrator" Or varCurrentUserNameFL = "Brian Hodel" Or varCurrentUserNameFL = "SVC_PRD_SingleIntake " Or varCurrentUserNameFL = "SingleIntake "  Or varCurrentUserNameFL = "Aina Lorbergs"
+            Width: =38
+            Y: =1050
+            ZIndex: =28
+
+    grp_InitiativeViewToggle As group:
+        Height: =5
+        Width: =5
+        X: =60
+        Y: =60
+        ZIndex: =75
+
+        tog_ProjP_ProjectPortfolio As toggleSwitch:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            Color: =ColorValue(LookUp(StyleGuide, Key = "Magenta").Value)
+            Default: =true
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            FalseFill: =RGBA(226, 0, 116, 1)
+            FalseHoverFill: =RGBA(33, 33, 33, 1)
+            FalseText: ="Project View"
+            FocusedBorderColor: =tog_ProjP_ProjectPortfolio.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            HandleFill: =RGBA(255, 255, 255, 1)
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            OnChange: =
+            OnCheck: =Select(btn_BuildAPIQueryString);
+            OnSelect: |-
+                =//UpdateContext({varCurrentGalleryCount: CountRows(gal_ProjectPicker.AllItems)});
+                //UpdateContext({showLoader:true});
+                //UpdateContext({varLoadingDataMessage: "Updating Initiative List"});
+                false
+                
+                /*
+                If(
+                    tog_ProjP_ProjectPortfolio.Value = false,
+                    UpdateContext({varProjectView:tog_ProjP_ProjectPortfolio.FalseText}),
+                    UpdateContext({varProjectView:tog_ProjP_ProjectPortfolio.TrueText})
+                );
+                */
+                //Select(btn_PP_UpdateFilters)
+            OnUncheck: =Select(btn_BuildAPIQueryString);
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            ShowLabel: =false
+            Size: =13
+            TextPosition: =TextPosition.Left
+            TrueFill: =RGBA(226, 0, 116, 1)
+            TrueHoverFill: =ColorFade(RGBA(105, 121, 126, 1), -30%)
+            TrueText: ="Portfolio View"
+            Visible: |-
+                =true
+                /*
+                Switch(
+                    varCurrentUserSecurityRole,
+                //    "GTM", true,
+                //    "Administrator", true,
+                //    "Dark", true,
+                //    "Non-Dark", true,
+                    "Default", false,
+                    true)
+                    */
+            Width: =54
+            X: =196
+            Y: =64
+            ZIndex: =8
+
+        lbl_MyInitiatives As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: |-
+                =Switch(
+                    tog_ProjP_ProjectPortfolio.Value,
+                    false, RGBA(226, 0, 116, 1),
+                    true, RGBA(166, 166, 166, 1)
+                
+                )
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =lbl_MyInitiatives.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            Height: =50
+            HoverBorderColor: =lbl_MyInitiatives.BorderColor
+            HoverColor: =lbl_MyInitiatives.Color
+            HoverFill: =lbl_MyInitiatives.Fill
+            PressedBorderColor: =lbl_MyInitiatives.BorderColor
+            PressedColor: =lbl_MyInitiatives.Color
+            PressedFill: =lbl_MyInitiatives.Fill
+            Size: =13
+            Text: ="My Initiatives"
+            Width: =180
+            X: =Gallery4.X
+            Y: =53
+            ZIndex: =9
+
+        lbl_AllInitiatives As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: |-
+                =Switch(
+                    tog_ProjP_ProjectPortfolio.Value,
+                    true, RGBA(226, 0, 116, 1),
+                    false, Grey
+                )
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =lbl_AllInitiatives.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            Height: =50
+            HoverBorderColor: =lbl_AllInitiatives.BorderColor
+            HoverColor: =lbl_AllInitiatives.Color
+            HoverFill: =lbl_AllInitiatives.Fill
+            PressedBorderColor: =lbl_AllInitiatives.BorderColor
+            PressedColor: =lbl_AllInitiatives.Color
+            PressedFill: =lbl_AllInitiatives.Fill
+            Size: =13
+            Text: ="All Initiatives"
+            Visible: |-
+                =true
+                
+                /*
+                Switch(
+                    varCurrentUserSecurityRole,
+                //    "GTM", true,
+                //    "Administrator", true,
+                    "Default", false,
+                    true)
+                    */
+            Width: =180
+            X: =tog_ProjP_ProjectPortfolio.X + tog_ProjP_ProjectPortfolio.Width + 20
+            Y: =53
+            ZIndex: =10
+
+    grp_RedirectLoader As group:
+        Height: =5
+        Width: =5
+        X: =60
+        Y: =60
+        ZIndex: =77
+
+        Rectangle3 As rectangle:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            DisabledFill: =Magenta
+            DisplayMode: =DisplayMode.Disabled
+            Fill: =RGBA(226, 0, 116, 1)
+            FocusedBorderColor: =Rectangle3.BorderColor
+            FocusedBorderThickness: =4
+            Height: =App.Height
+            HoverFill: =RGBA(105, 121, 126, 1)
+            PressedFill: =RGBA(105, 121, 126, 1)
+            Visible: =!showRedirectLoader And !IsBlank(NavScreenParam) Or varShowRedirectLoader
+            Width: =App.Width
+            ZIndex: =34
+
+        Image11 As image:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            FocusedBorderColor: =Image11.BorderColor
+            FocusedBorderThickness: =4
+            Height: =130
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            Image: ='TMO-White'
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Visible: =!showRedirectLoader And !IsBlank(NavScreenParam) Or varShowRedirectLoader
+            Width: =370
+            X: =App.Width / 2 - Image11.Width / 2
+            Y: =197
+            ZIndex: =35
+
+        Image12 As image:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            FocusedBorderColor: =Image12.BorderColor
+            FocusedBorderThickness: =4
+            Height: =353
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            Image: =Orbit_Lockup_White
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Visible: =!showRedirectLoader And !IsBlank(NavScreenParam) Or varShowRedirectLoader
+            Width: =800
+            X: =App.Width / 2 - Image12.Width / 2
+            Y: =270
+            ZIndex: =36
+
+        Image13 As image:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            FocusedBorderColor: =Image13.BorderColor
+            FocusedBorderThickness: =4
+            Height: =179
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            Image: =SpinnerGrey
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Visible: =!showRedirectLoader And !IsBlank(NavScreenParam) Or varShowRedirectLoader
+            Width: =349
+            X: =App.Width / 2 - Image13.Width / 2
+            Y: =638
+            ZIndex: =37
+
+        Label16 As label:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            FocusedBorderColor: =Label16.BorderColor
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =150
+            HoverBorderColor: =Label16.BorderColor
+            HoverColor: =Label16.Color
+            HoverFill: =Label16.Fill
+            PaddingTop: =20
+            PressedBorderColor: =Label16.BorderColor
+            PressedColor: =Label16.Color
+            PressedFill: =Label16.Fill
+            Size: =20
+            Text: =varRedirectLoaderText
+            VerticalAlign: =VerticalAlign.Top
+            Visible: =!showRedirectLoader And !IsBlank(NavScreenParam) Or varShowRedirectLoader
+            Width: =1920
+            Y: =842
+            ZIndex: =38
+

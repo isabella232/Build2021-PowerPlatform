@@ -1,0 +1,232 @@
+[
+  {
+    "CdsFCBContext": "{\"FileType\":true,\"ImageExternalStorage\":true}",
+    "EntitySetName": "connections",
+    "IsHidden": false,
+    "IsSampleData": false,
+    "IsWritable": true,
+    "LogicalName": "connection",
+    "MaxGetRowsCount": 2000,
+    "Name": "Connections",
+    "NativeCDSDataSourceInfoNameMapping": {
+      "_ownerid_value": "Owner",
+      "_record1id_value": "Connected From",
+      "_record2id_value": "Connected To",
+      "Connection_AsyncOperations": "System Jobs",
+      "connection_principalobjectattributeaccess": "Field Sharing",
+      "Connection_ProcessSessions": "Process Sessions",
+      "connection_related_connection": "Connections",
+      "Connection_SyncErrors": "Sync Errors",
+      "connectionid": "Connection",
+      "createdby": "Created By",
+      "createdon": "Created On",
+      "createdonbehalfby": "Created By (Delegate)",
+      "description": "Description",
+      "effectiveend": "Ending",
+      "effectivestart": "Starting",
+      "entityimage": "Entity Image",
+      "entityimageid": "Entity Image Id",
+      "exchangerate": "Exchange Rate",
+      "importsequencenumber": "Import Sequence Number",
+      "ismaster": "Is Master",
+      "modifiedby": "Modified By",
+      "modifiedon": "Modified On",
+      "modifiedonbehalfby": "Modified By (Delegate)",
+      "overriddencreatedon": "Record Created On",
+      "owningbusinessunit": "Owning Business Unit",
+      "record1objecttypecode": "Type (From)",
+      "record1roleid": "Role (From)",
+      "record2objecttypecode": "Type (To)",
+      "record2roleid": "Role (To)",
+      "relatedconnectionid": "Reciprocal Connection",
+      "statecode": "Status",
+      "statuscode": "Status Reason",
+      "transactioncurrencyid": "Currency",
+      "versionnumber": "Version Number"
+    },
+    "PreferredName": "Connections",
+    "Type": "NativeCDSDataSourceInfo"
+  },
+  {
+    "DisplayName": "Connections (Views)",
+    "Name": "_connection_views",
+    "RelatedEntityName": "Connections",
+    "TrimmedViewName": true,
+    "Type": "ViewInfo",
+    "ViewInfoNameMapping": {
+      "11ea1773-11b5-472c-9688-e6e246e9399c": "Connections Lookup View",
+      "23fb1036-e41d-4d75-8aa7-27569b5b6512": "Related Solutions",
+      "34c05a64-1fd0-402d-a5b0-597332a08368": "Connection Advanced Find View",
+      "4c0e2477-fec0-47b4-be3e-e5ffaffcb651": "Related Territories",
+      "4e3600fa-b9c8-49f4-b69a-51eba06d9bdf": "All Stakeholders",
+      "7c0e0725-ccd9-4525-9313-665fd075652f": "Active Connections",
+      "ba3387bf-382d-4376-a538-5b02467925d3": "Associated Products",
+      "c4eb2710-a6a1-4cfd-bc94-664416807432": "Active Connection Associated View",
+      "ddb43be7-f7da-4d90-845f-06552a446da0": "Related Articles",
+      "e473560e-2c13-4304-8d2b-d9b74a1334ef": "Inactive Connection Associated View",
+      "fe4bc089-8901-466c-a41b-1c1090f204d4": "All Sales Team Members"
+    }
+  },
+  {
+    "DisplayName": "Is Master (Connections)",
+    "Name": "connection_ismaster",
+    "OptionSetInfoNameMapping": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "OptionSetIsBooleanValued": true,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "ismaster",
+        "OptionSetReferenceEntityName": "Connections"
+      }
+    },
+    "OptionSetTypeKey": "BooleanType",
+    "RelatedColumnInvariantName": "ismaster",
+    "RelatedEntityName": "Connections",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Type (From) (Connections)",
+    "Name": "connection_record1objecttypecode",
+    "OptionSetInfoNameMapping": {
+      "1": "Account",
+      "10075": "Web Notification URL",
+      "10076": "Web Page",
+      "10078": "Website",
+      "10083": "Alert Subscription",
+      "10085": "Invitation",
+      "10086": "Invite Redemption",
+      "10096": "Publishing State Transition Rule",
+      "10099": "Shortcut",
+      "10136": "Activities",
+      "10153": "ORBITEmails",
+      "10155": "Run Of Show",
+      "10159": "Workback",
+      "2": "Contact",
+      "2013": "Territory",
+      "4200": "Activity",
+      "4201": "Appointment",
+      "4202": "Email",
+      "4204": "Fax",
+      "4207": "Letter",
+      "4210": "Phone Call",
+      "4212": "Task",
+      "4216": "Social Activity",
+      "4251": "Recurring Appointment",
+      "4710": "Process Session",
+      "50": "Position",
+      "8": "User",
+      "9": "Team",
+      "9400": "Channel Access Profile Rule",
+      "9600": "Goal",
+      "99": "Social Profile",
+      "9930": "Knowledge Base Record",
+      "9953": "Knowledge Article"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "record1objecttypecode",
+        "OptionSetReferenceEntityName": "Connections"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "record1objecttypecode",
+    "RelatedEntityName": "Connections",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Type (To) (Connections)",
+    "Name": "connection_record2objecttypecode",
+    "OptionSetInfoNameMapping": {
+      "1": "Account",
+      "10075": "Web Notification URL",
+      "10076": "Web Page",
+      "10078": "Website",
+      "10083": "Alert Subscription",
+      "10085": "Invitation",
+      "10086": "Invite Redemption",
+      "10096": "Publishing State Transition Rule",
+      "10099": "Shortcut",
+      "10136": "Activities",
+      "10153": "ORBITEmails",
+      "10155": "Run Of Show",
+      "10159": "Workback",
+      "2": "Contact",
+      "2013": "Territory",
+      "4200": "Activity",
+      "4201": "Appointment",
+      "4202": "Email",
+      "4204": "Fax",
+      "4207": "Letter",
+      "4210": "Phone Call",
+      "4212": "Task",
+      "4216": "Social Activity",
+      "4251": "Recurring Appointment",
+      "4710": "Process Session",
+      "50": "Position",
+      "8": "User",
+      "9": "Team",
+      "9400": "Channel Access Profile Rule",
+      "9600": "Goal",
+      "99": "Social Profile",
+      "9930": "Knowledge Base Record",
+      "9953": "Knowledge Article"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "record2objecttypecode",
+        "OptionSetReferenceEntityName": "Connections"
+      }
+    },
+    "OptionSetTypeKey": "PicklistType",
+    "RelatedColumnInvariantName": "record2objecttypecode",
+    "RelatedEntityName": "Connections",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status (Connections)",
+    "Name": "connection_statecode",
+    "OptionSetInfoNameMapping": {
+      "0": "Active",
+      "1": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statecode",
+        "OptionSetReferenceEntityName": "Connections"
+      }
+    },
+    "OptionSetTypeKey": "StateType",
+    "RelatedColumnInvariantName": "statecode",
+    "RelatedEntityName": "Connections",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status Reason (Connections)",
+    "Name": "connection_statuscode",
+    "OptionSetInfoNameMapping": {
+      "1": "Active",
+      "2": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statuscode",
+        "OptionSetReferenceEntityName": "Connections"
+      }
+    },
+    "OptionSetTypeKey": "StatusType",
+    "RelatedColumnInvariantName": "statuscode",
+    "RelatedEntityName": "Connections",
+    "Type": "OptionSetInfo"
+  }
+]

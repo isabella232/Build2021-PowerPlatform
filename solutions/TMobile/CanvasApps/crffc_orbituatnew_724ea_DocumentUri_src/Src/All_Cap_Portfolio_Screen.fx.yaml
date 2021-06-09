@@ -1,0 +1,30 @@
+All_Cap_Portfolio_Screen As screen:
+    Height: =Max(App.Height, App.DesignHeight)
+    LoadingSpinnerColor: =RGBA(105, 121, 126, 1)
+    Width: =Max(App.Width, App.DesignWidth)
+
+    com_NavTop_2 As com_NavTop:
+
+    com_NavLeft_1 As com_NavLeft:
+        Height: =App.Height - com_NavTop_2.Height
+        Items: |-
+            =Table(
+                {Label:"All Capital Portfolio Report",LaunchLink:"",Screen:All_Cap_Portfolio_Screen,InitiativeType:"Project",IsVisible:true},
+                {Label:"Other Report",LaunchLink:"",Screen:[@Project_Details_Screen],InitiativeType:"Project",IsVisible:true}
+            )
+        ResetComponent: =false
+        Width: =varSideNavWidth
+        Y: =50
+
+    PowerBI1 As powerbi:
+        BorderColor: =RGBA(166, 166, 166, 1)
+        DashboardId: ="d604e579-e3ff-4f92-aed7-bd1a554572ed"
+        Height: =1028
+        TileUrl: |-
+            ="https://app.powerbi.com/reportEmbed?reportId=2102c966-5124-4a80-bbd1-cda8afad2180&autoAuth=true&ctid=be0f980b-dd99-4b19-bd7b-bc71a09b026c&config=eyJjbHVzdGVyVXJsIjoiaHR0cHM6Ly93YWJpLXdlc3QtdXMtcmVkaXJlY3QuYW5hbHlzaXMud2luZG93cy5uZXQvIn0%3D"
+        Width: =1686
+        WorkspaceId: ="a9c54886-cf8b-46c5-aeff-3dadcc35caf7"
+        X: =231
+        Y: =50
+        ZIndex: =1
+

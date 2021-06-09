@@ -1,0 +1,100 @@
+[
+  {
+    "CdsFCBContext": "{\"FileType\":true,\"ImageExternalStorage\":true}",
+    "EntitySetName": "cat_attachmenttypereferences",
+    "IsHidden": false,
+    "IsSampleData": false,
+    "IsWritable": true,
+    "LogicalName": "cat_attachmenttypereference",
+    "MaxGetRowsCount": 2000,
+    "Name": "AttachmentTypeReferences",
+    "NativeCDSDataSourceInfoNameMapping": {
+      "_ownerid_value": "Owner",
+      "cat_attachmenttypereference_AsyncOperations": "System Jobs",
+      "cat_attachmenttypereference_BulkDeleteFailures": "Bulk Delete Failures",
+      "cat_attachmenttypereference_DuplicateBaseRecord": "Duplicate Records (cat_attachmenttypereference_DuplicateBaseRecord)",
+      "cat_attachmenttypereference_DuplicateMatchingRecord": "Duplicate Records (cat_attachmenttypereference_DuplicateMatchingRecord)",
+      "cat_attachmenttypereference_MailboxTrackingFolders": "Mailbox Auto Tracking Folders",
+      "cat_attachmenttypereference_PrincipalObjectAttributeAccesses": "Field Sharing",
+      "cat_attachmenttypereference_ProcessSession": "Process Sessions",
+      "cat_attachmenttypereference_SyncErrors": "Sync Errors",
+      "cat_attachmenttypereferenceid": "AttachmentTypeReference",
+      "cat_group": "Group",
+      "cat_gtmAttachments_Type_cat_AttachmentTyp": "gtmAttachments",
+      "cat_initiativetype": "InitiativeType",
+      "cat_name": "Name",
+      "createdby": "Created By",
+      "createdon": "Created On",
+      "createdonbehalfby": "Created By (Delegate)",
+      "importsequencenumber": "Import Sequence Number",
+      "modifiedby": "Modified By",
+      "modifiedon": "Modified On",
+      "modifiedonbehalfby": "Modified By (Delegate)",
+      "overriddencreatedon": "Record Created On",
+      "owningbusinessunit": "Owning Business Unit",
+      "owningteam": "Owning Team",
+      "owninguser": "Owning User",
+      "statecode": "Status",
+      "statuscode": "Status Reason",
+      "timezoneruleversionnumber": "Time Zone Rule Version Number",
+      "utcconversiontimezonecode": "UTC Conversion Time Zone Code",
+      "versionnumber": "Version Number"
+    },
+    "PreferredName": "AttachmentTypeReferences",
+    "Type": "NativeCDSDataSourceInfo"
+  },
+  {
+    "DisplayName": "AttachmentTypeReferences (Views)",
+    "Name": "_cat_attachmenttypereference_views",
+    "RelatedEntityName": "AttachmentTypeReferences",
+    "TrimmedViewName": true,
+    "Type": "ViewInfo",
+    "ViewInfoNameMapping": {
+      "0e23a8c1-0dc4-4145-9c95-c59abb07d4e2": "AttachmentTypeReference Lookup View",
+      "34aafaf8-a8ec-44a7-b887-09010570e50a": "Inactive AttachmentTypeReferences",
+      "ac37b872-e4f0-48ec-b6a8-419fd2973a2e": "Active AttachmentTypeReferences",
+      "aefdd9e8-64f4-47d3-a218-8abe6e8d8dd8": "AttachmentTypeReference Associated View",
+      "eb5f9c9b-c06a-48c0-b227-b4ca29a0f343": "AttachmentTypeReference Advanced Find View"
+    }
+  },
+  {
+    "DisplayName": "Status (AttachmentTypeReferences)",
+    "Name": "cat_attachmenttypereference_statecode",
+    "OptionSetInfoNameMapping": {
+      "0": "Active",
+      "1": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statecode",
+        "OptionSetReferenceEntityName": "AttachmentTypeReferences"
+      }
+    },
+    "OptionSetTypeKey": "StateType",
+    "RelatedColumnInvariantName": "statecode",
+    "RelatedEntityName": "AttachmentTypeReferences",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status Reason (AttachmentTypeReferences)",
+    "Name": "cat_attachmenttypereference_statuscode",
+    "OptionSetInfoNameMapping": {
+      "1": "Active",
+      "2": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statuscode",
+        "OptionSetReferenceEntityName": "AttachmentTypeReferences"
+      }
+    },
+    "OptionSetTypeKey": "StatusType",
+    "RelatedColumnInvariantName": "statuscode",
+    "RelatedEntityName": "AttachmentTypeReferences",
+    "Type": "OptionSetInfo"
+  }
+]

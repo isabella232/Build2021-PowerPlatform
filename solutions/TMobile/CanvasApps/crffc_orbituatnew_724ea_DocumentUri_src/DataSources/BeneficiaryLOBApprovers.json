@@ -1,0 +1,99 @@
+[
+  {
+    "CdsFCBContext": "{\"FileType\":true,\"ImageExternalStorage\":true}",
+    "EntitySetName": "cat_beneficiarylobapproverses",
+    "IsHidden": false,
+    "IsSampleData": false,
+    "IsWritable": true,
+    "LogicalName": "cat_beneficiarylobapprovers",
+    "MaxGetRowsCount": 2000,
+    "Name": "BeneficiaryLOBApprovers",
+    "NativeCDSDataSourceInfoNameMapping": {
+      "_ownerid_value": "Owner",
+      "cat_Approver": "Approver",
+      "cat_beneficiarylob": "BeneficiaryLOB",
+      "cat_beneficiarylobapprovers_AsyncOperations": "System Jobs",
+      "cat_beneficiarylobapprovers_BulkDeleteFailures": "Bulk Delete Failures",
+      "cat_beneficiarylobapprovers_DuplicateBaseRecord": "Duplicate Records (cat_beneficiarylobapprovers_DuplicateBaseRecord)",
+      "cat_beneficiarylobapprovers_DuplicateMatchingRecord": "Duplicate Records (cat_beneficiarylobapprovers_DuplicateMatchingRecord)",
+      "cat_beneficiarylobapprovers_MailboxTrackingFolders": "Mailbox Auto Tracking Folders",
+      "cat_beneficiarylobapprovers_PrincipalObjectAttributeAccesses": "Field Sharing",
+      "cat_beneficiarylobapprovers_ProcessSession": "Process Sessions",
+      "cat_beneficiarylobapprovers_SyncErrors": "Sync Errors",
+      "cat_beneficiarylobapproversid": "BeneficiaryLOBApprovers",
+      "cat_name": "Name",
+      "createdby": "Created By",
+      "createdon": "Created On",
+      "createdonbehalfby": "Created By (Delegate)",
+      "importsequencenumber": "Import Sequence Number",
+      "modifiedby": "Modified By",
+      "modifiedon": "Modified On",
+      "modifiedonbehalfby": "Modified By (Delegate)",
+      "overriddencreatedon": "Record Created On",
+      "owningbusinessunit": "Owning Business Unit",
+      "owningteam": "Owning Team",
+      "owninguser": "Owning User",
+      "statecode": "Status",
+      "statuscode": "Status Reason",
+      "timezoneruleversionnumber": "Time Zone Rule Version Number",
+      "utcconversiontimezonecode": "UTC Conversion Time Zone Code",
+      "versionnumber": "Version Number"
+    },
+    "PreferredName": "BeneficiaryLOBApprovers",
+    "Type": "NativeCDSDataSourceInfo"
+  },
+  {
+    "DisplayName": "BeneficiaryLOBApprovers (Views)",
+    "Name": "_cat_beneficiarylobapprovers_views",
+    "RelatedEntityName": "BeneficiaryLOBApprovers",
+    "TrimmedViewName": true,
+    "Type": "ViewInfo",
+    "ViewInfoNameMapping": {
+      "1aeb5213-531b-4c88-a961-0e7a302c2dd7": "Active BeneficiaryLOBApprovers",
+      "7c1f6850-f563-46d3-a994-5dccbe2f160d": "BeneficiaryLOBApprovers Associated View",
+      "96e6f3a7-607d-49f6-8569-a0bc58025cb8": "BeneficiaryLOBApprovers Lookup View",
+      "b7efea99-ab69-4fee-b32b-ab1ce4c8e476": "Inactive BeneficiaryLOBApprovers",
+      "ee4ebd95-207f-4e70-9c94-0dc484ada293": "BeneficiaryLOBApprovers Advanced Find View"
+    }
+  },
+  {
+    "DisplayName": "Status (BeneficiaryLOBApprovers)",
+    "Name": "cat_beneficiarylobapprovers_statecode",
+    "OptionSetInfoNameMapping": {
+      "0": "Active",
+      "1": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statecode",
+        "OptionSetReferenceEntityName": "BeneficiaryLOBApprovers"
+      }
+    },
+    "OptionSetTypeKey": "StateType",
+    "RelatedColumnInvariantName": "statecode",
+    "RelatedEntityName": "BeneficiaryLOBApprovers",
+    "Type": "OptionSetInfo"
+  },
+  {
+    "DisplayName": "Status Reason (BeneficiaryLOBApprovers)",
+    "Name": "cat_beneficiarylobapprovers_statuscode",
+    "OptionSetInfoNameMapping": {
+      "1": "Active",
+      "2": "Inactive"
+    },
+    "OptionSetIsBooleanValued": false,
+    "OptionSetIsGlobal": false,
+    "OptionSetReference": {
+      "OptionSetReferenceItem0": {
+        "OptionSetReferenceColumnName": "statuscode",
+        "OptionSetReferenceEntityName": "BeneficiaryLOBApprovers"
+      }
+    },
+    "OptionSetTypeKey": "StatusType",
+    "RelatedColumnInvariantName": "statuscode",
+    "RelatedEntityName": "BeneficiaryLOBApprovers",
+    "Type": "OptionSetInfo"
+  }
+]
